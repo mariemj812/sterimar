@@ -8,7 +8,7 @@ html_file = os.path.join(dir_path, "boutique.html")
 with open(html_file, 'r', encoding='utf-8') as f:
     content = f.read()
 
-content = re.sub(r'<span class="product-price-lg">[\d,]+\s*€</span>', '<span class="product-price-lg">15,00 DT</span>', content)
+content = re.sub(r'<span class="product-price-lg">[\d,]+\s*€</span>', '<span class="product-price-lg">16,00 DT</span>', content)
 
 with open(html_file, 'w', encoding='utf-8') as f:
     f.write(content)
@@ -18,8 +18,8 @@ js_file = os.path.join(dir_path, "app.js")
 with open(js_file, 'r', encoding='utf-8') as f:
     js_content = f.read()
 
-# Replace all price: x.xx, with price: 15.00,
-js_content = re.sub(r'price:\s*\d+\.\d+,', 'price: 15.00,', js_content)
+# Replace all price: x.xx, with price: 16.00,
+js_content = re.sub(r'price:\s*\d+\.\d+,', 'price: 16.00,', js_content)
 
 # Replace the "€" symbols formatting in app.js
 js_content = js_content.replace('€', 'DT')
