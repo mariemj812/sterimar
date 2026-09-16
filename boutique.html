@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique - Sterimar FR</title>
+    <meta name="description" content="Explorez la gamme complète des sprays nasaux Stérimar™ : hygiène, rhume, allergies et soins bébé. Trouvez le produit adapté à vos besoins.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png" sizes="32x32">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" id="nav-logo">
+                <img src="logo.png" alt="Stérimar Logo" class="logo-img">
+                <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
+                
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link" id="nav-home">Accueil</a>
+                <a href="boutique.html" class="nav-link active" id="nav-boutique">Boutique</a>
+                <a href="blog.html" class="nav-link" id="nav-blog">Blog</a>
+                <a href="qui-sommes-nous.html" class="nav-link" id="nav-about">Qui sommes-nous</a>
+                <a href="panier.html" class="nav-link nav-cart" id="nav-panier">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                        <path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                    </svg>
+                    <span class="cart-count" id="cart-count">0</span>
+                    Panier
+                </a>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Shop Header -->
+    <section class="shop-header" id="shop-header">
+        <div class="container">
+            <span class="section-tag">Notre collection</span>
+            <h1 class="page-title">Nos Produits</h1>
+            <p class="page-subtitle">7 solutions naturelles à base d'eau de mer pour prendre soin du nez de toute la famille.</p>
+        </div>
+    </section>
+
+    <!-- Filter Bar -->
+    <section class="filter-bar" id="filter-bar">
+        <div class="container">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all" id="filter-all">Tous</button>
+                <button class="filter-btn" data-filter="hygiene" id="filter-hygiene" style="--filter-color: #00B8E5;">Hygiène</button>
+                <button class="filter-btn" data-filter="rhume" id="filter-rhume" style="--filter-color: #F15B2B;">Rhume</button>
+                <button class="filter-btn" data-filter="allergie" id="filter-allergie" style="--filter-color: #79C142;">Allergie</button>
+                <button class="filter-btn" data-filter="bebe" id="filter-bebe" style="--filter-color: #59AEE1;">Bébé</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="shop-products" id="shop-products">
+        <div class="container">
+            <div class="products-grid" id="products-grid">
+
+                <!-- Product 1: Hygiène du Nez -->
+                <div class="product-card-full" data-category="hygiene" id="product-hygiene-nez">
+                    <div onclick="window.location.href='produit-hygiene-du-nez.html'" class="product-card-image" style="display:block; cursor:pointer; text-decoration:none; --product-color: #00B8E5;">
+                        <div class="product-badge">Best-seller</div>
+                        <img src="hygiene-adulte.png" alt="Stérimar Hygiène du Nez" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="produit-hygiene-du-nez.html" class="btn btn-quick" id="quick-view-0">Voir détails</a>
+                        </div>
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-meta">
+                            <span class="product-category-tag" style="background: #00B8E5;">Hygiène</span>
+                            <span class="product-type">Physiologique</span>
+                        </div>
+                        <h3 class="product-card-title">Hygiène du Nez</h3>
+                        <p class="product-card-desc">Spray nasal pour nettoyer, humidifier et protéger la muqueuse nasale au quotidien. Enrichi en oligo-éléments marins.</p>
+                        <div class="product-card-details">
+                            <span class="detail-chip">🧪 Oligo-éléments</span>
+                            <span class="detail-chip">👨‍👩‍👧 Adulte & Enfant</span>
+                            <span class="detail-chip">📦 100ml</span>
+                        </div>
+                        <div class="product-card-footer">
+                            <span class="product-price-lg">19,00 DT</span>
+                            <button class="btn btn-primary" onclick="addToCart(0)" id="add-to-cart-0">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 5v14m-7-7h14"/></svg>
+                                Ajouter au panier
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2: Nez sujet aux Rhumes (Cold) -->
+                <div class="product-card-full" data-category="rhume" id="product-cold">
+                    <div onclick="window.location.href='produit-nez-sujet-aux-rhumes.html'" class="product-card-image" style="display:block; cursor:pointer; text-decoration:none; --product-color: #F15B2B;">
+                        <img src="cold-adulte.png" alt="Stérimar Nez sujet aux Rhumes" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="produit-nez-sujet-aux-rhumes.html" class="btn btn-quick" id="quick-view-1">Voir détails</a>
+                        </div>
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-meta">
+                            <span class="product-category-tag" style="background: #F15B2B;">Rhume</span>
+                            <span class="product-type">Physiologique</span>
+                        </div>
+                        <h3 class="product-card-title">Nez sujet aux Rhumes</h3>
+                        <p class="product-card-desc">Spray préventif enrichi en soufre pour renforcer la résistance de la muqueuse nasale face aux agressions hivernales.</p>
+                        <div class="product-card-details">
+                            <span class="detail-chip">🧪 Soufre</span>
+                            <span class="detail-chip">👨‍👩‍👧 Adulte & Enfant</span>
+                            <span class="detail-chip">📦 100ml</span>
+                        </div>
+                        <div class="product-card-footer">
+                            <span class="product-price-lg">19,00 DT</span>
+                            <button class="btn btn-primary" onclick="addToCart(1)" id="add-to-cart-1">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 5v14m-7-7h14"/></svg>
+                                Ajouter au panier
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3: Nez Bouché -->
+                <div class="product-card-full" data-category="rhume" id="product-nez-bouche">
+                    <div onclick="window.location.href='produit-nez-bouche.html'" class="product-card-image" style="display:block; cursor:pointer; text-decoration:none; --product-color: #FE3200;">
+                        <div class="product-badge sale">Populaire</div>
+                        <img src="nez-bouché-adulte.png" alt="Stérimar Nez Bouché" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="produit-nez-bouche.html" class="btn btn-quick" id="quick-view-2">Voir détails</a>
+                        </div>
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-meta">
+                            <span class="product-category-tag" style="background: #F15B2B;">Rhume</span>
+                            <span class="product-type">Hypertonique</span>
+                        </div>
+                        <h3 class="product-card-title">Nez Bouché</h3>
+                        <p class="product-card-desc">Spray hypertonique enrichi en cuivre pour décongestionner rapidement le nez bouché. Recommandé chez l'enfant dès 3 ans et l'adulte.</p>
+                        <div class="product-card-details">
+                            <span class="detail-chip">🧪 Cuivre</span>
+                            <span class="detail-chip">👨‍👩‍👧 Dès 3 ans</span>
+                            <span class="detail-chip">📦 100ml</span>
+                        </div>
+                        <div class="product-card-footer">
+                            <span class="product-price-lg">19,00 DT</span>
+                            <button class="btn btn-primary" onclick="addToCart(2)" id="add-to-cart-2">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 5v14m-7-7h14"/></svg>
+                                Ajouter au panier
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4: Nez Allergique -->
+                <div class="product-card-full" data-category="allergie" id="product-allergie">
+                    <div onclick="window.location.href='produit-nez-allergique.html'" class="product-card-image" style="display:block; cursor:pointer; text-decoration:none; --product-color: #79C142;">
+                        <div class="product-badge new">Meilleur produit</div>
+                        <img src="allergie.png" alt="Stérimar Nez Allergique" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="produit-nez-allergique.html" class="btn btn-quick" id="quick-view-3">Voir détails</a>
+                        </div>
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-meta">
+                            <span class="product-category-tag" style="background: #79C142;">Allergie</span>
+                            <span class="product-type">Physiologique</span>
+                        </div>
+                        <h3 class="product-card-title">Nez Allergique</h3>
+                        <p class="product-card-desc">Spray enrichi en manganèse pour soulager les symptômes d'allergie nasale : éternuements, nez qui coule, congestion. Élu Meilleur Produit Pharma.</p>
+                        <div class="product-card-details">
+                            <span class="detail-chip">🧪 Manganèse</span>
+                            <span class="detail-chip">👨‍👩‍👧 Adulte & Enfant</span>
+                            <span class="detail-chip">📦 100ml</span>
+                        </div>
+                        <div class="product-card-footer">
+                            <span class="product-price-lg">19,00 DT</span>
+                            <button class="btn btn-primary" onclick="addToCart(3)" id="add-to-cart-3">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 5v14m-7-7h14"/></svg>
+                                Ajouter au panier
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5: Hygiène du Nez Bébé -->
+                <div class="product-card-full" data-category="bebe" id="product-hygiene-bebe">
+                    <div onclick="window.location.href='produit-hygiene-du-nez-bebe.html'" class="product-card-image" style="display:block; cursor:pointer; text-decoration:none; --product-color: #46A4E4;">
+                        <img src="hygiene-bébé.png" alt="Stérimar Hygiène du Nez Bébé" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="produit-hygiene-du-nez-bebe.html" class="btn btn-quick" id="quick-view-4">Voir détails</a>
+                        </div>
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-meta">
+                            <span class="product-category-tag" style="background: #59AEE1;">Bébé</span>
+                            <span class="product-type">Physiologique</span>
+                        </div>
+                        <h3 class="product-card-title">Hygiène du Nez Bébé</h3>
+                        <p class="product-card-desc">Spray nasal pour les petits de 0 à 3 ans destiné à nettoyer et hydrater le nez. Nouvel embout sécurité bébé ergonomique.</p>
+                        <div class="product-card-details">
+                            <span class="detail-chip">🧪 Oligo-éléments</span>
+                            <span class="detail-chip">👶 Dès la naissance</span>
+                            <span class="detail-chip">📦 100ml</span>
+                        </div>
+                        <div class="product-card-footer">
+                            <span class="product-price-lg">19,00 DT</span>
+                            <button class="btn btn-primary" onclick="addToCart(4)" id="add-to-cart-4">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 5v14m-7-7h14"/></svg>
+                                Ajouter au panier
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 6: Nez Bouché Bébé -->
+                <div class="product-card-full" data-category="bebe" id="product-bouche-bebe">
+                    <div onclick="window.location.href='produit-nez-bouche-bebe.html'" class="product-card-image" style="display:block; cursor:pointer; text-decoration:none; --product-color: #FE3200;">
+                        <img src="nez-bouché-bébé.png" alt="Stérimar Nez Bouché Bébé" loading="lazy">
+                        <div class="product-overlay">
+                            <a href="produit-nez-bouche-bebe.html" class="btn btn-quick" id="quick-view-5">Voir détails</a>
+                        </div>
+                    </div>
+                    <div class="product-card-body">
+                        <div class="product-card-meta">
+                            <span class="product-category-tag" style="background: #59AEE1;">Bébé</span>
+                            <span class="product-type">Hypertonique</span>
+                        </div>
+                        <h3 class="product-card-title">Nez Bouché Bébé</h3>
+                        <p class="product-card-desc">Spray hypertonique enrichi en cuivre pour décongestionner rapidement le nez de bébé dès 3 mois. Embout sécurité bébé.</p>
+                        <div class="product-card-details">
+                            <span class="detail-chip">🧪 Cuivre</span>
+                            <span class="detail-chip">👶 Dès 3 mois</span>
+                            <span class="detail-chip">📦 100ml</span>
+                        </div>
+                        <div class="product-card-footer">
+                            <span class="product-price-lg">19,00 DT</span>
+                            <button class="btn btn-primary" onclick="addToCart(5)" id="add-to-cart-5">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 5v14m-7-7h14"/></svg>
+                                Ajouter au panier
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Modal -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-content" id="modal-content">
+            <button class="modal-close" onclick="closeModal()" id="modal-close">&times;</button>
+            <div class="modal-body">
+                <div class="modal-image" id="modal-image">
+                    <img src="" alt="" id="modal-img">
+                </div>
+                <div class="modal-info" id="modal-info">
+                    <span class="product-category-tag" id="modal-category"></span>
+                    <h2 id="modal-title"></h2>
+                    <div class="modal-badges" id="modal-badges"></div>
+                    <p class="modal-description" id="modal-description"></p>
+                    <div class="modal-features" id="modal-features">
+                        <h4>Caractéristiques</h4>
+                        <ul id="modal-features-list"></ul>
+                    </div>
+                    <div class="modal-usage" id="modal-usage">
+                        <h4>Mode d'emploi</h4>
+                        <p id="modal-usage-text"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <span class="product-price-xl" id="modal-price"></span>
+                        <button class="btn btn-primary btn-lg" id="modal-add-btn" onclick="">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 5v14m-7-7h14"/></svg>
+                            Ajouter au panier
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="Stérimar Logo" class="footer-logo" style="height: 144px; margin-bottom: 1rem;">
+                    <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <a href="index.html">Accueil</a>
+                    <a href="boutique.html">Boutique</a>
+                    <a href="qui-sommes-nous.html">Qui sommes-nous</a>
+                    <a href="panier.html">Panier</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Nos Gammes</h4>
+                    <a href="boutique.html#hygiene">Gamme Hygiène</a>
+                    <a href="boutique.html#rhume">Gamme Rhume</a>
+                    <a href="boutique.html#allergie">Gamme Allergie</a>
+                    <a href="boutique.html#bebe">Gamme Bébé</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Informations</h4>
+                    <a href="#">Mentions légales</a>
+                    <a href="#">Politique de confidentialité</a>
+                    <a href="#">Conditions générales</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Stérimar™ — Tous droits réservés. Dispositif médical.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soins du nez de bébé : les bons gestes - Sterimar FR</title>
+    <meta name="description" content="Découvrez comment réaliser un lavage nasal en douceur dès la naissance, quels produits utiliser et à quelle fréquence pour le confort respiratoire de votre bébé.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png" sizes="32x32">
+    <style>
+        .article-hero { position: relative; height: 480px; overflow: hidden; }
+        .article-hero img { width: 100%; height: 100%; object-fit: cover; }
+        .article-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0.2) 60%, transparent 100%); display: flex; align-items: flex-end; padding: 3rem 0; }
+        .article-hero-content { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--container-padding); width: 100%; }
+        .article-breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-bottom: 1rem; }
+        .article-breadcrumb a { color: rgba(255,255,255,0.6); transition: color var(--transition-fast); }
+        .article-breadcrumb a:hover { color: var(--blue-light); }
+        .article-breadcrumb svg { opacity: 0.4; }
+        .article-tag { display: inline-block; padding: 0.35rem 1rem; border-radius: var(--radius-full); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem; }
+        .tag-bebe { background: rgba(89,174,225,0.85); color: white; }
+        .article-hero-content h1 { font-family: var(--font-display); font-size: 2.6rem; font-weight: 800; color: white; line-height: 1.2; max-width: 700px; margin-bottom: 1rem; }
+        .article-meta { display: flex; align-items: center; gap: 1.5rem; color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+        .article-meta span { display: flex; align-items: center; gap: 0.4rem; }
+        .article-body { max-width: 780px; margin: 0 auto; padding: 3.5rem var(--container-padding) 4rem; }
+        .article-body p { font-size: 1.05rem; line-height: 1.85; color: var(--gray-600); margin-bottom: 1.5rem; }
+        .article-body h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; color: var(--gray-800); margin: 2.5rem 0 1rem; line-height: 1.3; }
+        .article-body h3 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; color: var(--gray-700); margin: 2rem 0 0.75rem; }
+        .article-body ul, .article-body ol { margin: 1rem 0 1.5rem 1.5rem; color: var(--gray-600); }
+        .article-body li { font-size: 1rem; line-height: 1.8; margin-bottom: 0.5rem; }
+        .article-body blockquote { border-left: 4px solid var(--blue-baby); padding: 1.25rem 1.5rem; margin: 2rem 0; background: rgba(89,174,225,0.04); border-radius: 0 var(--radius-md) var(--radius-md) 0; font-size: 1.05rem; color: var(--gray-700); font-style: italic; }
+        .article-highlight { background: linear-gradient(135deg, rgba(89,174,225,0.06), rgba(0,184,229,0.04)); border-radius: var(--radius-lg); padding: 2rem; margin: 2rem 0; border: 1px solid rgba(89,174,225,0.15); }
+        .article-highlight h4 { font-family: var(--font-display); font-weight: 700; color: var(--blue-baby); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .article-highlight p { margin-bottom: 0; font-size: 0.95rem; }
+        .article-share { display: flex; align-items: center; gap: 1rem; padding: 2rem 0; border-top: 1px solid var(--gray-100); margin-top: 2rem; }
+        .article-share span { font-size: 0.85rem; font-weight: 600; color: var(--gray-500); }
+        .share-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--gray-200); background: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--transition-fast); color: var(--gray-500); }
+        .share-btn:hover { background: var(--blue-baby); border-color: var(--blue-baby); color: white; transform: translateY(-2px); }
+        .article-cta { background: linear-gradient(135deg, #59AEE1 0%, #00B8E5 100%); border-radius: var(--radius-xl); padding: 3rem; text-align: center; margin: 3rem 0; }
+        .article-cta h3 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 0.75rem; }
+        .article-cta p { color: rgba(255,255,255,0.7); margin-bottom: 1.5rem; font-size: 0.95rem; }
+        .related-section { padding: 4rem 0; background: var(--gray-50); }
+        .related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
+        .related-card { display: flex; background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); transition: all var(--transition-normal); text-decoration: none; }
+        .related-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .related-card-image { width: 180px; flex-shrink: 0; overflow: hidden; }
+        .related-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease-out); }
+        .related-card:hover .related-card-image img { transform: scale(1.06); }
+        .related-card-body { padding: 1.25rem; display: flex; flex-direction: column; justify-content: center; }
+        .related-card-body .related-tag { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
+        .related-card-body h4 { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: var(--gray-800); line-height: 1.4; transition: color var(--transition-fast); }
+        .related-card:hover h4 { color: var(--blue-baby); }
+        @media (max-width: 768px) { .article-hero { height: 360px; } .article-hero-content h1 { font-size: 1.8rem; } .article-body { padding: 2.5rem var(--container-padding) 3rem; } .related-grid { grid-template-columns: 1fr; } .article-cta { padding: 2rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" id="nav-logo">
+                <img src="logo.png" alt="Stérimar Logo" class="logo-img">
+                <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link" id="nav-home">Accueil</a>
+                <a href="boutique.html" class="nav-link" id="nav-boutique">Boutique</a>
+                <a href="blog.html" class="nav-link active" id="nav-blog">Blog</a>
+                <a href="qui-sommes-nous.html" class="nav-link" id="nav-about">Qui sommes-nous</a>
+                <a href="panier.html" class="nav-link nav-cart" id="nav-panier">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                    <span class="cart-count" id="cart-count">0</span> Panier
+                </a>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <section class="article-hero">
+        <img src="blog-soin-bebe.jpg" alt="Soins du nez de bébé">
+        <div class="article-hero-overlay">
+            <div class="article-hero-content">
+                <div class="article-breadcrumb">
+                    <a href="index.html">Accueil</a>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                    <a href="blog.html">Blog</a>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                    <span>Bébé</span>
+                </div>
+                <span class="article-tag tag-bebe">Bébé</span>
+                <h1>Soins du nez de bébé : les bons gestes</h1>
+                <div class="article-meta">
+                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 15 Août 2026</span>
+                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 4 min de lecture</span>
+                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Sage-femme Claire Moreau</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <article class="article-body" id="article-content">
+        <p>Le nez d'un bébé est minuscule, fragile et joue un rôle vital dans sa respiration. Contrairement aux adultes, les nourrissons respirent exclusivement par le nez pendant les premiers mois de leur vie. Un nez encombré peut donc rapidement perturber leur alimentation, leur sommeil et leur confort général.</p>
+
+        <h2>Pourquoi le lavage nasal est-il si important chez le bébé ?</h2>
+        <p>Les bébés ne savent pas se moucher avant l'âge de 2-3 ans. Ils dépendent entièrement de leurs parents pour dégager leurs voies nasales. Le lavage nasal régulier est donc indispensable pour :</p>
+        <ul>
+            <li><strong>Faciliter la respiration</strong> — un nez dégagé permet au bébé de respirer, téter et dormir confortablement</li>
+            <li><strong>Prévenir les infections</strong> — en éliminant virus et bactéries avant qu'ils ne descendent vers les bronches</li>
+            <li><strong>Réduire les otites</strong> — un nez propre limite la propagation des germes vers les oreilles</li>
+            <li><strong>Améliorer le sommeil</strong> — un bébé qui respire bien dort mieux et plus longtemps</li>
+        </ul>
+
+        <blockquote>
+            « Le lavage nasal du nourrisson est un geste de soin quotidien aussi important que le bain. Je recommande aux parents de l'intégrer à la routine dès la naissance, en utilisant un spray à micro-diffusion adapté aux tout-petits. »
+            — Claire Moreau, Sage-femme
+        </blockquote>
+
+        <h2>Comment réaliser un lavage nasal chez le bébé ?</h2>
+        <p>Le geste peut sembler impressionnant au début, mais il est simple et indolore pour bébé. Voici les étapes à suivre :</p>
+
+        <h3>Avec un spray nasal adapté (recommandé)</h3>
+        <ol>
+            <li><strong>Allonger bébé sur le dos</strong> ou légèrement sur le côté, la tête tournée</li>
+            <li><strong>Insérer délicatement l'embout</strong> du spray dans la narine supérieure</li>
+            <li><strong>Pulvériser brièvement</strong> — une seule pression suffit avec un spray à micro-diffusion</li>
+            <li><strong>Laisser bébé réagir</strong> — il peut éternuer ou tousser, c'est normal et bénéfique</li>
+            <li><strong>Essuyer doucement</strong> les sécrétions qui s'écoulent avec un mouchoir doux</li>
+            <li><strong>Répéter de l'autre côté</strong> en tournant la tête de bébé</li>
+        </ol>
+
+        <div class="article-highlight">
+            <h4>👶 Astuce de sage-femme</h4>
+            <p>Réalisez le lavage nasal <strong>avant les repas</strong> (pas après, pour éviter les régurgitations) et <strong>avant le coucher</strong>. Un bébé qui a le nez dégagé tète mieux et s'endort plus facilement. Si bébé pleure pendant le soin, c'est normal — il sera soulagé immédiatement après.</p>
+        </div>
+
+        <h2>À quelle fréquence ?</h2>
+        <p>La fréquence du lavage nasal dépend de la situation :</p>
+        <ul>
+            <li><strong>En routine quotidienne</strong> — 1 à 2 fois par jour, matin et soir</li>
+            <li><strong>En cas de rhume</strong> — 4 à 6 fois par jour, surtout avant les repas et le coucher</li>
+            <li><strong>En période d'allergie</strong> — après chaque sortie en extérieur</li>
+            <li><strong>En environnement sec</strong> (chauffage, climatisation) — 2 à 3 fois par jour pour humidifier</li>
+        </ul>
+
+        <h2>Quel produit choisir pour bébé ?</h2>
+        <p>Tous les sprays nasaux ne sont pas adaptés aux nourrissons. Voici les critères importants :</p>
+        <ul>
+            <li><strong>Solution isotonique</strong> — douce et respectueuse de la muqueuse fragile de bébé</li>
+            <li><strong>Micro-diffusion</strong> — pour un jet doux et non agressif, contrairement aux seringues à forte pression</li>
+            <li><strong>Sans conservateur</strong> — pour minimiser tout risque d'irritation</li>
+            <li><strong>Embout adapté</strong> — rond et sécurisé pour éviter l'insertion trop profonde</li>
+            <li><strong>Utilisable dès la naissance</strong> — vérifiez toujours l'âge minimum indiqué</li>
+        </ul>
+
+        <div class="article-highlight">
+            <h4>🌊 Le produit recommandé</h4>
+            <p>Le spray <strong>Stérimar Hygiène du Nez Bébé</strong> est spécialement conçu pour les tout-petits, dès la naissance. Sa technologie de micro-diffusion brevetée assure un jet ultra-doux, et son embout sécurisé s'adapte parfaitement aux petites narines. Solution isotonique 100% eau de mer, sans conservateur.</p>
+        </div>
+
+        <h2>Les erreurs à éviter</h2>
+        <ul>
+            <li><strong>Ne jamais utiliser de sérum physiologique en pipette à forte pression</strong> — le jet trop puissant peut blesser la muqueuse ou provoquer une otite</li>
+            <li><strong>Ne pas allonger bébé complètement à plat</strong> — toujours tourner légèrement la tête sur le côté</li>
+            <li><strong>Ne pas utiliser un spray adulte</strong> — la pression et la composition ne sont pas adaptées</li>
+            <li><strong>Ne pas négliger le lavage nasal en été</strong> — la climatisation assèche aussi les muqueuses de bébé</li>
+        </ul>
+
+        <p>Le lavage nasal est un geste d'amour et de soin qui contribue grandement au bien-être de votre bébé. Avec de la pratique, il deviendra un réflexe naturel, aussi simple que le bain quotidien.</p>
+
+        <div class="article-share">
+            <span>Partager :</span>
+            <button class="share-btn" aria-label="Partager sur Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </button>
+            <button class="share-btn" aria-label="Partager par email" onclick="window.open('mailto:?subject='+encodeURIComponent(document.title)+'&body='+encodeURIComponent(location.href))">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </button>
+            <button class="share-btn" aria-label="Copier le lien" onclick="navigator.clipboard.writeText(location.href); this.innerHTML='✓'; setTimeout(()=>this.innerHTML='🔗',2000)">🔗</button>
+        </div>
+
+        <div class="article-cta" style="display: flex; align-items: center; justify-content: center; gap: 2.5rem; text-align: left; padding: 2.5rem; flex-wrap: wrap;">
+            <div style="flex-shrink: 0; text-align: center;">
+                <img src="hygiene-bébé.png" alt="Stérimar Hygiène du Nez Bébé" style="height: 220px; width: auto; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+            <div style="max-width: 400px;">
+                <h3>Découvrez Stérimar Hygiène du Nez Bébé</h3>
+                <p>Le spray nasal doux et sûr, adapté dès la naissance.</p>
+                <a href="produit-hygiene-du-nez-bebe.html" class="btn btn-primary btn-lg" style="background: white; color: var(--blue-baby); display: inline-block;">Voir le produit</a>
+            </div>
+        </div>
+    </article>
+
+    <section class="related-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">À lire aussi</span>
+                <h2 class="section-title">Articles similaires</h2>
+            </div>
+            <div class="related-grid">
+                <a href="blog-hygiene-nasale.html" class="related-card">
+                    <div class="related-card-image"><img src="blog-hygiene-nasale.jpg" alt="Hygiène nasale"></div>
+                    <div class="related-card-body">
+                        <span class="related-tag" style="color: var(--blue-light);">Hygiène</span>
+                        <h4>L'importance de l'hygiène nasale quotidienne</h4>
+                    </div>
+                </a>
+                <a href="blog-rhume-hiver.html" class="related-card">
+                    <div class="related-card-image"><img src="blog-rhume-hiver.jpg" alt="Prévenir le rhume"></div>
+                    <div class="related-card-body">
+                        <span class="related-tag" style="color: var(--orange-rhume);">Rhume</span>
+                        <h4>Comment prévenir le rhume cet hiver ?</h4>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="Stérimar Logo" class="footer-logo" style="height: 144px; margin-bottom: 1rem;">
+                    <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                        <a href="#" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+                    </div>
+                </div>
+                <div class="footer-links"><h4>Navigation</h4><a href="index.html">Accueil</a><a href="boutique.html">Boutique</a><a href="blog.html">Blog</a><a href="qui-sommes-nous.html">Qui sommes-nous</a></div>
+                <div class="footer-links"><h4>Nos Gammes</h4><a href="boutique.html#hygiene">Gamme Hygiène</a><a href="boutique.html#rhume">Gamme Rhume</a><a href="boutique.html#allergie">Gamme Allergie</a><a href="boutique.html#bebe">Gamme Bébé</a></div>
+                <div class="footer-links"><h4>Informations</h4><a href="#">Mentions légales</a><a href="#">Politique de confidentialité</a><a href="#">Conditions générales</a><a href="#">Contact</a></div>
+            </div>
+            <div class="footer-bottom"><p>© 2026 Stérimar™ — Tous droits réservés. Dispositif médical.</p></div>
+        </div>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>

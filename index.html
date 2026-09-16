@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home page - Sterimar FR</title>
+    <meta name="description"
+        content="Découvrez la gamme complète Stérimar™ : sprays nasaux à base d'eau de mer pour l'hygiène, le rhume, les allergies et les soins bébé. Livraison rapide.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="styles.css?v=6">
+    <link rel="icon"
+        href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png"
+        sizes="32x32">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" id="nav-logo">
+                <img src="logo.png" alt="Stérimar Logo" class="logo-img">
+                <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
+
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link active" id="nav-home">Accueil</a>
+                <a href="boutique.html" class="nav-link" id="nav-boutique">Boutique</a>
+                <a href="blog.html" class="nav-link" id="nav-blog">Blog</a>
+                <a href="qui-sommes-nous.html" class="nav-link" id="nav-about">Qui sommes-nous</a>
+                <a href="panier.html" class="nav-link nav-cart" id="nav-panier">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                    <span class="cart-count" id="cart-count">0</span>
+                    Panier
+                </a>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Slider Section -->
+    <section class="hero-slider" id="hero">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide">
+                    <a href="boutique.html" style="display: block; width: 100%; height: 100%;">
+                        <picture>
+                            <source media="(max-width: 768px)"
+                                srcset="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2023/04/230321-STERIMAR-WEB-BANNIERE-GENERALE_MOBILE-min_1200x1200-jpg.webp">
+                            <img src="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2023/03/230321-STERIMAR-WEB-BANNIERE-GENERALE_DESKTOP-03-min-scaled.jpg"
+                                alt="Bannière Générale">
+                        </picture>
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="boutique.html#rhume" style="display: block; width: 100%; height: 100%;">
+                        <picture>
+                            <source media="(max-width: 768px)"
+                                srcset="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2023/04/230321-STERIMAR-WEB-BANNIERES-RHUME_MOBILE-min_1200x1200-jpg.webp">
+                            <img src="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2023/03/230321-STERIMAR-WEB-BANNIERES-RHUME_DESKTOP-min-1-scaled.jpg"
+                                alt="Bannière Rhume">
+                        </picture>
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="boutique.html#allergie" style="display: block; width: 100%; height: 100%;">
+                        <picture>
+                            <source media="(max-width: 768px)"
+                                srcset="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2023/04/230321-STERIMAR-WEB-BANNIERES-ALLERGIE_MOBILE-min_1200x1200-jpg.webp">
+                            <img src="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2023/03/230321-STERIMAR-WEB-BANNIERES-ALLERGIE_DESKTOP-min-scaled.jpg"
+                                alt="Bannière Allergie">
+                        </picture>
+                    </a>
+                </div>
+                <div class="swiper-slide slide-bebe">
+                    <picture class="slide-bebe-bg">
+                        <source media="(max-width: 768px)" srcset="banner-bebe-mobile.jpg">
+                        <img src="banner-bebe-desktop.jpg" alt="Fond mer">
+                    </picture>
+                    <div class="slide-bebe-overlay">
+                        <img src="hygiene-bébé.png" alt="Stérimar Hygiène Bébé" class="slide-bebe-packshot">
+                        <div class="slide-bebe-text">
+                            <h2>Hygiène<br>du nez bébé</h2>
+                            <hr class="separator-line">
+                            <p class="subtitle">Dès la naissance</p>
+                            <a href="boutique.html#bebe" class="btn btn-discover">Je découvre <svg width="20"
+                                    height="24" viewBox="0 0 20 24" fill="none" stroke="white" stroke-width="1.2"
+                                    stroke-linejoin="miter" stroke-linecap="butt"
+                                    style="margin-left: 10px; margin-top: 2px;">
+                                    <path d="M5 20l8-8-8-8" />
+                                </svg></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+    </section>
+
+    <!-- Gammes Section (Inspired by Reference) -->
+    <section class="gammes-section" id="gammes">
+        <div class="gammes-header-bar">
+            <h2>NOTRE GAMME</h2>
+        </div>
+        <div class="container gammes-container">
+            <div class="gammes-grid">
+
+                <!-- Hygiène -->
+                <div class="gamme-card">
+                    <div class="gamme-content">
+                        <div class="gamme-title bg-hygiene">HYGIÈNE AU QUOTIDIEN</div>
+                        <div class="gamme-quote">
+                            <span class="quote-mark color-hygiene">“</span>
+                            <p class="handwritten color-hygiene">Avoir le nez et les oreilles propres, c'est important.
+                            </p>
+                            <span class="quote-mark right color-hygiene">”</span>
+                        </div>
+                        <a href="boutique.html#hygiene" class="btn-gamme color-hygiene">Voir la gamme &gt;</a>
+                    </div>
+                    <div class="gamme-image">
+                        <img src="hygiene-adulte.png" alt="Gamme Hygiène" class="gamme-packshot">
+                    </div>
+                </div>
+
+                <!-- Rhume -->
+                <div class="gamme-card">
+                    <div class="gamme-content">
+                        <div class="gamme-title bg-rhume">RHUME</div>
+                        <div class="gamme-quote">
+                            <span class="quote-mark color-rhume">“</span>
+                            <p class="handwritten color-rhume">Cet hiver, j'évite le rhume et ses complications.</p>
+                            <span class="quote-mark right color-rhume">”</span>
+                        </div>
+                        <a href="boutique.html#rhume" class="btn-gamme color-rhume">Voir la gamme &gt;</a>
+                    </div>
+                    <div class="gamme-image">
+                        <img src="cold-adulte.png" alt="Gamme Rhume" class="gamme-packshot">
+                    </div>
+                </div>
+
+                <!-- Allergie -->
+                <div class="gamme-card">
+                    <div class="gamme-content">
+                        <div class="gamme-title bg-allergie">ALLERGIE</div>
+                        <div class="gamme-quote">
+                            <span class="quote-mark color-allergie">“</span>
+                            <p class="handwritten color-allergie">Ce printemps, je veux éviter les crises d'allergies.
+                            </p>
+                            <span class="quote-mark right color-allergie">”</span>
+                        </div>
+                        <a href="boutique.html#allergie" class="btn-gamme color-allergie">Voir la gamme &gt;</a>
+                    </div>
+                    <div class="gamme-image">
+                        <img src="allergie.png" alt="Gamme Allergie" class="gamme-packshot">
+                    </div>
+                </div>
+
+                <!-- Bébé -->
+                <div class="gamme-card">
+                    <div class="gamme-content">
+                        <div class="gamme-title bg-bebe">BÉBÉ</div>
+                        <div class="gamme-quote">
+                            <span class="quote-mark color-bebe">“</span>
+                            <p class="handwritten color-bebe">Je veux nettoyer le nez de mon bébé en toute sécurité.</p>
+                            <span class="quote-mark right color-bebe">”</span>
+                        </div>
+                        <a href="boutique.html#bebe" class="btn-gamme color-bebe">Voir la gamme &gt;</a>
+                    </div>
+                    <div class="gamme-image">
+                        <img src="hygiene-bébé.png" alt="Gamme Bébé" class="gamme-packshot">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="gammes-footer-btn">
+                <a href="boutique.html" class="btn-all-products">Je veux voir tous les produits &gt;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conseil Banner (Inspired by Reference) -->
+    <section class="conseil-banner-section">
+        <div class="conseil-banner-container">
+            <button class="banner-nav-btn prev swiper-button-prev-conseil">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <path d="M15 18l-6-6 6-6" />
+                </svg>
+            </button>
+
+            <div class="swiper conseil-swiper" style="overflow: hidden; width: 100%;">
+                <div class="swiper-wrapper">
+
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide conseil-banner-content">
+                        <div class="conseil-text">
+                            <span class="conseil-tag">Nos conseils</span>
+                            <h3>Apprendre à laver le nez de bébé ou de l'enfant</h3>
+                            <p>Votre bébé a le nez bouché, il a du mal à respirer, ne dort pas bien... il a besoin d'un
+                                lavage de nez. Vous avez peur de ne pas y arriver ? De lui faire mal ?</p>
+                            <a href="blog-soin-bebe.html" class="btn btn-discover">Je lis l'article <svg width="20"
+                                    height="24" viewBox="0 0 20 24" fill="none" stroke="white" stroke-width="1.2"
+                                    stroke-linejoin="miter" stroke-linecap="butt"
+                                    style="margin-left: 10px; margin-top: 2px;">
+                                    <path d="M5 20l8-8-8-8" />
+                                </svg></a>
+                        </div>
+                        <div class="conseil-image-wrapper">
+                            <img src="blog-soin-bebe.jpg" alt="Bébé sourit">
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide conseil-banner-content">
+                        <div class="conseil-text">
+                            <span class="conseil-tag">Nos conseils</span>
+                            <h3>Adopter les bons gestes d'hygiène nasale</h3>
+                            <p>Découvrez comment l'eau de mer microdiffusée peut vous aider à mieux respirer au
+                                quotidien et prévenir les infections de la sphère ORL.</p>
+                            <a href="blog-hygiene-nasale.html" class="btn btn-discover">Je lis l'article <svg width="20"
+                                    height="24" viewBox="0 0 20 24" fill="none" stroke="white" stroke-width="1.2"
+                                    stroke-linejoin="miter" stroke-linecap="butt"
+                                    style="margin-left: 10px; margin-top: 2px;">
+                                    <path d="M5 20l8-8-8-8" />
+                                </svg></a>
+                        </div>
+                        <div class="conseil-image-wrapper">
+                            <img src="blog-hygiene-nasale-v2.jpg" alt="Hygiène nasale">
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="swiper-slide conseil-banner-content">
+                        <div class="conseil-text">
+                            <span class="conseil-tag">Nos conseils</span>
+                            <h3>Combattre les allergies printanières</h3>
+                            <p>Le pollen est de retour ? Apprenez comment soulager rapidement votre nez et prévenir les
+                                crises grâce à nos solutions naturelles.</p>
+                            <a href="conseil-respiration.html" class="btn btn-discover">Je lis l'article <svg width="20"
+                                    height="24" viewBox="0 0 20 24" fill="none" stroke="white" stroke-width="1.2"
+                                    stroke-linejoin="miter" stroke-linecap="butt"
+                                    style="margin-left: 10px; margin-top: 2px;">
+                                    <path d="M5 20l8-8-8-8" />
+                                </svg></a>
+                        </div>
+                        <div class="conseil-image-wrapper">
+                            <img src="conseil_respiration_1789027715029.jpg" alt="Allergies">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <button class="banner-nav-btn next swiper-button-next-conseil">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <path d="M9 18l6-6-6-6" />
+                </svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured" id="featured">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Nos best-sellers</span>
+                <h2 class="section-title">Produits les plus populaires</h2>
+            </div>
+            <div class="products-scroll">
+                <div class="product-card" id="featured-1">
+                    <div class="product-badge">Best-seller</div>
+                    <a href="produit-hygiene-du-nez.html" class="product-image" style="--product-color: #00B8E5; display: block;">
+                        <img src="hygiene-adulte.png" alt="Stérimar Hygiène du Nez">
+                    </a>
+                    <div class="product-info">
+                        <span class="product-category" style="color: #00B8E5;">Hygiène</span>
+                        <h3 class="product-name">Hygiène du Nez</h3>
+                        <p class="product-molecule">Physiologique • Oligo-éléments</p>
+                        <div class="product-footer">
+                            <span class="product-price">19,00 DT</span>
+                            <button class="btn btn-add" onclick="addToCart(0)" id="add-hygiene">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card" id="featured-2">
+                    <a href="produit-nez-bouche.html" class="product-image" style="--product-color: #F15B2B; display: block;">
+                        <img src="nez-bouché-adulte.png" alt="Stérimar Nez Bouché">
+                    </a>
+                    <div class="product-info">
+                        <span class="product-category" style="color: #F15B2B;">Rhume</span>
+                        <h3 class="product-name">Nez Bouché</h3>
+                        <p class="product-molecule">Hypertonique • Cuivre</p>
+                        <div class="product-footer">
+                            <span class="product-price">19,00 DT</span>
+                            <button class="btn btn-add" onclick="addToCart(2)" id="add-bouche">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card" id="featured-3">
+                    <a href="produit-nez-allergique.html" class="product-image" style="--product-color: #79C142; display: block;">
+                        <img src="allergie.png" alt="Stérimar Nez Allergique">
+                    </a>
+                    <div class="product-info">
+                        <span class="product-category" style="color: #79C142;">Allergie</span>
+                        <h3 class="product-name">Nez Allergique</h3>
+                        <p class="product-molecule">Physiologique • Manganèse</p>
+                        <div class="product-footer">
+                            <span class="product-price">19,00 DT</span>
+                            <button class="btn btn-add" onclick="addToCart(3)" id="add-allergie">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 3rem;">
+                <a href="boutique.html" class="btn btn-primary btn-lg" id="see-all-products">Voir tous les produits</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits" id="benefits">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Pourquoi Stérimar</span>
+                <h2 class="section-title">La force de l'eau de mer</h2>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card" id="benefit-1">
+                    <div class="benefit-icon">🌊</div>
+                    <h3>100% Eau de Mer</h3>
+                    <p>Puisée au large de Saint-Malo, notre eau de mer est naturellement riche en oligo-éléments et
+                        minéraux essentiels.</p>
+                </div>
+                <div class="benefit-card" id="benefit-2">
+                    <div class="benefit-icon">🔬</div>
+                    <h3>Enrichie en Oligo-éléments</h3>
+                    <p>Cuivre, manganèse, soufre… Chaque formule est enrichie en oligo-éléments spécifiques pour une
+                        action ciblée.</p>
+                </div>
+                <div class="benefit-card" id="benefit-3">
+                    <div class="benefit-icon">👶</div>
+                    <h3>Pour Toute la Famille</h3>
+                    <p>Des solutions adaptées à chaque âge, dès la naissance pour les bébés jusqu'aux adultes.</p>
+                </div>
+                <div class="benefit-card" id="benefit-4">
+                    <div class="benefit-icon">🏆</div>
+                    <h3>N°1 en Pharmacie</h3>
+                    <p>Plus de 50 ans d'expertise et la confiance de millions de familles et de professionnels de santé.
+                    </p>
+                </div>
+                <div class="benefit-card" id="benefit-5">
+                    <div class="benefit-icon">♻️</div>
+                    <h3>Sans Conservateur</h3>
+                    <p>Formules sans gaz propulseur, sans conservateur et sans risque d'accoutumance.</p>
+                </div>
+                <div class="benefit-card" id="benefit-6">
+                    <div class="benefit-icon">💧</div>
+                    <h3>Micro-diffusion</h3>
+                    <p>Technologie de micro-diffusion brevetée pour une pulvérisation douce et efficace.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Prenez soin de votre nez au quotidien</h2>
+                <p>Découvrez la gamme complète Stérimar™ et trouvez le produit adapté à vos besoins.</p>
+                <a href="boutique.html" class="btn btn-primary btn-lg" id="cta-shop">Explorer la boutique</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="Stérimar Logo" class="footer-logo"
+                        style="height: 144px; margin-bottom: 1rem;">
+                    <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook" id="social-fb">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="Instagram" id="social-ig">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <a href="index.html">Accueil</a>
+                    <a href="boutique.html">Boutique</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="qui-sommes-nous.html">Qui sommes-nous</a>
+                    <a href="panier.html">Panier</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Nos Gammes</h4>
+                    <a href="boutique.html#hygiene">Gamme Hygiène</a>
+                    <a href="boutique.html#rhume">Gamme Rhume</a>
+                    <a href="boutique.html#allergie">Gamme Allergie</a>
+                    <a href="boutique.html#bebe">Gamme Bébé</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Informations</h4>
+                    <a href="#">Mentions légales</a>
+                    <a href="#">Politique de confidentialité</a>
+                    <a href="#">Conditions générales</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Stérimar™ — Tous droits réservés. Dispositif médical.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="app.js?v=2"></script>
+</body>
+
+</html>

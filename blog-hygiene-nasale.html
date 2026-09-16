@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'importance de l'hygiène nasale quotidienne - Sterimar FR</title>
+    <meta name="description" content="Découvrez pourquoi le lavage nasal quotidien à l'eau de mer est essentiel pour maintenir une muqueuse saine, prévenir les infections et mieux respirer.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png" sizes="32x32">
+    <style>
+        /* ==========================================
+           ARTICLE PAGE STYLES
+           ========================================== */
+        .article-hero {
+            position: relative;
+            height: 480px;
+            overflow: hidden;
+        }
+        .article-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .article-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.2) 60%, transparent 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: 3rem 0;
+        }
+        .article-hero-content {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+            width: 100%;
+        }
+        .article-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
+        }
+        .article-breadcrumb a {
+            color: rgba(255,255,255,0.6);
+            transition: color var(--transition-fast);
+        }
+        .article-breadcrumb a:hover { color: var(--blue-light); }
+        .article-breadcrumb svg { opacity: 0.4; }
+        .article-tag {
+            display: inline-block;
+            padding: 0.35rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+        .tag-hygiene { background: rgba(0,184,229,0.85); color: white; }
+        .tag-rhume { background: rgba(241,91,43,0.85); color: white; }
+        .tag-bebe { background: rgba(89,174,225,0.85); color: white; }
+        .tag-conseil { background: rgba(121,193,66,0.85); color: white; }
+        .article-hero-content h1 {
+            font-family: var(--font-display);
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1.2;
+            max-width: 700px;
+            margin-bottom: 1rem;
+        }
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+        }
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* --- Article Body --- */
+        .article-body {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 3.5rem var(--container-padding) 4rem;
+        }
+        .article-body p {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: var(--gray-600);
+            margin-bottom: 1.5rem;
+        }
+        .article-body h2 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin: 2.5rem 0 1rem;
+            line-height: 1.3;
+        }
+        .article-body h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin: 2rem 0 0.75rem;
+        }
+        .article-body ul, .article-body ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+            color: var(--gray-600);
+        }
+        .article-body li {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 0.5rem;
+        }
+        .article-body blockquote {
+            border-left: 4px solid var(--blue-light);
+            padding: 1.25rem 1.5rem;
+            margin: 2rem 0;
+            background: rgba(0,184,229,0.04);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            font-size: 1.05rem;
+            color: var(--gray-700);
+            font-style: italic;
+        }
+        .article-highlight {
+            background: linear-gradient(135deg, rgba(0,119,182,0.06), rgba(0,184,229,0.06));
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(0,119,182,0.1);
+        }
+        .article-highlight h4 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: var(--blue-primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .article-highlight p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        /* --- Share & CTA --- */
+        .article-share {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--gray-100);
+            margin-top: 2rem;
+        }
+        .article-share span {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-500);
+        }
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--gray-200);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            color: var(--gray-500);
+        }
+        .share-btn:hover {
+            background: var(--blue-primary);
+            border-color: var(--blue-primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .article-cta {
+            background: var(--gradient-hero);
+            border-radius: var(--radius-xl);
+            padding: 3rem;
+            text-align: center;
+            margin: 3rem 0;
+        }
+        .article-cta h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.75rem;
+        }
+        .article-cta p {
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* --- Related Articles --- */
+        .related-section {
+            padding: 4rem 0;
+            background: var(--gray-50);
+        }
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .related-card {
+            display: flex;
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+            text-decoration: none;
+        }
+        .related-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        .related-card-image {
+            width: 180px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .related-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s var(--ease-out);
+        }
+        .related-card:hover .related-card-image img {
+            transform: scale(1.06);
+        }
+        .related-card-body {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .related-card-body .related-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+        .related-card-body h4 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            line-height: 1.4;
+            transition: color var(--transition-fast);
+        }
+        .related-card:hover h4 { color: var(--blue-primary); }
+
+        @media (max-width: 768px) {
+            .article-hero { height: 360px; }
+            .article-hero-content h1 { font-size: 1.8rem; }
+            .article-body { padding: 2.5rem var(--container-padding) 3rem; }
+            .related-grid { grid-template-columns: 1fr; }
+            .article-cta { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" id="nav-logo">
+                <img src="logo.png" alt="Stérimar Logo" class="logo-img">
+                <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link" id="nav-home">Accueil</a>
+                <a href="boutique.html" class="nav-link" id="nav-boutique">Boutique</a>
+                <a href="blog.html" class="nav-link active" id="nav-blog">Blog</a>
+                <a href="qui-sommes-nous.html" class="nav-link" id="nav-about">Qui sommes-nous</a>
+                <a href="panier.html" class="nav-link nav-cart" id="nav-panier">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                        <path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                    </svg>
+                    <span class="cart-count" id="cart-count">0</span>
+                    Panier
+                </a>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Article Hero -->
+    <section class="article-hero">
+        <img src="blog-hygiene-nasale-v2.jpg" alt="L'importance de l'hygiène nasale quotidienne">
+        <div class="article-hero-overlay">
+            <div class="article-hero-content">
+                <div class="article-breadcrumb">
+                    <a href="index.html">Accueil</a>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                    <a href="blog.html">Blog</a>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                    <span>Hygiène</span>
+                </div>
+                <span class="article-tag tag-hygiene">Hygiène</span>
+                <h1>L'importance de l'hygiène nasale quotidienne</h1>
+                <div class="article-meta">
+                    <span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        5 Septembre 2026
+                    </span>
+                    <span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        5 min de lecture
+                    </span>
+                    <span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        Dr. Marine Lavaud
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Body -->
+    <article class="article-body" id="article-content">
+        <p>Le nez est la première porte d'entrée de l'air dans notre organisme. Il filtre, humidifie et réchauffe l'air que nous respirons, tout en constituant une barrière naturelle contre les agents pathogènes. Pourtant, l'hygiène nasale reste un geste souvent négligé dans notre routine quotidienne.</p>
+
+        <h2>Pourquoi nettoyer son nez chaque jour ?</h2>
+        <p>Chaque jour, notre nez est exposé à des milliers de particules : poussières, pollen, pollution, bactéries et virus. La muqueuse nasale produit naturellement du mucus pour piéger ces impuretés, mais ce mécanisme de défense peut être dépassé, surtout en milieu urbain ou en période d'allergies.</p>
+        <p>Le lavage nasal quotidien avec une solution d'eau de mer permet de :</p>
+        <ul>
+            <li><strong>Éliminer les impuretés</strong> accumulées tout au long de la journée (poussières, allergènes, polluants)</li>
+            <li><strong>Humidifier la muqueuse</strong> pour maintenir son rôle de barrière protectrice, surtout en hiver avec le chauffage</li>
+            <li><strong>Fluidifier le mucus</strong> pour faciliter son évacuation naturelle et prévenir l'obstruction nasale</li>
+            <li><strong>Prévenir les infections</strong> ORL (rhumes, sinusites, otites) en réduisant la charge microbienne</li>
+        </ul>
+
+        <blockquote>
+            « Le lavage nasal est le geste de prévention le plus simple et le plus efficace pour maintenir une bonne santé respiratoire. Je le recommande à tous mes patients, adultes comme enfants. »
+            — Dr. Marine Lavaud, ORL
+        </blockquote>
+
+        <h2>Les bienfaits de l'eau de mer</h2>
+        <p>L'eau de mer n'est pas une simple solution saline. Elle contient naturellement plus de 80 oligo-éléments et minéraux essentiels qui contribuent à la santé de la muqueuse nasale :</p>
+        <ul>
+            <li><strong>Le magnésium</strong> — aide à réduire l'inflammation</li>
+            <li><strong>Le calcium</strong> — contribue au renforcement de la barrière muqueuse</li>
+            <li><strong>Le potassium</strong> — favorise l'hydratation cellulaire</li>
+            <li><strong>Les oligo-éléments marins</strong> — soutiennent les défenses naturelles locales</li>
+        </ul>
+
+        <div class="article-highlight">
+            <h4>💡 Le saviez-vous ?</h4>
+            <p>L'eau de mer utilisée dans les sprays nasaux Stérimar™ est puisée au large de Saint-Malo, dans une zone protégée. Elle est ensuite filtrée et stérilisée pour garantir une pureté optimale tout en préservant sa richesse minérale naturelle.</p>
+        </div>
+
+        <h2>Comment bien réaliser un lavage nasal ?</h2>
+        <p>Pour profiter pleinement des bienfaits du lavage nasal, il est important de suivre quelques règles simples :</p>
+        <ol>
+            <li><strong>Pencher la tête sur le côté</strong> au-dessus du lavabo</li>
+            <li><strong>Insérer l'embout</strong> du spray dans la narine supérieure</li>
+            <li><strong>Pulvériser</strong> 1 à 2 pulvérisations en inspirant légèrement par le nez</li>
+            <li><strong>Laisser agir</strong> quelques secondes</li>
+            <li><strong>Se moucher doucement</strong> en bouchant une narine puis l'autre</li>
+            <li><strong>Répéter</strong> de l'autre côté</li>
+        </ol>
+
+        <h3>À quelle fréquence ?</h3>
+        <p>En prévention, un lavage nasal 1 à 2 fois par jour suffit (matin et soir). En cas de rhume, de nez bouché ou d'exposition à des allergènes, on peut augmenter la fréquence à 3 à 4 fois par jour sans aucun risque d'accoutumance.</p>
+
+        <div class="article-highlight">
+            <h4>🌊 Le produit recommandé</h4>
+            <p>Pour une hygiène quotidienne, le spray <strong>Stérimar Hygiène du Nez</strong> est la solution idéale. Sa formule isotonique enrichie en oligo-éléments marins est douce et respectueuse de la muqueuse nasale. Disponible en format 100ml, idéal pour toute la famille dès 3 ans.</p>
+        </div>
+
+        <h2>Les erreurs à éviter</h2>
+        <p>Quelques précautions permettent de tirer le meilleur parti du lavage nasal :</p>
+        <ul>
+            <li><strong>Ne pas se moucher trop fort</strong> — cela peut repousser les sécrétions vers les sinus ou les oreilles</li>
+            <li><strong>Ne pas utiliser de l'eau du robinet pure</strong> — elle n'est pas stérile et peut irriter la muqueuse</li>
+            <li><strong>Ne pas partager son spray</strong> — pour des raisons d'hygiène, chaque membre de la famille doit avoir le sien</li>
+            <li><strong>Ne pas négliger le lavage en été</strong> — la climatisation assèche les muqueuses tout autant que le chauffage</li>
+        </ul>
+
+        <p>En intégrant le lavage nasal à votre routine quotidienne, vous offrez à votre nez les soins dont il a besoin pour fonctionner de manière optimale. Un geste simple, naturel et efficace pour mieux respirer au quotidien.</p>
+
+        <!-- Share -->
+        <div class="article-share">
+            <span>Partager :</span>
+            <button class="share-btn" aria-label="Partager sur Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </button>
+            <button class="share-btn" aria-label="Partager par email" onclick="window.open('mailto:?subject='+encodeURIComponent(document.title)+'&body='+encodeURIComponent(location.href))">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </button>
+            <button class="share-btn" aria-label="Copier le lien" onclick="navigator.clipboard.writeText(location.href); this.innerHTML='✓'; setTimeout(()=>this.innerHTML='<svg width=18 height=18 viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><path d=&quot;M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71&quot;/><path d=&quot;M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71&quot;/></svg>',2000)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            </button>
+        </div>
+
+        <!-- CTA -->
+        <div class="article-cta" style="display: flex; align-items: center; justify-content: center; gap: 2.5rem; text-align: left; padding: 2.5rem; flex-wrap: wrap;">
+            <div style="flex-shrink: 0; text-align: center;">
+                <img src="hygiene-adulte.png" alt="Stérimar Hygiène du Nez" style="height: 220px; width: auto; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+            <div style="max-width: 400px;">
+                <h3>Découvrez Stérimar Hygiène du Nez</h3>
+                <p>Le spray nasal idéal pour votre hygiène nasale quotidienne.</p>
+                <a href="produit-hygiene-du-nez.html" class="btn btn-primary btn-lg" style="background: white; color: var(--blue-light); display: inline-block;">Voir le produit</a>
+            </div>
+        </div>
+    </article>
+
+    <!-- Related Articles -->
+    <section class="related-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">À lire aussi</span>
+                <h2 class="section-title">Articles similaires</h2>
+            </div>
+            <div class="related-grid">
+                <a href="blog-rhume-hiver.html" class="related-card">
+                    <div class="related-card-image">
+                        <img src="blog-rhume-hiver.jpg" alt="Prévenir le rhume">
+                    </div>
+                    <div class="related-card-body">
+                        <span class="related-tag" style="color: var(--orange-rhume);">Rhume</span>
+                        <h4>Comment prévenir le rhume cet hiver ?</h4>
+                    </div>
+                </a>
+                <a href="blog-soin-bebe.html" class="related-card">
+                    <div class="related-card-image">
+                        <img src="blog-soin-bebe.jpg" alt="Soins bébé">
+                    </div>
+                    <div class="related-card-body">
+                        <span class="related-tag" style="color: var(--blue-baby);">Bébé</span>
+                        <h4>Soins du nez de bébé : les bons gestes</h4>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="Stérimar Logo" class="footer-logo" style="height: 144px; margin-bottom: 1rem;">
+                    <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                        <a href="#" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <a href="index.html">Accueil</a>
+                    <a href="boutique.html">Boutique</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="qui-sommes-nous.html">Qui sommes-nous</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Nos Gammes</h4>
+                    <a href="boutique.html#hygiene">Gamme Hygiène</a>
+                    <a href="boutique.html#rhume">Gamme Rhume</a>
+                    <a href="boutique.html#allergie">Gamme Allergie</a>
+                    <a href="boutique.html#bebe">Gamme Bébé</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Informations</h4>
+                    <a href="#">Mentions légales</a>
+                    <a href="#">Politique de confidentialité</a>
+                    <a href="#">Conditions générales</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Stérimar™ — Tous droits réservés. Dispositif médical.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

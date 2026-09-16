@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog & Conseils - Sterimar FR</title>
+    <meta name="description" content="Découvrez nos articles de blog et conseils santé sur l'hygiène nasale, la prévention du rhume, les soins bébé et le bien-être respiratoire avec Stérimar™.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png" sizes="32x32">
+    <style>
+        /* ==========================================
+           BLOG PAGE — Hero
+           ========================================== */
+        .blog-hero {
+            padding: 10rem 0 4rem;
+            background: var(--gradient-hero);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .blog-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 184, 229, 0.12) 0%, transparent 70%);
+            animation: floatBlob 15s ease-in-out infinite;
+        }
+
+        .blog-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 119, 182, 0.1) 0%, transparent 70%);
+            animation: floatBlob 20s ease-in-out infinite reverse;
+        }
+
+        @keyframes floatBlob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -20px) scale(1.05); }
+            66% { transform: translate(-20px, 15px) scale(0.95); }
+        }
+
+        .blog-hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .blog-hero .section-tag {
+            display: inline-block;
+            padding: 0.4rem 1.2rem;
+            background: rgba(0, 184, 229, 0.15);
+            color: var(--blue-light);
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1.5rem;
+        }
+
+        .blog-hero h1 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .blog-hero p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ==========================================
+           BLOG SECTION
+           ========================================== */
+        .blog-section {
+            padding: var(--section-gap) 0;
+            background: var(--gray-50);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .blog-card-image {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .blog-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease-out);
+        }
+
+        .blog-card:hover .blog-card-image img {
+            transform: scale(1.08);
+        }
+
+        .blog-card-image .blog-tag {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            padding: 0.35rem 0.9rem;
+            border-radius: var(--radius-full);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .blog-tag.tag-hygiene {
+            background: rgba(0, 184, 229, 0.85);
+            color: white;
+        }
+
+        .blog-tag.tag-rhume {
+            background: rgba(241, 91, 43, 0.85);
+            color: white;
+        }
+
+        .blog-tag.tag-bebe {
+            background: rgba(89, 174, 225, 0.85);
+            color: white;
+        }
+
+        .blog-card-body {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.78rem;
+            color: var(--gray-400);
+        }
+
+        .blog-card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .blog-card-body h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+            transition: color var(--transition-fast);
+        }
+
+        .blog-card:hover .blog-card-body h3 {
+            color: var(--blue-primary);
+        }
+
+        .blog-card-body p {
+            font-size: 0.88rem;
+            color: var(--gray-500);
+            line-height: 1.7;
+            flex: 1;
+            margin-bottom: 1.25rem;
+        }
+
+        .blog-read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--blue-primary);
+            transition: all var(--transition-fast);
+        }
+
+        .blog-read-more svg {
+            transition: transform var(--transition-fast);
+        }
+
+        .blog-card:hover .blog-read-more svg {
+            transform: translateX(4px);
+        }
+
+        /* ==========================================
+           CONSEILS SECTION
+           ========================================== */
+        .conseils-section {
+            padding: var(--section-gap) 0;
+            background: white;
+        }
+
+        .conseils-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .conseil-card {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            background: var(--gray-50);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+            border: 1px solid var(--gray-100);
+        }
+
+        .conseil-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(0, 119, 182, 0.15);
+        }
+
+        .conseil-card-image {
+            height: 100%;
+            min-height: 280px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .conseil-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease-out);
+        }
+
+        .conseil-card:hover .conseil-card-image img {
+            transform: scale(1.05);
+        }
+
+        .conseil-card-image .conseil-number {
+            position: absolute;
+            top: 1.25rem;
+            left: 1.25rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--gradient-ocean);
+            color: white;
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 119, 182, 0.35);
+        }
+
+        .conseil-card-body {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .conseil-card-body .conseil-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--blue-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .conseil-card-body h3 {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 1rem;
+            line-height: 1.35;
+        }
+
+        .conseil-card-body p {
+            font-size: 0.88rem;
+            color: var(--gray-500);
+            line-height: 1.75;
+            margin-bottom: 1.5rem;
+        }
+
+        .conseil-tips {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .conseil-tips li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            font-size: 0.82rem;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+
+        .conseil-tips li svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: var(--green-allergie);
+        }
+
+        /* ==========================================
+           NEWSLETTER SECTION
+           ========================================== */
+        .newsletter-section {
+            padding: 5rem 0;
+            background: var(--gradient-hero);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300B8E5' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .newsletter-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .newsletter-content h2 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 0.75rem;
+        }
+
+        .newsletter-content p {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.9rem 1.25rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-full);
+            color: white;
+            font-family: var(--font-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: all var(--transition-fast);
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .newsletter-form input:focus {
+            border-color: var(--blue-light);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .newsletter-form button {
+            padding: 0.9rem 2rem;
+            background: var(--gradient-ocean);
+            color: white;
+            border: none;
+            border-radius: var(--radius-full);
+            font-family: var(--font-primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .newsletter-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 119, 182, 0.4);
+        }
+
+        /* ==========================================
+           RESPONSIVE — Blog
+           ========================================== */
+        @media (max-width: 1024px) {
+            .blog-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .blog-grid .blog-card:last-child {
+                grid-column: 1 / -1;
+                max-width: 500px;
+                margin: 0 auto;
+                width: 100%;
+            }
+            .conseils-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blog-hero {
+                padding: 8rem 0 3rem;
+            }
+            .blog-hero h1 {
+                font-size: 2rem;
+            }
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            .blog-grid .blog-card:last-child {
+                max-width: 100%;
+            }
+            .conseil-card {
+                grid-template-columns: 1fr;
+            }
+            .conseil-card-image {
+                min-height: 200px;
+            }
+            .newsletter-form {
+                flex-direction: column;
+            }
+            .newsletter-form button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" id="nav-logo">
+                <img src="logo.png" alt="Stérimar Logo" class="logo-img">
+                <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
+                
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link" id="nav-home">Accueil</a>
+                <a href="boutique.html" class="nav-link" id="nav-boutique">Boutique</a>
+                <a href="blog.html" class="nav-link active" id="nav-blog">Blog</a>
+                <a href="qui-sommes-nous.html" class="nav-link" id="nav-about">Qui sommes-nous</a>
+                <a href="panier.html" class="nav-link nav-cart" id="nav-panier">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                        <path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                    </svg>
+                    <span class="cart-count" id="cart-count">0</span>
+                    Panier
+                </a>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Blog Hero -->
+    <section class="blog-hero" id="blog-hero">
+        <div class="container">
+            <span class="section-tag">Blog & Conseils</span>
+            <h1>Santé Nasale & Bien-être</h1>
+            <p>Articles, astuces et conseils d'experts pour prendre soin de votre nez et de celui de toute la famille au quotidien.</p>
+        </div>
+    </section>
+
+    <!-- Blog Articles Section -->
+    <section class="blog-section" id="blog-articles">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Nos articles</span>
+                <h2 class="section-title">Les derniers articles du blog</h2>
+                <p class="section-subtitle">Restez informé des meilleures pratiques en matière d'hygiène nasale et de bien-être respiratoire.</p>
+            </div>
+            <div class="blog-grid">
+                <!-- Blog Article 1 -->
+                <a href="blog-hygiene-nasale.html" class="blog-card" id="blog-1" style="text-decoration:none;color:inherit;">
+                    <div class="blog-card-image">
+                        <img src="blog-hygiene-nasale-v2.jpg" alt="L'importance de l'hygiène nasale quotidienne">
+                        <span class="blog-tag tag-hygiene">Hygiène</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                5 Sept. 2026
+                            </span>
+                            <span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                5 min de lecture
+                            </span>
+                        </div>
+                        <h3>L'importance de l'hygiène nasale quotidienne</h3>
+                        <p>Le lavage nasal est un geste simple mais essentiel pour maintenir une muqueuse saine. Découvrez pourquoi nettoyer son nez chaque jour avec une solution d'eau de mer aide à prévenir les infections et à mieux respirer tout au long de la journée.</p>
+                        <span class="blog-read-more">
+                            Lire l'article
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Blog Article 2 -->
+                <a href="blog-rhume-hiver.html" class="blog-card" id="blog-2" style="text-decoration:none;color:inherit;">
+                    <div class="blog-card-image">
+                        <img src="blog-rhume-hiver.jpg" alt="Comment prévenir le rhume en hiver">
+                        <span class="blog-tag tag-rhume">Rhume</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                28 Août 2026
+                            </span>
+                            <span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                7 min de lecture
+                            </span>
+                        </div>
+                        <h3>Comment prévenir le rhume cet hiver ?</h3>
+                        <p>L'hiver approche et avec lui les virus respiratoires. Apprenez les bons réflexes pour protéger votre nez et renforcer votre barrière nasale naturellement grâce à l'eau de mer enrichie en oligo-éléments comme le soufre et le cuivre.</p>
+                        <span class="blog-read-more">
+                            Lire l'article
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Blog Article 3 -->
+                <a href="blog-soin-bebe.html" class="blog-card" id="blog-3" style="text-decoration:none;color:inherit;">
+                    <div class="blog-card-image">
+                        <img src="blog-soin-bebe.jpg" alt="Soins du nez de bébé : les bons gestes">
+                        <span class="blog-tag tag-bebe">Bébé</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                15 Août 2026
+                            </span>
+                            <span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                4 min de lecture
+                            </span>
+                        </div>
+                        <h3>Soins du nez de bébé : les bons gestes</h3>
+                        <p>Le nez de bébé est fragile et nécessite une attention particulière. Découvrez comment réaliser un lavage nasal en douceur dès la naissance, quels produits utiliser et à quelle fréquence pour assurer le confort respiratoire de votre tout-petit.</p>
+                        <span class="blog-read-more">
+                            Lire l'article
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conseils Section -->
+    <section class="conseils-section" id="conseils">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Nos conseils</span>
+                <h2 class="section-title">Conseils d'experts pour mieux respirer</h2>
+                <p class="section-subtitle">Adoptez les bons gestes au quotidien pour préserver votre santé nasale et celle de vos proches.</p>
+            </div>
+            <div class="conseils-grid">
+                <!-- Conseil 1 -->
+                <a href="conseil-respiration.html" class="conseil-card" id="conseil-1" style="text-decoration:none;color:inherit;">
+                    <div class="conseil-card-image">
+                        <img src="conseil-respiration.jpg" alt="5 exercices de respiration">
+                        <div class="conseil-number">01</div>
+                    </div>
+                    <div class="conseil-card-body">
+                        <span class="conseil-label">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                            Conseil Respiration
+                        </span>
+                        <h3>5 exercices de respiration nasale pour le quotidien</h3>
+                        <p>La respiration nasale est essentielle pour filtrer, humidifier et réchauffer l'air inspiré. Voici 5 exercices simples à pratiquer chaque jour pour améliorer votre capacité respiratoire.</p>
+                        <ul class="conseil-tips">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                Respiration alternée : inspirer par une narine, expirer par l'autre
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                Technique 4-7-8 : inspirer 4s, bloquer 7s, expirer 8s
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                Lavage nasal avant chaque exercice pour un nez dégagé
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                Pratiquer dans un environnement calme, 10 min/jour
+                            </li>
+                        </ul>
+                    </div>
+                </a>
+
+                <!-- Conseil 2 -->
+                <a href="conseil-alimentation.html" class="conseil-card" id="conseil-2" style="text-decoration:none;color:inherit;">
+                    <div class="conseil-card-image">
+                        <img src="conseil-alimentation.jpg" alt="Alimentation pour renforcer vos défenses">
+                        <div class="conseil-number">02</div>
+                    </div>
+                    <div class="conseil-card-body">
+                        <span class="conseil-label">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                            Conseil Nutrition
+                        </span>
+                        <h3>Alimentation : renforcez vos défenses immunitaires naturellement</h3>
+                        <p>Une alimentation riche en vitamines et minéraux est votre meilleur allié pour préparer votre corps à affronter les changements de saison et prévenir les infections ORL.</p>
+                        <ul class="conseil-tips">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                Vitamine C : agrumes, kiwis, poivrons pour l'immunité
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                Zinc : fruits de mer, légumineuses pour la barrière nasale
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                Miel et gingembre : propriétés anti-inflammatoires naturelles
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                Hydratation : 1,5L d'eau/jour pour des muqueuses saines
+                            </li>
+                        </ul>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section" id="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Restez informé</h2>
+                <p>Recevez nos derniers articles et conseils santé directement dans votre boîte mail.</p>
+                <form class="newsletter-form" id="newsletter-form" onsubmit="event.preventDefault(); handleNewsletter();">
+                    <input type="email" placeholder="Votre adresse e-mail" required id="newsletter-email">
+                    <button type="submit" id="newsletter-submit">S'inscrire</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="Stérimar Logo" class="footer-logo" style="height: 144px; margin-bottom: 1rem;">
+                    <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook" id="social-fb">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="#" aria-label="Instagram" id="social-ig">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <a href="index.html">Accueil</a>
+                    <a href="boutique.html">Boutique</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="qui-sommes-nous.html">Qui sommes-nous</a>
+                    <a href="panier.html">Panier</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Nos Gammes</h4>
+                    <a href="boutique.html#hygiene">Gamme Hygiène</a>
+                    <a href="boutique.html#rhume">Gamme Rhume</a>
+                    <a href="boutique.html#allergie">Gamme Allergie</a>
+                    <a href="boutique.html#bebe">Gamme Bébé</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Informations</h4>
+                    <a href="#">Mentions légales</a>
+                    <a href="#">Politique de confidentialité</a>
+                    <a href="#">Conditions générales</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Stérimar™ — Tous droits réservés. Dispositif médical.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Newsletter handler
+        function handleNewsletter() {
+            const email = document.getElementById('newsletter-email');
+            const btn = document.getElementById('newsletter-submit');
+            if (email.value) {
+                btn.textContent = '✓ Inscrit !';
+                btn.style.background = 'linear-gradient(135deg, #79C142, #4CAF50)';
+                email.value = '';
+                setTimeout(() => {
+                    btn.textContent = "S'inscrire";
+                    btn.style.background = '';
+                }, 3000);
+            }
+        }
+
+        // Reveal animations on scroll
+        const blogObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, i * 120);
+                    blogObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.blog-card, .conseil-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
+            blogObserver.observe(el);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 exercices de respiration nasale - Sterimar FR</title>
+    <meta name="description" content="Découvrez 5 exercices de respiration nasale simples et efficaces à pratiquer chaque jour pour améliorer votre capacité respiratoire et votre bien-être.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png" sizes="32x32">
+    <style>
+        .article-hero { position: relative; height: 480px; overflow: hidden; }
+        .article-hero img { width: 100%; height: 100%; object-fit: cover; }
+        .article-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0.2) 60%, transparent 100%); display: flex; align-items: flex-end; padding: 3rem 0; }
+        .article-hero-content { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--container-padding); width: 100%; }
+        .article-breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-bottom: 1rem; }
+        .article-breadcrumb a { color: rgba(255,255,255,0.6); transition: color var(--transition-fast); }
+        .article-breadcrumb a:hover { color: var(--blue-light); }
+        .article-breadcrumb svg { opacity: 0.4; }
+        .article-tag { display: inline-block; padding: 0.35rem 1rem; border-radius: var(--radius-full); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1rem; }
+        .tag-conseil { background: rgba(121,193,66,0.85); color: white; }
+        .article-hero-content h1 { font-family: var(--font-display); font-size: 2.6rem; font-weight: 800; color: white; line-height: 1.2; max-width: 700px; margin-bottom: 1rem; }
+        .article-meta { display: flex; align-items: center; gap: 1.5rem; color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+        .article-meta span { display: flex; align-items: center; gap: 0.4rem; }
+        .article-body { max-width: 780px; margin: 0 auto; padding: 3.5rem var(--container-padding) 4rem; }
+        .article-body p { font-size: 1.05rem; line-height: 1.85; color: var(--gray-600); margin-bottom: 1.5rem; }
+        .article-body h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; color: var(--gray-800); margin: 2.5rem 0 1rem; line-height: 1.3; }
+        .article-body h3 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; color: var(--gray-700); margin: 2rem 0 0.75rem; }
+        .article-body ul, .article-body ol { margin: 1rem 0 1.5rem 1.5rem; color: var(--gray-600); }
+        .article-body li { font-size: 1rem; line-height: 1.8; margin-bottom: 0.5rem; }
+        .article-body blockquote { border-left: 4px solid var(--green-allergie); padding: 1.25rem 1.5rem; margin: 2rem 0; background: rgba(121,193,66,0.04); border-radius: 0 var(--radius-md) var(--radius-md) 0; font-size: 1.05rem; color: var(--gray-700); font-style: italic; }
+        .exercise-card { background: linear-gradient(135deg, rgba(121,193,66,0.06), rgba(76,175,80,0.04)); border-radius: var(--radius-lg); padding: 2rem; margin: 2rem 0; border: 1px solid rgba(121,193,66,0.15); }
+        .exercise-card h4 { font-family: var(--font-display); font-weight: 700; color: var(--green-allergie); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; font-size: 1.1rem; }
+        .exercise-card p { margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .exercise-card .exercise-steps { margin-top: 0.75rem; padding-left: 1.25rem; }
+        .exercise-card .exercise-steps li { font-size: 0.92rem; margin-bottom: 0.35rem; }
+        .article-share { display: flex; align-items: center; gap: 1rem; padding: 2rem 0; border-top: 1px solid var(--gray-100); margin-top: 2rem; }
+        .article-share span { font-size: 0.85rem; font-weight: 600; color: var(--gray-500); }
+        .share-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--gray-200); background: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--transition-fast); color: var(--gray-500); }
+        .share-btn:hover { background: var(--green-allergie); border-color: var(--green-allergie); color: white; transform: translateY(-2px); }
+        .article-cta { background: linear-gradient(135deg, #79C142 0%, #4CAF50 100%); border-radius: var(--radius-xl); padding: 3rem; text-align: center; margin: 3rem 0; }
+        .article-cta h3 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 0.75rem; }
+        .article-cta p { color: rgba(255,255,255,0.7); margin-bottom: 1.5rem; font-size: 0.95rem; }
+        .related-section { padding: 4rem 0; background: var(--gray-50); }
+        .related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
+        .related-card { display: flex; background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); transition: all var(--transition-normal); text-decoration: none; }
+        .related-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .related-card-image { width: 180px; flex-shrink: 0; overflow: hidden; }
+        .related-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease-out); }
+        .related-card:hover .related-card-image img { transform: scale(1.06); }
+        .related-card-body { padding: 1.25rem; display: flex; flex-direction: column; justify-content: center; }
+        .related-card-body .related-tag { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
+        .related-card-body h4 { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: var(--gray-800); line-height: 1.4; transition: color var(--transition-fast); }
+        .related-card:hover h4 { color: var(--green-allergie); }
+        @media (max-width: 768px) { .article-hero { height: 360px; } .article-hero-content h1 { font-size: 1.8rem; } .article-body { padding: 2.5rem var(--container-padding) 3rem; } .related-grid { grid-template-columns: 1fr; } .article-cta { padding: 2rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" id="nav-logo">
+                <img src="logo.png" alt="Stérimar Logo" class="logo-img">
+                <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link" id="nav-home">Accueil</a>
+                <a href="boutique.html" class="nav-link" id="nav-boutique">Boutique</a>
+                <a href="blog.html" class="nav-link active" id="nav-blog">Blog</a>
+                <a href="qui-sommes-nous.html" class="nav-link" id="nav-about">Qui sommes-nous</a>
+                <a href="panier.html" class="nav-link nav-cart" id="nav-panier">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                    <span class="cart-count" id="cart-count">0</span> Panier
+                </a>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <section class="article-hero">
+        <img src="conseil-respiration.jpg" alt="Exercices de respiration nasale">
+        <div class="article-hero-overlay">
+            <div class="article-hero-content">
+                <div class="article-breadcrumb">
+                    <a href="index.html">Accueil</a>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                    <a href="blog.html">Blog</a>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                    <span>Conseil</span>
+                </div>
+                <span class="article-tag tag-conseil">Conseil Respiration</span>
+                <h1>5 exercices de respiration nasale pour le quotidien</h1>
+                <div class="article-meta">
+                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 1 Sept. 2026</span>
+                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min de lecture</span>
+                    <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Équipe Stérimar</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <article class="article-body" id="article-content">
+        <p>La respiration nasale est bien plus qu'un simple acte automatique. Elle filtre, humidifie et réchauffe l'air, tout en stimulant la production d'oxyde nitrique, un puissant vasodilatateur naturel. Pratiquer des exercices de respiration nasale au quotidien peut transformer votre bien-être, réduire votre stress et améliorer votre qualité de sommeil.</p>
+
+        <blockquote>
+            « La respiration par le nez active le système nerveux parasympathique, celui qui apaise. Dix minutes d'exercices quotidiens suffisent pour observer des bénéfices durables sur le stress et la qualité du sommeil. »
+        </blockquote>
+
+        <h2>Avant de commencer : préparez votre nez</h2>
+        <p>Pour tirer le maximum de ces exercices, commencez toujours par un lavage nasal à l'eau de mer. Un nez propre et dégagé permet une circulation optimale de l'air et rend chaque exercice plus efficace et agréable.</p>
+
+        <div class="exercise-card">
+            <h4>🌬️ Exercice 1 — La respiration alternée (Nadi Shodhana)</h4>
+            <p>Cet exercice ancestral du yoga équilibre les deux hémisphères du cerveau et calme profondément le système nerveux.</p>
+            <ol class="exercise-steps">
+                <li>Asseyez-vous confortablement, dos droit</li>
+                <li>Bouchez la narine droite avec le pouce droit</li>
+                <li>Inspirez lentement par la narine gauche pendant 4 secondes</li>
+                <li>Bouchez les deux narines et retenez 2 secondes</li>
+                <li>Relâchez la narine droite et expirez pendant 4 secondes</li>
+                <li>Inspirez par la narine droite, retenez, expirez par la gauche</li>
+                <li>Répétez 5 à 10 cycles</li>
+            </ol>
+            <p><strong>Bienfaits :</strong> Réduit l'anxiété, améliore la concentration, équilibre les énergies.</p>
+        </div>
+
+        <div class="exercise-card">
+            <h4>😮‍💨 Exercice 2 — La technique 4-7-8</h4>
+            <p>Développée par le Dr. Andrew Weil, cette technique est un puissant tranquillisant naturel pour le système nerveux.</p>
+            <ol class="exercise-steps">
+                <li>Placez le bout de la langue derrière les incisives supérieures</li>
+                <li>Expirez complètement par la bouche avec un son « whoosh »</li>
+                <li>Fermez la bouche et inspirez par le nez pendant <strong>4 secondes</strong></li>
+                <li>Retenez votre souffle pendant <strong>7 secondes</strong></li>
+                <li>Expirez lentement par la bouche pendant <strong>8 secondes</strong></li>
+                <li>Répétez 4 cycles</li>
+            </ol>
+            <p><strong>Bienfaits :</strong> Favorise l'endormissement, réduit le stress aigu, abaisse le rythme cardiaque.</p>
+        </div>
+
+        <div class="exercise-card">
+            <h4>🧘 Exercice 3 — La respiration diaphragmatique nasale</h4>
+            <p>Cet exercice vous apprend à utiliser votre diaphragme plutôt que votre poitrine pour respirer, ce qui augmente l'apport en oxygène.</p>
+            <ol class="exercise-steps">
+                <li>Allongez-vous ou asseyez-vous confortablement</li>
+                <li>Posez une main sur la poitrine, l'autre sur le ventre</li>
+                <li>Inspirez par le nez pendant 4 secondes — seul le ventre doit se gonfler</li>
+                <li>Expirez lentement par le nez pendant 6 secondes — le ventre se dégonfle</li>
+                <li>La main sur la poitrine ne doit pas bouger</li>
+                <li>Pratiquez pendant 5 minutes</li>
+            </ol>
+            <p><strong>Bienfaits :</strong> Améliore l'oxygénation, réduit la tension artérielle, renforce le diaphragme.</p>
+        </div>
+
+        <div class="exercise-card">
+            <h4>⏱️ Exercice 4 — La respiration en carré (Box Breathing)</h4>
+            <p>Utilisée par les forces spéciales américaines, cette technique est idéale pour gérer les situations de stress intense.</p>
+            <ol class="exercise-steps">
+                <li>Inspirez par le nez pendant <strong>4 secondes</strong></li>
+                <li>Retenez pendant <strong>4 secondes</strong></li>
+                <li>Expirez par le nez pendant <strong>4 secondes</strong></li>
+                <li>Retenez poumons vides pendant <strong>4 secondes</strong></li>
+                <li>Répétez 6 à 8 cycles</li>
+            </ol>
+            <p><strong>Bienfaits :</strong> Maîtrise du stress, clarté mentale, meilleure prise de décision.</p>
+        </div>
+
+        <div class="exercise-card">
+            <h4>🌅 Exercice 5 — La respiration énergisante (Kapalabhati)</h4>
+            <p>Cette technique de respiration dynamique revitalise le corps et l'esprit. Idéale le matin pour démarrer la journée.</p>
+            <ol class="exercise-steps">
+                <li>Asseyez-vous dos droit, inspirez profondément par le nez</li>
+                <li>Expirez avec force par le nez en contractant l'abdomen (expiration active)</li>
+                <li>L'inspiration se fait naturellement et passivement</li>
+                <li>Commencez avec 20 expirations rapides puis inspirez profondément</li>
+                <li>Retenez votre souffle 20 secondes</li>
+                <li>Répétez 3 cycles, en augmentant progressivement</li>
+            </ol>
+            <p><strong>Bienfaits :</strong> Booste l'énergie, nettoie les voies respiratoires, améliore la digestion.</p>
+        </div>
+
+        <h2>Programme quotidien recommandé</h2>
+        <p>Voici un programme simple de 10 minutes à intégrer dans votre routine :</p>
+        <ul>
+            <li><strong>Matin (5 min)</strong> — Lavage nasal + Kapalabhati (exercice 5) pour démarrer en forme</li>
+            <li><strong>Pause déjeuner (3 min)</strong> — Box Breathing (exercice 4) pour retrouver la concentration</li>
+            <li><strong>Soir avant le coucher (5 min)</strong> — Lavage nasal + technique 4-7-8 (exercice 2) pour favoriser l'endormissement</li>
+        </ul>
+
+        <p>La clé du succès est la régularité. Même 5 minutes par jour suffisent pour observer des changements significatifs en quelques semaines. Votre nez et votre corps vous remercieront !</p>
+
+        <div class="article-share">
+            <span>Partager :</span>
+            <button class="share-btn" aria-label="Partager sur Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </button>
+            <button class="share-btn" aria-label="Partager par email" onclick="window.open('mailto:?subject='+encodeURIComponent(document.title)+'&body='+encodeURIComponent(location.href))">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </button>
+            <button class="share-btn" aria-label="Copier le lien" onclick="navigator.clipboard.writeText(location.href); this.innerHTML='✓'; setTimeout(()=>this.innerHTML='🔗',2000)">🔗</button>
+        </div>
+
+        <div class="article-cta" style="display: flex; align-items: center; justify-content: center; gap: 2.5rem; text-align: left; padding: 2.5rem; flex-wrap: wrap;">
+            <div style="flex-shrink: 0; text-align: center;">
+                <img src="hygiene-adulte.png" alt="Produits Stérimar" style="height: 220px; width: auto; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+            <div style="max-width: 400px;">
+                <h3>Découvrez Stérimar Hygiène du Nez</h3>
+                <p>La solution à base d'eau de mer idéale pour libérer votre respiration avant chaque exercice.</p>
+                <a href="produit-hygiene-du-nez.html" class="btn btn-primary btn-lg" style="background: white; color: var(--green-allergie); display: inline-block;">Voir le produit</a>
+            </div>
+        </div>
+    </article>
+
+    <section class="related-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">À lire aussi</span>
+                <h2 class="section-title">Autres conseils</h2>
+            </div>
+            <div class="related-grid">
+                <a href="conseil-alimentation.html" class="related-card">
+                    <div class="related-card-image"><img src="conseil-alimentation.jpg" alt="Alimentation et immunité"></div>
+                    <div class="related-card-body">
+                        <span class="related-tag" style="color: var(--green-allergie);">Conseil</span>
+                        <h4>Alimentation : renforcez vos défenses immunitaires</h4>
+                    </div>
+                </a>
+                <a href="blog-hygiene-nasale.html" class="related-card">
+                    <div class="related-card-image"><img src="blog-hygiene-nasale.jpg" alt="Hygiène nasale"></div>
+                    <div class="related-card-body">
+                        <span class="related-tag" style="color: var(--blue-light);">Article</span>
+                        <h4>L'importance de l'hygiène nasale quotidienne</h4>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="logo.png" alt="Stérimar Logo" class="footer-logo" style="height: 144px; margin-bottom: 1rem;">
+                    <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                        <a href="#" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+                    </div>
+                </div>
+                <div class="footer-links"><h4>Navigation</h4><a href="index.html">Accueil</a><a href="boutique.html">Boutique</a><a href="blog.html">Blog</a><a href="qui-sommes-nous.html">Qui sommes-nous</a></div>
+                <div class="footer-links"><h4>Nos Gammes</h4><a href="boutique.html#hygiene">Gamme Hygiène</a><a href="boutique.html#rhume">Gamme Rhume</a><a href="boutique.html#allergie">Gamme Allergie</a><a href="boutique.html#bebe">Gamme Bébé</a></div>
+                <div class="footer-links"><h4>Informations</h4><a href="#">Mentions légales</a><a href="#">Politique de confidentialité</a><a href="#">Conditions générales</a><a href="#">Contact</a></div>
+            </div>
+            <div class="footer-bottom"><p>© 2026 Stérimar™ — Tous droits réservés. Dispositif médical.</p></div>
+        </div>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>
