@@ -1,0 +1,40 @@
+name: Deploy Production to WordPress
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare theme files
+        run: |
+          # Remove development files not needed in WordPress theme
+          rm -rf scratch/ __pycache__/ .github/
+          rm -f *.py *.pyc *.pyo
+          rm -f .gitignore
+          echo "Theme files to deploy:"
+          ls -la
+
+      - name: Deploy to WordPress via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: ${{ secrets.FTP_REMOTE_PATH }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/scratch/**
+            **/__pycache__/**
+            **/*.py
+            **/*.pyc
+            **/*.pyo
+            **/.github/**
