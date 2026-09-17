@@ -1839,8 +1839,8 @@ a {
    ========================================== */
 .footer {
     position: relative;
-    background-color: white;
-    color: var(--blue-primary);
+    background-color: #0a2540;
+    color: white;
     padding: 4rem 0 2rem;
     overflow: hidden;
     z-index: 1;
@@ -1859,7 +1859,7 @@ a {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(10, 37, 64, 0.45);
     z-index: -1;
     pointer-events: none;
 }
@@ -1883,7 +1883,7 @@ a {
 }
 
 .footer-brand p {
-    color: var(--blue-primary);
+    color: rgba(255, 255, 255, 0.85);
     font-size: 0.85rem;
     line-height: 1.6;
     margin-bottom: 1.5rem;
@@ -1920,13 +1920,13 @@ a {
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 1rem;
-    color: var(--blue-primary);
+    color: white;
 }
 
 .footer-links a {
     display: block;
     font-size: 0.85rem;
-    color: var(--gray-500);
+    color: rgba(255, 255, 255, 0.7);
     padding: 0.3rem 0;
     transition: all var(--transition-fast);
 }
@@ -1937,14 +1937,14 @@ a {
 }
 
 .footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.08);
+    border-top: 1px solid rgba(255,255,255,0.25);
     padding-top: 2rem;
     text-align: center;
 }
 
 .footer-bottom p {
     font-size: 0.8rem;
-    color: var(--blue-primary);
+    color: rgba(255, 255, 255, 0.6);
 }
 
 /* ==========================================
