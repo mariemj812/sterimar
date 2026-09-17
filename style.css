@@ -1850,8 +1850,16 @@ a {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: url('https://www.sterimar.com/fr/wp-content/uploads/sites/6/2023/02/230113-STERIMAR-REFONTE-SITE-INTERNET-MAQUETTE-PAGE-FAQ-V3_ARRIERE-PLAN.webp') no-repeat center bottom / cover;
-    opacity: 0.5;
+    background: url('footer-wave-bg.jpg') no-repeat center center / cover;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.footer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255, 255, 255, 0.75);
     z-index: -1;
     pointer-events: none;
 }
