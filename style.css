@@ -150,7 +150,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 90px;
+    height: 108px;
 }
 
 .nav-logo {
@@ -170,7 +170,7 @@ a {
 }
 
 .logo-svg, .logo-img {
-    height: 52px;
+    height: 68px;
     width: auto;
     object-fit: contain;
     max-width: 250px;
@@ -187,13 +187,13 @@ a {
 
 .logo-slogan {
     font-family: 'Lumios Marker', cursive;
-    font-size: 0.95rem;
+    font-size: 1.25rem;
     color: #003B7E;
     font-weight: normal;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.4px;
     margin-top: 1px;
     text-align: center;
-    line-height: 1;
+    line-height: 1.1;
     white-space: nowrap;
 }
 
@@ -406,7 +406,7 @@ a {
    HERO SECTION
    ========================================== */
 .hero-slider {
-    margin-top: 90px; /* Exact match with 90px fixed navbar */
+    margin-top: 108px; /* Exact match with 108px fixed navbar */
     width: 100%;
 }
 
@@ -2054,26 +2054,26 @@ a {
     }
 
     .nav-container {
-        height: 72px;
+        height: 82px;
         padding: 0 1rem;
     }
 
     .logo-svg, .logo-img {
-        height: 40px;
+        height: 48px;
     }
 
     .logo-slogan {
-        font-size: 0.75rem;
-        margin-top: 0;
+        font-size: 0.9rem;
+        margin-top: 1px;
     }
 
     .hero-slider {
-        margin-top: 72px;
+        margin-top: 82px;
     }
     
     .nav-links {
         position: fixed;
-        top: 72px;
+        top: 82px;
         left: 0;
         right: 0;
         background: white;
