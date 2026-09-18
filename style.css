@@ -150,7 +150,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 125px;
+    height: 200px;
 }
 
 .nav-logo {
@@ -167,7 +167,7 @@ a {
 }
 
 .logo-svg, .logo-img {
-    height: 108px; /* Taille optimale pour ne pas déformer la barre */
+    height: 216px;
     width: auto;
     object-fit: contain;
     max-width: 500px;
@@ -184,11 +184,11 @@ a {
 
 .logo-slogan {
     font-family: 'Lumios Marker', cursive;
-    font-size: 0.85rem;
+    font-size: 2.55rem;
     color: #003B7E;
     font-weight: normal;
     letter-spacing: 0.5px;
-    margin-top: -10px;
+    margin-top: -18px;
     text-align: center;
 }
 
