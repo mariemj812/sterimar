@@ -131,15 +131,15 @@ a {
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
     transition: all var(--transition-normal);
 }
 
 .navbar.scrolled {
-    background: rgba(255,255,255,0.95);
+    background: rgba(255,255,255,0.97);
     box-shadow: var(--shadow-md);
 }
 
@@ -150,16 +150,19 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 200px;
+    height: 90px;
 }
 
 .nav-logo {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
     text-decoration: none;
     color: var(--blue-primary);
     transition: transform var(--transition-fast);
+    flex-shrink: 0;
 }
 
 .nav-logo:hover {
@@ -167,10 +170,10 @@ a {
 }
 
 .logo-svg, .logo-img {
-    height: 216px;
+    height: 52px;
     width: auto;
     object-fit: contain;
-    max-width: 500px;
+    max-width: 250px;
 }
 
 .logo-tagline {
@@ -184,12 +187,14 @@ a {
 
 .logo-slogan {
     font-family: 'Lumios Marker', cursive;
-    font-size: 2.55rem;
+    font-size: 0.95rem;
     color: #003B7E;
     font-weight: normal;
-    letter-spacing: 0.5px;
-    margin-top: -18px;
+    letter-spacing: 0.3px;
+    margin-top: 1px;
     text-align: center;
+    line-height: 1;
+    white-space: nowrap;
 }
 
 .nav-links {
@@ -401,7 +406,7 @@ a {
    HERO SECTION
    ========================================== */
 .hero-slider {
-    margin-top: 125px; /* To account for the fixed navbar */
+    margin-top: 90px; /* Exact match with 90px fixed navbar */
     width: 100%;
 }
 
@@ -2046,6 +2051,24 @@ a {
 @media (max-width: 768px) {
     :root {
         --section-gap: 4rem;
+    }
+
+    .nav-container {
+        height: 72px;
+        padding: 0 1rem;
+    }
+
+    .logo-svg, .logo-img {
+        height: 40px;
+    }
+
+    .logo-slogan {
+        font-size: 0.75rem;
+        margin-top: 0;
+    }
+
+    .hero-slider {
+        margin-top: 72px;
     }
     
     .nav-links {
