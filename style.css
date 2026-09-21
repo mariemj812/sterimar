@@ -839,13 +839,17 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     background: linear-gradient(135deg, rgba(var(--product-color), 0.05), var(--gray-50));
     min-height: 250px;
     transition: all var(--transition-normal);
 }
 
 .product-image img {
+    display: block;
+    margin: 0 auto;
     max-height: 220px;
+    max-width: 100%;
     object-fit: contain;
     transition: transform var(--transition-normal);
 }
@@ -1006,13 +1010,17 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     min-height: 280px;
     background: var(--gray-50);
     overflow: hidden;
 }
 
 .product-card-image img {
+    display: block;
+    margin: 0 auto;
     max-height: 240px;
+    max-width: 100%;
     object-fit: contain;
     transition: transform var(--transition-normal);
 }
