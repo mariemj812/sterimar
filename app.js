@@ -181,7 +181,7 @@ function saveCart() {
 
 function updateCartCount() {
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    document.querySelectorAll('#cart-count').forEach(el => {
+    document.querySelectorAll('#cart-count, #mobile-cart-count, .cart-count').forEach(el => {
         el.textContent = totalItems;
         el.classList.add('bump');
         setTimeout(() => el.classList.remove('bump'), 400);
@@ -438,6 +438,27 @@ function initNavbar() {
     const navbar = document.getElementById('navbar');
     const navToggle = document.getElementById('nav-toggle');
     const navLinks = document.getElementById('nav-links');
+    const navPanier = document.getElementById('nav-panier');
+    
+    // Inject mobile direct cart button if not present
+    if (navToggle && navPanier && !document.getElementById('mobile-header-cart')) {
+        const mobileCart = document.createElement('a');
+        mobileCart.href = navPanier.getAttribute('href') || 'panier.html';
+        mobileCart.id = 'mobile-header-cart';
+        mobileCart.className = 'mobile-header-cart';
+        mobileCart.setAttribute('aria-label', 'Panier');
+        
+        const currentCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+        mobileCart.innerHTML = `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="21" r="1" />
+                <circle cx="20" cy="21" r="1" />
+                <path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+            </svg>
+            <span class="cart-count mobile-cart-badge" id="mobile-cart-count">${currentCount}</span>
+        `;
+        navToggle.parentNode.insertBefore(mobileCart, navToggle);
+    }
     
     // Scroll effect
     window.addEventListener('scroll', () => {
@@ -446,13 +467,15 @@ function initNavbar() {
         } else {
             navbar.classList.remove('scrolled');
         }
-    });
+    }, { passive: true });
     
     // Mobile toggle
     if (navToggle && navLinks) {
-        navToggle.addEventListener('click', () => {
-            navToggle.classList.toggle('active');
-            navLinks.classList.toggle('active');
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = navLinks.classList.toggle('active');
+            navToggle.classList.toggle('active', isOpen);
+            document.body.classList.toggle('menu-open', isOpen);
         });
         
         // Close on link click
@@ -460,7 +483,26 @@ function initNavbar() {
             link.addEventListener('click', () => {
                 navToggle.classList.remove('active');
                 navLinks.classList.remove('active');
+                document.body.classList.remove('menu-open');
             });
+        });
+
+        // Close when clicking outside navbar
+        document.addEventListener('click', (e) => {
+            if (navLinks.classList.contains('active') && !navbar.contains(e.target)) {
+                navToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+                navToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
         });
     }
 }
