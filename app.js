@@ -295,10 +295,10 @@ function renderCart() {
     const shippingProgressFill = document.getElementById('shipping-progress-fill');
     if (shippingTextEl && shippingProgressFill) {
         if (subtotal === 0) {
-            shippingTextEl.innerHTML = '<span>🚚 Livraison offerte dès <strong>100,00 DT</strong> d\'achat</span>';
+            shippingTextEl.innerHTML = '<span>🚚 Livraison gratuite dès <strong>100,00 DT</strong> d\'achat</span>';
             shippingProgressFill.style.width = '0%';
         } else if (subtotal >= freeShippingThreshold) {
-            shippingTextEl.innerHTML = '<span>🎉 <strong>Félicitations !</strong> Vous bénéficiez de la <strong>livraison offerte</strong> !</span>';
+            shippingTextEl.innerHTML = '<span>🎉 <strong>Félicitations !</strong> Vous bénéficiez de la <strong>livraison gratuite</strong> !</span>';
             shippingProgressFill.style.width = '100%';
             shippingProgressFill.style.background = '#79C142';
         } else {
