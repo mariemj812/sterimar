@@ -2912,7 +2912,7 @@ a {
    ========================================== */
 .banner-engagement {
     background-color: #81bfe7;
-    padding: 2.25rem 1rem 2.75rem;
+    padding: 2.5rem 1rem 3rem;
     position: relative;
     z-index: 5;
 }
@@ -2931,9 +2931,9 @@ a {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    max-width: 1050px;
+    max-width: 1200px;
     margin: 0 auto;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
 .banner-engagement .engagement-item {
@@ -2949,14 +2949,22 @@ a {
 }
 
 .banner-engagement .engagement-item img {
-    height: 80px;
+    height: 75px;
     width: auto;
     max-width: 100%;
     object-fit: contain;
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.04));
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
+    .banner-engagement .engagement-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 600px) {
     .banner-engagement {
         padding: 2rem 1rem;
     }
@@ -2965,75 +2973,12 @@ a {
         margin-bottom: 1.5rem;
     }
     .banner-engagement .engagement-grid {
-        flex-direction: column;
+        grid-template-columns: 1fr;
         gap: 1.75rem;
     }
     .banner-engagement .engagement-item img {
         height: 65px;
     }
-}
-
-/* ==========================================
-   REASSURANCE / FREE SHIPPING BAR
-   ========================================== */
-.reassurance-bar {
-    background: #f0f7fc;
-    border-bottom: 1px solid #ddecfa;
-    padding: 1rem 0;
-}
-
-.reassurance-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-}
-
-.reassurance-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.95rem;
-    color: var(--blue-primary);
-}
-
-.reassurance-item svg {
-    color: var(--blue-primary);
-    flex-shrink: 0;
-}
-
-.reassurance-item strong {
-    color: var(--gray-900);
-}
-
-@media (max-width: 768px) {
-    .reassurance-container {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.75rem;
-        padding: 0 1.5rem;
-    }
-}
-
-/* Boutique Delivery Pill */
-.shop-delivery-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    background: rgba(0, 184, 229, 0.1);
-    color: var(--blue-primary);
-    padding: 0.5rem 1.25rem;
-    border-radius: var(--radius-full);
-    font-size: 0.92rem;
-    font-weight: 600;
-    margin-top: 1rem;
-    border: 1px solid rgba(0, 184, 229, 0.25);
-}
-
-.shop-delivery-pill svg {
-    flex-shrink: 0;
-    color: var(--blue-primary);
 }
 
 /* Free Shipping Cart Progress */
