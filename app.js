@@ -278,7 +278,8 @@ function renderCart() {
     
     // Update summary
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const shipping = subtotal >= 50 ? 0 : 4.90;
+    const freeShippingThreshold = 100;
+    const shipping = subtotal === 0 ? 0 : (subtotal >= freeShippingThreshold ? 0 : 7.00);
     const total = subtotal + shipping;
     
     const subtotalEl = document.getElementById('subtotal');
@@ -286,8 +287,28 @@ function renderCart() {
     const totalEl = document.getElementById('total');
     
     if (subtotalEl) subtotalEl.textContent = `${subtotal.toFixed(2).replace('.', ',')} DT`;
-    if (shippingEl) shippingEl.textContent = shipping === 0 ? 'Gratuite' : `${shipping.toFixed(2).replace('.', ',')} DT`;
+    if (shippingEl) shippingEl.textContent = subtotal === 0 ? '0,00 DT' : (shipping === 0 ? 'Gratuite' : `${shipping.toFixed(2).replace('.', ',')} DT`);
     if (totalEl) totalEl.textContent = `${total.toFixed(2).replace('.', ',')} DT`;
+
+    // Free shipping dynamic progress bar
+    const shippingTextEl = document.getElementById('free-shipping-text');
+    const shippingProgressFill = document.getElementById('shipping-progress-fill');
+    if (shippingTextEl && shippingProgressFill) {
+        if (subtotal === 0) {
+            shippingTextEl.innerHTML = '<span>🚚 Livraison offerte dès <strong>100,00 DT</strong> d\'achat</span>';
+            shippingProgressFill.style.width = '0%';
+        } else if (subtotal >= freeShippingThreshold) {
+            shippingTextEl.innerHTML = '<span>🎉 <strong>Félicitations !</strong> Vous bénéficiez de la <strong>livraison offerte</strong> !</span>';
+            shippingProgressFill.style.width = '100%';
+            shippingProgressFill.style.background = '#79C142';
+        } else {
+            const diff = (freeShippingThreshold - subtotal).toFixed(2).replace('.', ',');
+            const percent = Math.min(100, Math.round((subtotal / freeShippingThreshold) * 100));
+            shippingTextEl.innerHTML = `<span>🚚 Plus que <strong>${diff} DT</strong> pour profiter de la <strong>livraison gratuite</strong> !</span>`;
+            shippingProgressFill.style.width = `${percent}%`;
+            shippingProgressFill.style.background = 'linear-gradient(90deg, #00B8E5, #0088cc)';
+        }
+    }
 }
 
 function checkout() {

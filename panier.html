@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="stylesheet" href="style.css?v=13">
     <link rel="icon" href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png" sizes="32x32">
 </head>
 <body>
@@ -74,6 +74,14 @@
                 <div class="cart-summary" id="cart-summary">
                     <div class="summary-card">
                         <h3>Récapitulatif</h3>
+                        <div class="free-shipping-bar-container" id="free-shipping-container">
+                            <div class="free-shipping-text" id="free-shipping-text">
+                                <span>🚚 Plus que <strong>100,00 DT</strong> pour la <strong>livraison gratuite</strong></span>
+                            </div>
+                            <div class="free-shipping-progress-bg">
+                                <div class="free-shipping-progress-fill" id="shipping-progress-fill" style="width: 0%;"></div>
+                            </div>
+                        </div>
                         <div class="summary-line">
                             <span>Sous-total</span>
                             <span id="subtotal">0,00 DT</span>
@@ -98,8 +106,8 @@
                                 Paiement sécurisé
                             </div>
                             <div class="summary-badge">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-                                Livraison gratuite dès 50 DT
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                                Livraison gratuite dès 100 DT
                             </div>
                             <div class="summary-badge">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
