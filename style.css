@@ -3321,17 +3321,7 @@ a {
     background-position: center;
     background-repeat: no-repeat;
     opacity: 1;
-    transition: background-image 0.4s ease-in-out, opacity 0.3s ease;
-    pointer-events: none;
-}
-
-.category-banner-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, rgba(5, 20, 35, 0.72) 0%, rgba(5, 20, 35, 0.42) 55%, rgba(5, 20, 35, 0.18) 100%);
+    transition: background-image 0.4s ease-in-out;
     pointer-events: none;
 }
 

@@ -459,11 +459,7 @@ function updateCategoryBanner(filterKey) {
     
     const fullImgUrl = getAssetUrl(data.image);
     if (bannerBg) {
-        bannerBg.style.opacity = '0.5';
-        setTimeout(() => {
-            bannerBg.style.backgroundImage = `url('${fullImgUrl}')`;
-            bannerBg.style.opacity = '1';
-        }, 100);
+        bannerBg.style.backgroundImage = `url('${fullImgUrl}')`;
     }
 }
 
