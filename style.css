@@ -1985,6 +1985,16 @@ a {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
+.footer-brand a {
+    display: inline-block;
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.footer-brand a:hover {
+    opacity: 0.92;
+    transform: scale(1.02);
+}
+
 .footer-brand p {
     font-size: 0.85rem;
     line-height: 1.6;

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contactez-nous — Stérimar™</title>
+    <meta name="description" content="Une question sur nos produits Stérimar™, votre commande ou un conseil santé ? Contactez notre équipe de spécialistes.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=16">
+    <link rel="icon" href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png" sizes="32x32">
+    <style>
+        .contact-section-wrap {
+            padding: 4rem 0 6rem;
+            background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 100%);
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        .contact-info-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .contact-card {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        .contact-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+        .contact-card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            color: #ffffff;
+            font-size: 1.5rem;
+        }
+        .contact-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+        .contact-card p {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+        .contact-card a.contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--blue-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        .contact-card a.contact-link:hover {
+            color: var(--blue-light);
+            text-decoration: underline;
+        }
+        .contact-form-card {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+        }
+        .contact-form-card h2 {
+            font-family: var(--font-display);
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+        .contact-form-card p.subtitle {
+            color: var(--gray-500);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 1.25rem;
+        }
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            font-size: 0.95rem;
+            font-family: inherit;
+            border: 1.5px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            background: var(--gray-50);
+            color: var(--gray-900);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--blue-primary);
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.12);
+        }
+        textarea.form-control {
+            min-height: 140px;
+            resize: vertical;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1.75rem;
+        }
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 0.25rem;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--blue-primary);
+            cursor: pointer;
+        }
+        .checkbox-group label {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            line-height: 1.5;
+            cursor: pointer;
+        }
+        .btn-submit-contact {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, #0077B6, #00B8E5);
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        .btn-submit-contact:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 119, 182, 0.35);
+        }
+        .faq-preview {
+            margin-top: 4rem;
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+        }
+        .faq-preview h3 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .faq-item {
+            padding: 1.25rem;
+            border-radius: var(--radius-md);
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+        }
+        .faq-item h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--blue-primary);
+            margin-bottom: 0.5rem;
+        }
+        .faq-item p {
+            font-size: 0.88rem;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 900px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" id="nav-logo">
+                <img src="logo.png" alt="Stérimar Logo" class="logo-img">
+                <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link" id="nav-home">Accueil</a>
+                <a href="boutique.html" class="nav-link" id="nav-boutique">Boutique</a>
+                <a href="blog.html" class="nav-link" id="nav-blog">Blog</a>
+                <a href="qui-sommes-nous.html" class="nav-link" id="nav-about">Qui sommes-nous</a>
+                <a href="panier.html" class="nav-link nav-cart" id="nav-panier">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                        <path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                    </svg>
+                    <span class="cart-count" id="cart-count">0</span>
+                    Panier
+                </a>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="shop-header" id="contact-header">
+        <div class="container">
+            <span class="section-tag">À votre écoute</span>
+            <h1 class="page-title">Contactez Stérimar™</h1>
+            <p class="page-subtitle">Notre équipe médicale et notre service client sont à votre entière disposition pour répondre à toutes vos questions.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="contact-section-wrap">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Info column -->
+                <div class="contact-info-col">
+                    <div class="contact-card">
+                        <div class="contact-card-icon" style="background: linear-gradient(135deg, #0077B6, #00B8E5);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        </div>
+                        <h3>Service Clientèle</h3>
+                        <p>Du lundi au vendredi : 8h30 – 18h00<br>Samedi : 9h00 – 13h00</p>
+                        <a href="tel:+21671000000" class="contact-link">
+                            <span>+216 71 000 000</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                        </a>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-card-icon" style="background: linear-gradient(135deg, #79C142, #4CAF50);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        </div>
+                        <h3>Écrivez-nous</h3>
+                        <p>Pour toute question sur vos commandes, réclamations ou informations pharmacie.</p>
+                        <a href="mailto:contact@sterimar.com" class="contact-link">
+                            <span>contact@sterimar.com</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                        </a>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-card-icon" style="background: linear-gradient(135deg, #F15B2B, #FE3200);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </div>
+                        <h3>Laboratoire & Siège</h3>
+                        <p>Laboratoires Fumouze — Church & Dwight<br>Puisage en Baie de Cancale (Bretagne, France)<br>Distribution & Service Pharma International</p>
+                        <span style="font-size: 0.85rem; color: var(--gray-500);">Certifié ISO 13485 & Dispositif Médical CE</span>
+                    </div>
+                </div>
+
+                <!-- Form column -->
+                <div class="contact-form-card">
+                    <h2>Envoyez-nous un message</h2>
+                    <p class="subtitle">Remplissez le formulaire ci-dessous, nous vous répondrons sous 24h ouvrées.</p>
+
+                    <form id="contact-form" onsubmit="handleContactSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contact-name">Nom et Prénom *</label>
+                                <input type="text" id="contact-name" class="form-control" placeholder="ex. Sarah Ben Salem" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">Adresse e-mail *</label>
+                                <input type="email" id="contact-email" class="form-control" placeholder="ex. sarah@exemple.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contact-phone">Numéro de téléphone</label>
+                                <input type="tel" id="contact-phone" class="form-control" placeholder="ex. +216 98 000 000">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-subject">Objet de votre demande *</label>
+                                <select id="contact-subject" class="form-control" required>
+                                    <option value="">Sélectionnez un sujet</option>
+                                    <option value="produit">Conseil sur un produit Stérimar</option>
+                                    <option value="commande">Suivi de commande / Livraison</option>
+                                    <option value="pharmacie">Pharmacie & Professionnel de santé</option>
+                                    <option value="reclamation">Service après-vente & Réclamation</option>
+                                    <option value="autre">Autre question</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-message">Votre message *</label>
+                            <textarea id="contact-message" class="form-control" placeholder="Décrivez votre besoin ou votre question en détail..." required></textarea>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="contact-consent" required>
+                            <label for="contact-consent">
+                                J'accepte que mes données soient traitées par Stérimar™ afin de répondre à ma demande conformément à la <a href="https://www.sterimar.com/fr/politique-de-confidentialite/" target="_blank" rel="noopener noreferrer" style="color: var(--blue-primary); text-decoration: underline;">politique de confidentialité</a>.
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn-submit-contact" id="btn-submit-contact">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                            <span>Envoyer mon message</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- FAQ Preview -->
+            <div class="faq-preview">
+                <h3>Questions Fréquentes</h3>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h4>🌊 Quelle est la fréquence d'utilisation de Stérimar ?</h4>
+                        <p>Pour l'hygiène quotidienne, 1 à 2 pulvérisations par narine 1 à 3 fois par jour suffisent. En cas de rhume ou d'allergie, reportez-vous aux conseils spécifiques de chaque spray.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>👶 À quel âge utiliser la gamme Bébé ?</h4>
+                        <p>Stérimar Hygiène du Nez Bébé s'utilise dès la naissance (0 à 3 ans) grâce à son embout de sécurité ergonomique breveté.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>🚚 Quels sont les délais de livraison ?</h4>
+                        <p>Les commandes sont préparées et expédiées sous 24h à 48h ouvrées. La livraison est gratuite à partir de 100,00 DT d'achat.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+            <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" aria-label="Stérimar Accueil">
+                        <img src="logo.png" alt="Stérimar Logo" class="footer-logo"
+                            style="height: 144px; margin-bottom: 1rem; cursor: pointer;">
+                    </a>
+                    <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/sterimarfrance" target="_blank" rel="noopener noreferrer" aria-label="Facebook" id="social-fb">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/sterimar_france" target="_blank" rel="noopener noreferrer" aria-label="Instagram" id="social-ig">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <a href="index.html">Accueil</a>
+                    <a href="boutique.html">Boutique</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="qui-sommes-nous.html">Qui sommes-nous</a>
+                    <a href="panier.html">Panier</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Nos Gammes</h4>
+                    <a href="boutique.html#hygiene">Gamme Hygiène</a>
+                    <a href="boutique.html#rhume">Gamme Rhume</a>
+                    <a href="boutique.html#allergie">Gamme Allergie</a>
+                    <a href="boutique.html#bebe">Gamme Bébé</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Informations</h4>
+                    <a href="https://www.sterimar.com/fr/mentions-legales/" target="_blank" rel="noopener noreferrer">Mentions légales</a>
+                    <a href="https://www.sterimar.com/fr/politique-de-confidentialite/" target="_blank" rel="noopener noreferrer">Politique de confidentialité</a>
+                    <a href="https://www.sterimar.com/fr/mentions-legales/" target="_blank" rel="noopener noreferrer">Conditions générales</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Stérimar™ — Tous droits réservés. Dispositif médical.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js?v=4"></script>
+    <script>
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-contact');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<span>Envoi en cours...</span>';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                showToast('Votre message a bien été envoyé ! Nous vous répondrons sous 24-48h.');
+                document.getElementById('contact-form').reset();
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+            }, 800);
+        }
+    </script>
+</body>
+</html>

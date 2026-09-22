@@ -374,6 +374,22 @@ function closeModal() {
 // ==========================================
 // FILTER PRODUCTS
 // ==========================================
+function handleHashFilter() {
+    const hash = window.location.hash.replace('#', '');
+    if (hash) {
+        const targetBtn = document.querySelector(`.filter-btn[data-filter="${hash}"]`);
+        if (targetBtn) {
+            targetBtn.click();
+            const filterBar = document.getElementById('filter-bar') || document.getElementById('shop-products');
+            if (filterBar) {
+                setTimeout(() => {
+                    filterBar.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            }
+        }
+    }
+}
+
 function initFilters() {
     const filterBtns = document.querySelectorAll('.filter-btn');
     const productCards = document.querySelectorAll('.product-card-full');
@@ -400,12 +416,11 @@ function initFilters() {
         });
     });
     
-    // Check for hash filters
-    const hash = window.location.hash.replace('#', '');
-    if (hash) {
-        const targetBtn = document.querySelector(`.filter-btn[data-filter="${hash}"]`);
-        if (targetBtn) targetBtn.click();
-    }
+    // Check for hash filters on initial load
+    handleHashFilter();
+    
+    // Listen for hashchange (e.g. clicking category links in footer or navigation)
+    window.addEventListener('hashchange', handleHashFilter);
 }
 
 // ==========================================
