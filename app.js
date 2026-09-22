@@ -373,45 +373,45 @@ const categoryBannerData = {
         title: "Toutes Nos Solutions",
         subtitle: "7 solutions naturelles à base d'eau de mer 100% naturelle de la Baie de Cancale pour toute la famille.",
         badge: "Gamme Complète • Physiologique & Hypertonique",
-        image: "cat-banner-all.jpg",
+        image: "cat-banner-all.jpg?v=20260922b",
         themeColor: "#0077B6",
-        bgImage: "url('cat-banner-all.jpg')"
+        bgImage: "url('cat-banner-all.jpg?v=20260922b')"
     },
     hygiene: {
         tag: "Hygiène & Prévention Quotidienne",
         title: "Gamme Hygiène du Nez",
         subtitle: "Lavez, hydratez et protégez vos fosses nasales tous les jours. Enrichi en oligo-éléments marins.",
         badge: "Physiologique • Dès la naissance & Adulte",
-        image: "cat-banner-hygiene.jpg",
+        image: "cat-banner-hygiene.jpg?v=20260922b",
         themeColor: "#00B8E5",
-        bgImage: "url('cat-banner-hygiene.jpg')"
+        bgImage: "url('cat-banner-hygiene.jpg?v=20260922b')"
     },
     rhume: {
         tag: "Décongestion & Prévention Hivernale",
         title: "Gamme Rhume & Nez Bouché",
         subtitle: "Débouchez jusqu'à 6h et stoppez les symptômes du rhume grâce aux formules enrichies en Cuivre & Soufre.",
         badge: "Décongestion 6h • Cuivre & Soufre",
-        image: "cat-banner-rhume.jpg",
+        image: "cat-banner-rhume.jpg?v=20260922b",
         themeColor: "#E05326",
-        bgImage: "url('cat-banner-rhume.jpg')"
+        bgImage: "url('cat-banner-rhume.jpg?v=20260922b')"
     },
     allergie: {
         tag: "Protection Anti-Allergique Naturelle",
         title: "Gamme Nez Allergique",
         subtitle: "Élimine pollens, acariens et poils d'animaux. Formule enrichie en Manganèse protecteur et anti-allergique.",
         badge: "Protection Naturelle • Manganèse",
-        image: "cat-banner-allergie.jpg",
+        image: "cat-banner-allergie.jpg?v=20260922b",
         themeColor: "#4E9B28",
-        bgImage: "url('cat-banner-allergie.jpg')"
+        bgImage: "url('cat-banner-allergie.jpg?v=20260922b')"
     },
     bebe: {
         tag: "Douceur & Sécurité Nouveau-Né",
         title: "Gamme Stérimar™ Bébé",
         subtitle: "Spécialement formulé pour les tout-petits de 0 à 3 ans avec son embout sécurité pédiatrique breveté.",
         badge: "Dès la naissance • Embout sécurité pédiatrique",
-        image: "cat-banner-bebe.jpg",
+        image: "cat-banner-bebe.jpg?v=20260922b",
         themeColor: "#3594D2",
-        bgImage: "url('cat-banner-bebe.jpg')"
+        bgImage: "url('cat-banner-bebe.jpg?v=20260922b')"
     }
 };
 
