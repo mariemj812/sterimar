@@ -3303,10 +3303,10 @@ a {
     position: relative;
     overflow: hidden;
     margin-top: 76px; /* Completely avoids fixed navbar overlap */
-    min-height: clamp(440px, 36vw, 560px);
+    min-height: 380px;
     display: flex;
     align-items: center;
-    padding: 4.5rem 0;
+    padding: 3.5rem 0;
     color: #ffffff;
     background-color: #003049;
 }
@@ -3332,7 +3332,7 @@ a {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(90deg, rgba(0, 15, 30, 0.60) 0%, rgba(0, 15, 30, 0.30) 45%, rgba(0, 15, 30, 0.05) 75%, transparent 100%);
+    background: linear-gradient(90deg, rgba(0, 15, 30, 0.75) 0%, rgba(0, 15, 30, 0.50) 35%, rgba(0, 15, 30, 0.12) 65%, transparent 100%);
     pointer-events: none;
     z-index: 1;
 }
@@ -3344,62 +3344,69 @@ a {
     align-items: center;
     justify-content: flex-start;
     width: 100%;
+    padding-left: 2rem;
 }
 
 .category-banner-content {
-    max-width: 560px;
+    max-width: 480px;
     background: transparent;
     border: none;
     box-shadow: none;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
     animation: fadeIn 0.4s ease forwards;
 }
 
 .category-banner-content .section-tag {
-    background: rgba(0, 20, 40, 0.65);
+    background: rgba(0, 25, 45, 0.75);
     color: #ffffff;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.35);
     display: inline-block;
-    padding: 0.4rem 1.1rem;
+    padding: 0.4rem 1.2rem;
     border-radius: 50px;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    margin-bottom: 0.85rem;
+    margin-bottom: 0.2rem;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
 }
 
 .category-banner-content .page-title {
     color: #ffffff;
-    font-size: clamp(2.2rem, 4.8vw, 3.2rem);
-    font-weight: 800;
-    line-height: 1.15;
-    margin-bottom: 0.85rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 4px 16px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 0, 0, 0.6);
+    font-size: clamp(2.2rem, 4vw, 3rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 0;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.9);
 }
 
 .category-banner-content .page-subtitle {
-    color: #ffffff;
-    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.05rem;
     font-weight: 500;
-    line-height: 1.6;
-    margin-bottom: 1.35rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 3px 12px rgba(0, 0, 0, 0.8);
+    line-height: 1.5;
+    max-width: 440px;
+    margin: 0.2rem 0 0.4rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .category-banner-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(0, 20, 40, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    padding: 0.5rem 1.25rem;
+    background: rgba(0, 25, 45, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    padding: 0.45rem 1.2rem;
     border-radius: 50px;
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     font-weight: 600;
     color: #ffffff;
     backdrop-filter: blur(8px);
@@ -3419,13 +3426,13 @@ a {
 
 @media (max-width: 992px) {
     .category-banner-section {
-        min-height: 400px;
+        min-height: 360px;
     }
-    .category-banner-bg {
-        background-position: 70% center;
+    .category-banner-container {
+        padding-left: 1rem;
     }
     .category-banner-content {
-        max-width: 480px;
+        max-width: 440px;
     }
 }
 
@@ -3433,17 +3440,18 @@ a {
     .category-banner-section {
         margin-top: 68px;
         min-height: 340px;
-        padding: 3rem 0;
+        padding: 2.5rem 1rem;
     }
     .category-banner-bg {
         background-position: center center;
     }
     .category-banner-section::before {
-        background: linear-gradient(180deg, rgba(0, 15, 30, 0.70) 0%, rgba(0, 15, 30, 0.45) 100%);
+        background: linear-gradient(180deg, rgba(0, 15, 30, 0.75) 0%, rgba(0, 15, 30, 0.50) 100%);
     }
     .category-banner-container {
         text-align: center;
         justify-content: center;
+        padding-left: 0;
     }
     .category-banner-content {
         max-width: 100%;
