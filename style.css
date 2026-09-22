@@ -3303,10 +3303,10 @@ a {
     position: relative;
     overflow: hidden;
     margin-top: 76px; /* Completely avoids fixed navbar overlap */
-    min-height: 380px;
+    min-height: clamp(440px, 36vw, 560px);
     display: flex;
     align-items: center;
-    padding: 5rem 0;
+    padding: 4.5rem 0;
     color: #ffffff;
     background-color: #003049;
 }
@@ -3318,7 +3318,7 @@ a {
     right: 0;
     bottom: 0;
     background-size: cover;
-    background-position: center top;
+    background-position: right center;
     background-repeat: no-repeat;
     opacity: 1;
     transition: background-image 0.4s ease-in-out;
@@ -3332,7 +3332,7 @@ a {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(90deg, rgba(0, 15, 30, 0.65) 0%, rgba(0, 15, 30, 0.35) 45%, rgba(0, 15, 30, 0.05) 75%, transparent 100%);
+    background: linear-gradient(90deg, rgba(0, 15, 30, 0.60) 0%, rgba(0, 15, 30, 0.30) 45%, rgba(0, 15, 30, 0.05) 75%, transparent 100%);
     pointer-events: none;
     z-index: 1;
 }
@@ -3343,10 +3343,11 @@ a {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    width: 100%;
 }
 
 .category-banner-content {
-    max-width: 580px;
+    max-width: 560px;
     background: transparent;
     border: none;
     box-shadow: none;
@@ -3416,14 +3417,29 @@ a {
     animation: pulseGlow 2s infinite;
 }
 
+@media (max-width: 992px) {
+    .category-banner-section {
+        min-height: 400px;
+    }
+    .category-banner-bg {
+        background-position: 70% center;
+    }
+    .category-banner-content {
+        max-width: 480px;
+    }
+}
+
 @media (max-width: 768px) {
     .category-banner-section {
         margin-top: 68px;
-        min-height: 260px;
+        min-height: 340px;
         padding: 3rem 0;
     }
+    .category-banner-bg {
+        background-position: center center;
+    }
     .category-banner-section::before {
-        background: linear-gradient(180deg, rgba(0, 15, 30, 0.65) 0%, rgba(0, 15, 30, 0.4) 100%);
+        background: linear-gradient(180deg, rgba(0, 15, 30, 0.70) 0%, rgba(0, 15, 30, 0.45) 100%);
     }
     .category-banner-container {
         text-align: center;
