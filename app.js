@@ -407,7 +407,7 @@ const categoryBannerData = {
         title: "Toutes Nos Solutions",
         subtitle: "7 solutions naturelles à base d'eau de mer 100% naturelle de la Baie de Cancale pour toute la famille.",
         badge: "Gamme Complète • Physiologique & Hypertonique",
-        image: "cat-banner-all.jpg?v=20260922e",
+        image: "cat-banner-all.jpg?v=20260922f",
         themeColor: "#0077B6"
     },
     hygiene: {
@@ -415,7 +415,7 @@ const categoryBannerData = {
         title: "Gamme Hygiène du Nez",
         subtitle: "Lavez, hydratez et protégez vos fosses nasales tous les jours. Enrichi en oligo-éléments marins.",
         badge: "Physiologique • Dès la naissance & Adulte",
-        image: "cat-banner-hygiene.jpg?v=20260922e",
+        image: "cat-banner-hygiene.jpg?v=20260922f",
         themeColor: "#00B8E5"
     },
     rhume: {
@@ -423,7 +423,7 @@ const categoryBannerData = {
         title: "Gamme Rhume & Nez Bouché",
         subtitle: "Débouchez jusqu'à 6h et stoppez les symptômes du rhume grâce aux formules enrichies en Cuivre & Soufre.",
         badge: "Décongestion 6h • Cuivre & Soufre",
-        image: "cat-banner-rhume.jpg?v=20260922e",
+        image: "cat-banner-rhume.jpg?v=20260922f",
         themeColor: "#E05326"
     },
     allergie: {
@@ -431,7 +431,7 @@ const categoryBannerData = {
         title: "Gamme Nez Allergique",
         subtitle: "Élimine pollens, acariens et poils d'animaux. Formule enrichie en Manganèse protecteur et anti-allergique.",
         badge: "Protection Naturelle • Manganèse",
-        image: "cat-banner-allergie.jpg?v=20260922e",
+        image: "cat-banner-allergie.jpg?v=20260922f",
         themeColor: "#4E9B28"
     },
     bebe: {
@@ -439,7 +439,7 @@ const categoryBannerData = {
         title: "Gamme Stérimar™ Bébé",
         subtitle: "Spécialement formulé pour les tout-petits de 0 à 3 ans avec son embout sécurité pédiatrique breveté.",
         badge: "Dès la naissance • Embout sécurité pédiatrique",
-        image: "cat-banner-bebe.jpg?v=20260922e",
+        image: "cat-banner-bebe.jpg?v=20260922f",
         themeColor: "#3594D2"
     }
 };
