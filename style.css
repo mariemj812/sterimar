@@ -3302,12 +3302,12 @@ a {
 .category-banner-section {
     position: relative;
     overflow: hidden;
-    min-height: 280px;
+    min-height: 290px;
     display: flex;
     align-items: center;
     padding: 3.5rem 0;
     color: #ffffff;
-    background: var(--gradient-ocean);
+    background: linear-gradient(135deg, #0077B6 0%, #004B75 100%);
     transition: background 0.5s ease;
 }
 
@@ -3319,9 +3319,9 @@ a {
     bottom: 0;
     background-size: cover;
     background-position: center;
-    opacity: 0.25;
+    opacity: 0.20;
     mix-blend-mode: overlay;
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
     pointer-events: none;
 }
 
@@ -3331,11 +3331,11 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
+    gap: 2.5rem;
 }
 
 .category-banner-content {
-    flex: 1;
+    flex: 1.2;
     max-width: 620px;
     animation: fadeIn 0.4s ease forwards;
 }
@@ -3374,14 +3374,14 @@ a {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.22);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 0.4rem 1rem;
+    padding: 0.45rem 1.1rem;
     border-radius: 50px;
     font-size: 0.85rem;
     font-weight: 600;
     color: #ffffff;
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(8px);
 }
 
 .category-banner-badge .badge-dot {
@@ -3399,25 +3399,31 @@ a {
 }
 
 .category-banner-visual {
-    flex-shrink: 0;
-    width: 220px;
-    height: 220px;
+    flex: 0.8;
+    max-width: 360px;
+    height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+    border: 3px solid rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
 }
 
 .cat-banner-main-img {
-    max-height: 210px;
-    max-width: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.25));
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease, opacity 0.3s ease;
 }
 
 .category-banner-visual:hover .cat-banner-main-img {
-    transform: scale(1.06) rotate(-2deg);
+    transform: scale(1.05);
 }
 
 @media (max-width: 768px) {
@@ -3433,11 +3439,9 @@ a {
         margin: 0 auto;
     }
     .category-banner-visual {
-        width: 160px;
-        height: 160px;
-    }
-    .cat-banner-main-img {
-        max-height: 150px;
+        width: 100%;
+        max-width: 300px;
+        height: 170px;
     }
 }
 
