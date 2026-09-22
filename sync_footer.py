@@ -45,9 +45,9 @@ STANDARD_FOOTER = """    <!-- Footer -->
                 </div>
                 <div class="footer-links">
                     <h4>Informations</h4>
-                    <a href="https://www.sterimar.com/fr/mentions-legales/" target="_blank" rel="noopener noreferrer">Mentions légales</a>
-                    <a href="https://www.sterimar.com/fr/politique-de-confidentialite/" target="_blank" rel="noopener noreferrer">Politique de confidentialité</a>
-                    <a href="https://www.sterimar.com/fr/mentions-legales/" target="_blank" rel="noopener noreferrer">Conditions générales</a>
+                    <a href="mentions-legales.html">Mentions légales</a>
+                    <a href="politique-confidentialite.html">Politique de confidentialité</a>
+                    <a href="conditions-generales.html">Conditions générales</a>
                     <a href="contact.html">Contact</a>
                 </div>
             </div>
