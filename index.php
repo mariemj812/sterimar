@@ -232,8 +232,8 @@ if ( $is_native_wp ) {
     </section>
 
     <!-- Main Native Content -->
-    <main style="min-height: 60vh; padding: 3.5rem 1rem 5rem; background: #F8FAFC;">
-        <div class="container" style="max-width: 1050px; margin: 0 auto; background: #ffffff; padding: 2.5rem; border-radius: var(--radius-lg, 16px); box-shadow: var(--shadow-md, 0 10px 25px rgba(0,0,0,0.06)); border: 1px solid var(--gray-200, #E2E8F0);">
+    <main class="wc-main-wrapper">
+        <div class="container wc-main-container">
             <?php
             if ( have_posts() ) {
                 while ( have_posts() ) {
