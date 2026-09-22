@@ -311,8 +311,35 @@ function renderCart() {
     }
 }
 
-function checkout() {
+async function checkout() {
     if (cart.length === 0) return;
+    
+    const checkoutBtn = document.getElementById('checkout-btn');
+    if (checkoutBtn) {
+        checkoutBtn.disabled = true;
+        checkoutBtn.innerHTML = `<span>Synchronisation en cours...</span>`;
+    }
+    
+    try {
+        const formData = new FormData();
+        formData.append('sterimar_wc_checkout', '1');
+        formData.append('cart', JSON.stringify(cart));
+        
+        const response = await fetch(window.location.pathname.includes('.html') ? 'index.php' : window.location.href, {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.woocommerce && data.checkout_url) {
+                window.location.href = data.checkout_url;
+                return;
+            }
+        }
+    } catch (err) {
+        console.warn('WooCommerce sync note:', err);
+    }
     
     const checkoutModal = document.getElementById('checkout-modal');
     if (checkoutModal) {
@@ -321,53 +348,92 @@ function checkout() {
         saveCart();
         renderCart();
     }
+    
+    if (checkoutBtn) {
+        checkoutBtn.disabled = false;
+        checkoutBtn.innerHTML = `Passer la commande <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12h14m-7-7 7 7-7 7"/></svg>`;
+    }
 }
 
 // ==========================================
-// PRODUCT MODAL
+// CATEGORY BANNER DATA & MANAGEMENT
 // ==========================================
-function openModal(productId) {
-    const product = products[productId];
-    const modal = document.getElementById('product-modal');
-    
-    if (!modal || !product) return;
-    
-    document.getElementById('modal-img').src = product.image;
-    document.getElementById('modal-img').alt = product.name;
-    document.getElementById('modal-category').textContent = product.categoryLabel;
-    document.getElementById('modal-category').style.background = product.categoryColor;
-    document.getElementById('modal-title').textContent = product.name;
-    document.getElementById('modal-description').textContent = product.description;
-    document.getElementById('modal-price').textContent = `${product.price.toFixed(2).replace('.', ',')} DT`;
-    
-    // Badges
-    const badgesEl = document.getElementById('modal-badges');
-    badgesEl.innerHTML = `
-        <span class="detail-chip">🧪 ${product.molecule}</span>
-        <span class="detail-chip">📋 ${product.type}</span>
-        <span class="detail-chip">👤 ${product.audience}</span>
-        <span class="detail-chip">📦 ${product.volume}</span>
-    `;
-    
-    // Features
-    const featuresList = document.getElementById('modal-features-list');
-    featuresList.innerHTML = product.features.map(f => `<li>${f}</li>`).join('');
-    
-    // Usage
-    document.getElementById('modal-usage-text').textContent = product.usage;
-    
-    // Add to cart button
-    document.getElementById('modal-add-btn').setAttribute('onclick', `addToCart(${productId}); closeModal();`);
-    
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
+const categoryBannerData = {
+    all: {
+        tag: "Collection Complète Stérimar™",
+        title: "Toutes Nos Solutions",
+        subtitle: "7 solutions naturelles à base d'eau de mer 100% naturelle de la Baie de Cancale pour toute la famille.",
+        badge: "Gamme Complète • Physiologique & Hypertonique",
+        image: "hygiene-adulte.png",
+        themeColor: "#0077B6",
+        bgImage: "url('dolphin_ocean.jpg')"
+    },
+    hygiene: {
+        tag: "Hygiène & Prévention Quotidienne",
+        title: "Gamme Hygiène du Nez",
+        subtitle: "Lavez, hydratez et protégez vos fosses nasales tous les jours. Enrichi en oligo-éléments marins.",
+        badge: "Physiologique • Dès la naissance & Adulte",
+        image: "hygiene-adulte.png",
+        themeColor: "#00B8E5",
+        bgImage: "url('dolphin_ocean.jpg')"
+    },
+    rhume: {
+        tag: "Décongestion & Prévention Hivernale",
+        title: "Gamme Rhume & Nez Bouché",
+        subtitle: "Débouchez jusqu'à 6h et stoppez les symptômes du rhume grâce aux formules enrichies en Cuivre & Soufre.",
+        badge: "Décongestion 6h • Cuivre & Soufre",
+        image: "couv.jpg",
+        themeColor: "#F15B2B",
+        bgImage: "url('couv.jpg')"
+    },
+    allergie: {
+        tag: "Protection Anti-Allergique Naturelle",
+        title: "Gamme Nez Allergique",
+        subtitle: "Élimine pollens, acariens et poils d'animaux. Formule enrichie en Manganèse protecteur et anti-allergique.",
+        badge: "Élu Meilleur Produit Pharma • Manganèse",
+        image: "allergie.png",
+        themeColor: "#79C142",
+        bgImage: "url('dolphin_ocean.jpg')"
+    },
+    bebe: {
+        tag: "Douceur & Sécurité Nouveau-Né",
+        title: "Gamme Stérimar™ Bébé",
+        subtitle: "Spécialement formulé pour les tout-petits de 0 à 3 ans avec son embout sécurité pédiatrique breveté.",
+        badge: "Dès la naissance • Embout sécurité doux",
+        image: "banner-bebe-desktop.jpg",
+        themeColor: "#59AEE1",
+        bgImage: "url('banner-bebe-desktop.jpg')"
+    }
+};
 
-function closeModal() {
-    const modal = document.getElementById('product-modal');
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
+function updateCategoryBanner(filterKey) {
+    const data = categoryBannerData[filterKey] || categoryBannerData.all;
+    const tagEl = document.getElementById('cat-banner-tag');
+    const titleEl = document.getElementById('cat-banner-title');
+    const subtitleEl = document.getElementById('cat-banner-subtitle');
+    const badgeTextEl = document.getElementById('cat-banner-badge-text');
+    const imgEl = document.getElementById('cat-banner-img');
+    const bannerSec = document.getElementById('shop-header');
+    const bannerBg = document.getElementById('cat-banner-bg');
+
+    if (tagEl) tagEl.textContent = data.tag;
+    if (titleEl) titleEl.textContent = data.title;
+    if (subtitleEl) subtitleEl.textContent = data.subtitle;
+    if (badgeTextEl) badgeTextEl.textContent = data.badge;
+    if (imgEl) {
+        imgEl.style.opacity = '0';
+        imgEl.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            imgEl.src = data.image;
+            imgEl.style.opacity = '1';
+            imgEl.style.transform = 'scale(1)';
+        }, 150);
+    }
+    if (bannerBg && data.bgImage) {
+        bannerBg.style.backgroundImage = data.bgImage;
+    }
+    if (bannerSec && data.themeColor) {
+        bannerSec.style.background = `linear-gradient(135deg, ${data.themeColor} 0%, #0077B6 100%)`;
     }
 }
 
@@ -387,6 +453,8 @@ function handleHashFilter() {
                 }, 100);
             }
         }
+    } else {
+        updateCategoryBanner('all');
     }
 }
 
@@ -403,6 +471,9 @@ function initFilters() {
             // Update active state
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            
+            // Update category banner
+            updateCategoryBanner(filter);
             
             // Filter products with animation
             productCards.forEach(card => {
@@ -621,6 +692,223 @@ function initSwiper() {
 }
 
 // ==========================================
+// STÉRIMAR™ AI HEALTH & PRODUCT ASSISTANT
+// ==========================================
+function initAIAssistant() {
+    if (document.getElementById('sterimar-ai-launcher')) return;
+
+    const launcher = document.createElement('div');
+    launcher.id = 'sterimar-ai-launcher';
+    launcher.className = 'sterimar-ai-launcher';
+    launcher.innerHTML = `
+        <div class="ai-launcher-badge" id="ai-launcher-badge">
+            <span>💬 Conseiller Stérimar IA</span>
+        </div>
+        <button class="ai-launcher-btn" id="ai-launcher-btn" aria-label="Ouvrir le Conseiller IA">
+            <span class="ai-pulse"></span>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2a8 8 0 0 0-8 8c0 2.4 1 4.5 2.7 6l-.7 4 4.3-1.4A7.9 7.9 0 0 0 12 18a8 8 0 0 0 8-8 8 8 0 0 0-8-8z"/>
+                <path d="M8 10h.01M12 10h.01M16 10h.01"/>
+            </svg>
+        </button>
+    `;
+
+    const modal = document.createElement('div');
+    modal.id = 'sterimar-ai-modal';
+    modal.className = 'sterimar-ai-modal';
+    modal.innerHTML = `
+        <div class="ai-header">
+            <div class="ai-header-info">
+                <div class="ai-avatar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                        <line x1="9" y1="9" x2="9.01" y2="9"/>
+                        <line x1="15" y1="9" x2="15.01" y2="9"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="ai-header-title">Conseiller Stérimar™ IA</div>
+                    <div class="ai-header-status"><span class="ai-status-dot"></span> En ligne • Expert ORL & Soins</div>
+                </div>
+            </div>
+            <div class="ai-header-actions">
+                <button class="ai-header-btn" id="ai-reset-btn" title="Réinitialiser la conversation">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+                </button>
+                <button class="ai-header-btn" id="ai-close-btn" title="Fermer">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="ai-messages" id="ai-messages">
+            <div class="ai-msg bot">
+                👋 <strong>Bonjour !</strong> Je suis votre conseiller Stérimar™ IA. Décrivez-moi vos symptômes ou vos besoins pour que je vous recommande le spray nasal le plus adapté.
+            </div>
+        </div>
+        <div class="ai-quick-prompts">
+            <button class="ai-prompt-chip" data-prompt="Quel produit pour un nez bouché ?">🤧 Nez bouché</button>
+            <button class="ai-prompt-chip" data-prompt="Quel spray choisir pour mon bébé ?">👶 Soin Bébé</button>
+            <button class="ai-prompt-chip" data-prompt="J'ai une allergie au pollen">🌸 Allergies</button>
+            <button class="ai-prompt-chip" data-prompt="Comment bien utiliser Stérimar ?">💡 Posologie</button>
+        </div>
+        <form class="ai-input-form" id="ai-input-form">
+            <input type="text" class="ai-input-field" id="ai-input-text" placeholder="Posez votre question santé du nez..." autocomplete="off">
+            <button type="submit" class="ai-send-btn" aria-label="Envoyer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+        </form>
+    `;
+
+    document.body.appendChild(launcher);
+    document.body.appendChild(modal);
+
+    const openChat = () => {
+        modal.classList.add('active');
+        const badge = document.getElementById('ai-launcher-badge');
+        if (badge) badge.style.display = 'none';
+        const input = document.getElementById('ai-input-text');
+        if (input) input.focus();
+    };
+
+    const closeChat = () => {
+        modal.classList.remove('active');
+    };
+
+    document.getElementById('ai-launcher-btn').addEventListener('click', () => {
+        if (modal.classList.contains('active')) {
+            closeChat();
+        } else {
+            openChat();
+        }
+    });
+
+    const launcherBadge = document.getElementById('ai-launcher-badge');
+    if (launcherBadge) launcherBadge.addEventListener('click', openChat);
+    
+    document.getElementById('ai-close-btn').addEventListener('click', closeChat);
+
+    document.getElementById('ai-reset-btn').addEventListener('click', () => {
+        const msgs = document.getElementById('ai-messages');
+        msgs.innerHTML = `
+            <div class="ai-msg bot">
+                👋 <strong>Bonjour !</strong> Je suis votre conseiller Stérimar™ IA. Décrivez-moi vos symptômes ou vos besoins pour que je vous recommande le spray nasal le plus adapté.
+            </div>
+        `;
+    });
+
+    document.querySelectorAll('.ai-prompt-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            const prompt = chip.dataset.prompt;
+            handleUserMessage(prompt);
+        });
+    });
+
+    document.getElementById('ai-input-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = document.getElementById('ai-input-text');
+        const text = input.value.trim();
+        if (text) {
+            handleUserMessage(text);
+            input.value = '';
+        }
+    });
+}
+
+function handleUserMessage(userText) {
+    const msgs = document.getElementById('ai-messages');
+    if (!msgs) return;
+
+    // Append user message
+    const userMsgEl = document.createElement('div');
+    userMsgEl.className = 'ai-msg user';
+    userMsgEl.textContent = userText;
+    msgs.appendChild(userMsgEl);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    // Typing indicator
+    const typingEl = document.createElement('div');
+    typingEl.className = 'ai-msg bot';
+    typingEl.id = 'ai-typing-indicator';
+    typingEl.innerHTML = '<em>Le Conseiller Stérimar réfléchit... 🌊</em>';
+    msgs.appendChild(typingEl);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    setTimeout(() => {
+        const activeTyping = document.getElementById('ai-typing-indicator');
+        if (activeTyping) activeTyping.remove();
+        generateAIResponse(userText);
+    }, 500);
+}
+
+function generateAIResponse(query) {
+    const q = query.toLowerCase();
+    const msgs = document.getElementById('ai-messages');
+    let responseText = "";
+    let recommendedProductId = null;
+
+    if (q.includes('bébé') || q.includes('bebe') || q.includes('nourrisson') || q.includes('enfant') || q.includes('naissance')) {
+        if (q.includes('bouché') || q.includes('bouche') || q.includes('enrhumé') || q.includes('rhume') || q.includes('congestion')) {
+            responseText = "Pour un bébé au nez bouché ou encombré dès 3 mois, nous vous recommandons <strong>Stérimar™ Nez Bouché Bébé</strong>. Enrichi en cuivre, il décongestionne en douceur avec un embout de sécurité ergonomique.";
+            recommendedProductId = 5;
+        } else {
+            responseText = "Pour le lavage quotidien et la prévention chez les tout-petits dès la naissance, nous vous recommandons <strong>Stérimar™ Hygiène du Nez Bébé</strong> avec embout sécurité exclusif.";
+            recommendedProductId = 4;
+        }
+    } else if (q.includes('allergie') || q.includes('pollen') || q.includes('acarien') || q.includes('éternu') || q.includes('rhinite')) {
+        responseText = "Pour soulager les allergies nasales (pollens, poussières, poils d'animaux), le produit idéal est <strong>Stérimar™ Nez Allergique</strong>, enrichi en Manganèse protecteur (Élu Meilleur Produit Pharma).";
+        recommendedProductId = 3;
+    } else if (q.includes('bouché') || q.includes('bouche') || q.includes('débouch') || q.includes('sinusite') || q.includes('forte congestion')) {
+        responseText = "En cas de forte congestion nasale, optez pour <strong>Stérimar™ Nez Bouché (Hypertonique)</strong>. Enrichi en Cuivre, il débouche le nez jusqu'à 6 heures par action osmotique naturelle sans accoutumance.";
+        recommendedProductId = 2;
+    } else if (q.includes('rhume') || q.includes('froid') || q.includes('hiver') || q.includes('prévenir') || q.includes('gorge')) {
+        if (q.includes('stop') || q.includes('dès les premiers')) {
+            responseText = "Pour stopper le rhume dès les premiers frissons, découvrez <strong>Stérimar™ Stop & Protect Rhume</strong> avec son action barrière protectrice.";
+            recommendedProductId = 6;
+        } else {
+            responseText = "Pour renforcer vos défenses nasales face aux agressions hivernales, utilisez <strong>Stérimar™ Nez sujet aux Rhumes</strong>, enrichi en Soufre naturel.";
+            recommendedProductId = 1;
+        }
+    } else if (q.includes('posologie') || q.includes('comment utiliser') || q.includes('mode d\'emploi') || q.includes('utilisation')) {
+        responseText = "<strong>Conseil d'utilisation Stérimar™ :</strong><br>• En hygiène quotidienne : 1 à 2 pulvérisations par narine, 1 à 3 fois par jour.<br>• En décongestion (Nez Bouché) : 1 à 2 pulvérisations, 2 à 3 fois par jour pendant 5 jours max.<br>• Inclinez la tête sur le côté, insérez délicatement l'embout et pulvérisez. Mouchez après usage.";
+        recommendedProductId = 0;
+    } else if (q.includes('prix') || q.includes('tarif') || q.includes('combien') || q.includes('livraison')) {
+        responseText = "Tous nos sprays Stérimar™ 100ml et Stop & Protect sont au prix unique de <strong>16,00 DT</strong>. La livraison est assurée sous 24/48h en Tunisie (7,00 DT, et <strong>GRATUITE dès 100 DT d'achat</strong>).";
+        recommendedProductId = 0;
+    } else {
+        responseText = "Pour un confort nasal optimal et une respiration saine au quotidien, <strong>Stérimar™ Hygiène du Nez</strong> à l'eau de mer 100% naturelle de la Baie de Cancale est la référence incontournable.";
+        recommendedProductId = 0;
+    }
+
+    const botMsgEl = document.createElement('div');
+    botMsgEl.className = 'ai-msg bot';
+    botMsgEl.innerHTML = responseText;
+
+    if (recommendedProductId !== null && products[recommendedProductId]) {
+        const p = products[recommendedProductId];
+        const cardEl = document.createElement('div');
+        cardEl.className = 'ai-product-card-msg';
+        cardEl.innerHTML = `
+            <div class="ai-product-card-head">
+                <img src="${p.image}" alt="${p.name}">
+                <div>
+                    <div class="ai-product-card-title">${p.name}</div>
+                    <div class="ai-product-card-price">${p.price.toFixed(2).replace('.', ',')} DT</div>
+                </div>
+            </div>
+            <button class="ai-product-add-btn" onclick="addToCart(${p.id})">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 5v14m-7-7h14"/></svg>
+                Ajouter au panier (16,00 DT)
+            </button>
+        `;
+        botMsgEl.appendChild(cardEl);
+    }
+
+    msgs.appendChild(botMsgEl);
+    msgs.scrollTop = msgs.scrollHeight;
+}
+
+// ==========================================
 // INITIALIZATION
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -630,6 +918,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initFilters();
     initScrollReveal();
     initModalClose();
+    initAIAssistant();
     
     // Render cart if on cart page
     if (document.getElementById('cart-items')) {

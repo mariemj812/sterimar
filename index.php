@@ -45,6 +45,63 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['sterimar_contact'] 
     exit;
 }
 
+// 0.1 Handle WooCommerce Cart Sync & Checkout Redirect
+if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checkout'] ) ) {
+    header( 'Content-Type: application/json; charset=UTF-8' );
+    
+    $cart_json = isset( $_POST['cart'] ) ? wp_unslash( $_POST['cart'] ) : ( isset( $_GET['cart'] ) ? wp_unslash( $_GET['cart'] ) : '' );
+    $cart_data = json_decode( $cart_json, true );
+    
+    if ( function_exists( 'WC' ) && ! empty( $cart_data ) && is_array( $cart_data ) ) {
+        if ( is_null( WC()->cart ) ) {
+            wc_load_cart();
+        }
+        
+        WC()->cart->empty_cart();
+        
+        foreach ( $cart_data as $item ) {
+            $product_name = isset( $item['name'] ) ? sanitize_text_field( $item['name'] ) : '';
+            $qty = isset( $item['quantity'] ) ? intval( $item['quantity'] ) : 1;
+            
+            $wc_product_id = 0;
+            $found_product = get_page_by_title( $product_name, OBJECT, 'product' );
+            if ( $found_product ) {
+                $wc_product_id = $found_product->ID;
+            } else {
+                $args = array(
+                    'post_type'      => 'product',
+                    'posts_per_page' => 1,
+                    's'              => $product_name,
+                    'post_status'    => 'publish',
+                );
+                $query = new WP_Query( $args );
+                if ( $query->have_posts() ) {
+                    $wc_product_id = $query->posts[0]->ID;
+                }
+            }
+            
+            if ( $wc_product_id > 0 ) {
+                WC()->cart->add_to_cart( $wc_product_id, $qty );
+            }
+        }
+        
+        $checkout_url = wc_get_checkout_url();
+        echo json_encode( array(
+            'success'      => true,
+            'woocommerce'  => true,
+            'checkout_url' => $checkout_url,
+        ) );
+        exit;
+    }
+    
+    echo json_encode( array(
+        'success'     => true,
+        'woocommerce' => false,
+        'message'     => 'WooCommerce standalone mode',
+    ) );
+    exit;
+}
+
 $theme_uri = untrailingslashit( get_template_directory_uri() );
 $theme_dir = get_template_directory();
 
