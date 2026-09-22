@@ -296,6 +296,14 @@ $html = preg_replace( '/href=["\'](style\.css[^"\']*)["\']/i', 'href="' . $theme
 // 3. Rewrite relative JS files: src="app.js..." -> src="THEME_URI/app.js..."
 $html = preg_replace( '/src=["\'](app\.js[^"\']*)["\']/i', 'src="' . $theme_uri . '/$1"', $html );
 
+// Inject window.STERIMAR_THEME_URI for dynamic JavaScript asset resolution
+$theme_script = '<script>window.STERIMAR_THEME_URI = "' . esc_js( $theme_uri ) . '";</script>';
+if ( stripos( $html, '</head>' ) !== false ) {
+    $html = str_ireplace( '</head>', $theme_script . '</head>', $html );
+} else {
+    $html = $theme_script . $html;
+}
+
 // 4. Rewrite relative image/media src and srcset
 $html = preg_replace_callback( '/(src|srcset)=["\']([^"\']+)["\']/i', function( $matches ) use ( $theme_uri ) {
     $attr = $matches[1];

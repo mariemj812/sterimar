@@ -260,9 +260,9 @@ function renderCart() {
     if (cartSummaryEl) cartSummaryEl.style.display = 'block';
     
     cartItemsEl.innerHTML = cart.map(item => `
-        <div class="cart-item" id="cart-item-${item.id}">
+        <div class="cart-item" data-id="${item.id}">
             <div class="cart-item-image">
-                <img src="${item.image}" alt="${item.name}">
+                <img src="${getAssetUrl(item.image)}" alt="${item.name}">
             </div>
             <div class="cart-item-info">
                 <span class="cart-item-category">${item.category}</span>
@@ -365,6 +365,40 @@ async function checkout() {
 }
 
 // ==========================================
+// ASSET PATH RESOLVER (WordPress & Standalone)
+// ==========================================
+function getAssetUrl(path) {
+    if (!path) return '';
+    if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:') || path.startsWith('//')) {
+        return path;
+    }
+    // 1. Injected by WordPress index.php
+    if (typeof window !== 'undefined' && window.STERIMAR_THEME_URI) {
+        const base = window.STERIMAR_THEME_URI.replace(/\/+$/, '') + '/';
+        return base + path.replace(/^\/+/, '');
+    }
+    // 2. Auto-detect from app.js script tag
+    const script = document.querySelector('script[src*="app.js"]');
+    if (script && script.src) {
+        const srcClean = script.src.split('?')[0];
+        const base = srcClean.substring(0, srcClean.lastIndexOf('/') + 1);
+        if (base && (base.startsWith('http') || base.startsWith('file:'))) {
+            return base + path.replace(/^\/+/, '');
+        }
+    }
+    // 3. Auto-detect from style.css link tag
+    const link = document.querySelector('link[href*="style.css"]');
+    if (link && link.href) {
+        const hrefClean = link.href.split('?')[0];
+        const base = hrefClean.substring(0, hrefClean.lastIndexOf('/') + 1);
+        if (base && (base.startsWith('http') || base.startsWith('file:'))) {
+            return base + path.replace(/^\/+/, '');
+        }
+    }
+    return path;
+}
+
+// ==========================================
 // CATEGORY BANNER DATA & MANAGEMENT
 // ==========================================
 const categoryBannerData = {
@@ -373,45 +407,40 @@ const categoryBannerData = {
         title: "Toutes Nos Solutions",
         subtitle: "7 solutions naturelles à base d'eau de mer 100% naturelle de la Baie de Cancale pour toute la famille.",
         badge: "Gamme Complète • Physiologique & Hypertonique",
-        image: "cat-banner-all.jpg?v=20260922b",
-        themeColor: "#0077B6",
-        bgImage: "url('cat-banner-all.jpg?v=20260922b')"
+        image: "cat-banner-all.jpg?v=20260922c",
+        themeColor: "#0077B6"
     },
     hygiene: {
         tag: "Hygiène & Prévention Quotidienne",
         title: "Gamme Hygiène du Nez",
         subtitle: "Lavez, hydratez et protégez vos fosses nasales tous les jours. Enrichi en oligo-éléments marins.",
         badge: "Physiologique • Dès la naissance & Adulte",
-        image: "cat-banner-hygiene.jpg?v=20260922b",
-        themeColor: "#00B8E5",
-        bgImage: "url('cat-banner-hygiene.jpg?v=20260922b')"
+        image: "cat-banner-hygiene.jpg?v=20260922c",
+        themeColor: "#00B8E5"
     },
     rhume: {
         tag: "Décongestion & Prévention Hivernale",
         title: "Gamme Rhume & Nez Bouché",
         subtitle: "Débouchez jusqu'à 6h et stoppez les symptômes du rhume grâce aux formules enrichies en Cuivre & Soufre.",
         badge: "Décongestion 6h • Cuivre & Soufre",
-        image: "cat-banner-rhume.jpg?v=20260922b",
-        themeColor: "#E05326",
-        bgImage: "url('cat-banner-rhume.jpg?v=20260922b')"
+        image: "cat-banner-rhume.jpg?v=20260922c",
+        themeColor: "#E05326"
     },
     allergie: {
         tag: "Protection Anti-Allergique Naturelle",
         title: "Gamme Nez Allergique",
         subtitle: "Élimine pollens, acariens et poils d'animaux. Formule enrichie en Manganèse protecteur et anti-allergique.",
         badge: "Protection Naturelle • Manganèse",
-        image: "cat-banner-allergie.jpg?v=20260922b",
-        themeColor: "#4E9B28",
-        bgImage: "url('cat-banner-allergie.jpg?v=20260922b')"
+        image: "cat-banner-allergie.jpg?v=20260922c",
+        themeColor: "#4E9B28"
     },
     bebe: {
         tag: "Douceur & Sécurité Nouveau-Né",
         title: "Gamme Stérimar™ Bébé",
         subtitle: "Spécialement formulé pour les tout-petits de 0 à 3 ans avec son embout sécurité pédiatrique breveté.",
         badge: "Dès la naissance • Embout sécurité pédiatrique",
-        image: "cat-banner-bebe.jpg?v=20260922b",
-        themeColor: "#3594D2",
-        bgImage: "url('cat-banner-bebe.jpg?v=20260922b')"
+        image: "cat-banner-bebe.jpg?v=20260922c",
+        themeColor: "#3594D2"
     }
 };
 
@@ -429,17 +458,19 @@ function updateCategoryBanner(filterKey) {
     if (titleEl) titleEl.textContent = data.title;
     if (subtitleEl) subtitleEl.textContent = data.subtitle;
     if (badgeTextEl) badgeTextEl.textContent = data.badge;
+    
+    const fullImgUrl = getAssetUrl(data.image);
     if (imgEl) {
         imgEl.style.opacity = '0';
-        imgEl.style.transform = 'scale(0.9)';
+        imgEl.style.transform = 'scale(0.95)';
         setTimeout(() => {
-            imgEl.src = data.image;
+            imgEl.src = fullImgUrl;
             imgEl.style.opacity = '1';
             imgEl.style.transform = 'scale(1)';
-        }, 150);
+        }, 120);
     }
-    if (bannerBg && data.bgImage) {
-        bannerBg.style.backgroundImage = data.bgImage;
+    if (bannerBg) {
+        bannerBg.style.backgroundImage = `url('${fullImgUrl}')`;
     }
     if (bannerSec && data.themeColor) {
         bannerSec.style.background = `linear-gradient(135deg, ${data.themeColor} 0%, #0077B6 100%)`;
@@ -450,7 +481,7 @@ function updateCategoryBanner(filterKey) {
 // FILTER PRODUCTS
 // ==========================================
 function handleHashFilter() {
-    const hash = window.location.hash.replace('#', '');
+    const hash = window.location.hash.replace('#', '').toLowerCase();
     if (hash) {
         const targetBtn = document.querySelector(`.filter-btn[data-filter="${hash}"]`);
         if (targetBtn) {
@@ -461,6 +492,10 @@ function handleHashFilter() {
                     filterBar.scrollIntoView({ behavior: 'smooth' });
                 }, 100);
             }
+            return;
+        }
+        if (categoryBannerData[hash]) {
+            updateCategoryBanner(hash);
         }
     } else {
         updateCategoryBanner('all');
@@ -899,7 +934,7 @@ function generateAIResponse(query) {
         cardEl.className = 'ai-product-card-msg';
         cardEl.innerHTML = `
             <div class="ai-product-card-head">
-                <img src="${p.image}" alt="${p.name}">
+                <img src="${getAssetUrl(p.image)}" alt="${p.name}">
                 <div>
                     <div class="ai-product-card-title">${p.name}</div>
                     <div class="ai-product-card-price">${p.price.toFixed(2).replace('.', ',')} DT</div>
