@@ -450,8 +450,6 @@ function updateCategoryBanner(filterKey) {
     const titleEl = document.getElementById('cat-banner-title');
     const subtitleEl = document.getElementById('cat-banner-subtitle');
     const badgeTextEl = document.getElementById('cat-banner-badge-text');
-    const imgEl = document.getElementById('cat-banner-img');
-    const bannerSec = document.getElementById('shop-header');
     const bannerBg = document.getElementById('cat-banner-bg');
 
     if (tagEl) tagEl.textContent = data.tag;
@@ -460,20 +458,12 @@ function updateCategoryBanner(filterKey) {
     if (badgeTextEl) badgeTextEl.textContent = data.badge;
     
     const fullImgUrl = getAssetUrl(data.image);
-    if (imgEl) {
-        imgEl.style.opacity = '0';
-        imgEl.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            imgEl.src = fullImgUrl;
-            imgEl.style.opacity = '1';
-            imgEl.style.transform = 'scale(1)';
-        }, 120);
-    }
     if (bannerBg) {
-        bannerBg.style.backgroundImage = `url('${fullImgUrl}')`;
-    }
-    if (bannerSec && data.themeColor) {
-        bannerSec.style.background = `linear-gradient(135deg, ${data.themeColor} 0%, #0077B6 100%)`;
+        bannerBg.style.opacity = '0.5';
+        setTimeout(() => {
+            bannerBg.style.backgroundImage = `url('${fullImgUrl}')`;
+            bannerBg.style.opacity = '1';
+        }, 100);
     }
 }
 
