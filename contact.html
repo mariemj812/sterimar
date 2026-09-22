@@ -305,52 +305,55 @@
                     <h2>Envoyez-nous un message</h2>
                     <p class="subtitle">Remplissez le formulaire ci-dessous, nous vous répondrons sous 24h ouvrées.</p>
 
-                    <form id="contact-form" onsubmit="handleContactSubmit(event)">
+                    <form id="contact-form" action="mailto:commercial@sterimar.shop" method="POST" enctype="text/plain" onsubmit="handleContactSubmit(event)">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="contact-name">Nom et Prénom *</label>
-                                <input type="text" id="contact-name" class="form-control" placeholder="ex. Sarah Ben Salem" required>
+                                <input type="text" id="contact-name" name="Nom" class="form-control" placeholder="ex. Sarah Ben Salem" required>
                             </div>
                             <div class="form-group">
                                 <label for="contact-email">Adresse e-mail *</label>
-                                <input type="email" id="contact-email" class="form-control" placeholder="ex. sarah@exemple.com" required>
+                                <input type="email" id="contact-email" name="Email" class="form-control" placeholder="ex. sarah@exemple.com" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="contact-phone">Numéro de téléphone</label>
-                                <input type="tel" id="contact-phone" class="form-control" placeholder="ex. +216 98 000 000">
+                                <input type="tel" id="contact-phone" name="Telephone" class="form-control" placeholder="ex. +216 29 550 043">
                             </div>
                             <div class="form-group">
                                 <label for="contact-subject">Objet de votre demande *</label>
-                                <select id="contact-subject" class="form-control" required>
+                                <select id="contact-subject" name="Objet" class="form-control" required>
                                     <option value="">Sélectionnez un sujet</option>
-                                    <option value="produit">Conseil sur un produit Stérimar</option>
-                                    <option value="commande">Suivi de commande / Livraison</option>
-                                    <option value="pharmacie">Pharmacie & Professionnel de santé</option>
-                                    <option value="reclamation">Service après-vente & Réclamation</option>
-                                    <option value="autre">Autre question</option>
+                                    <option value="Conseil Produit">Conseil sur un produit Stérimar</option>
+                                    <option value="Suivi Commande">Suivi de commande / Livraison</option>
+                                    <option value="Pharmacie">Pharmacie & Professionnel de santé</option>
+                                    <option value="SAV">Service après-vente & Réclamation</option>
+                                    <option value="Autre">Autre question</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="contact-message">Votre message *</label>
-                            <textarea id="contact-message" class="form-control" placeholder="Décrivez votre besoin ou votre question en détail..." required></textarea>
+                            <textarea id="contact-message" name="Message" class="form-control" placeholder="Décrivez votre besoin ou votre question en détail..." required></textarea>
                         </div>
 
                         <div class="checkbox-group">
                             <input type="checkbox" id="contact-consent" required>
                             <label for="contact-consent">
-                                J'accepte que mes données soient traitées par Stérimar™ afin de répondre à ma demande conformément à la <a href="https://www.sterimar.com/fr/politique-de-confidentialite/" target="_blank" rel="noopener noreferrer" style="color: var(--blue-primary); text-decoration: underline;">politique de confidentialité</a>.
+                                J'accepte que mes données soient transmises à commercial@sterimar.shop conformément à la <a href="https://www.sterimar.com/fr/politique-de-confidentialite/" target="_blank" rel="noopener noreferrer" style="color: var(--blue-primary); text-decoration: underline;">politique de confidentialité</a>.
                             </label>
                         </div>
 
                         <button type="submit" class="btn-submit-contact" id="btn-submit-contact">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-                            <span>Envoyer mon message</span>
+                            <span>Envoyer par e-mail (commercial@sterimar.shop)</span>
                         </button>
+                        <div style="margin-top: 1rem; text-align: center; font-size: 0.88rem; color: var(--gray-500);">
+                            Ou écrivez-nous directement à : <a href="mailto:commercial@sterimar.shop" style="color: var(--blue-primary); font-weight: 700; text-decoration: underline;">commercial@sterimar.shop</a>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -434,29 +437,19 @@
     <script src="app.js?v=4"></script>
     <script>
         function handleContactSubmit(e) {
-            e.preventDefault();
             const name = document.getElementById('contact-name').value.trim();
             const email = document.getElementById('contact-email').value.trim();
             const phone = document.getElementById('contact-phone').value.trim();
             const subject = document.getElementById('contact-subject').value;
             const message = document.getElementById('contact-message').value.trim();
 
-            const btn = document.getElementById('btn-submit-contact');
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<span>Transmission vers commercial@sterimar.shop...</span>';
-            btn.disabled = true;
-
             const mailSubject = encodeURIComponent(`[Contact Stérimar] ${subject} - ${name}`);
-            const mailBody = encodeURIComponent(`Nouveau message reçu depuis le site Stérimar :\n\n- Nom : ${name}\n- Email : ${email}\n- Téléphone : ${phone || 'Non renseigné'}\n- Sujet : ${subject}\n\nMessage :\n${message}`);
+            const mailBody = encodeURIComponent(`Nouveau message reçu depuis le site Stérimar™ :\n\n- Nom : ${name}\n- Email : ${email}\n- Téléphone : ${phone || 'Non renseigné'}\n- Objet : ${subject}\n\nMessage :\n${message}\n`);
             const mailtoUrl = `mailto:commercial@sterimar.shop?subject=${mailSubject}&body=${mailBody}`;
 
-            setTimeout(() => {
-                showToast('Votre message a été transmis à commercial@sterimar.shop !');
-                window.location.href = mailtoUrl;
-                document.getElementById('contact-form').reset();
-                btn.innerHTML = originalHTML;
-                btn.disabled = false;
-            }, 700);
+            // Direct synchronous mailto call to immediately open mail client
+            window.location.href = mailtoUrl;
+            showToast('Votre messagerie s\'ouvre pour envoyer l\'e-mail à commercial@sterimar.shop ✓');
         }
     </script>
 </body>
