@@ -7,6 +7,44 @@
  * @package Sterimar
  */
 
+// 0. Handle Contact Form Submission (Server-side sending to commercial@sterimar.shop)
+if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['sterimar_contact'] ) ) {
+    header( 'Content-Type: application/json; charset=UTF-8' );
+    
+    $name    = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+    $email   = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+    $phone   = isset( $_POST['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '';
+    $subject = isset( $_POST['subject'] ) ? sanitize_text_field( wp_unslash( $_POST['subject'] ) ) : 'Contact Stérimar';
+    $message = isset( $_POST['message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['message'] ) ) : '';
+    
+    $to = 'commercial@sterimar.shop';
+    $email_subject = '[Contact Stérimar] ' . $subject . ' - ' . $name;
+    $email_body = "Nouveau message de contact reçu depuis le site Stérimar™ :\n\n";
+    $email_body .= "Nom & Prénom : " . $name . "\n";
+    $email_body .= "Adresse E-mail : " . $email . "\n";
+    $email_body .= "Téléphone : " . ( $phone ? $phone : 'Non renseigné' ) . "\n";
+    $email_body .= "Objet : " . $subject . "\n\n";
+    $email_body .= "Message :\n" . $message . "\n";
+    
+    $headers = array(
+        'Content-Type: text/plain; charset=UTF-8',
+        'From: Stérimar Contact <commercial@sterimar.shop>',
+    );
+    if ( ! empty( $email ) ) {
+        $headers[] = 'Reply-To: ' . $name . ' <' . $email . '>';
+    }
+    
+    $sent = false;
+    if ( function_exists( 'wp_mail' ) ) {
+        $sent = wp_mail( $to, $email_subject, $email_body, $headers );
+    } else {
+        $sent = @mail( $to, $email_subject, $email_body, implode( "\r\n", $headers ) );
+    }
+    
+    echo json_encode( array( 'success' => (bool) $sent ) );
+    exit;
+}
+
 $theme_uri = untrailingslashit( get_template_directory_uri() );
 $theme_dir = get_template_directory();
 

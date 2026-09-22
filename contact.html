@@ -305,7 +305,7 @@
                     <h2>Envoyez-nous un message</h2>
                     <p class="subtitle">Remplissez le formulaire ci-dessous, nous vous répondrons sous 24h ouvrées.</p>
 
-                    <form id="contact-form" action="mailto:commercial@sterimar.shop" method="POST" enctype="text/plain" onsubmit="handleContactSubmit(event)">
+                    <form id="contact-form" onsubmit="handleContactSubmit(event)">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="contact-name">Nom et Prénom *</label>
@@ -349,7 +349,7 @@
 
                         <button type="submit" class="btn-submit-contact" id="btn-submit-contact">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-                            <span>Envoyer par e-mail (commercial@sterimar.shop)</span>
+                            <span>Envoyer mon message</span>
                         </button>
                         <div style="margin-top: 1rem; text-align: center; font-size: 0.88rem; color: var(--gray-500);">
                             Ou écrivez-nous directement à : <a href="mailto:commercial@sterimar.shop" style="color: var(--blue-primary); font-weight: 700; text-decoration: underline;">commercial@sterimar.shop</a>
@@ -436,20 +436,60 @@
 
     <script src="app.js?v=4"></script>
     <script>
-        function handleContactSubmit(e) {
+        async function handleContactSubmit(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('btn-submit-contact');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<span>Envoi en cours...</span>';
+            btn.disabled = true;
+
             const name = document.getElementById('contact-name').value.trim();
             const email = document.getElementById('contact-email').value.trim();
             const phone = document.getElementById('contact-phone').value.trim();
             const subject = document.getElementById('contact-subject').value;
             const message = document.getElementById('contact-message').value.trim();
 
-            const mailSubject = encodeURIComponent(`[Contact Stérimar] ${subject} - ${name}`);
-            const mailBody = encodeURIComponent(`Nouveau message reçu depuis le site Stérimar™ :\n\n- Nom : ${name}\n- Email : ${email}\n- Téléphone : ${phone || 'Non renseigné'}\n- Objet : ${subject}\n\nMessage :\n${message}\n`);
-            const mailtoUrl = `mailto:commercial@sterimar.shop?subject=${mailSubject}&body=${mailBody}`;
+            const formData = new FormData();
+            formData.append('sterimar_contact', '1');
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('phone', phone);
+            formData.append('subject', subject);
+            formData.append('message', message);
 
-            // Direct synchronous mailto call to immediately open mail client
-            window.location.href = mailtoUrl;
-            showToast('Votre messagerie s\'ouvre pour envoyer l\'e-mail à commercial@sterimar.shop ✓');
+            try {
+                const response = await fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                let result = null;
+                try {
+                    result = await response.json();
+                } catch(err) {
+                    result = null;
+                }
+
+                if (result && result.success) {
+                    showToast('Votre message a bien été envoyé à commercial@sterimar.shop ✓');
+                    document.getElementById('contact-form').reset();
+                } else {
+                    const mailSubject = encodeURIComponent(`[Contact Stérimar] ${subject} - ${name}`);
+                    const mailBody = encodeURIComponent(`Nouveau message reçu depuis le site Stérimar™ :\n\n- Nom : ${name}\n- Email : ${email}\n- Téléphone : ${phone || 'Non renseigné'}\n- Objet : ${subject}\n\nMessage :\n${message}\n`);
+                    window.location.href = `mailto:commercial@sterimar.shop?subject=${mailSubject}&body=${mailBody}`;
+                    showToast('Votre message est prêt à être envoyé à commercial@sterimar.shop ✓');
+                    document.getElementById('contact-form').reset();
+                }
+            } catch (error) {
+                const mailSubject = encodeURIComponent(`[Contact Stérimar] ${subject} - ${name}`);
+                const mailBody = encodeURIComponent(`Nouveau message reçu depuis le site Stérimar™ :\n\n- Nom : ${name}\n- Email : ${email}\n- Téléphone : ${phone || 'Non renseigné'}\n- Objet : ${subject}\n\nMessage :\n${message}\n`);
+                window.location.href = `mailto:commercial@sterimar.shop?subject=${mailSubject}&body=${mailBody}`;
+                showToast('Votre message est prêt à être envoyé à commercial@sterimar.shop ✓');
+            } finally {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+            }
         }
     </script>
 </body>
