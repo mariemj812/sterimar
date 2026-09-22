@@ -492,14 +492,27 @@ a {
     
     .hero-slider .swiper-button-next,
     .hero-slider .swiper-button-prev {
-        width: 36px;
-        height: 36px;
-        opacity: 0.8;
+        width: 38px;
+        height: 38px;
+        opacity: 0.95;
     }
     
     .hero-slider .swiper-button-next:after,
     .hero-slider .swiper-button-prev:after {
-        font-size: 1rem !important;
+        font-size: 15px !important;
+    }
+
+    .hero-slider .swiper-pagination {
+        bottom: 12px !important;
+    }
+
+    .hero-slider .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+    }
+
+    .hero-slider .swiper-pagination-bullet-active {
+        width: 22px !important;
     }
 }
 
@@ -518,24 +531,60 @@ a {
 
 .hero-slider .swiper-button-next,
 .hero-slider .swiper-button-prev {
-    color: var(--blue-primary);
-    background: rgba(255, 255, 255, 0.85);
-    width: 44px;
-    height: 44px;
+    color: #0077B6 !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    box-shadow: var(--shadow-sm);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 20;
+    cursor: pointer;
+}
+
+.hero-slider .swiper-button-next:hover,
+.hero-slider .swiper-button-prev:hover {
+    background: #0077B6 !important;
+    color: #ffffff !important;
+    transform: scale(1.1);
+    box-shadow: 0 6px 22px rgba(0, 119, 182, 0.5);
 }
 
 .hero-slider .swiper-button-next:after,
 .hero-slider .swiper-button-prev:after {
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: inherit !important;
+}
+
+.hero-slider .swiper-pagination {
+    bottom: 20px !important;
+    z-index: 20;
+}
+
+.hero-slider .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.75);
+    opacity: 1;
+    border: 1px solid rgba(0, 48, 73, 0.25);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.hero-slider .swiper-pagination-bullet:hover {
+    background: #ffffff;
 }
 
 .hero-slider .swiper-pagination-bullet-active {
-    background: var(--blue-primary);
+    background: #0077B6 !important;
+    width: 28px !important;
+    border-radius: 6px !important;
+    box-shadow: 0 0 12px rgba(0, 119, 182, 0.7);
+    border-color: #0077B6 !important;
 }
 
 /* Slide Bébé — composite (fond mer + packshot original) */
