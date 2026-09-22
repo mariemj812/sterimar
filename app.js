@@ -8,6 +8,7 @@
 const products = [
     {
         id: 0,
+        wcId: 18,
         name: "Hygiène du Nez",
         category: "hygiene",
         categoryLabel: "Hygiène",
@@ -31,6 +32,7 @@ const products = [
     },
     {
         id: 1,
+        wcId: 25,
         name: "Nez sujet aux Rhumes",
         category: "rhume",
         categoryLabel: "Rhume",
@@ -54,6 +56,7 @@ const products = [
     },
     {
         id: 2,
+        wcId: 36,
         name: "Nez Bouché",
         category: "rhume",
         categoryLabel: "Rhume",
@@ -77,6 +80,7 @@ const products = [
     },
     {
         id: 3,
+        wcId: 35,
         name: "Nez Allergique",
         category: "allergie",
         categoryLabel: "Allergie",
@@ -100,6 +104,7 @@ const products = [
     },
     {
         id: 4,
+        wcId: 32,
         name: "Hygiène du Nez Bébé",
         category: "bebe",
         categoryLabel: "Bébé",
@@ -123,6 +128,7 @@ const products = [
     },
     {
         id: 5,
+        wcId: 34,
         name: "Nez Bouché Bébé",
         category: "bebe",
         categoryLabel: "Bébé",
@@ -146,6 +152,7 @@ const products = [
     },
     {
         id: 6,
+        wcId: 25,
         name: "Stop & Protect Rhume",
         category: "rhume",
         categoryLabel: "Rhume",
@@ -194,9 +201,11 @@ function addToCart(productId, qty = 1) {
     
     if (existingItem) {
         existingItem.quantity += qty;
+        existingItem.wcId = product.wcId;
     } else {
         cart.push({
             id: productId,
+            wcId: product.wcId,
             name: product.name,
             price: product.price,
             image: product.image,

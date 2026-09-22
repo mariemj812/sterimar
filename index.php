@@ -59,26 +59,63 @@ if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checko
         
         WC()->cart->empty_cart();
         
+        // Exact WooCommerce Product IDs provided by Store Admin
+        $wc_id_map = array(
+            'Hygiène du Nez'        => 18,
+            'Nez sujet aux Rhumes'  => 25,
+            'Hygiène du Nez Bébé'   => 32,
+            'Nez Bouché Bébé'       => 34,
+            'Nez Allergique'        => 35,
+            'Nez Bouché'            => 36,
+            'Stop & Protect Rhume'  => 25,
+            0                       => 18,
+            1                       => 25,
+            2                       => 36,
+            3                       => 35,
+            4                       => 32,
+            5                       => 34,
+            6                       => 25,
+        );
+        
         foreach ( $cart_data as $item ) {
-            $product_name = isset( $item['name'] ) ? sanitize_text_field( $item['name'] ) : '';
-            $qty = isset( $item['quantity'] ) ? intval( $item['quantity'] ) : 1;
-            
             $wc_product_id = 0;
-            $found_product = get_page_by_title( $product_name, OBJECT, 'product' );
-            if ( $found_product ) {
-                $wc_product_id = $found_product->ID;
-            } else {
-                $args = array(
-                    'post_type'      => 'product',
-                    'posts_per_page' => 1,
-                    's'              => $product_name,
-                    'post_status'    => 'publish',
-                );
-                $query = new WP_Query( $args );
-                if ( $query->have_posts() ) {
-                    $wc_product_id = $query->posts[0]->ID;
+            
+            // 1. Direct wcId if passed from frontend
+            if ( ! empty( $item['wcId'] ) && intval( $item['wcId'] ) > 0 ) {
+                $wc_product_id = intval( $item['wcId'] );
+            }
+            
+            // 2. Map by product numerical index
+            if ( ! $wc_product_id && isset( $item['id'] ) && isset( $wc_id_map[ $item['id'] ] ) ) {
+                $wc_product_id = $wc_id_map[ $item['id'] ];
+            }
+            
+            // 3. Map by exact product name
+            if ( ! $wc_product_id && ! empty( $item['name'] ) && isset( $wc_id_map[ $item['name'] ] ) ) {
+                $wc_product_id = $wc_id_map[ $item['name'] ];
+            }
+            
+            // 4. Fallback search by title
+            if ( ! $wc_product_id && ! empty( $item['name'] ) ) {
+                $product_name = sanitize_text_field( $item['name'] );
+                $found_product = get_page_by_title( $product_name, OBJECT, 'product' );
+                if ( $found_product ) {
+                    $wc_product_id = $found_product->ID;
+                } else {
+                    $args = array(
+                        'post_type'      => 'product',
+                        'posts_per_page' => 1,
+                        's'              => $product_name,
+                        'post_status'    => 'publish',
+                    );
+                    $query = new WP_Query( $args );
+                    if ( $query->have_posts() ) {
+                        $wc_product_id = $query->posts[0]->ID;
+                    }
                 }
             }
+            
+            $qty = isset( $item['quantity'] ) ? max( 1, intval( $item['quantity'] ) ) : 1;
             
             if ( $wc_product_id > 0 ) {
                 WC()->cart->add_to_cart( $wc_product_id, $qty );
