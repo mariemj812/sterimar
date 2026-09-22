@@ -142,27 +142,146 @@ if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checko
 $theme_uri = untrailingslashit( get_template_directory_uri() );
 $theme_dir = get_template_directory();
 
-// 1. Determine which page to display
+// 1. Determine which page to display (Static HTML Template vs Native WooCommerce / WordPress Page)
+$is_native_wp = false;
+
+if ( ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) ||
+     ( function_exists( 'is_checkout' ) && is_checkout() ) ||
+     ( function_exists( 'is_cart' ) && is_cart() ) ||
+     ( function_exists( 'is_account_page' ) && is_account_page() ) ) {
+    $is_native_wp = true;
+}
+
 $page_file = 'index.html';
 
 if ( isset( $_GET['page_file'] ) ) {
     $clean_page = basename( sanitize_file_name( $_GET['page_file'] ) );
     if ( file_exists( $theme_dir . '/' . $clean_page ) && preg_match( '/\.html$/i', $clean_page ) ) {
         $page_file = $clean_page;
+        $is_native_wp = false;
     }
-} else {
+} else if ( ! $is_native_wp ) {
     // Check if the current URL path matches any HTML file
     $request_uri = trim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
-    $path_parts = explode( '/', $request_uri );
+    $path_parts = array_filter( explode( '/', $request_uri ) );
     $last_part = end( $path_parts );
     if ( ! empty( $last_part ) ) {
-        if ( ! preg_match( '/\.html$/i', $last_part ) ) {
-            $last_part .= '.html';
-        }
-        if ( file_exists( $theme_dir . '/' . $last_part ) ) {
-            $page_file = $last_part;
+        $candidate_html = preg_match( '/\.html$/i', $last_part ) ? $last_part : $last_part . '.html';
+        if ( file_exists( $theme_dir . '/' . $candidate_html ) ) {
+            $page_file = $candidate_html;
+        } else {
+            // It's a WordPress native route (like /commander/, /checkout/, /commande-recue/)
+            $is_native_wp = true;
         }
     }
+}
+
+// If it's a native WooCommerce or WordPress page, render the branded WordPress template
+if ( $is_native_wp ) {
+    $home_url = home_url();
+    ?>
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+    <meta charset="<?php bloginfo( 'charset' ); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo esc_url( $theme_uri . '/style.css?v=18' ); ?>">
+    <link rel="icon" href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png" sizes="32x32">
+    <?php wp_head(); ?>
+</head>
+<body <?php body_class( 'sterimar-wc-page' ); ?>>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="<?php echo esc_url( home_url('/') ); ?>" class="nav-logo" id="nav-logo">
+                <img src="<?php echo esc_url( $theme_uri . '/logo.png' ); ?>" alt="Stérimar Logo" class="logo-img">
+                <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="<?php echo esc_url( home_url('/') ); ?>" class="nav-link">Accueil</a>
+                <a href="<?php echo esc_url( add_query_arg('page_file', 'boutique.html', $home_url) ); ?>" class="nav-link">Boutique</a>
+                <a href="<?php echo esc_url( add_query_arg('page_file', 'blog.html', $home_url) ); ?>" class="nav-link">Blog</a>
+                <a href="<?php echo esc_url( add_query_arg('page_file', 'qui-sommes-nous.html', $home_url) ); ?>" class="nav-link">Qui sommes-nous</a>
+                <a href="<?php echo esc_url( add_query_arg('page_file', 'contact.html', $home_url) ); ?>" class="nav-link">Contact</a>
+                <a href="<?php echo esc_url( add_query_arg('page_file', 'panier.html', $home_url) ); ?>" class="nav-link nav-cart">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                    <span class="cart-count" id="cart-count">0</span>
+                    Panier
+                </a>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="shop-header" style="background: linear-gradient(135deg, #0077B6 0%, #00B8E5 100%);">
+        <div class="container">
+            <span class="section-tag" style="background: rgba(255,255,255,0.2); color:#fff; border:1px solid rgba(255,255,255,0.3);">Paiement Sécurisé</span>
+            <h1 class="page-title" style="color: #fff;">Finaliser ma Commande</h1>
+            <p class="page-subtitle" style="color: rgba(255,255,255,0.9);">Veuillez renseigner vos coordonnées de livraison et confirmer votre paiement.</p>
+        </div>
+    </section>
+
+    <!-- Main Native Content -->
+    <main style="min-height: 60vh; padding: 3.5rem 1rem 5rem; background: #F8FAFC;">
+        <div class="container" style="max-width: 1050px; margin: 0 auto; background: #ffffff; padding: 2.5rem; border-radius: var(--radius-lg, 16px); box-shadow: var(--shadow-md, 0 10px 25px rgba(0,0,0,0.06)); border: 1px solid var(--gray-200, #E2E8F0);">
+            <?php
+            if ( have_posts() ) {
+                while ( have_posts() ) {
+                    the_post();
+                    the_content();
+                }
+            }
+            ?>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="<?php echo esc_url( home_url('/') ); ?>" aria-label="Stérimar Accueil">
+                        <img src="<?php echo esc_url( $theme_uri . '/logo.png' ); ?>" alt="Stérimar Logo" class="footer-logo" style="height: 144px; margin-bottom: 1rem; cursor: pointer;">
+                    </a>
+                    <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <a href="<?php echo esc_url( home_url('/') ); ?>">Accueil</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'boutique.html', $home_url) ); ?>">Boutique</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'blog.html', $home_url) ); ?>">Blog</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'qui-sommes-nous.html', $home_url) ); ?>">Qui sommes-nous</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'contact.html', $home_url) ); ?>">Contact</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Informations</h4>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'mentions-legales.html', $home_url) ); ?>">Mentions légales</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'politique-confidentialite.html', $home_url) ); ?>">Politique de confidentialité</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'conditions-generales.html', $home_url) ); ?>">Conditions générales</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Stérimar™ — Tous droits réservés. Dispositif médical.</p>
+            </div>
+        </div>
+    </footer>
+
+    <?php wp_footer(); ?>
+    <script src="<?php echo esc_url( $theme_uri . '/app.js?v=5' ); ?>"></script>
+</body>
+</html>
+    <?php
+    exit;
 }
 
 if ( ! file_exists( $theme_dir . '/' . $page_file ) ) {
