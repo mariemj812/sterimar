@@ -444,6 +444,8 @@ const categoryBannerData = {
     }
 };
 
+const bannerCategoryOrder = ['all', 'hygiene', 'rhume', 'allergie', 'bebe'];
+
 function updateCategoryBanner(filterKey) {
     const data = categoryBannerData[filterKey] || categoryBannerData.all;
     const tagEl = document.getElementById('cat-banner-tag');
@@ -451,6 +453,7 @@ function updateCategoryBanner(filterKey) {
     const subtitleEl = document.getElementById('cat-banner-subtitle');
     const badgeTextEl = document.getElementById('cat-banner-badge-text');
     const bannerBg = document.getElementById('cat-banner-bg');
+    const bannerContent = document.querySelector('.category-banner-content');
 
     if (tagEl) tagEl.textContent = data.tag;
     if (titleEl) titleEl.textContent = data.title;
@@ -460,6 +463,111 @@ function updateCategoryBanner(filterKey) {
     const fullImgUrl = getAssetUrl(data.image);
     if (bannerBg) {
         bannerBg.style.backgroundImage = `url('${fullImgUrl}')`;
+    }
+
+    if (bannerContent) {
+        bannerContent.style.animation = 'none';
+        bannerContent.offsetHeight; // trigger reflow
+        bannerContent.style.animation = 'fadeIn 0.35s ease forwards';
+    }
+
+    // Update active state of pagination dots
+    const dots = document.querySelectorAll('.cat-banner-dot');
+    dots.forEach(dot => {
+        if (dot.dataset.filter === filterKey) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+}
+
+function initCategoryBannerNav() {
+    const prevBtn = document.getElementById('cat-banner-prev');
+    const nextBtn = document.getElementById('cat-banner-next');
+    const dots = document.querySelectorAll('.cat-banner-dot');
+    const bannerSection = document.querySelector('.category-banner-section');
+    
+    if (!prevBtn && !nextBtn && dots.length === 0) return;
+    
+    function getCurrentCategory() {
+        const activeFilterBtn = document.querySelector('.filter-btn.active');
+        return activeFilterBtn ? activeFilterBtn.dataset.filter : 'all';
+    }
+    
+    function setCategory(categoryKey) {
+        const targetBtn = document.querySelector(`.filter-btn[data-filter="${categoryKey}"]`);
+        if (targetBtn) {
+            targetBtn.click();
+        } else {
+            updateCategoryBanner(categoryKey);
+        }
+    }
+    
+    function navigateBanner(direction) {
+        const currentCat = getCurrentCategory();
+        let currentIndex = bannerCategoryOrder.indexOf(currentCat);
+        if (currentIndex === -1) currentIndex = 0;
+        
+        let newIndex;
+        if (direction === 'next') {
+            newIndex = (currentIndex + 1) % bannerCategoryOrder.length;
+        } else {
+            newIndex = (currentIndex - 1 + bannerCategoryOrder.length) % bannerCategoryOrder.length;
+        }
+        
+        setCategory(bannerCategoryOrder[newIndex]);
+    }
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            navigateBanner('prev');
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            navigateBanner('next');
+        });
+    }
+    
+    dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const filter = dot.dataset.filter;
+            if (filter) setCategory(filter);
+        });
+    });
+    
+    // Touch swipe support for mobile
+    if (bannerSection) {
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        bannerSection.addEventListener('touchstart', (e) => {
+            if (e.changedTouches && e.changedTouches.length > 0) {
+                touchStartX = e.changedTouches[0].screenX;
+            }
+        }, { passive: true });
+        
+        bannerSection.addEventListener('touchend', (e) => {
+            if (e.changedTouches && e.changedTouches.length > 0) {
+                touchEndX = e.changedTouches[0].screenX;
+                const diffX = touchStartX - touchEndX;
+                if (Math.abs(diffX) > 40) {
+                    if (diffX > 0) {
+                        navigateBanner('next');
+                    } else {
+                        navigateBanner('prev');
+                    }
+                }
+            }
+        }, { passive: true });
     }
 }
 
@@ -946,6 +1054,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavbar();
     initSwiper();
     initFilters();
+    initCategoryBannerNav();
     initScrollReveal();
     initModalClose();
     initAIAssistant();
