@@ -3303,10 +3303,10 @@ a {
     position: relative;
     overflow: hidden;
     margin-top: 76px; /* Completely avoids fixed navbar overlap */
-    min-height: 320px;
+    min-height: 380px;
     display: flex;
     align-items: center;
-    padding: 4.5rem 0;
+    padding: 5rem 0;
     color: #ffffff;
     background-color: #003049;
 }
@@ -3318,7 +3318,7 @@ a {
     right: 0;
     bottom: 0;
     background-size: cover;
-    background-position: center;
+    background-position: center top;
     background-repeat: no-repeat;
     opacity: 1;
     transition: background-image 0.4s ease-in-out;
@@ -3332,7 +3332,7 @@ a {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(90deg, rgba(0, 15, 30, 0.60) 0%, rgba(0, 15, 30, 0.30) 45%, rgba(0, 15, 30, 0.05) 80%, transparent 100%);
+    background: linear-gradient(90deg, rgba(0, 15, 30, 0.65) 0%, rgba(0, 15, 30, 0.35) 45%, rgba(0, 15, 30, 0.05) 75%, transparent 100%);
     pointer-events: none;
     z-index: 1;
 }
@@ -3346,7 +3346,7 @@ a {
 }
 
 .category-banner-content {
-    max-width: 680px;
+    max-width: 580px;
     background: transparent;
     border: none;
     box-shadow: none;
