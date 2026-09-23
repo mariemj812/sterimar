@@ -2309,6 +2309,11 @@ a {
         background: var(--gray-100);
     }
 
+    /* Masquer le compte dans la liste mobile car déjà présent à côté du panier */
+    .nav-links .nav-account {
+        display: none !important;
+    }
+
     .filter-bar {
         top: 82px;
         padding: 0.85rem 0;
