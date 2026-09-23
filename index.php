@@ -142,77 +142,43 @@ if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checko
 $theme_uri = untrailingslashit( get_template_directory_uri() );
 $theme_dir = get_template_directory();
 
-// 0.2 Redirect legacy query-string URLs (?page_file=xxx) to clean permalinks
-if ( isset( $_GET['page_file'] ) ) {
-    $clean_page = basename( sanitize_file_name( wp_unslash( $_GET['page_file'] ) ) );
-    $slug = preg_replace( '/\.html$/i', '', $clean_page );
-    $target_url = ( $slug === 'index' || empty( $slug ) ) ? home_url( '/' ) : trailingslashit( home_url( '/' . $slug ) );
-    wp_safe_redirect( $target_url, 301 );
-    exit;
-}
-
 // 1. Determine which page to display (Static HTML Template vs Native WooCommerce / WordPress Page)
 $is_native_wp = false;
 
 if ( ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) ||
      ( function_exists( 'is_checkout' ) && is_checkout() ) ||
      ( function_exists( 'is_cart' ) && is_cart() ) ||
-     ( function_exists( 'is_account_page' ) && is_account_page() ) ||
-     is_single() ||
-     is_singular() ) {
+     ( function_exists( 'is_account_page' ) && is_account_page() ) ) {
     $is_native_wp = true;
 }
 
 $page_file = 'index.html';
 
-// Check if the current URL path matches any HTML file in theme
-$request_uri = trim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
-$path_parts  = array_filter( explode( '/', $request_uri ) );
-$last_part   = end( $path_parts );
-
-if ( ! empty( $last_part ) ) {
-    $candidate_html = preg_match( '/\.html$/i', $last_part ) ? $last_part : $last_part . '.html';
-    if ( file_exists( $theme_dir . '/' . $candidate_html ) ) {
-        $page_file = $candidate_html;
+if ( isset( $_GET['page_file'] ) ) {
+    $clean_page = basename( sanitize_file_name( $_GET['page_file'] ) );
+    if ( file_exists( $theme_dir . '/' . $clean_page ) && preg_match( '/\.html$/i', $clean_page ) ) {
+        $page_file = $clean_page;
         $is_native_wp = false;
-        
-        // Prevent WordPress 404 header for custom static templates
-        status_header( 200 );
-        if ( isset( $GLOBALS['wp_query'] ) && is_object( $GLOBALS['wp_query'] ) ) {
-            $GLOBALS['wp_query']->is_404 = false;
+    }
+} else if ( ! $is_native_wp ) {
+    // Check if the current URL path matches any HTML file
+    $request_uri = trim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+    $path_parts = array_filter( explode( '/', $request_uri ) );
+    $last_part = end( $path_parts );
+    if ( ! empty( $last_part ) ) {
+        $candidate_html = preg_match( '/\.html$/i', $last_part ) ? $last_part : $last_part . '.html';
+        if ( file_exists( $theme_dir . '/' . $candidate_html ) ) {
+            $page_file = $candidate_html;
+        } else {
+            // It's a WordPress native route (like /commander/, /checkout/, /commande-recue/)
+            $is_native_wp = true;
         }
-    } else {
-        // Native WordPress post (like /exemple-article/), page or WooCommerce route
-        $is_native_wp = true;
     }
 }
 
 // If it's a native WooCommerce or WordPress page, render the branded WordPress template
 if ( $is_native_wp ) {
-    $home_url = untrailingslashit( home_url() );
-    
-    // Dynamic Header Content
-    $header_tag = 'Stérimar';
-    $header_title = get_the_title();
-    $header_subtitle = '';
-
-    if ( function_exists( 'is_checkout' ) && is_checkout() ) {
-        $header_tag = 'Paiement Sécurisé';
-        $header_title = 'Finaliser ma Commande';
-        $header_subtitle = 'Veuillez renseigner vos coordonnées de livraison et confirmer votre paiement.';
-    } elseif ( function_exists( 'is_cart' ) && is_cart() ) {
-        $header_tag = 'Mon Panier';
-        $header_title = 'Votre Panier';
-        $header_subtitle = 'Vérifiez vos articles avant de finaliser votre commande.';
-    } elseif ( function_exists( 'is_account_page' ) && is_account_page() ) {
-        $header_tag = 'Espace Client';
-        $header_title = 'Mon Compte';
-        $header_subtitle = 'Gérez vos commandes et vos informations personnelles.';
-    } elseif ( is_single() ) {
-        $header_tag = 'Actualités & Conseils';
-        $header_title = get_the_title();
-        $header_subtitle = 'Publié le ' . get_the_date();
-    }
+    $home_url = home_url();
     ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -236,18 +202,18 @@ if ( $is_native_wp ) {
             </a>
             <div class="nav-links" id="nav-links">
                 <a href="<?php echo esc_url( home_url('/') ); ?>" class="nav-link">Accueil</a>
-                <a href="<?php echo esc_url( home_url('/boutique/') ); ?>" class="nav-link">Boutique</a>
-                <a href="<?php echo esc_url( home_url('/blog/') ); ?>" class="nav-link">Blog</a>
-                <a href="<?php echo esc_url( home_url('/qui-sommes-nous/') ); ?>" class="nav-link">Qui sommes-nous</a>
-                <a href="<?php echo esc_url( home_url('/contact/') ); ?>" class="nav-link">Contact</a>
-                <a href="<?php echo esc_url( home_url('/creation-compte/') ); ?>" class="nav-link nav-account" id="nav-account" aria-label="Mon compte">
+                <a href="<?php echo esc_url( add_query_arg('page_file', 'boutique.html', $home_url) ); ?>" class="nav-link">Boutique</a>
+                <a href="<?php echo esc_url( add_query_arg('page_file', 'blog.html', $home_url) ); ?>" class="nav-link">Blog</a>
+                <a href="<?php echo esc_url( add_query_arg('page_file', 'qui-sommes-nous.html', $home_url) ); ?>" class="nav-link">Qui sommes-nous</a>
+                <a href="<?php echo esc_url( add_query_arg('page_file', 'contact.html', $home_url) ); ?>" class="nav-link">Contact</a>
+                <a href="<?php echo esc_url( add_query_arg('page_file', 'creation-compte.html', $home_url) ); ?>" class="nav-link nav-account" id="nav-account" aria-label="Mon compte">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                         <circle cx="12" cy="7" r="4" />
                     </svg>
                     <span id="nav-account-label">Compte</span>
                 </a>
-                <a href="<?php echo esc_url( home_url('/panier/') ); ?>" class="nav-link nav-cart">
+                <a href="<?php echo esc_url( add_query_arg('page_file', 'panier.html', $home_url) ); ?>" class="nav-link nav-cart">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1" />
                         <circle cx="20" cy="21" r="1" />
@@ -264,34 +230,23 @@ if ( $is_native_wp ) {
     </nav>
 
     <!-- Header -->
-    <section class="shop-header" style="background: linear-gradient(135deg, #0077B6 0%, #00B8E5 100%); padding: 3rem 0;">
-        <div class="container" style="text-align: center;">
-            <span class="section-tag" style="background: rgba(255,255,255,0.2); color:#fff; border:1px solid rgba(255,255,255,0.3); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.75rem;"><?php echo esc_html( $header_tag ); ?></span>
-            <h1 class="page-title" style="color: #fff; font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem;"><?php echo esc_html( $header_title ); ?></h1>
-            <?php if ( ! empty( $header_subtitle ) ) : ?>
-                <p class="page-subtitle" style="color: rgba(255,255,255,0.9); font-size: 1rem; margin: 0;"><?php echo esc_html( $header_subtitle ); ?></p>
-            <?php endif; ?>
+    <section class="shop-header" style="background: linear-gradient(135deg, #0077B6 0%, #00B8E5 100%);">
+        <div class="container">
+            <span class="section-tag" style="background: rgba(255,255,255,0.2); color:#fff; border:1px solid rgba(255,255,255,0.3);">Paiement Sécurisé</span>
+            <h1 class="page-title" style="color: #fff;">Finaliser ma Commande</h1>
+            <p class="page-subtitle" style="color: rgba(255,255,255,0.9);">Veuillez renseigner vos coordonnées de livraison et confirmer votre paiement.</p>
         </div>
     </section>
 
     <!-- Main Native Content -->
-    <main class="wc-main-wrapper" style="padding: 3rem 0; min-height: 50vh;">
-        <div class="container wc-main-container" style="max-width: 900px; margin: 0 auto; background: #fff; padding: 2.5rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
+    <main class="wc-main-wrapper">
+        <div class="container wc-main-container">
             <?php
             if ( have_posts() ) {
                 while ( have_posts() ) {
                     the_post();
-                    if ( is_single() && has_post_thumbnail() ) {
-                        echo '<div style="margin-bottom: 2rem; border-radius: 12px; overflow: hidden;">';
-                        the_post_thumbnail( 'large', array( 'style' => 'width: 100%; height: auto; display: block; border-radius: 12px;' ) );
-                        echo '</div>';
-                    }
-                    echo '<div class="entry-content" style="line-height: 1.8; font-size: 1.05rem; color: #2D3748;">';
                     the_content();
-                    echo '</div>';
                 }
-            } else {
-                echo '<p style="text-align: center; color: #718096;">Aucun contenu trouvé.</p>';
             }
             ?>
         </div>
@@ -310,18 +265,18 @@ if ( $is_native_wp ) {
                 <div class="footer-links">
                     <h4>Navigation</h4>
                     <a href="<?php echo esc_url( home_url('/') ); ?>">Accueil</a>
-                    <a href="<?php echo esc_url( home_url('/boutique/') ); ?>">Boutique</a>
-                    <a href="<?php echo esc_url( home_url('/blog/') ); ?>">Blog</a>
-                    <a href="<?php echo esc_url( home_url('/qui-sommes-nous/') ); ?>">Qui sommes-nous</a>
-                    <a href="<?php echo esc_url( home_url('/contact/') ); ?>">Contact</a>
-                    <a href="<?php echo esc_url( home_url('/creation-compte/') ); ?>">Mon Compte</a>
-                    <a href="<?php echo esc_url( home_url('/panier/') ); ?>">Panier</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'boutique.html', $home_url) ); ?>">Boutique</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'blog.html', $home_url) ); ?>">Blog</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'qui-sommes-nous.html', $home_url) ); ?>">Qui sommes-nous</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'contact.html', $home_url) ); ?>">Contact</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'creation-compte.html', $home_url) ); ?>">Mon Compte</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'panier.html', $home_url) ); ?>">Panier</a>
                 </div>
                 <div class="footer-links">
                     <h4>Informations</h4>
-                    <a href="<?php echo esc_url( home_url('/mentions-legales/') ); ?>">Mentions légales</a>
-                    <a href="<?php echo esc_url( home_url('/politique-confidentialite/') ); ?>">Politique de confidentialité</a>
-                    <a href="<?php echo esc_url( home_url('/conditions-generales/') ); ?>">Conditions générales</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'mentions-legales.html', $home_url) ); ?>">Mentions légales</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'politique-confidentialite.html', $home_url) ); ?>">Politique de confidentialité</a>
+                    <a href="<?php echo esc_url( add_query_arg('page_file', 'conditions-generales.html', $home_url) ); ?>">Conditions générales</a>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -400,16 +355,15 @@ $html = preg_replace_callback( '/url\(\s*[\'"]?([^\'")]+)[\'"]?\s*\)/i', functio
     return "url('" . $theme_uri . '/' . ltrim( $url, '/' ) . "')";
 }, $html );
 
-// 6. Rewrite relative HTML page links: href="boutique.html#rhume" -> href="SITE_URL/boutique/#rhume"
-$home_url = untrailingslashit( home_url() );
+// 6. Rewrite relative HTML page links: href="boutique.html#rhume" -> href="SITE_URL/?page_file=boutique.html#rhume"
+$home_url = home_url();
 $html = preg_replace_callback( '/href=["\']([a-zA-Z0-9_\-]+\.html)(#[^"\']*)?["\']/i', function( $matches ) use ( $home_url ) {
     $page = basename( $matches[1] );
     $hash = isset( $matches[2] ) ? $matches[2] : '';
     if ( $page === 'index.html' ) {
         return 'href="' . esc_url( trailingslashit( $home_url ) ) . $hash . '"';
     }
-    $slug = preg_replace( '/\.html$/i', '', $page );
-    return 'href="' . esc_url( trailingslashit( $home_url . '/' . $slug ) ) . $hash . '"';
+    return 'href="' . esc_url( add_query_arg( 'page_file', $page, $home_url ) ) . $hash . '"';
 }, $html );
 
 // 7. Output page
