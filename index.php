@@ -305,12 +305,43 @@ $html = preg_replace( '/href=["\'](style\.css[^"\']*)["\']/i', 'href="' . $theme
 // 3. Rewrite relative JS files: src="app.js..." -> src="THEME_URI/app.js..."
 $html = preg_replace( '/src=["\'](app\.js[^"\']*)["\']/i', 'src="' . $theme_uri . '/$1"', $html );
 
-// Inject window.STERIMAR_THEME_URI for dynamic JavaScript asset resolution
-$theme_script = '<script>window.STERIMAR_THEME_URI = "' . esc_js( $theme_uri ) . '";</script>';
+// Inject WordPress standard hooks (required by Google Site Kit, Analytics, Tag Manager, SEO plugins)
+wp_dequeue_script( 'sterimar-app' );
+wp_dequeue_style( 'sterimar-style' );
+
+ob_start();
+wp_head();
+$wp_head_output = ob_get_clean();
+
+$wp_body_open_output = '';
+if ( function_exists( 'wp_body_open' ) ) {
+    ob_start();
+    wp_body_open();
+    $wp_body_open_output = ob_get_clean();
+}
+
+ob_start();
+wp_footer();
+$wp_footer_output = ob_get_clean();
+
+// Inject window.STERIMAR_THEME_URI and wp_head before </head>
+$injected_head = '<script>window.STERIMAR_THEME_URI = "' . esc_js( $theme_uri ) . '";</script>' . "\n" . $wp_head_output;
 if ( stripos( $html, '</head>' ) !== false ) {
-    $html = str_ireplace( '</head>', $theme_script . '</head>', $html );
+    $html = str_ireplace( '</head>', $injected_head . '</head>', $html );
 } else {
-    $html = $theme_script . $html;
+    $html = $injected_head . $html;
+}
+
+// Inject wp_body_open right after <body ...>
+if ( ! empty( $wp_body_open_output ) && preg_match( '/<body[^>]*>/i', $html ) ) {
+    $html = preg_replace( '/(<body[^>]*>)/i', '$1' . $wp_body_open_output, $html, 1 );
+}
+
+// Inject wp_footer before </body>
+if ( stripos( $html, '</body>' ) !== false ) {
+    $html = str_ireplace( '</body>', $wp_footer_output . '</body>', $html );
+} else {
+    $html = $html . $wp_footer_output;
 }
 
 // 4. Rewrite relative image/media src and srcset
