@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Création de Compte & Connexion - Stérimar™ FR</title>
+    <meta name="description" content="Créez votre compte Stérimar™ ou connectez-vous pour profiter d'un suivi de commande en temps réel, de vos avantages fidélité et d'un passage en caisse simplifié.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=16">
+    <link rel="icon" href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png" sizes="32x32">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" id="nav-logo">
+                <img src="logo.png" alt="Stérimar Logo" class="logo-img">
+                <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link" id="nav-home">Accueil</a>
+                <a href="boutique.html" class="nav-link" id="nav-boutique">Boutique</a>
+                <a href="blog.html" class="nav-link" id="nav-blog">Blog</a>
+                <a href="qui-sommes-nous.html" class="nav-link" id="nav-about">Qui sommes-nous</a>
+                <a href="contact.html" class="nav-link" id="nav-contact">Contact</a>
+                <a href="creation-compte.html" class="nav-link nav-account active" id="nav-account" aria-label="Mon compte">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <span id="nav-account-label">Compte</span>
+                </a>
+                <a href="panier.html" class="nav-link nav-cart" id="nav-panier">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                    <span class="cart-count" id="cart-count">0</span>
+                    Panier
+                </a>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="shop-header" id="account-header">
+        <div class="container">
+            <span class="section-tag">Espace Privilège Stérimar™</span>
+            <h1 class="page-title" id="page-header-title">Espace Client & Connexion</h1>
+            <p class="page-subtitle" id="page-header-desc">Créez votre compte pour suivre vos livraisons en temps réel, gérer vos adresses et profiter d'offres de santé exclusives.</p>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="auth-page-section" id="auth-main-section">
+        <div class="container">
+            
+            <!-- 1. GUEST VIEW: Formulaire Inscription / Connexion -->
+            <div id="auth-guest-view" class="auth-grid">
+                
+                <!-- Left: Card with Tabs & Forms -->
+                <div class="auth-card">
+                    
+                    <!-- Tabs switcher -->
+                    <div class="auth-tabs" role="tablist">
+                        <button type="button" class="auth-tab active" id="tab-btn-register" onclick="switchAuthTab('register')" role="tab" aria-selected="true" aria-controls="panel-register">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                <circle cx="8.5" cy="7" r="4" />
+                                <line x1="20" y1="8" x2="20" y2="14" />
+                                <line x1="23" y1="11" x2="17" y2="11" />
+                            </svg>
+                            Créer un compte
+                        </button>
+                        <button type="button" class="auth-tab" id="tab-btn-login" onclick="switchAuthTab('login')" role="tab" aria-selected="false" aria-controls="panel-login">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                                <polyline points="10 17 15 12 10 7" />
+                                <line x1="15" y1="12" x2="3" y2="12" />
+                            </svg>
+                            Se connecter
+                        </button>
+                    </div>
+
+                    <!-- Panel 1: Inscription (Créer un compte) -->
+                    <div class="auth-panel active" id="panel-register" role="tabpanel" aria-labelledby="tab-btn-register">
+                        <div class="auth-panel-header">
+                            <h2>Créer votre compte client</h2>
+                            <p>Quelques instants suffisent pour rejoindre les familles Stérimar™.</p>
+                        </div>
+
+                        <form id="form-register" onsubmit="handleRegisterSubmit(event)">
+                            
+                            <!-- Civilité -->
+                            <div class="form-group-modern">
+                                <label>Civilité</label>
+                                <div class="civility-pills">
+                                    <label class="civility-option">
+                                        <input type="radio" name="reg-civility" value="Mme" checked>
+                                        <span>Madame</span>
+                                    </label>
+                                    <label class="civility-option">
+                                        <input type="radio" name="reg-civility" value="M.">
+                                        <span>Monsieur</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Nom & Prénom -->
+                            <div class="form-row-2">
+                                <div class="form-group-modern">
+                                    <label for="reg-firstname">Prénom <span class="required">*</span></label>
+                                    <div class="input-icon-wrap">
+                                        <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                        <input type="text" id="reg-firstname" class="form-input-modern" placeholder="ex. Sarah" required>
+                                    </div>
+                                </div>
+                                <div class="form-group-modern">
+                                    <label for="reg-lastname">Nom <span class="required">*</span></label>
+                                    <div class="input-icon-wrap">
+                                        <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                        <input type="text" id="reg-lastname" class="form-input-modern" placeholder="ex. Ben Salem" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- E-mail & Téléphone -->
+                            <div class="form-row-2">
+                                <div class="form-group-modern">
+                                    <label for="reg-email">Adresse e-mail <span class="required">*</span></label>
+                                    <div class="input-icon-wrap">
+                                        <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                        <input type="email" id="reg-email" class="form-input-modern" placeholder="ex. sarah@exemple.com" required>
+                                    </div>
+                                </div>
+                                <div class="form-group-modern">
+                                    <label for="reg-phone">Numéro de téléphone <span class="required">*</span></label>
+                                    <div class="input-icon-wrap">
+                                        <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                        <input type="tel" id="reg-phone" class="form-input-modern" placeholder="+216 29 550 043" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mot de passe & Confirmation -->
+                            <div class="form-row-2">
+                                <div class="form-group-modern">
+                                    <label for="reg-password">Mot de passe <span class="required">*</span></label>
+                                    <div class="input-icon-wrap">
+                                        <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                        <input type="password" id="reg-password" class="form-input-modern" placeholder="Au moins 8 caractères" oninput="checkPasswordStrength(this.value)" required>
+                                        <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('reg-password', this)" aria-label="Afficher le mot de passe">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        </button>
+                                    </div>
+                                    <div class="password-meter-wrap">
+                                        <div class="password-meter-tracks">
+                                            <div class="password-meter-track" id="meter-bar-1"></div>
+                                            <div class="password-meter-track" id="meter-bar-2"></div>
+                                            <div class="password-meter-track" id="meter-bar-3"></div>
+                                            <div class="password-meter-track" id="meter-bar-4"></div>
+                                        </div>
+                                        <div class="password-meter-text">
+                                            <span>Sécurité du mot de passe</span>
+                                            <span id="meter-feedback-label">Non renseigné</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group-modern">
+                                    <label for="reg-confirm-password">Confirmer le mot de passe <span class="required">*</span></label>
+                                    <div class="input-icon-wrap">
+                                        <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                        <input type="password" id="reg-confirm-password" class="form-input-modern" placeholder="Retapez votre mot de passe" required>
+                                        <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('reg-confirm-password', this)" aria-label="Afficher le mot de passe">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Checkboxes -->
+                            <div class="auth-checkbox-group">
+                                <input type="checkbox" id="reg-terms" required>
+                                <label for="reg-terms">
+                                    J'ai lu et j'accepte les <a href="conditions-generales.html" target="_blank">Conditions Générales de Vente</a> et la <a href="politique-confidentialite.html" target="_blank">Politique de Confidentialité</a> Stérimar™.
+                                </label>
+                            </div>
+
+                            <div class="auth-checkbox-group">
+                                <input type="checkbox" id="reg-newsletter" checked>
+                                <label for="reg-newsletter">
+                                    Je souhaite recevoir les conseils de santé nasale Stérimar™, les nouveautés et les offres exclusives par email.
+                                </label>
+                            </div>
+
+                            <!-- Submit button -->
+                            <button type="submit" class="btn-auth-submit" id="btn-submit-register">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+                                <span>Créer mon compte Stérimar™</span>
+                            </button>
+
+                            <!-- Social connection -->
+                            <div class="auth-divider">
+                                <span>Ou inscrivez-vous avec</span>
+                            </div>
+
+                            <div class="social-auth-grid">
+                                <button type="button" class="btn-social-auth" onclick="simulateSocialAuth('Google')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+                                    <span>Google</span>
+                                </button>
+                                <button type="button" class="btn-social-auth" onclick="simulateSocialAuth('Facebook')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                                    <span>Facebook</span>
+                                </button>
+                            </div>
+
+                            <div class="auth-footer-switch">
+                                Déjà client chez nous ? <a onclick="switchAuthTab('login')">Connectez-vous ici</a>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <!-- Panel 2: Connexion -->
+                    <div class="auth-panel" id="panel-login" role="tabpanel" aria-labelledby="tab-btn-login">
+                        <div class="auth-panel-header">
+                            <h2>Connexion à votre compte</h2>
+                            <p>Retrouvez vos informations, paniers sauvegardés et livraisons.</p>
+                        </div>
+
+                        <form id="form-login" onsubmit="handleLoginSubmit(event)">
+                            <div class="form-group-modern">
+                                <label for="login-email">Adresse e-mail <span class="required">*</span></label>
+                                <div class="input-icon-wrap">
+                                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                    <input type="email" id="login-email" class="form-input-modern" placeholder="votre-email@exemple.com" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group-modern">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+                                    <label for="login-password" style="margin-bottom: 0;">Mot de passe <span class="required">*</span></label>
+                                    <a href="javascript:void(0)" onclick="handleForgotPassword()" style="font-size: 0.8rem; color: var(--blue-primary); text-decoration: underline;">Mot de passe oublié ?</a>
+                                </div>
+                                <div class="input-icon-wrap">
+                                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                    <input type="password" id="login-password" class="form-input-modern" placeholder="Votre mot de passe" required>
+                                    <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('login-password', this)" aria-label="Afficher le mot de passe">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="auth-checkbox-group">
+                                <input type="checkbox" id="login-remember" checked>
+                                <label for="login-remember">Se souvenir de moi sur cet appareil</label>
+                            </div>
+
+                            <!-- Submit button -->
+                            <button type="submit" class="btn-auth-submit" id="btn-submit-login">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                                <span>Se connecter</span>
+                            </button>
+
+                            <!-- Social connection -->
+                            <div class="auth-divider">
+                                <span>Ou connectez-vous avec</span>
+                            </div>
+
+                            <div class="social-auth-grid">
+                                <button type="button" class="btn-social-auth" onclick="simulateSocialAuth('Google')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+                                    <span>Google</span>
+                                </button>
+                                <button type="button" class="btn-social-auth" onclick="simulateSocialAuth('Facebook')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                                    <span>Facebook</span>
+                                </button>
+                            </div>
+
+                            <div class="auth-footer-switch">
+                                Nouveau sur Stérimar™ ? <a onclick="switchAuthTab('register')">Créer un compte maintenant</a>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+                <!-- Right: Benefits Column -->
+                <div class="auth-benefits-card">
+                    <div class="benefits-card-header">
+                        <div class="benefits-header-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <div>
+                            <h3>Avantages Membre</h3>
+                            <p>Pourquoi créer un compte Stérimar™ ?</p>
+                        </div>
+                    </div>
+
+                    <div class="benefits-list">
+                        <div class="benefit-item">
+                            <div class="benefit-icon-badge ocean">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            </div>
+                            <div class="benefit-text">
+                                <h4>Commande Express</h4>
+                                <p>Vos coordonnées et adresses sont pré-enregistrées pour un passage en caisse instantané.</p>
+                            </div>
+                        </div>
+
+                        <div class="benefit-item">
+                            <div class="benefit-icon-badge green">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                            </div>
+                            <div class="benefit-text">
+                                <h4>Suivi de Livraison en Direct</h4>
+                                <p>Suivez l'état d'expédition de vos sprays nasaux étape par étape jusqu'à votre porte.</p>
+                            </div>
+                        </div>
+
+                        <div class="benefit-item">
+                            <div class="benefit-icon-badge orange">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><circle cx="18" cy="16" r="2"/></svg>
+                            </div>
+                            <div class="benefit-text">
+                                <h4>Offres & Cadeaux Exclusifs</h4>
+                                <p>Bénéficiez de remises fidélité, de codes promo exclusifs et d'échantillons découverte.</p>
+                            </div>
+                        </div>
+
+                        <div class="benefit-item">
+                            <div class="benefit-icon-badge purple">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            </div>
+                            <div class="benefit-text">
+                                <h4>Conseils Santé Personnalisés</h4>
+                                <p>Recommandations adaptées aux besoins de toute la famille (bébé, enfant, adulte, allergies).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trust banner -->
+                    <div class="auth-trust-banner">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <div class="trust-banner-text">
+                            <h5>Sécurité & Confidentialité Médicale</h5>
+                            <p>Vos données sont strictement protégées et ne sont jamais cédées à des tiers. Dispositif médical certifié CE.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 2. LOGGED-IN VIEW: Tableau de bord Espace Client -->
+            <div id="auth-dashboard-view" class="account-dashboard">
+                <div class="dashboard-hero-card">
+                    <div class="dashboard-user-info">
+                        <div class="user-avatar-circle" id="user-avatar-initials">SB</div>
+                        <div class="user-names-wrap">
+                            <div class="user-badge-privilege">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                <span>Membre Privilège Stérimar™</span>
+                            </div>
+                            <h2 id="dashboard-user-fullname">Sarah Ben Salem</h2>
+                            <p id="dashboard-user-email" style="font-size: 0.9rem; opacity: 0.9;">sarah@exemple.com</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-actions">
+                        <a href="boutique.html" class="btn-dashboard-action primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                            Commander
+                        </a>
+                        <button type="button" class="btn-dashboard-action logout" onclick="handleLogout()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                            Déconnexion
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dashboard 3 cards -->
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            Mes Coordonnées
+                        </div>
+                        <div class="dashboard-info-row">
+                            <span class="dashboard-info-label">Civilité :</span>
+                            <span class="dashboard-info-value" id="dash-civility">Madame</span>
+                        </div>
+                        <div class="dashboard-info-row">
+                            <span class="dashboard-info-label">Téléphone :</span>
+                            <span class="dashboard-info-value" id="dash-phone">+216 29 550 043</span>
+                        </div>
+                        <div class="dashboard-info-row">
+                            <span class="dashboard-info-label">Zone de livraison :</span>
+                            <span class="dashboard-info-value">Grand Tunis & Toute la Tunisie</span>
+                        </div>
+                        <div class="dashboard-info-row">
+                            <span class="dashboard-info-label">Statut du compte :</span>
+                            <span class="dashboard-info-value" style="color: #4CAF50;">Actif & Vérifié ✓</span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                            Dernière Commande
+                        </div>
+                        <div class="order-mini-card">
+                            <div class="order-mini-header">
+                                <span class="order-ref">#STM-2026-089</span>
+                                <span class="order-status-badge">En préparation</span>
+                            </div>
+                            <p class="order-product-name">2x Stérimar Hygiène du Nez (100ml) + 1x Bébé</p>
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.82rem; color: var(--gray-500);">
+                                <span>Total : <strong>65,00 DT</strong></span>
+                                <span>Livraison : 24-48h</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="dashboard-card-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            Mes Avantages Actifs
+                        </div>
+                        <div class="dashboard-info-row">
+                            <span class="dashboard-info-label">Points fidélité :</span>
+                            <span class="dashboard-info-value" style="color: var(--blue-primary); font-weight: 700;">120 pts (12 DT offerts)</span>
+                        </div>
+                        <div class="dashboard-info-row">
+                            <span class="dashboard-info-label">Code Bienvenue :</span>
+                            <span class="dashboard-info-value" style="color: #4CAF50; font-weight: 700;">STERIMAR10 (-10%)</span>
+                        </div>
+                        <div class="dashboard-info-row">
+                            <span class="dashboard-info-label">Livraison gratuite :</span>
+                            <span class="dashboard-info-value">Dès 100 DT d'achats</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Floating Toast Notification -->
+    <div id="auth-toast" class="auth-toast">
+        <span class="auth-toast-icon" id="auth-toast-icon">🎉</span>
+        <div class="auth-toast-content">
+            <h5 id="auth-toast-title">Succès</h5>
+            <p id="auth-toast-msg">Votre compte a été créé avec succès.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" aria-label="Stérimar Accueil">
+                        <img src="logo.png" alt="Stérimar Logo" class="footer-logo"
+                            style="height: 144px; margin-bottom: 1rem; cursor: pointer;">
+                    </a>
+                    <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/alfatunisie" target="_blank" rel="noopener noreferrer" aria-label="Facebook" id="social-fb">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/alfa_healthcare_tunisie/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" id="social-ig">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <a href="index.html">Accueil</a>
+                    <a href="boutique.html">Boutique</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="qui-sommes-nous.html">Qui sommes-nous</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="creation-compte.html">Mon Compte</a>
+                    <a href="panier.html">Panier</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Nos Gammes</h4>
+                    <a href="boutique.html#hygiene">Gamme Hygiène</a>
+                    <a href="boutique.html#rhume">Gamme Rhume</a>
+                    <a href="boutique.html#allergie">Gamme Allergie</a>
+                    <a href="boutique.html#bebe">Gamme Bébé</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Informations</h4>
+                    <a href="mentions-legales.html">Mentions légales</a>
+                    <a href="politique-confidentialite.html">Politique de confidentialité</a>
+                    <a href="conditions-generales.html">Conditions générales</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Stérimar™ — Tous droits réservés. Dispositif médical.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js?v=16"></script>
+</body>
+</html>

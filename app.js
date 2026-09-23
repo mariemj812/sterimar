@@ -664,6 +664,22 @@ function initNavbar() {
     const navLinks = document.getElementById('nav-links');
     const navPanier = document.getElementById('nav-panier');
     
+    // Inject mobile direct account button if not present
+    if (navToggle && !document.getElementById('mobile-header-account')) {
+        const mobileAccount = document.createElement('a');
+        mobileAccount.href = 'creation-compte.html';
+        mobileAccount.id = 'mobile-header-account';
+        mobileAccount.className = 'mobile-header-account';
+        mobileAccount.setAttribute('aria-label', 'Mon compte');
+        mobileAccount.innerHTML = `
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+            </svg>
+        `;
+        navToggle.parentNode.insertBefore(mobileAccount, navToggle);
+    }
+
     // Inject mobile direct cart button if not present
     if (navToggle && navPanier && !document.getElementById('mobile-header-cart')) {
         const mobileCart = document.createElement('a');
@@ -683,6 +699,8 @@ function initNavbar() {
         `;
         navToggle.parentNode.insertBefore(mobileCart, navToggle);
     }
+
+    updateNavAccount();
     
     // Scroll effect
     window.addEventListener('scroll', () => {
@@ -1047,11 +1065,322 @@ function generateAIResponse(query) {
 }
 
 // ==========================================
+// AUTHENTICATION & ESPACE CLIENT
+// ==========================================
+function updateNavAccount() {
+    try {
+        const storedUser = localStorage.getItem('sterimar_user');
+        const navAccount = document.getElementById('nav-account');
+        const navAccountLabel = document.getElementById('nav-account-label');
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            if (navAccountLabel) {
+                navAccountLabel.textContent = user.firstName || 'Mon Compte';
+            }
+            if (navAccount) {
+                navAccount.title = `Bonjour ${user.firstName || ''} (${user.email || ''})`;
+            }
+        } else {
+            if (navAccountLabel) {
+                navAccountLabel.textContent = 'Compte';
+            }
+            if (navAccount) {
+                navAccount.title = 'Mon compte';
+            }
+        }
+    } catch (e) {
+        console.error('Error updating nav account:', e);
+    }
+}
+
+function switchAuthTab(tab) {
+    const tabRegister = document.getElementById('tab-btn-register');
+    const tabLogin = document.getElementById('tab-btn-login');
+    const panelRegister = document.getElementById('panel-register');
+    const panelLogin = document.getElementById('panel-login');
+
+    if (!tabRegister || !tabLogin || !panelRegister || !panelLogin) return;
+
+    if (tab === 'register') {
+        tabRegister.classList.add('active');
+        tabRegister.setAttribute('aria-selected', 'true');
+        tabLogin.classList.remove('active');
+        tabLogin.setAttribute('aria-selected', 'false');
+
+        panelRegister.classList.add('active');
+        panelLogin.classList.remove('active');
+    } else {
+        tabLogin.classList.add('active');
+        tabLogin.setAttribute('aria-selected', 'true');
+        tabRegister.classList.remove('active');
+        tabRegister.setAttribute('aria-selected', 'false');
+
+        panelLogin.classList.add('active');
+        panelRegister.classList.remove('active');
+    }
+}
+
+function togglePasswordVisibility(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    
+    // Toggle icon
+    if (isPassword) {
+        btn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+        `;
+        btn.setAttribute('aria-label', 'Masquer le mot de passe');
+    } else {
+        btn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+            </svg>
+        `;
+        btn.setAttribute('aria-label', 'Afficher le mot de passe');
+    }
+}
+
+function checkPasswordStrength(password) {
+    const b1 = document.getElementById('meter-bar-1');
+    const b2 = document.getElementById('meter-bar-2');
+    const b3 = document.getElementById('meter-bar-3');
+    const b4 = document.getElementById('meter-bar-4');
+    const label = document.getElementById('meter-feedback-label');
+
+    if (!b1 || !b2 || !b3 || !b4 || !label) return;
+
+    if (!password) {
+        [b1, b2, b3, b4].forEach(b => b.style.backgroundColor = 'var(--gray-200)');
+        label.textContent = 'Non renseigné';
+        label.style.color = 'var(--gray-400)';
+        return;
+    }
+
+    let score = 0;
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+
+    [b1, b2, b3, b4].forEach(b => b.style.backgroundColor = 'var(--gray-200)');
+
+    if (score === 1) {
+        b1.style.backgroundColor = '#FE3200';
+        label.textContent = 'Faible (ajoutez majuscules ou chiffres)';
+        label.style.color = '#FE3200';
+    } else if (score === 2) {
+        b1.style.backgroundColor = '#F15B2B';
+        b2.style.backgroundColor = '#F15B2B';
+        label.textContent = 'Moyen';
+        label.style.color = '#F15B2B';
+    } else if (score === 3) {
+        b1.style.backgroundColor = '#FFB703';
+        b2.style.backgroundColor = '#FFB703';
+        b3.style.backgroundColor = '#FFB703';
+        label.textContent = 'Bon (sécurisé)';
+        label.style.color = '#0077B6';
+    } else {
+        [b1, b2, b3, b4].forEach(b => b.style.backgroundColor = '#4CAF50');
+        label.textContent = 'Excellent ! 🔒';
+        label.style.color = '#4CAF50';
+    }
+}
+
+function handleRegisterSubmit(e) {
+    e.preventDefault();
+    const civility = document.querySelector('input[name="reg-civility"]:checked')?.value || 'Mme';
+    const firstName = document.getElementById('reg-firstname')?.value.trim();
+    const lastName = document.getElementById('reg-lastname')?.value.trim();
+    const email = document.getElementById('reg-email')?.value.trim();
+    const phone = document.getElementById('reg-phone')?.value.trim();
+    const password = document.getElementById('reg-password')?.value;
+    const confirmPassword = document.getElementById('reg-confirm-password')?.value;
+
+    if (!firstName || !lastName || !email || !password) {
+        showAuthToast('Erreur', 'Veuillez remplir tous les champs obligatoires.', 'error');
+        return;
+    }
+
+    if (password.length < 6) {
+        showAuthToast('Mot de passe trop court', 'Le mot de passe doit comporter au moins 6 caractères.', 'error');
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        showAuthToast('Erreur de mot de passe', 'Les deux mots de passe ne correspondent pas.', 'error');
+        return;
+    }
+
+    const userData = {
+        civility,
+        firstName,
+        lastName,
+        email,
+        phone,
+        newsletter: document.getElementById('reg-newsletter')?.checked ?? true,
+        createdAt: new Date().toISOString()
+    };
+
+    localStorage.setItem('sterimar_user', JSON.stringify(userData));
+    showAuthToast('Compte créé ! 🎉', `Bienvenue ${firstName} dans votre Espace Client Stérimar™.`, 'success');
+    
+    updateNavAccount();
+    renderAuthView();
+}
+
+function handleLoginSubmit(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email')?.value.trim();
+    const password = document.getElementById('login-password')?.value;
+
+    if (!email || !password) {
+        showAuthToast('Erreur', 'Veuillez saisir votre e-mail et votre mot de passe.', 'error');
+        return;
+    }
+
+    // Check if user exists or simulate
+    let userData = null;
+    try {
+        const stored = localStorage.getItem('sterimar_user');
+        if (stored) {
+            userData = JSON.parse(stored);
+        }
+    } catch (err) {}
+
+    if (!userData || userData.email.toLowerCase() !== email.toLowerCase()) {
+        const extractedName = email.split('@')[0].replace(/[._-]/g, ' ');
+        const parts = extractedName.split(' ');
+        const firstName = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+        const lastName = parts[1] ? (parts[1].charAt(0).toUpperCase() + parts[1].slice(1)) : 'Client';
+        
+        userData = {
+            civility: 'Mme',
+            firstName,
+            lastName,
+            email,
+            phone: '+216 29 550 043',
+            newsletter: true,
+            createdAt: new Date().toISOString()
+        };
+        localStorage.setItem('sterimar_user', JSON.stringify(userData));
+    }
+
+    showAuthToast('Connexion réussie ! 🌊', `Ravi de vous revoir, ${userData.firstName}.`, 'success');
+    updateNavAccount();
+    renderAuthView();
+}
+
+function handleLogout() {
+    localStorage.removeItem('sterimar_user');
+    showAuthToast('Déconnexion', 'Vous avez été déconnecté avec succès.', 'success');
+    updateNavAccount();
+    renderAuthView();
+}
+
+function simulateSocialAuth(provider) {
+    const defaultUser = {
+        civility: 'Mme',
+        firstName: provider === 'Google' ? 'Sarah' : 'Myriam',
+        lastName: provider === 'Google' ? 'Ben Salem' : 'Trabelsi',
+        email: provider === 'Google' ? 'sarah.bensalem@gmail.com' : 'myriam.t@facebook.com',
+        phone: '+216 29 550 043',
+        newsletter: true,
+        provider,
+        createdAt: new Date().toISOString()
+    };
+    localStorage.setItem('sterimar_user', JSON.stringify(defaultUser));
+    showAuthToast(`Connexion via ${provider} !`, `Bienvenue ${defaultUser.firstName}.`, 'success');
+    updateNavAccount();
+    renderAuthView();
+}
+
+function handleForgotPassword() {
+    const email = document.getElementById('login-email')?.value.trim();
+    if (email) {
+        showAuthToast('Lien envoyé 📧', `Un email de réinitialisation a été envoyé à ${email}.`, 'success');
+    } else {
+        showAuthToast('Mot de passe oublié', 'Veuillez saisir votre adresse e-mail ci-dessus.', 'error');
+    }
+}
+
+function renderAuthView() {
+    const guestView = document.getElementById('auth-guest-view');
+    const dashboardView = document.getElementById('auth-dashboard-view');
+    if (!guestView || !dashboardView) return;
+
+    let user = null;
+    try {
+        const stored = localStorage.getItem('sterimar_user');
+        if (stored) user = JSON.parse(stored);
+    } catch (e) {}
+
+    const titleEl = document.getElementById('page-header-title');
+    const descEl = document.getElementById('page-header-desc');
+
+    if (user) {
+        guestView.style.display = 'none';
+        dashboardView.style.display = 'block';
+
+        const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Client Stérimar';
+        const initials = ((user.firstName?.[0] || 'S') + (user.lastName?.[0] || 'B')).toUpperCase();
+
+        const nameEl = document.getElementById('dashboard-user-fullname');
+        const emailEl = document.getElementById('dashboard-user-email');
+        const avatarEl = document.getElementById('user-avatar-initials');
+        const civilityEl = document.getElementById('dash-civility');
+        const phoneEl = document.getElementById('dash-phone');
+
+        if (nameEl) nameEl.textContent = fullName;
+        if (emailEl) emailEl.textContent = user.email || 'contact@sterimar.shop';
+        if (avatarEl) avatarEl.textContent = initials;
+        if (civilityEl) civilityEl.textContent = user.civility === 'M.' ? 'Monsieur' : 'Madame';
+        if (phoneEl) phoneEl.textContent = user.phone || '+216 29 550 043';
+
+        if (titleEl) titleEl.textContent = `Bienvenue, ${user.firstName || ''} !`;
+        if (descEl) descEl.textContent = 'Gérez vos commandes, vos informations de livraison et vos avantages fidélité.';
+    } else {
+        guestView.style.display = 'grid';
+        dashboardView.style.display = 'none';
+
+        if (titleEl) titleEl.textContent = 'Espace Client & Connexion';
+        if (descEl) descEl.textContent = 'Créez votre compte pour suivre vos livraisons en temps réel, gérer vos adresses et profiter d\'offres de santé exclusives.';
+    }
+}
+
+let toastTimer = null;
+function showAuthToast(title, msg, type = 'success') {
+    const toast = document.getElementById('auth-toast');
+    if (!toast) return;
+
+    const titleEl = document.getElementById('auth-toast-title');
+    const msgEl = document.getElementById('auth-toast-msg');
+    const iconEl = document.getElementById('auth-toast-icon');
+
+    if (titleEl) titleEl.textContent = title;
+    if (msgEl) msgEl.textContent = msg;
+    if (iconEl) iconEl.textContent = type === 'success' ? '✓' : '⚠️';
+
+    toast.className = `auth-toast show ${type}`;
+
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 4000);
+}
+
+// ==========================================
 // INITIALIZATION
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();
     initNavbar();
+    updateNavAccount();
     initSwiper();
     initFilters();
     initCategoryBannerNav();
@@ -1062,5 +1391,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render cart if on cart page
     if (document.getElementById('cart-items')) {
         renderCart();
+    }
+
+    // Render auth if on creation-compte page
+    if (document.getElementById('auth-guest-view')) {
+        renderAuthView();
     }
 });
