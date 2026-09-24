@@ -871,6 +871,68 @@ function initSwiper() {
 // ==========================================
 // STÉRIMAR™ AI HEALTH & PRODUCT ASSISTANT
 // ==========================================
+// ==========================================
+// STÉRIMAR™ AI HEALTH & PRODUCT ASSISTANT
+// ==========================================
+const aiChatState = {
+    lastProductId: null,
+    patientProfile: null,
+    lastSymptom: null,
+    turnCount: 0
+};
+
+const productPageUrls = {
+    0: 'produit-hygiene-du-nez.html',
+    1: 'produit-nez-sujet-aux-rhumes.html',
+    2: 'produit-nez-bouche.html',
+    3: 'produit-nez-allergique.html',
+    4: 'produit-hygiene-du-nez-bebe.html',
+    5: 'produit-nez-bouche-bebe.html',
+    6: 'boutique.html#rhume'
+};
+
+function setAIQuickPrompts(prompts) {
+    const container = document.querySelector('.ai-quick-prompts');
+    if (!container) return;
+    container.innerHTML = '';
+    prompts.forEach(p => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'ai-prompt-chip';
+        chip.textContent = p.label;
+        chip.dataset.prompt = p.prompt || p.label;
+        chip.addEventListener('click', () => {
+            handleUserMessage(chip.dataset.prompt);
+        });
+        container.appendChild(chip);
+    });
+}
+
+window.handleAICartAdd = function(productId) {
+    if (typeof addToCart === 'function') {
+        addToCart(productId, 1);
+    }
+    const btn = document.getElementById(`ai-add-btn-${productId}`);
+    if (btn) {
+        btn.classList.add('added');
+        btn.innerHTML = '✓ Ajouté au panier !';
+    }
+    const msgs = document.getElementById('ai-messages');
+    if (msgs) {
+        const p = products[productId];
+        const confirmMsg = document.createElement('div');
+        confirmMsg.className = 'ai-msg bot';
+        confirmMsg.innerHTML = `✅ <strong>${p.name}</strong> a bien été ajouté à votre panier (16,00 DT) !<br><br><a href="panier.html" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">👉 Voir mon panier & Commander</a>`;
+        msgs.appendChild(confirmMsg);
+        msgs.scrollTop = msgs.scrollHeight;
+    }
+    setAIQuickPrompts([
+        { label: "🛍️ Voir mon panier", prompt: "Voir mon panier" },
+        { label: "🚚 Délais de livraison", prompt: "Quels sont les délais de livraison ?" },
+        { label: "💡 Mode d'emploi", prompt: "Comment bien utiliser ce produit ?" }
+    ]);
+};
+
 function initAIAssistant() {
     if (document.getElementById('sterimar-ai-launcher')) return;
 
@@ -920,17 +982,26 @@ function initAIAssistant() {
         </div>
         <div class="ai-messages" id="ai-messages">
             <div class="ai-msg bot">
-                👋 <strong>Bonjour !</strong> Je suis votre conseiller Stérimar™ IA. Décrivez-moi vos symptômes ou vos besoins pour que je vous recommande le spray nasal le plus adapté.
+                👋 <strong>Bonjour et bienvenue chez Stérimar™ Tunisie !</strong><br>
+                Je suis votre <strong>Conseiller IA santé ORL</strong>. Décrivez-moi vos symptômes ou vos besoins pour recevoir une recommandation clinique sur-mesure.
             </div>
         </div>
         <div class="ai-quick-prompts">
-            <button class="ai-prompt-chip" data-prompt="Quel produit pour un nez bouché ?">🤧 Nez bouché</button>
-            <button class="ai-prompt-chip" data-prompt="Quel spray choisir pour mon bébé ?">👶 Soin Bébé</button>
-            <button class="ai-prompt-chip" data-prompt="J'ai une allergie au pollen">🌸 Allergies</button>
-            <button class="ai-prompt-chip" data-prompt="Comment bien utiliser Stérimar ?">💡 Posologie</button>
+            <button type="button" class="ai-prompt-chip" data-prompt="Quel produit pour un nez bouché ?">🤧 Nez bouché</button>
+            <button type="button" class="ai-prompt-chip" data-prompt="Quel spray choisir pour mon bébé ?">👶 Soin Bébé</button>
+            <button type="button" class="ai-prompt-chip" data-prompt="J'ai une allergie au pollen">🌸 Allergies</button>
+            <button type="button" class="ai-prompt-chip" data-prompt="Quels sont les tarifs et délais de livraison ?">🚚 Livraison</button>
         </div>
         <form class="ai-input-form" id="ai-input-form">
-            <input type="text" class="ai-input-field" id="ai-input-text" placeholder="Posez votre question santé du nez..." autocomplete="off">
+            <input type="text" class="ai-input-field" id="ai-input-text" placeholder="Posez votre question (français, derja...)" autocomplete="off">
+            <button type="button" class="ai-mic-btn" id="ai-mic-btn" title="Parler au micro" aria-label="Microphone">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                    <line x1="12" y1="19" x2="12" y2="23"/>
+                    <line x1="8" y1="23" x2="16" y2="23"/>
+                </svg>
+            </button>
             <button type="submit" class="ai-send-btn" aria-label="Envoyer">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </button>
@@ -966,12 +1037,23 @@ function initAIAssistant() {
     document.getElementById('ai-close-btn').addEventListener('click', closeChat);
 
     document.getElementById('ai-reset-btn').addEventListener('click', () => {
+        aiChatState.lastProductId = null;
+        aiChatState.patientProfile = null;
+        aiChatState.lastSymptom = null;
+        aiChatState.turnCount = 0;
         const msgs = document.getElementById('ai-messages');
         msgs.innerHTML = `
             <div class="ai-msg bot">
-                👋 <strong>Bonjour !</strong> Je suis votre conseiller Stérimar™ IA. Décrivez-moi vos symptômes ou vos besoins pour que je vous recommande le spray nasal le plus adapté.
+                👋 <strong>Bonjour et bienvenue chez Stérimar™ Tunisie !</strong><br>
+                Je suis votre conseiller IA. Décrivez-moi vos symptômes (nez bouché, allergie, soin bébé...) ou vos questions sur nos produits et la livraison.
             </div>
         `;
+        setAIQuickPrompts([
+            { label: "🤧 Nez bouché", prompt: "Quel produit pour un nez bouché ?" },
+            { label: "👶 Soin Bébé", prompt: "Quel spray choisir pour mon bébé ?" },
+            { label: "🌸 Allergies", prompt: "J'ai une allergie au pollen" },
+            { label: "🚚 Livraison", prompt: "Quels sont les tarifs et délais de livraison ?" }
+        ]);
     });
 
     document.querySelectorAll('.ai-prompt-chip').forEach(chip => {
@@ -980,6 +1062,60 @@ function initAIAssistant() {
             handleUserMessage(prompt);
         });
     });
+
+    // Voice recognition (Web Speech API)
+    const micBtn = document.getElementById('ai-mic-btn');
+    if (micBtn) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'fr-FR';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+            let isListening = false;
+
+            micBtn.addEventListener('click', () => {
+                if (!isListening) {
+                    try {
+                        recognition.start();
+                        micBtn.classList.add('listening');
+                        isListening = true;
+                        if (typeof showToast === 'function') showToast('🎙️ Parlez maintenant...');
+                    } catch (e) {
+                        console.error('Speech recognition start error:', e);
+                    }
+                } else {
+                    recognition.stop();
+                    micBtn.classList.remove('listening');
+                    isListening = false;
+                }
+            });
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                const input = document.getElementById('ai-input-text');
+                if (input) input.value = transcript;
+                micBtn.classList.remove('listening');
+                isListening = false;
+                if (transcript.trim()) {
+                    handleUserMessage(transcript.trim());
+                    if (input) input.value = '';
+                }
+            };
+
+            recognition.onerror = () => {
+                micBtn.classList.remove('listening');
+                isListening = false;
+            };
+
+            recognition.onend = () => {
+                micBtn.classList.remove('listening');
+                isListening = false;
+            };
+        } else {
+            micBtn.style.display = 'none';
+        }
+    }
 
     document.getElementById('ai-input-form').addEventListener('submit', (e) => {
         e.preventDefault();
@@ -996,6 +1132,8 @@ function handleUserMessage(userText) {
     const msgs = document.getElementById('ai-messages');
     if (!msgs) return;
 
+    aiChatState.turnCount++;
+
     // Append user message
     const userMsgEl = document.createElement('div');
     userMsgEl.className = 'ai-msg user';
@@ -1003,86 +1141,301 @@ function handleUserMessage(userText) {
     msgs.appendChild(userMsgEl);
     msgs.scrollTop = msgs.scrollHeight;
 
-    // Typing indicator
+    // Animated Typing indicator with jumping dots
     const typingEl = document.createElement('div');
-    typingEl.className = 'ai-msg bot';
+    typingEl.className = 'ai-typing-indicator';
     typingEl.id = 'ai-typing-indicator';
-    typingEl.innerHTML = '<em>Le Conseiller Stérimar réfléchit... 🌊</em>';
+    typingEl.innerHTML = '<span class="ai-typing-dot"></span><span class="ai-typing-dot"></span><span class="ai-typing-dot"></span>';
     msgs.appendChild(typingEl);
     msgs.scrollTop = msgs.scrollHeight;
 
+    // Natural human-like response delay (450ms - 750ms)
+    const delay = Math.floor(Math.random() * 300) + 450;
     setTimeout(() => {
         const activeTyping = document.getElementById('ai-typing-indicator');
         if (activeTyping) activeTyping.remove();
         generateAIResponse(userText);
-    }, 500);
+    }, delay);
+}
+
+function normalizeAIQuery(text) {
+    return text
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?'"’]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function hasAnyWord(str, list) {
+    return list.some(w => str.includes(w));
 }
 
 function generateAIResponse(query) {
-    const q = query.toLowerCase();
+    const q = normalizeAIQuery(query);
     const msgs = document.getElementById('ai-messages');
     let responseText = "";
     let recommendedProductId = null;
+    let nextPrompts = [];
 
-    if (q.includes('bébé') || q.includes('bebe') || q.includes('nourrisson') || q.includes('enfant') || q.includes('naissance')) {
-        if (q.includes('bouché') || q.includes('bouche') || q.includes('enrhumé') || q.includes('rhume') || q.includes('congestion')) {
-            responseText = "Pour un bébé au nez bouché ou encombré dès 3 mois, nous vous recommandons <strong>Stérimar™ Nez Bouché Bébé</strong>. Enrichi en cuivre, il décongestionne en douceur avec un embout de sécurité ergonomique.";
-            recommendedProductId = 5;
+    // 1. Direct Purchase / Add to Cart command
+    if (hasAnyWord(q, ['acheter', 'commander', 'ajoute au panier', 'ajouter au panier', 'ajoute le', 'je le prends', 'je veux acheter', 'chri', 'nchri', 'nheb nechri'])) {
+        if (aiChatState.lastProductId !== null && products[aiChatState.lastProductId]) {
+            const p = products[aiChatState.lastProductId];
+            if (typeof addToCart === 'function') {
+                addToCart(p.id, 1);
+            }
+            const cartQty = (typeof cart !== 'undefined' && Array.isArray(cart)) ? cart.reduce((s, i) => s + i.quantity, 0) : 1;
+            responseText = `🛒 <strong>C'est fait !</strong> J'ai ajouté <strong>${p.name}</strong> à votre panier (<strong>16,00 DT</strong>).<br><br>Vous avez actuellement <strong>${cartQty} article(s)</strong> dans votre panier.<br>📦 Rappel : La livraison est <strong>GRATUITE dès 100 DT d'achat</strong> (ou pack 4 sprays).<br><br><a href="panier.html" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">👉 Voir mon panier & Finaliser ma commande</a>`;
+            nextPrompts = [
+                { label: "🛍️ Voir mon panier", prompt: "Voir mon panier" },
+                { label: "🚚 Délais de livraison", prompt: "Quels sont les délais de livraison ?" },
+                { label: "💳 Modes de paiement", prompt: "Quels sont les modes de paiement ?" },
+                { label: "💡 Posologie", prompt: "Comment bien utiliser ce produit ?" }
+            ];
         } else {
-            responseText = "Pour le lavage quotidien et la prévention chez les tout-petits dès la naissance, nous vous recommandons <strong>Stérimar™ Hygiène du Nez Bébé</strong> avec embout sécurité exclusif.";
+            responseText = "Quel spray Stérimar™ souhaitez-vous ajouter à votre panier ? Dites-moi vos symptômes ou choisissez directement parmi nos soins phares ci-dessous :";
+            nextPrompts = [
+                { label: "🤧 Nez Bouché (16 DT)", prompt: "Je veux Stérimar Nez Bouché" },
+                { label: "👶 Soin Bébé (16 DT)", prompt: "Quel spray choisir pour mon bébé ?" },
+                { label: "🌸 Nez Allergique (16 DT)", prompt: "Je veux Stérimar Nez Allergique" },
+                { label: "🧴 Hygiène Quotidienne (16 DT)", prompt: "Je veux Stérimar Hygiène du Nez" }
+            ];
+        }
+    }
+    // 2. Cart status & checkout link
+    else if (hasAnyWord(q, ['panier', 'mon panier', 'finaliser ma commande', 'regarder mon panier'])) {
+        const cartQty = (typeof cart !== 'undefined' && Array.isArray(cart)) ? cart.reduce((s, i) => s + i.quantity, 0) : 0;
+        responseText = `Vous avez actuellement <strong>${cartQty} article(s)</strong> dans votre panier.<br><br>Vous pouvez finaliser votre commande en toute sécurité avec paiement en espèces à la livraison :<br><br><a href="panier.html" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">🛒 Accéder à mon panier (${cartQty})</a>`;
+        nextPrompts = [
+            { label: "🚚 Délais de livraison", prompt: "Quels sont les délais de livraison ?" },
+            { label: "💳 Modes de paiement", prompt: "Quels sont les modes de paiement ?" },
+            { label: "🛍️ Continuer mes achats", prompt: "Voir la boutique" }
+        ];
+    }
+    // 3. Greetings & Small Talk (French, Derja, Arabic)
+    else if (hasAnyWord(q, ['salut', 'bonjour', 'bonsoir', 'coucou', 'hello', 'hi', 'ahla', '3asslema', 'aslema', 'marhba', 'salem', 'salam', 'labes', 'qui es tu', 'qui est tu', 'chbik', 'aide', 'sos', 'chbih', 'winek'])) {
+        const hour = new Date().getHours();
+        const salutation = (hour >= 18 || hour < 5) ? 'Bonsoir' : 'Bonjour';
+        responseText = `👋 <strong>${salutation} et bienvenue chez Stérimar™ Tunisie !</strong><br><br>Je suis votre <strong>Conseiller IA Expert ORL</strong>. Je suis formé pour :<br>• Vous guider vers le spray adapté selon vos symptômes et votre âge<br>• Répondre à vos questions posologie, grossesse et soins pédiatriques<br>• Vous informer sur les tarifs et la livraison partout en Tunisie.<br><br>💬 <em>Quel symptôme ressentez-vous actuellement ?</em>`;
+        nextPrompts = [
+            { label: "🤧 Nez bouché", prompt: "Quel produit pour un nez bouché ?" },
+            { label: "👶 Soin Bébé", prompt: "Quel spray choisir pour mon bébé ?" },
+            { label: "🌸 Allergies", prompt: "J'ai une allergie au pollen" },
+            { label: "🚚 Délais & Prix", prompt: "Quels sont les tarifs et délais de livraison ?" }
+        ];
+    }
+    // 4. Baby & Newborn Care (Crucial Pediatric Logic)
+    else if (hasAnyWord(q, ['bebe', 'nourrisson', 'naissance', 'nouveau ne', 'sghir', 'wildy', 'benti', 'mouchage', 'pediatre', '0 mois', '1 mois', '2 mois', '3 mois', 'maternite'])) {
+        aiChatState.patientProfile = 'baby';
+        
+        // Newborn < 3 months specifically
+        if (hasAnyWord(q, ['0 mois', '1 mois', '2 mois', 'naissance', 'nouveau ne', 'tout petit', 'nouveau-ne', 'premiers mois'])) {
+            responseText = `👶 <strong>Pour un nourrisson de moins de 3 mois :</strong><br><br>Seule une solution isotonique physiologique est autorisée. Nous vous conseillons exclusivement <strong>Stérimar™ Hygiène du Nez Bébé</strong> (dès la naissance).<br><br>⚠️ <em>Règle de sécurité pédiatrique :</em> Les sprays hypertoniques décongestionnants forts sont strictement réservés aux bébés de <strong>plus de 3 mois</strong>.<br><br>Son embout exclusif avec collerette de sécurité protège les petites narines délicates de bébé.`;
             recommendedProductId = 4;
+            nextPrompts = [
+                { label: "🛒 Ajouter Hygiène Bébé", prompt: "Ajouter Hygiène Bébé au panier" },
+                { label: "💡 Comment moucher bébé ?", prompt: "Comment bien moucher un bébé ?" },
+                { label: "🚚 Délais de livraison", prompt: "Quels sont les délais de livraison ?" }
+            ];
         }
-    } else if (q.includes('allergie') || q.includes('pollen') || q.includes('acarien') || q.includes('éternu') || q.includes('rhinite')) {
-        responseText = "Pour soulager les allergies nasales (pollens, poussières, poils d'animaux), le produit idéal est <strong>Stérimar™ Nez Allergique</strong>, enrichi en Manganèse protecteur (Élu Meilleur Produit Pharma).";
+        // Baby 3 months+ with blocked / stuffy nose
+        else if (hasAnyWord(q, ['bouche', 'bloque', 'congestion', 'mablou3', 'masdoud', 'enrhume', 'rhume', 'greb'])) {
+            responseText = `👶 <strong>Pour un bébé dès 3 mois au nez bouché ou encombré :</strong><br><br>Nous vous recommandons <strong>Stérimar™ Nez Bouché Bébé</strong> (Solution Hypertonique enrichie en Cuivre).<br><br>✨ <strong>Action douce et naturelle :</strong><br>• Décongestionne rapidement par effet osmotique naturel sans vasoconstricteur chimique<br>• Le Cuivre aide à limiter la prolifération bactérienne<br>• Embout sécurité ergonomique adapté aux narines de bébé<br>• Recommandé avant les repas et le sommeil pour aider bébé à mieux respirer et téter.`;
+            recommendedProductId = 5;
+            nextPrompts = [
+                { label: "🛒 Ajouter au panier (16 DT)", prompt: "Ajouter au panier" },
+                { label: "💡 Comment moucher bébé ?", prompt: "Comment bien moucher un bébé ?" },
+                { label: "🧴 Voir Hygiène Quotidienne", prompt: "Quel spray pour l'hygiène quotidienne de bébé ?" }
+            ];
+        }
+        // General baby hygiene
+        else {
+            responseText = `👶 <strong>Pour l'hygiène quotidienne de bébé (dès la naissance) :</strong><br><br><strong>Stérimar™ Hygiène du Nez Bébé</strong> est une formule physiologique d'eau de mer puisée en Baie de Cancale.<br><br>Il lave en douceur, humidifie les cavités nasales et prévient les affections ORL (rhumes, rhinopharyngites, otites). Son jet micro-diffusé respecte la fragilité des nouveau-nés.`;
+            recommendedProductId = 4;
+            nextPrompts = [
+                { label: "🛒 Ajouter au panier", prompt: "Ajouter au panier" },
+                { label: "💡 Comment l'utiliser ?", prompt: "Comment bien moucher un bébé ?" },
+                { label: "🤧 S'il a le nez bouché ?", prompt: "Quel produit si mon bébé a le nez bouché ?" }
+            ];
+        }
+    }
+    // 5. Allergies, Pollen, Rhinite, Dust Mites
+    else if (hasAnyWord(q, ['allergie', 'allergique', 'pollen', 'acarien', 'poussiere', 'eternu', 'yeux', 'demangeaison', 'printemps', 'hasassiya', '3tass', 'rhinite'])) {
+        responseText = `🌸 <strong>Pour soulager et prévenir les allergies nasales :</strong><br><br>Le soin d'excellence est <strong>Stérimar™ Nez Allergique</strong>, enrichi en <strong>Manganèse</strong> (Élu Meilleur Produit Pharma).<br><br>🛡️ <strong>Efficacité cliniquement reconnue :</strong><br>• Élimine mécaniquement les allergènes au contact de la muqueuse (pollens, poussières, acariens, poils)<br>• Le Manganèse freine la libération d'histamine et apaise la muqueuse irritée<br>• <strong>100% naturel, sans corticoïdes, sans somnolence et sans accoutumance</strong><br>• Recommandé pour l'adulte et l'enfant dès 3 ans tout au long de la saison des allergies.`;
         recommendedProductId = 3;
-    } else if (q.includes('bouché') || q.includes('bouche') || q.includes('débouch') || q.includes('sinusite') || q.includes('forte congestion')) {
-        responseText = "En cas de forte congestion nasale, optez pour <strong>Stérimar™ Nez Bouché (Hypertonique)</strong>. Enrichi en Cuivre, il débouche le nez jusqu'à 6 heures par action osmotique naturelle sans accoutumance.";
+        nextPrompts = [
+            { label: "🛒 Ajouter au panier (16 DT)", prompt: "Ajouter au panier" },
+            { label: "💡 Posologie allergie", prompt: "Quelle est la posologie pour Stérimar Nez Allergique ?" },
+            { label: "🤰 Compatible grossesse ?", prompt: "Puis-je l'utiliser pendant la grossesse ?" },
+            { label: "🚚 Délais de livraison", prompt: "Quels sont les délais de livraison ?" }
+        ];
+    }
+    // 6. Blocked Nose / Congestion / Sinusitis (Adult & Child 3+)
+    else if (hasAnyWord(q, ['bouche', 'debouch', 'bloque', 'congestion', 'sinusite', 'respirer', 'ronfle', 'etouffe', 'khachmi mablou3', 'masdoud', 'mzarra9'])) {
+        responseText = `🤧 <strong>Pour déboucher rapidement le nez (dès 3 ans et adulte) :</strong><br><br>Le soin incontournable est <strong>Stérimar™ Nez Bouché (Hypertonique)</strong>, enrichi en <strong>Cuivre</strong>.<br><br>🌊 <strong>Comment agit-il ?</strong><br>• Sa concentration en sel de mer plus élevée (~22 g/L) crée un <strong>effet d'osmose naturelle</strong> qui dégonfle la muqueuse nasale en quelques minutes, avec une efficacité constatée jusqu'à <strong>6 heures</strong>.<br>• Le Cuivre antibactérien aide à lutter contre les infections hivernales.<br>• <strong>Sans vasoconstricteur chimique :</strong> aucun effet rebond ni dépendance !`;
         recommendedProductId = 2;
-    } else if (q.includes('rhume') || q.includes('froid') || q.includes('hiver') || q.includes('prévenir') || q.includes('gorge')) {
-        if (q.includes('stop') || q.includes('dès les premiers')) {
-            responseText = "Pour stopper le rhume dès les premiers frissons, découvrez <strong>Stérimar™ Stop & Protect Rhume</strong> avec son action barrière protectrice.";
-            recommendedProductId = 6;
-        } else {
-            responseText = "Pour renforcer vos défenses nasales face aux agressions hivernales, utilisez <strong>Stérimar™ Nez sujet aux Rhumes</strong>, enrichi en Soufre naturel.";
-            recommendedProductId = 1;
-        }
-    } else if (q.includes('posologie') || q.includes('comment utiliser') || q.includes('mode d\'emploi') || q.includes('utilisation')) {
-        responseText = "<strong>Conseil d'utilisation Stérimar™ :</strong><br>• En hygiène quotidienne : 1 à 2 pulvérisations par narine, 1 à 3 fois par jour.<br>• En décongestion (Nez Bouché) : 1 à 2 pulvérisations, 2 à 3 fois par jour pendant 5 jours max.<br>• Inclinez la tête sur le côté, insérez délicatement l'embout et pulvérisez. Mouchez après usage.";
+        nextPrompts = [
+            { label: "🛒 Ajouter au panier (16 DT)", prompt: "Ajouter au panier" },
+            { label: "💡 Combien de fois par jour ?", prompt: "Combien de fois par jour utiliser Stérimar Nez Bouché ?" },
+            { label: "👶 Et pour mon bébé ?", prompt: "Quel spray pour un bébé au nez bouché ?" },
+            { label: "🚚 Commander en ligne", prompt: "Quels sont les tarifs et délais de livraison ?" }
+        ];
+    }
+    // 7. Cold / Winter Immunity / Early Symptoms
+    else if (hasAnyWord(q, ['rhume', 'hiver', 'froid', 'gorge', 'prevenir', 'prevention', 'protection', 'greb', 'grippe', 'chmouma', 'berd', 'immunite'])) {
+        responseText = `❄️ <strong>Face au rhume et aux agressions de l'hiver :</strong><br><br>1️⃣ <strong>En prévention & dès les premiers frissons :</strong> <strong>Stérimar™ Nez sujet aux Rhumes</strong>, enrichi en <strong>Soufre</strong> naturel, régénère la muqueuse et renforce vos défenses immunitaires locales.<br><br>2️⃣ <strong>Pour stopper le rhume déclaré :</strong> <strong>Stérimar™ Stop & Protect Rhume</strong> (format nomade 20ml) forme un film protecteur actif qui bloque la prolifération virale.`;
+        recommendedProductId = 1;
+        nextPrompts = [
+            { label: "🛒 Ajouter Nez sujet aux Rhumes", prompt: "Ajouter Nez sujet aux Rhumes au panier" },
+            { label: "🤧 Mon nez est très bouché", prompt: "J'ai le nez très bouché" },
+            { label: "💡 Mode d'emploi", prompt: "Comment bien utiliser Stérimar ?" }
+        ];
+    }
+    // 8. Daily Hygiene & Dry Mucosa / Air Conditioning
+    else if (hasAnyWord(q, ['hygiene', 'lavage', 'nettoyer', 'quotidien', 'tous les jours', 'secheresse', 'sec', 'croutes', 'climatisation', 'pollution', 'croûtes'])) {
+        responseText = `🌊 <strong>Hygiène nasale quotidienne & Bien-être respiratoire :</strong><br><br><strong>Stérimar™ Hygiène du Nez</strong> est la formule originale à base de 100% d'eau de mer isotonique puisée en Baie de Cancale.<br><br>✨ <strong>Bénéfices au quotidien :</strong><br>• Lave les cavités nasales en douceur et évacue poussières et impuretés<br>• Réhydrate la muqueuse asséchée par la climatisation ou le chauffage<br>• Prévient les infections ORL et améliore la qualité du sommeil<br>• Utilisable quotidiennement sans limitation (adulte et enfant dès 3 ans).`;
         recommendedProductId = 0;
-    } else if (q.includes('prix') || q.includes('tarif') || q.includes('combien') || q.includes('livraison')) {
-        responseText = "Tous nos sprays Stérimar™ 100ml et Stop & Protect sont au prix unique de <strong>16,00 DT</strong>. La livraison est assurée sous 24/48h en Tunisie (7,00 DT, et <strong>GRATUITE dès 100 DT d'achat</strong>).";
+        nextPrompts = [
+            { label: "🛒 Ajouter au panier (16 DT)", prompt: "Ajouter au panier" },
+            { label: "💡 Conseils d'utilisation", prompt: "Comment bien utiliser Stérimar ?" },
+            { label: "👶 Version Bébé disponible ?", prompt: "Quel spray choisir pour mon bébé ?" }
+        ];
+    }
+    // 9. Pregnancy & Breastfeeding Safety
+    else if (hasAnyWord(q, ['enceinte', 'grossesse', 'allaitement', 'allaite', 'nourrice', 'bebe dans le ventre', 'femme enceinte', 'grosses'])) {
+        responseText = `🤰 <strong>100% sûr et sans danger pendant la grossesse et l'allaitement !</strong><br><br>Tous les sprays Stérimar™ sont composés exclusivement d'<strong>eau de mer 100% naturelle</strong> et d'oligo-éléments marins.<br><br>✅ <strong>Sans corticoïdes</strong><br>✅ <strong>Sans conservateurs chimiques</strong><br>✅ <strong>Sans vasoconstricteurs</strong> (aucun risque d'hypertension ni d'impact fœtal)<br><br>👉 Idéal pour soulager naturellement la <strong>rhinite de grossesse</strong> et respirer librement sans prendre de médicaments.`;
         recommendedProductId = 0;
-    } else {
-        responseText = "Pour un confort nasal optimal et une respiration saine au quotidien, <strong>Stérimar™ Hygiène du Nez</strong> à l'eau de mer 100% naturelle de la Baie de Cancale est la référence incontournable.";
-        recommendedProductId = 0;
+        nextPrompts = [
+            { label: "🧴 Hygiène Quotidienne", prompt: "Je veux Stérimar Hygiène du Nez" },
+            { label: "🤧 Nez Bouché décongestion", prompt: "Quel produit pour un nez bouché ?" },
+            { label: "🌸 Allergies de grossesse", prompt: "J'ai une allergie au pollen" }
+        ];
+    }
+    // 10. Difference Isotonic vs Hypertonic
+    else if (hasAnyWord(q, ['isotonique', 'hypertonique', 'difference', 'sel', 'salinite', 'osmose', 'concentration'])) {
+        responseText = `🔬 <strong>Différence entre Solution Isotonique et Hypertonique :</strong><br><br>💧 <strong>Solution Isotonique (ex : Stérimar Hygiène) :</strong><br>• Concentration en sel marin identique à celle de nos cellules (<strong>9 g/L</strong>).<br>• Rôle : Laver, humidifier et protéger sans agresser. Utilisable <strong>tous les jours sans limite</strong>.<br><br>⚡ <strong>Solution Hypertonique (ex : Stérimar Nez Bouché) :</strong><br>• Concentration en sel plus élevée (~<strong>22 g/L</strong>).<br>• Rôle : Par phénomène d'<strong>osmose</strong>, elle attire l'excès d'eau hors de la muqueuse enflée pour déboucher le nez en quelques minutes. Recommandée lors des périodes de congestion (5 à 7 jours).`;
+        nextPrompts = [
+            { label: "🤧 Voir Stérimar Nez Bouché", prompt: "Quel produit pour un nez bouché ?" },
+            { label: "🧴 Voir Stérimar Hygiène", prompt: "Je veux Stérimar Hygiène du Nez" },
+            { label: "👶 Et pour mon bébé ?", prompt: "Quel spray choisir pour mon bébé ?" }
+        ];
+    }
+    // 11. Dosage & How to Use (Adult & Baby)
+    else if (hasAnyWord(q, ['posologie', 'comment utiliser', 'mode d emploi', 'combien de fois', 'frequence', 'kifech nestamel', 'tuto', 'utilisation'])) {
+        responseText = `💡 <strong>Guide d'utilisation Stérimar™ :</strong><br><br>👤 <strong>Adulte & Enfant (dès 3 ans) :</strong><br>1. Mouchez-vous au préalable.<br>2. Inclinez la tête sur le côté au-dessus du lavabo (jamais en arrière).<br>3. Insérez délicatement l'embout dans la narine supérieure et effectuez 1 à 2 pulvérisations.<br>4. Laissez agir quelques secondes, puis mouchez-vous.<br>5. Répétez pour l'autre narine.<br><br>👶 <strong>Pour Bébé (0 à 3 ans) :</strong><br>Allongez bébé sur le dos, tournez sa tête sur le côté et pulvérisez doucement avec l'embout sécurité. Redressez-le et essuyez son nez.<br><br>🚿 <em>Rincez l'embout à l'eau chaude savonneuse après chaque utilisation.</em>`;
+        nextPrompts = [
+            { label: "🤧 Quel produit choisir ?", prompt: "Quel produit pour un nez bouché ?" },
+            { label: "👶 Soin Bébé", prompt: "Quel spray choisir pour mon bébé ?" },
+            { label: "🛍️ Voir la boutique", prompt: "Voir la boutique" }
+        ];
+    }
+    // 12. Price, Packs & Discounts in Tunisia
+    else if (hasAnyWord(q, ['prix', 'tarif', 'combien', 'cout', 'b9adech', '9adeh', 'soum', 'soumou', 'chhal', 'promo', 'remise', 'reduction', 'pack', 'dinar', 'dt'])) {
+        responseText = `💰 <strong>Tarifs officiels Stérimar™ Tunisie :</strong><br><br>• Tous nos sprays 100ml et Stop & Protect sont au prix unique de <strong>16,00 DT</strong>.<br>• <strong>🎉 OFFRE SPÉCIALE :</strong> La livraison est <strong>100% GRATUITE dès 100 DT d'achat</strong> (ou pour l'achat de notre pack famille 4 sprays) !<br>• Frais de port standard : 7,00 DT sur toute la Tunisie pour les commandes inférieures à 100 DT.<br>• Paiement sécurisé en espèces à la livraison.`;
+        nextPrompts = [
+            { label: "🛍️ Commander en boutique", prompt: "Voir la boutique" },
+            { label: "🚚 Délais de livraison", prompt: "Quels sont les délais de livraison ?" },
+            { label: "💳 Modes de paiement", prompt: "Quels sont les modes de paiement ?" }
+        ];
+    }
+    // 13. Delivery & Cities in Tunisia
+    else if (hasAnyWord(q, ['livraison', 'delai', 'temps', 'towslo', 'livreur', 'tunis', 'sousse', 'sfax', 'nabeul', 'bizerte', 'kairouan', 'monastir', 'gabes', 'djerba', 'ariana', 'ben arous', 'manouba', 'partout', 'livrez'])) {
+        responseText = `🚚 <strong>Livraison express partout en Tunisie :</strong><br><br>• <strong>Délais :</strong> 24h à 48h ouvrées chez vous.<br>• <strong>Couverture :</strong> Les 24 gouvernorats (Grand Tunis, Sousse, Sfax, Sahel, Nabeul, Bizerte, Kairouan, Sud, etc.).<br>• <strong>Frais :</strong> 7,00 DT, et <strong>GRATUITE dès 100 DT d'achat</strong>.<br>• Le livreur vous contacte systématiquement par téléphone avant son passage.`;
+        nextPrompts = [
+            { label: "🛒 Passer commande", prompt: "Voir la boutique" },
+            { label: "💳 Paiement à la livraison", prompt: "Quels sont les modes de paiement ?" },
+            { label: "📞 Contacter le service client", prompt: "Quel est le numéro de téléphone ?" }
+        ];
+    }
+    // 14. Payment Methods
+    else if (hasAnyWord(q, ['paiement', 'payer', 'espece', 'especes', 'carte', 'cash', 'flous', 'kifech nkhales'])) {
+        responseText = `💳 <strong>Mode de paiement 100% sécurisé :</strong><br><br>Nous proposons le <strong>Paiement à la livraison (Cash on Delivery)</strong> :<br>• Aucun paiement par carte bancaire exigé sur le site.<br>• Vous ne réglez qu'au moment de recevoir votre colis entre les mains du transporteur !`;
+        nextPrompts = [
+            { label: "🛍️ Choisir mes produits", prompt: "Voir la boutique" },
+            { label: "🚚 Délais de livraison", prompt: "Quels sont les délais de livraison ?" },
+            { label: "📦 Voir mon panier", prompt: "Voir mon panier" }
+        ];
+    }
+    // 15. Phone, Human Advisor & Contact
+    else if (hasAnyWord(q, ['telephone', 'numero', 'contact', 'parler', 'humain', 'whatsapp', 'boutique physique', 'adresse', 'service client', 'magasin', 'appel'])) {
+        responseText = `📞 <strong>Service Client Stérimar™ Tunisie :</strong><br><br>• <strong>Téléphone / WhatsApp :</strong> <a href="tel:+21629550043" style="color:#0077B6; font-weight:700;">+216 29 550 043</a><br>• <strong>E-mail :</strong> <a href="mailto:commercial@sterimar.shop" style="color:#0077B6; font-weight:700;">commercial@sterimar.shop</a><br>• <strong>Horaires :</strong> Du Lundi au Samedi de 8h30 à 18h00.<br><br>Notre équipe est à votre disposition pour vous conseiller ou enregistrer votre commande directement par téléphone !`;
+        nextPrompts = [
+            { label: "🛍️ Commander sur le site", prompt: "Voir la boutique" },
+            { label: "🚚 Délais de livraison", prompt: "Quels sont les délais de livraison ?" },
+            { label: "🤧 Nez bouché", prompt: "Quel produit pour un nez bouché ?" }
+        ];
+    }
+    // 16. Red Flags / Medical Warning
+    else if (hasAnyWord(q, ['fievre', 'temperature', 'otite', 'oreille', 'douleur', 'mal', '38', '39', 'saignement', 'saigne', 'sang', 'urgent'])) {
+        responseText = `⚠️ <strong>Conseil de prudence médicale :</strong><br><br>Les soins Stérimar™ apportent un soulagement naturel, mais en présence de :<br>• Une fièvre supérieure à 38,5°C<br>• Une vive douleur à l'oreille (suspicion d'otite)<br>• Des sécrétions purulentes épaisses au-delà de 7 jours<br><br>👉 <strong>Consultez rapidement un médecin généraliste, un pédiatre ou un spécialiste ORL.</strong>`;
+        nextPrompts = [
+            { label: "🧴 Stérimar Hygiène doux", prompt: "Je veux Stérimar Hygiène du Nez" },
+            { label: "👶 Soin Bébé", prompt: "Quel spray choisir pour mon bébé ?" },
+            { label: "📞 Service client", prompt: "Quel est le numéro de téléphone ?" }
+        ];
+    }
+    // 17. Thank you & Politeness (French / Derja)
+    else if (hasAnyWord(q, ['merci', 'aychek', '3aychek', 'chokran', 'parfait', 'super', 'merci beaucoup', 'top', 'sa7a', 'يعيشك', 'شكرا'])) {
+        responseText = `Avec grand plaisir ! 😊 Prenez bien soin de vous et de la respiration de votre famille 🌊<br><br>Stérimar™ reste à vos côtés. Souhaitez-vous voir nos produits ou finaliser une commande ?`;
+        nextPrompts = [
+            { label: "🛍️ Voir la boutique", prompt: "Voir la boutique" },
+            { label: "🛒 Voir mon panier", prompt: "Voir mon panier" },
+            { label: "🚚 Délais de livraison", prompt: "Quels sont les délais de livraison ?" }
+        ];
+    }
+    // 18. Smart Fallback with interactive triage
+    else {
+        responseText = `Je suis à votre disposition pour trouver la solution Stérimar™ parfaitement adaptée à votre situation.<br><br>De quoi s'agit-il principalement ? Choisissez une option ci-dessous ou précisez votre demande :`;
+        nextPrompts = [
+            { label: "🤧 Nez bouché & Sinusite", prompt: "Quel produit pour un nez bouché ?" },
+            { label: "👶 Bébé ou Nourrisson", prompt: "Quel spray choisir pour mon bébé ?" },
+            { label: "🌸 Allergies de saison", prompt: "J'ai une allergie au pollen" },
+            { label: "🧴 Hygiène quotidienne", prompt: "Je veux Stérimar Hygiène du Nez" },
+            { label: "🚚 Livraison & Tarifs", prompt: "Quels sont les tarifs et délais de livraison ?" }
+        ];
     }
 
     const botMsgEl = document.createElement('div');
     botMsgEl.className = 'ai-msg bot';
     botMsgEl.innerHTML = responseText;
 
+    // Render interactive product card if recommended
     if (recommendedProductId !== null && products[recommendedProductId]) {
         const p = products[recommendedProductId];
+        aiChatState.lastProductId = p.id;
+        const pageUrl = productPageUrls[p.id] || 'boutique.html';
         const cardEl = document.createElement('div');
         cardEl.className = 'ai-product-card-msg';
         cardEl.innerHTML = `
             <div class="ai-product-card-head">
                 <img src="${getAssetUrl(p.image)}" alt="${p.name}">
-                <div>
+                <div style="flex: 1;">
                     <div class="ai-product-card-title">${p.name}</div>
-                    <div class="ai-product-card-price">${p.price.toFixed(2).replace('.', ',')} DT</div>
+                    <span class="ai-product-tag">${p.categoryLabel} • ${p.volume || '100ml'}</span>
+                    <div class="ai-product-card-price" style="margin-top:2px;">${p.price.toFixed(2).replace('.', ',')} DT</div>
                 </div>
             </div>
-            <button class="ai-product-add-btn" onclick="addToCart(${p.id})">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 5v14m-7-7h14"/></svg>
-                Ajouter au panier (16,00 DT)
-            </button>
+            <div class="ai-product-card-actions">
+                <button type="button" class="ai-product-add-btn" id="ai-add-btn-${p.id}" onclick="handleAICartAdd(${p.id})">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 5v14m-7-7h14"/></svg>
+                    Ajouter au panier (16,00 DT)
+                </button>
+                <a href="${pageUrl}" class="ai-product-view-btn">
+                    Voir la fiche &gt;
+                </a>
+            </div>
         `;
         botMsgEl.appendChild(cardEl);
     }
 
     msgs.appendChild(botMsgEl);
     msgs.scrollTop = msgs.scrollHeight;
+
+    // Update quick prompts dynamically for this context
+    if (nextPrompts && nextPrompts.length > 0) {
+        setAIQuickPrompts(nextPrompts);
+    }
 }
 
 // ==========================================
