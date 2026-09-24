@@ -154,13 +154,20 @@ if ( ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) ||
 
 $page_file = 'index.html';
 
+// 301 Permanent Redirect for any old URLs with ?page_file=*.html
 if ( isset( $_GET['page_file'] ) ) {
     $clean_page = basename( sanitize_file_name( $_GET['page_file'] ) );
-    if ( file_exists( $theme_dir . '/' . $clean_page ) && preg_match( '/\.html$/i', $clean_page ) ) {
-        $page_file = $clean_page;
-        $is_native_wp = false;
+    if ( $clean_page === 'index.html' ) {
+        wp_safe_redirect( home_url( '/' ), 301 );
+        exit;
     }
-} else if ( ! $is_native_wp ) {
+    if ( file_exists( $theme_dir . '/' . $clean_page ) && preg_match( '/\.html$/i', $clean_page ) ) {
+        wp_safe_redirect( trailingslashit( home_url() ) . $clean_page, 301 );
+        exit;
+    }
+}
+
+if ( ! $is_native_wp ) {
     // Check if the current URL path matches any HTML file
     $request_uri = trim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
     $path_parts = array_filter( explode( '/', $request_uri ) );
@@ -188,7 +195,7 @@ if ( $is_native_wp ) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo esc_url( $theme_uri . '/style.css?v=18' ); ?>">
+    <link rel="stylesheet" href="<?php echo esc_url( $theme_uri . '/style.css?v=20' ); ?>">
     <link rel="icon" href="<?php echo esc_url( $theme_uri . '/favicon-32x32.png' ); ?>" sizes="32x32">
     <?php wp_head(); ?>
 </head>
@@ -196,24 +203,24 @@ if ( $is_native_wp ) {
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="<?php echo esc_url( home_url('/') ); ?>" class="nav-logo" id="nav-logo">
+            <a href="<?php echo esc_url( home_url('/') ); ?>" class="nav-logo" id="nav-logo" aria-label="Stérimar Tunisie - Accueil">
                 <img src="<?php echo esc_url( $theme_uri . '/logo.png' ); ?>" alt="Stérimar Logo" class="logo-img">
                 <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
             </a>
             <div class="nav-links" id="nav-links">
                 <a href="<?php echo esc_url( home_url('/') ); ?>" class="nav-link">Accueil</a>
-                <a href="<?php echo esc_url( add_query_arg('page_file', 'boutique.html', $home_url) ); ?>" class="nav-link">Boutique</a>
-                <a href="<?php echo esc_url( add_query_arg('page_file', 'blog.html', $home_url) ); ?>" class="nav-link">Blog</a>
-                <a href="<?php echo esc_url( add_query_arg('page_file', 'qui-sommes-nous.html', $home_url) ); ?>" class="nav-link">Qui sommes-nous</a>
-                <a href="<?php echo esc_url( add_query_arg('page_file', 'contact.html', $home_url) ); ?>" class="nav-link">Contact</a>
-                <a href="<?php echo esc_url( add_query_arg('page_file', 'creation-compte.html', $home_url) ); ?>" class="nav-link nav-account" id="nav-account" aria-label="Mon compte">
+                <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'boutique.html' ); ?>" class="nav-link">Boutique</a>
+                <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'blog.html' ); ?>" class="nav-link">Blog</a>
+                <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'qui-sommes-nous.html' ); ?>" class="nav-link">Qui sommes-nous</a>
+                <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'contact.html' ); ?>" class="nav-link">Contact</a>
+                <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'creation-compte.html' ); ?>" class="nav-link nav-account" id="nav-account" aria-label="Mon compte">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                         <circle cx="12" cy="7" r="4" />
                     </svg>
                     <span id="nav-account-label">Compte</span>
                 </a>
-                <a href="<?php echo esc_url( add_query_arg('page_file', 'panier.html', $home_url) ); ?>" class="nav-link nav-cart">
+                <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'panier.html' ); ?>" class="nav-link nav-cart" aria-label="Voir mon panier">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1" />
                         <circle cx="20" cy="21" r="1" />
@@ -223,7 +230,7 @@ if ( $is_native_wp ) {
                     Panier
                 </a>
             </div>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu de navigation" aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
         </div>
@@ -265,18 +272,18 @@ if ( $is_native_wp ) {
                 <div class="footer-links">
                     <h4>Navigation</h4>
                     <a href="<?php echo esc_url( home_url('/') ); ?>">Accueil</a>
-                    <a href="<?php echo esc_url( add_query_arg('page_file', 'boutique.html', $home_url) ); ?>">Boutique</a>
-                    <a href="<?php echo esc_url( add_query_arg('page_file', 'blog.html', $home_url) ); ?>">Blog</a>
-                    <a href="<?php echo esc_url( add_query_arg('page_file', 'qui-sommes-nous.html', $home_url) ); ?>">Qui sommes-nous</a>
-                    <a href="<?php echo esc_url( add_query_arg('page_file', 'contact.html', $home_url) ); ?>">Contact</a>
-                    <a href="<?php echo esc_url( add_query_arg('page_file', 'creation-compte.html', $home_url) ); ?>">Mon Compte</a>
-                    <a href="<?php echo esc_url( add_query_arg('page_file', 'panier.html', $home_url) ); ?>">Panier</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'boutique.html' ); ?>">Boutique</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'blog.html' ); ?>">Blog</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'qui-sommes-nous.html' ); ?>">Qui sommes-nous</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'contact.html' ); ?>">Contact</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'creation-compte.html' ); ?>">Mon Compte</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'panier.html' ); ?>">Panier</a>
                 </div>
                 <div class="footer-links">
                     <h4>Informations</h4>
-                    <a href="<?php echo esc_url( add_query_arg('page_file', 'mentions-legales.html', $home_url) ); ?>">Mentions légales</a>
-                    <a href="<?php echo esc_url( add_query_arg('page_file', 'politique-confidentialite.html', $home_url) ); ?>">Politique de confidentialité</a>
-                    <a href="<?php echo esc_url( add_query_arg('page_file', 'conditions-generales.html', $home_url) ); ?>">Conditions générales</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'mentions-legales.html' ); ?>">Mentions légales</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'politique-confidentialite.html' ); ?>">Politique de confidentialité</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'conditions-generales.html' ); ?>">Conditions générales</a>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -392,7 +399,7 @@ $html = preg_replace_callback( '/url\(\s*[\'"]?([^\'")]+)[\'"]?\s*\)/i', functio
     return "url('" . $theme_uri . '/' . ltrim( $url, '/' ) . "')";
 }, $html );
 
-// 6. Rewrite relative HTML page links: href="boutique.html#rhume" -> href="SITE_URL/?page_file=boutique.html#rhume"
+// 6. Rewrite relative HTML page links to clean URLs: href="boutique.html#rhume" -> href="SITE_URL/boutique.html#rhume"
 $home_url = home_url();
 $html = preg_replace_callback( '/href=["\']([a-zA-Z0-9_\-]+\.html)(#[^"\']*)?["\']/i', function( $matches ) use ( $home_url ) {
     $page = basename( $matches[1] );
@@ -400,7 +407,7 @@ $html = preg_replace_callback( '/href=["\']([a-zA-Z0-9_\-]+\.html)(#[^"\']*)?["\
     if ( $page === 'index.html' ) {
         return 'href="' . esc_url( trailingslashit( $home_url ) ) . $hash . '"';
     }
-    return 'href="' . esc_url( add_query_arg( 'page_file', $page, $home_url ) ) . $hash . '"';
+    return 'href="' . esc_url( trailingslashit( $home_url ) . $page ) . $hash . '"';
 }, $html );
 
 // 7. Output page
