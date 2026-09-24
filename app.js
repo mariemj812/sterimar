@@ -216,6 +216,17 @@ function addToCart(productId, qty = 1) {
     
     saveCart();
     showToast(`${product.name} ajouté au panier ✓`);
+
+    // Meta Pixel AddToCart
+    if (typeof fbq === 'function') {
+        fbq('track', 'AddToCart', {
+            content_name: product.name,
+            content_ids: [product.wcId ? String(product.wcId) : String(productId)],
+            content_type: 'product',
+            value: (product.price || 0) * qty,
+            currency: 'TND'
+        });
+    }
     
     // If on cart page, re-render
     if (document.getElementById('cart-items')) {
@@ -322,6 +333,16 @@ function renderCart() {
 
 async function checkout() {
     if (cart.length === 0) return;
+
+    // Meta Pixel InitiateCheckout
+    if (typeof fbq === 'function') {
+        const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        fbq('track', 'InitiateCheckout', {
+            num_items: cart.reduce((sum, item) => sum + item.quantity, 0),
+            value: cartTotal,
+            currency: 'TND'
+        });
+    }
     
     const checkoutBtn = document.getElementById('checkout-btn');
     if (checkoutBtn) {
@@ -1397,4 +1418,70 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('auth-guest-view')) {
         renderAuthView();
     }
+
+    // ==========================================
+    // META PIXEL — RETARGETING EVENTS
+    // ==========================================
+    if (typeof fbq === 'function') {
+
+        // --- ViewContent: fires on every product detail page ---
+        const productPage = document.querySelector('.product-page');
+        if (productPage) {
+            const addToCartBtn = productPage.querySelector('[onclick*="addToCart"]');
+            let productId = null;
+            if (addToCartBtn) {
+                const match = addToCartBtn.getAttribute('onclick').match(/addToCart\((\d+)/);
+                if (match) productId = parseInt(match[1]);
+            }
+            const product = (productId !== null && products[productId]) ? products[productId] : null;
+            fbq('track', 'ViewContent', {
+                content_name: product ? product.name : (document.querySelector('h1') ? document.querySelector('h1').textContent.trim() : 'Produit Stérimar'),
+                content_ids: [product ? String(product.wcId || productId) : '0'],
+                content_type: 'product',
+                value: product ? product.price : 0,
+                currency: 'TND'
+            });
+        }
+
+        // --- Contact: fires when the contact form is successfully submitted ---
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            const origSubmit = window.handleContactSubmit;
+            if (typeof origSubmit === 'function') {
+                window.handleContactSubmit = async function(e) {
+                    await origSubmit(e);
+                    fbq('track', 'Contact');
+                };
+            } else {
+                contactForm.addEventListener('submit', function() {
+                    fbq('track', 'Contact');
+                });
+            }
+        }
+
+        // --- CompleteRegistration: fires when user creates an account ---
+        const registerForm = document.getElementById('register-form');
+        if (registerForm) {
+            registerForm.addEventListener('submit', function() {
+                fbq('track', 'CompleteRegistration', {
+                    content_name: 'Stérimar Tunisie',
+                    status: true
+                });
+            });
+        }
+
+        // --- Search: fires when user uses boutique category filters ---
+        document.querySelectorAll('.filter-btn, [data-category]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const cat = btn.getAttribute('data-category') || btn.textContent.trim();
+                if (cat && cat !== 'all') {
+                    fbq('track', 'Search', {
+                        search_string: cat,
+                        content_category: 'Produits Stérimar'
+                    });
+                }
+            });
+        });
+    }
 });
+
