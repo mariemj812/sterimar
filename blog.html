@@ -31,7 +31,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=15">
-    <link rel="icon" href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png" sizes="32x32">
+    <link rel="icon" href="favicon-32x32.png" sizes="32x32">
     <style>
         /* ==========================================
            BLOG PAGE — Hero
@@ -515,7 +515,7 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo" id="nav-logo">
-                <img src="logo.png" alt="Stérimar Logo" class="logo-img">
+                <img src="logo.png" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async" fetchpriority="high">
                 <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
                 
             </a>
@@ -569,7 +569,10 @@
                 <!-- Blog Article 1 -->
                 <a href="blog-hygiene-nasale.html" class="blog-card" id="blog-1" style="text-decoration:none;color:inherit;">
                     <div class="blog-card-image">
-                        <img src="blog-hygiene-nasale.jpg" alt="L'importance de l'hygiène nasale quotidienne">
+                        <picture>
+                            <source type="image/webp" srcset="blog-hygiene-nasale.webp">
+                            <img src="blog-hygiene-nasale.jpg" alt="L'importance de l'hygiène nasale quotidienne" width="2752" height="1536" loading="lazy" decoding="async">
+                        </picture>
                         <span class="blog-tag tag-hygiene">Hygiène</span>
                     </div>
                     <div class="blog-card-body">
@@ -595,7 +598,10 @@
                 <!-- Blog Article 2 -->
                 <a href="blog-rhume-hiver.html" class="blog-card" id="blog-2" style="text-decoration:none;color:inherit;">
                     <div class="blog-card-image">
-                        <img src="blog-rhume-hiver.jpg" alt="Comment prévenir le rhume en hiver">
+                        <picture>
+                            <source type="image/webp" srcset="blog-rhume-hiver.webp">
+                            <img src="blog-rhume-hiver.jpg" alt="Comment prévenir le rhume en hiver" width="1376" height="768" loading="lazy" decoding="async">
+                        </picture>
                         <span class="blog-tag tag-rhume">Rhume</span>
                     </div>
                     <div class="blog-card-body">
@@ -621,7 +627,10 @@
                 <!-- Blog Article 3 -->
                 <a href="blog-soin-bebe.html" class="blog-card" id="blog-3" style="text-decoration:none;color:inherit;">
                     <div class="blog-card-image">
-                        <img src="blog-soin-bebe.jpg" alt="Soins du nez de bébé : les bons gestes">
+                        <picture>
+                            <source type="image/webp" srcset="blog-soin-bebe.webp">
+                            <img src="blog-soin-bebe.jpg" alt="Soins du nez de bébé : les bons gestes" width="2752" height="1536" loading="lazy" decoding="async">
+                        </picture>
                         <span class="blog-tag tag-bebe">Bébé</span>
                     </div>
                     <div class="blog-card-body">
@@ -659,7 +668,10 @@
                 <!-- Conseil 1 -->
                 <a href="conseil-respiration.html" class="conseil-card" id="conseil-1" style="text-decoration:none;color:inherit;">
                     <div class="conseil-card-image">
-                        <img src="conseil-respiration.jpg" alt="5 exercices de respiration">
+                        <picture>
+                            <source type="image/webp" srcset="conseil-respiration.webp">
+                            <img src="conseil-respiration.jpg" alt="5 exercices de respiration" width="1264" height="848" loading="lazy" decoding="async">
+                        </picture>
                         <div class="conseil-number">01</div>
                     </div>
                     <div class="conseil-card-body">
@@ -693,7 +705,10 @@
                 <!-- Conseil 2 -->
                 <a href="conseil-alimentation.html" class="conseil-card" id="conseil-2" style="text-decoration:none;color:inherit;">
                     <div class="conseil-card-image">
-                        <img src="conseil-alimentation.jpg" alt="Alimentation pour renforcer vos défenses">
+                        <picture>
+                            <source type="image/webp" srcset="conseil-alimentation.webp">
+                            <img src="conseil-alimentation.jpg" alt="Alimentation pour renforcer vos défenses" width="1264" height="848" loading="lazy" decoding="async">
+                        </picture>
                         <div class="conseil-number">02</div>
                     </div>
                     <div class="conseil-card-body">
@@ -748,7 +763,7 @@
                 <div class="footer-brand">
                     <a href="index.html" aria-label="Stérimar Accueil">
                         <img src="logo.png" alt="Stérimar Logo" class="footer-logo"
-                            style="height: 144px; margin-bottom: 1rem; cursor: pointer;">
+                            style="height: 144px; margin-bottom: 1rem; cursor: pointer;" width="672" height="400" decoding="async" loading="lazy">
                     </a>
                     <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
                     <div class="footer-social">
@@ -797,7 +812,7 @@
         </div>
     </footer>
 
-    <script src="app.js?v=3"></script>
+    <script defer src="app.js?v=4"></script>
     <script>
         // Newsletter handler
         function handleNewsletter() {

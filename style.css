@@ -57,8 +57,8 @@ input, textarea, [contenteditable="true"] {
     --gray-100: #F1F5F9;
     --gray-200: #E2E8F0;
     --gray-300: #CBD5E1;
-    --gray-400: #94A3B8;
-    --gray-500: #64748B;
+    --gray-400: #64748B;
+    --gray-500: #475569;
     --gray-600: #475569;
     --gray-700: #334155;
     --gray-800: #1E293B;
@@ -2039,7 +2039,7 @@ a {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: url('footer-wave-bg.jpg') no-repeat center center / cover;
+    background: url('footer-wave-bg.webp') no-repeat center center / cover;
     opacity: 0.25;
     z-index: -2;
     pointer-events: none;
@@ -5251,3 +5251,23 @@ li.wc_payment_method label {
 
 
 
+
+/* Accessibility Utility Classes */
+.visually-hidden,
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+.logo-img {
+    height: 52px;
+    width: auto;
+    aspect-ratio: 672 / 400;
+}

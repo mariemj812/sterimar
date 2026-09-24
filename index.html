@@ -62,15 +62,18 @@
     }
 }
     </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="preload" href="style.css?v=16" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="style.css?v=15">
+    <link rel="stylesheet" href="style.css?v=16">
     <link rel="icon"
-        href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png"
+        href="favicon-32x32.png"
         sizes="32x32">
 </head>
 
@@ -79,7 +82,7 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo" id="nav-logo">
-                <img src="logo.png" alt="Stérimar Logo" class="logo-img">
+                <img src="logo.png" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async" fetchpriority="high">
                 <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
 
             </a>
@@ -114,43 +117,51 @@
 
     <!-- Hero Slider Section -->
     <section class="hero-slider" id="hero">
+        <h1 class="visually-hidden">Stérimar Tunisie — Sprays Nasaux à l'Eau de Mer 100% Naturelle</h1>
+
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
 
                 <div class="swiper-slide">
                     <a href="boutique.html" style="display: block; width: 100%; height: 100%;">
                         <picture>
-                            <source media="(max-width: 768px)"
-                                srcset="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2023/04/230321-STERIMAR-WEB-BANNIERE-GENERALE_MOBILE-min_1200x1200-jpg.webp">
-                            <img src="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2023/03/230321-STERIMAR-WEB-BANNIERE-GENERALE_DESKTOP-03-min-scaled.jpg"
-                                alt="Bannière Générale">
+                            <source media="(max-width: 768px)" srcset="banner-generale-mobile.webp">
+                            <source type="image/webp" srcset="banner-generale-desktop.webp">
+                            <img src="banner-generale-desktop.jpg" alt="Stérimar Tunisie Bannière Générale Eau de Mer" width="2560" height="784" fetchpriority="high" decoding="async">
                         </picture>
                     </a>
                 </div>
                 <div class="swiper-slide">
                     <a href="boutique.html#rhume" style="display: block; width: 100%; height: 100%;">
                         <picture>
-                            <img src="couv.jpg" alt="Stérimar Nez Bouché - Débouche le nez jusqu'à 6h" style="width: 100%; height: 100%; object-fit: cover;">
+                            <source type="image/webp" srcset="couv.webp">
+                            <img src="couv.jpg" alt="Stérimar Nez Bouché - Débouche le nez jusqu'à 6h" width="2550" height="788" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover;">
                         </picture>
                     </a>
                 </div>
                 <div class="swiper-slide">
                     <a href="boutique.html#allergie" style="display: block; width: 100%; height: 100%;">
                         <picture>
-                            <source media="(max-width: 768px)"
-                                srcset="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2023/04/230321-STERIMAR-WEB-BANNIERES-ALLERGIE_MOBILE-min_1200x1200-jpg.webp">
-                            <img src="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2023/03/230321-STERIMAR-WEB-BANNIERES-ALLERGIE_DESKTOP-min-scaled.jpg"
-                                alt="Bannière Allergie">
+                            <source media="(max-width: 768px)" srcset="banner-allergie-mobile.webp">
+                            <source type="image/webp" srcset="banner-allergie-desktop.webp">
+                            <img src="banner-allergie-desktop.jpg" alt="Bannière Allergie Stérimar" width="2560" height="784" loading="lazy" decoding="async">
                         </picture>
                     </a>
                 </div>
                 <div class="swiper-slide slide-bebe">
                     <picture class="slide-bebe-bg">
                         <source media="(max-width: 768px)" srcset="banner-bebe-mobile.jpg">
-                        <img src="banner-bebe-desktop.jpg" alt="Fond mer">
+                        <source type="image/webp" srcset="banner-bebe-desktop.webp">
+                            <picture>
+                            <source type="image/webp" srcset="banner-bebe-desktop.webp">
+                            <img src="banner-bebe-desktop.jpg" alt="Fond mer Stérimar Bébé" width="1376" height="768" loading="lazy" decoding="async">
+                        </picture>
                     </picture>
                     <div class="slide-bebe-overlay">
-                        <img src="hygiene-bébé.png" alt="Stérimar Hygiène Bébé" class="slide-bebe-packshot">
+                        <picture>
+                            <source type="image/webp" srcset="hygiene-bébé.webp">
+                            <img src="hygiene-bébé.png" alt="Stérimar Hygiène Bébé" class="slide-bebe-packshot" width="756" height="945" loading="lazy" decoding="async">
+                        </picture>
                         <div class="slide-bebe-text">
                             <h2>Hygiène<br>du nez bébé</h2>
                             <hr class="separator-line">
@@ -168,8 +179,8 @@
             </div>
             <!-- Swiper Controls -->
             <div class="swiper-pagination"></div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next" role="button" aria-label="Bannière suivante" tabindex="0"></div>
+            <div class="swiper-button-prev" role="button" aria-label="Bannière précédente" tabindex="0"></div>
         </div>
     </section>
 
@@ -194,7 +205,10 @@
                         <a href="boutique.html#hygiene" class="btn-gamme color-hygiene">Voir la gamme &gt;</a>
                     </div>
                     <div class="gamme-image">
-                        <img src="hygiene-adulte.png" alt="Gamme Hygiène" class="gamme-packshot">
+                        <picture>
+                            <source type="image/webp" srcset="hygiene-adulte.webp">
+                            <img src="hygiene-adulte.png" alt="Gamme Hygiène" class="gamme-packshot" width="756" height="945" loading="lazy" decoding="async">
+                        </picture>
                     </div>
                 </div>
 
@@ -210,7 +224,10 @@
                         <a href="boutique.html#rhume" class="btn-gamme color-rhume">Voir la gamme &gt;</a>
                     </div>
                     <div class="gamme-image">
-                        <img src="cold-adulte.png" alt="Gamme Rhume" class="gamme-packshot">
+                        <picture>
+                            <source type="image/webp" srcset="cold-adulte.webp">
+                            <img src="cold-adulte.png" alt="Gamme Rhume" class="gamme-packshot" width="756" height="945" loading="lazy" decoding="async">
+                        </picture>
                     </div>
                 </div>
 
@@ -227,7 +244,10 @@
                         <a href="boutique.html#allergie" class="btn-gamme color-allergie">Voir la gamme &gt;</a>
                     </div>
                     <div class="gamme-image">
-                        <img src="allergie.png" alt="Gamme Allergie" class="gamme-packshot">
+                        <picture>
+                            <source type="image/webp" srcset="allergie.webp">
+                            <img src="allergie.png" alt="Gamme Allergie" class="gamme-packshot" width="756" height="945" loading="lazy" decoding="async">
+                        </picture>
                     </div>
                 </div>
 
@@ -243,7 +263,10 @@
                         <a href="boutique.html#bebe" class="btn-gamme color-bebe">Voir la gamme &gt;</a>
                     </div>
                     <div class="gamme-image">
-                        <img src="hygiene-bébé.png" alt="Gamme Bébé" class="gamme-packshot">
+                        <picture>
+                            <source type="image/webp" srcset="hygiene-bébé.webp">
+                            <img src="hygiene-bébé.png" alt="Gamme Bébé" class="gamme-packshot" width="756" height="945" loading="lazy" decoding="async">
+                        </picture>
                     </div>
                 </div>
 
@@ -282,7 +305,10 @@
                                 </svg></a>
                         </div>
                         <div class="conseil-image-wrapper">
-                            <img src="blog-soin-bebe.jpg" alt="Bébé sourit">
+                            <picture>
+                            <source type="image/webp" srcset="blog-soin-bebe.webp">
+                            <img src="blog-soin-bebe.jpg" alt="Bébé sourit" width="2752" height="1536" decoding="async" loading="lazy">
+                        </picture>
                         </div>
                     </div>
 
@@ -301,7 +327,10 @@
                                 </svg></a>
                         </div>
                         <div class="conseil-image-wrapper">
-                            <img src="blog-hygiene-nasale.jpg" alt="Hygiène nasale">
+                            <picture>
+                            <source type="image/webp" srcset="blog-hygiene-nasale.webp">
+                            <img src="blog-hygiene-nasale.jpg" alt="Hygiène nasale" width="2752" height="1536" decoding="async" loading="lazy">
+                        </picture>
                         </div>
                     </div>
 
@@ -320,7 +349,10 @@
                                 </svg></a>
                         </div>
                         <div class="conseil-image-wrapper">
-                            <img src="conseil-respiration.jpg" alt="Combattre les allergies printanières">
+                            <picture>
+                            <source type="image/webp" srcset="conseil-respiration.webp">
+                            <img src="conseil-respiration.jpg" alt="Combattre les allergies printanières" width="1264" height="848" decoding="async" loading="lazy">
+                        </picture>
                         </div>
                     </div>
 
@@ -346,7 +378,10 @@
                 <div class="product-card" id="featured-1">
                     <div class="product-badge">Best-seller</div>
                     <a href="produit-hygiene-du-nez.html" class="product-image" style="--product-color: #00B8E5; display: flex; align-items: center; justify-content: center;">
-                        <img src="hygiene-adulte.png" alt="Stérimar Hygiène du Nez">
+                        <picture>
+                            <source type="image/webp" srcset="hygiene-adulte.webp">
+                            <img src="hygiene-adulte.png" alt="Stérimar Hygiène du Nez" width="756" height="945" decoding="async" loading="lazy">
+                        </picture>
                     </a>
                     <div class="product-info">
                         <span class="product-category" style="color: #00B8E5;">Hygiène</span>
@@ -360,7 +395,10 @@
                 </div>
                 <div class="product-card" id="featured-2">
                     <a href="produit-nez-bouche.html" class="product-image" style="--product-color: #F15B2B; display: flex; align-items: center; justify-content: center;">
-                        <img src="nez-bouché-adulte.png" alt="Stérimar Nez Bouché">
+                        <picture>
+                            <source type="image/webp" srcset="nez-bouché-adulte.webp">
+                            <img src="nez-bouché-adulte.png" alt="Stérimar Nez Bouché" width="756" height="945" decoding="async" loading="lazy">
+                        </picture>
                     </a>
                     <div class="product-info">
                         <span class="product-category" style="color: #F15B2B;">Rhume</span>
@@ -374,7 +412,10 @@
                 </div>
                 <div class="product-card" id="featured-3">
                     <a href="produit-nez-allergique.html" class="product-image" style="--product-color: #79C142; display: flex; align-items: center; justify-content: center;">
-                        <img src="allergie.png" alt="Stérimar Nez Allergique">
+                        <picture>
+                            <source type="image/webp" srcset="allergie.webp">
+                            <img src="allergie.png" alt="Stérimar Nez Allergique" width="756" height="945" decoding="async" loading="lazy">
+                        </picture>
                     </a>
                     <div class="product-info">
                         <span class="product-category" style="color: #79C142;">Allergie</span>
@@ -455,16 +496,16 @@
             <h2 class="engagement-title">Nos engagements</h2>
             <div class="engagement-grid">
                 <div class="engagement-item">
-                    <img src="picto-efficacite.png" alt="Efficacité cliniquement prouvée" loading="lazy">
+                    <img src="picto-efficacite.png" alt="Efficacité cliniquement prouvée" loading="lazy" width="862" height="406" decoding="async">
                 </div>
                 <div class="engagement-item">
-                    <img src="picto-anti-reflux.png" alt="Système anti-reflux" loading="lazy">
+                    <img src="picto-anti-reflux.png" alt="Système anti-reflux" loading="lazy" width="721" height="463" decoding="async">
                 </div>
                 <div class="engagement-item">
-                    <img src="picto-eau-de-mer.png" alt="Eau de Mer 100% Naturelle" loading="lazy">
+                    <img src="picto-eau-de-mer.png" alt="Eau de Mer 100% Naturelle" loading="lazy" width="736" height="423" decoding="async">
                 </div>
                 <div class="engagement-item">
-                    <img src="picto-livraison.png" alt="Livraison gratuite dès 100 DT" loading="lazy">
+                    <img src="picto-livraison.png" alt="Livraison gratuite dès 100 DT" loading="lazy" width="860" height="410" decoding="async">
                 </div>
             </div>
         </div>
@@ -477,7 +518,7 @@
                 <div class="footer-brand">
                     <a href="index.html" aria-label="Stérimar Accueil">
                         <img src="logo.png" alt="Stérimar Logo" class="footer-logo"
-                            style="height: 144px; margin-bottom: 1rem; cursor: pointer;">
+                            style="height: 144px; margin-bottom: 1rem; cursor: pointer;" width="672" height="400" decoding="async" loading="lazy">
                     </a>
                     <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
                     <div class="footer-social">
@@ -526,8 +567,8 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="app.js?v=3"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script defer src="app.js?v=4"></script>
 </body>
 
 </html>

@@ -31,7 +31,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=15">
-    <link rel="icon" href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png" sizes="32x32">
+    <link rel="icon" href="favicon-32x32.png" sizes="32x32">
     <style>
         .article-hero { position: relative; height: 480px; overflow: hidden; }
         .article-hero img { width: 100%; height: 100%; object-fit: cover; }
@@ -83,7 +83,7 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo" id="nav-logo">
-                <img src="logo.png" alt="Stérimar Logo" class="logo-img">
+                <img src="logo.png" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async" fetchpriority="high">
                 <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
             </a>
                         <div class="nav-links" id="nav-links">
@@ -114,7 +114,10 @@
     </nav>
 
     <section class="article-hero">
-        <img src="conseil-alimentation.jpg" alt="Alimentation et défenses immunitaires">
+        <picture>
+                            <source type="image/webp" srcset="conseil-alimentation.webp">
+                            <img src="conseil-alimentation.jpg" alt="Alimentation et défenses immunitaires" width="1264" height="848" loading="lazy" decoding="async">
+                        </picture>
         <div class="article-hero-overlay">
             <div class="article-hero-content">
                 <div class="article-breadcrumb">
@@ -221,7 +224,10 @@
 
         <div class="article-cta" style="display: flex; align-items: center; justify-content: center; gap: 2.5rem; text-align: left; padding: 2.5rem; flex-wrap: wrap;">
             <div style="flex-shrink: 0; text-align: center;">
-                <img src="cold-adulte.png" alt="Stérimar Nez sujet aux Rhumes" style="height: 220px; width: auto; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <picture>
+                            <source type="image/webp" srcset="cold-adulte.webp">
+                            <img src="cold-adulte.png" alt="Stérimar Nez sujet aux Rhumes" style="height: 220px; width: auto; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" width="756" height="945" decoding="async" loading="lazy">
+                        </picture>
             </div>
             <div style="max-width: 400px;">
                 <h3>Découvrez Stérimar Nez sujet aux Rhumes</h3>
@@ -239,14 +245,20 @@
             </div>
             <div class="related-grid">
                 <a href="conseil-respiration.html" class="related-card">
-                    <div class="related-card-image"><img src="conseil-respiration.jpg" alt="Exercices de respiration"></div>
+                    <div class="related-card-image"><picture>
+                            <source type="image/webp" srcset="conseil-respiration.webp">
+                            <img src="conseil-respiration.jpg" alt="Exercices de respiration" width="1264" height="848" loading="lazy" decoding="async">
+                        </picture></div>
                     <div class="related-card-body">
                         <span class="related-tag" style="color: var(--green-allergie);">Conseil</span>
                         <h4>5 exercices de respiration nasale pour le quotidien</h4>
                     </div>
                 </a>
                 <a href="blog-rhume-hiver.html" class="related-card">
-                    <div class="related-card-image"><img src="blog-rhume-hiver.jpg" alt="Prévenir le rhume"></div>
+                    <div class="related-card-image"><picture>
+                            <source type="image/webp" srcset="blog-rhume-hiver.webp">
+                            <img src="blog-rhume-hiver.jpg" alt="Prévenir le rhume" width="1376" height="768" loading="lazy" decoding="async">
+                        </picture></div>
                     <div class="related-card-body">
                         <span class="related-tag" style="color: var(--orange-rhume);">Article</span>
                         <h4>Comment prévenir le rhume cet hiver ?</h4>
@@ -263,7 +275,7 @@
                 <div class="footer-brand">
                     <a href="index.html" aria-label="Stérimar Accueil">
                         <img src="logo.png" alt="Stérimar Logo" class="footer-logo"
-                            style="height: 144px; margin-bottom: 1rem; cursor: pointer;">
+                            style="height: 144px; margin-bottom: 1rem; cursor: pointer;" width="672" height="400" decoding="async" loading="lazy">
                     </a>
                     <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
                     <div class="footer-social">
@@ -311,7 +323,7 @@
             </div>
         </div>
     </footer>
-    <script src="app.js?v=3"></script>
+    <script defer src="app.js?v=4"></script>
 </body>
 </html>
 

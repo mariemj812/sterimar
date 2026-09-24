@@ -189,7 +189,7 @@ if ( $is_native_wp ) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo esc_url( $theme_uri . '/style.css?v=18' ); ?>">
-    <link rel="icon" href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png" sizes="32x32">
+    <link rel="icon" href="<?php echo esc_url( $theme_uri . '/favicon-32x32.png' ); ?>" sizes="32x32">
     <?php wp_head(); ?>
 </head>
 <body <?php body_class( 'sterimar-wc-page' ); ?>>

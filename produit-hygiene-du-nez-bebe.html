@@ -57,7 +57,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=15">
-    <link rel="icon" href="https://www.sterimar.com/fr/wp-content/uploads/sites/6/2026/04/cropped-logo-dauphin-2026-32x32.png" sizes="32x32">
+    <link rel="icon" href="favicon-32x32.png" sizes="32x32">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body>
@@ -65,7 +65,7 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo" id="nav-logo">
-                <img src="logo.png" alt="Stérimar Logo" class="logo-img">
+                <img src="logo.png" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async" fetchpriority="high">
                 <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
                 
             </a>
@@ -107,25 +107,28 @@
                     <div class="swiper productSwiper">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
-                                <img src="hygiene-bébé.png" alt="Hygiène du Nez Bébé">
+                                <picture>
+                            <source type="image/webp" srcset="hygiene-bébé.webp">
+                            <img src="hygiene-bébé.png" alt="Hygiène du Nez Bébé" width="756" height="945" loading="lazy" decoding="async">
+                        </picture>
                             </div>
                             <div class="swiper-slide">
-                                <img src="hygine-bb-1.jpg" alt="Hygiène du Nez Bébé Photo 1">
+                                <img src="hygine-bb-1.jpg" alt="Hygiène du Nez Bébé Photo 1" width="840" height="524" loading="lazy" decoding="async">
                             </div>
                             <div class="swiper-slide">
-                                <img src="hygine-bb-2.jpg" alt="Hygiène du Nez Bébé Photo 2">
+                                <img src="hygine-bb-2.jpg" alt="Hygiène du Nez Bébé Photo 2" width="847" height="861" loading="lazy" decoding="async">
                             </div>
                         </div>
                         <div class="swiper-pagination"></div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next" role="button" aria-label="Photo suivante" tabindex="0"></div>
+                        <div class="swiper-button-prev" role="button" aria-label="Photo précédente" tabindex="0"></div>
                     </div>
                 </div>
                 <div class="product-info-container">
                     <div>
                         <div style="margin-bottom: 0.5rem;"><a href="boutique.html" style="color: var(--blue-primary); font-size: 0.85rem; font-weight: 600;">← Retour à la boutique</a></div>
                         <span class="product-category-tag" style="background: #59AEE1">Bébé</span>
-                        <h2 style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; color: var(--gray-900); margin: 0.5rem 0;">Hygiène du Nez Bébé</h2>
+                        <h1 style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; color: var(--gray-900); margin: 0.5rem 0;">Hygiène du Nez Bébé</h1>
                         <div class="modal-badges">
                             <span class="detail-chip">🧪 Oligo-éléments</span>
                             <span class="detail-chip">📋 Physiologique</span>
@@ -173,7 +176,7 @@
                 <div class="footer-brand">
                     <a href="index.html" aria-label="Stérimar Accueil">
                         <img src="logo.png" alt="Stérimar Logo" class="footer-logo"
-                            style="height: 144px; margin-bottom: 1rem; cursor: pointer;">
+                            style="height: 144px; margin-bottom: 1rem; cursor: pointer;" width="672" height="400" decoding="async" loading="lazy">
                     </a>
                     <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
                     <div class="footer-social">
@@ -222,8 +225,8 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="app.js?v=3"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script defer src="app.js?v=4"></script>
 </body>
 </html>
 
