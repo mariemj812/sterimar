@@ -4117,6 +4117,22 @@ a {
     transform: scale(1.05);
 }
 
+/* Force-hide conflicting external WordPress plugin chatbot widgets (Rapls AI Chatbot) */
+#wp-ai-chatbot,
+.raplsaich-chatbot,
+.raplsaich-chat-widget,
+.raplsaich-launcher,
+[class*="raplsaich"] {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+}
+
 /* ==========================================
    WOOCOMMERCE CHECKOUT & NATIVE PAGES STYLING
    ========================================== */

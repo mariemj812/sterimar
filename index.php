@@ -324,6 +324,12 @@ ob_start();
 wp_footer();
 $wp_footer_output = ob_get_clean();
 
+// Strip conflicting external chatbot plugin (e.g. Rapls AI Chatbot)
+$wp_head_output = preg_replace( '/<link[^>]*href=["\'][^"\']*rapls-ai-chatbot[^"\']*["\'][^>]*\/?>/is', '', $wp_head_output );
+$wp_footer_output = preg_replace( '/<div[^>]*id=["\']wp-ai-chatbot["\'][^>]*>.*?<\/div>/is', '', $wp_footer_output );
+$wp_footer_output = preg_replace( '/<script[^>]*src=["\'][^"\']*rapls-ai-chatbot[^"\']*["\'][^>]*>.*?<\/script>/is', '', $wp_footer_output );
+$wp_footer_output = preg_replace( '/<script[^>]*id=["\']raplsaich-[^"\']*["\'][^>]*>.*?<\/script>/is', '', $wp_footer_output );
+
 // Inject window.STERIMAR_THEME_URI and wp_head before </head>
 $injected_head = '<script>window.STERIMAR_THEME_URI = "' . esc_js( $theme_uri ) . '";</script>' . "\n" . $wp_head_output;
 if ( stripos( $html, '</head>' ) !== false ) {

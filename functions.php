@@ -85,3 +85,17 @@ if (typeof fbq === 'function') {
 }
 add_action( 'woocommerce_thankyou', 'sterimar_track_wc_purchase', 20 );
 
+/**
+ * Disable conflicting external chatbot plugins (e.g. Rapls AI Chatbot)
+ * to ensure only the official Stérimar AI Assistant is active.
+ */
+function sterimar_disable_external_chatbots() {
+    wp_dequeue_script( 'raplsaich-chatbot-js' );
+    wp_deregister_script( 'raplsaich-chatbot-js' );
+    wp_dequeue_style( 'raplsaich-chatbot-css' );
+    wp_deregister_style( 'raplsaich-chatbot-css' );
+}
+add_action( 'wp_enqueue_scripts', 'sterimar_disable_external_chatbots', 999 );
+add_action( 'wp_print_scripts', 'sterimar_disable_external_chatbots', 999 );
+add_action( 'wp_print_styles', 'sterimar_disable_external_chatbots', 999 );
+

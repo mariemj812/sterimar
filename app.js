@@ -934,6 +934,11 @@ window.handleAICartAdd = function(productId) {
 };
 
 function initAIAssistant() {
+    // Remove conflicting external plugin chatbot if present in DOM
+    const extBot = document.getElementById('wp-ai-chatbot');
+    if (extBot) extBot.remove();
+    document.querySelectorAll('.raplsaich-chatbot, .raplsaich-launcher, .raplsaich-chat-widget, [class*="raplsaich"]').forEach(el => el.remove());
+
     if (document.getElementById('sterimar-ai-launcher')) return;
 
     const launcher = document.createElement('div');
