@@ -129,33 +129,76 @@ function sterimar_disable_emojis_remove_dns( $urls, $relation_type ) {
 
 /**
  * --------------------------------------------------------------------------
- * Rendre le Numéro de Téléphone OBLIGATOIRE au Checkout / Validation Paiement
+ * Rendre le Numéro de Téléphone STRICTEMENT OBLIGATOIRE au Checkout
+ * Support complet Classic Checkout + WooCommerce Blocks + Store API
  * --------------------------------------------------------------------------
  */
-add_filter( 'woocommerce_billing_fields', 'sterimar_billing_phone_mandatory', 999 );
+
+// 1. Forcer l'option WooCommerce en base de données
+add_action( 'init', function() {
+    if ( get_option( 'woocommerce_checkout_phone_field' ) !== 'required' ) {
+        update_option( 'woocommerce_checkout_phone_field', 'required' );
+    }
+} );
+
+// 2. Filtres sur les options WooCommerce
+add_filter( 'option_woocommerce_checkout_phone_field', function() {
+    return 'required';
+}, 9999 );
+add_filter( 'default_option_woocommerce_checkout_phone_field', function() {
+    return 'required';
+}, 9999 );
+
+// 3. Champs d'adresse par défaut (utilisé par WC Core & Blocks AssetDataRegistry)
+add_filter( 'woocommerce_default_address_fields', 'sterimar_force_default_phone_required', 9999 );
+function sterimar_force_default_phone_required( $fields ) {
+    if ( isset( $fields['phone'] ) ) {
+        $fields['phone']['required']      = true;
+        $fields['phone']['hidden']        = false;
+        $fields['phone']['label']         = __( 'Numéro de téléphone', 'woocommerce' );
+        $fields['phone']['optionalLabel'] = __( 'Numéro de téléphone', 'woocommerce' );
+        $fields['phone']['class'][]       = 'validate-required';
+        $fields['phone']['class'][]       = 'validate-phone';
+    }
+    return $fields;
+}
+
+// 4. Champs de facturation (Classic Checkout)
+add_filter( 'woocommerce_billing_fields', 'sterimar_billing_phone_mandatory', 9999 );
 function sterimar_billing_phone_mandatory( $fields ) {
     if ( isset( $fields['billing_phone'] ) ) {
-        $fields['billing_phone']['required']    = true;
-        $fields['billing_phone']['label']       = __( 'Numéro de téléphone', 'woocommerce' );
-        $fields['billing_phone']['placeholder'] = __( 'Ex: 29 550 043', 'woocommerce' );
-        $fields['billing_phone']['class'][]     = 'validate-required';
-        $fields['billing_phone']['class'][]     = 'validate-phone';
+        $fields['billing_phone']['required']      = true;
+        $fields['billing_phone']['label']         = __( 'Numéro de téléphone', 'woocommerce' );
+        $fields['billing_phone']['placeholder']   = __( 'Ex: 29 550 043', 'woocommerce' );
+        $fields['billing_phone']['class'][]       = 'validate-required';
+        $fields['billing_phone']['class'][]       = 'validate-phone';
     }
     return $fields;
 }
 
-add_filter( 'woocommerce_checkout_fields', 'sterimar_checkout_phone_mandatory', 999 );
+add_filter( 'woocommerce_checkout_fields', 'sterimar_checkout_phone_mandatory', 9999 );
 function sterimar_checkout_phone_mandatory( $fields ) {
     if ( isset( $fields['billing']['billing_phone'] ) ) {
-        $fields['billing']['billing_phone']['required']    = true;
-        $fields['billing']['billing_phone']['label']       = __( 'Numéro de téléphone', 'woocommerce' );
-        $fields['billing']['billing_phone']['placeholder'] = __( 'Ex: 29 550 043', 'woocommerce' );
-        $fields['billing']['billing_phone']['class'][]     = 'validate-required';
-        $fields['billing']['billing_phone']['class'][]     = 'validate-phone';
+        $fields['billing']['billing_phone']['required']      = true;
+        $fields['billing']['billing_phone']['label']         = __( 'Numéro de téléphone', 'woocommerce' );
+        $fields['billing']['billing_phone']['placeholder']   = __( 'Ex: 29 550 043', 'woocommerce' );
+        $fields['billing']['billing_phone']['class'][]       = 'validate-required';
+        $fields['billing']['billing_phone']['class'][]       = 'validate-phone';
     }
     return $fields;
 }
 
+// 5. Paramètres transmis à React dans WooCommerce Blocks
+add_filter( 'woocommerce_blocks_asset_api_script_data', 'sterimar_force_blocks_phone_required', 9999 );
+function sterimar_force_blocks_phone_required( $data ) {
+    if ( isset( $data['defaultFields']['phone'] ) ) {
+        $data['defaultFields']['phone']['required']      = true;
+        $data['defaultFields']['phone']['optionalLabel'] = __( 'Numéro de téléphone', 'woocommerce' );
+    }
+    return $data;
+}
+
+// 6. Validation serveur Classic Checkout
 add_action( 'woocommerce_checkout_process', 'sterimar_validate_phone_checkout' );
 function sterimar_validate_phone_checkout() {
     $phone = isset( $_POST['billing_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['billing_phone'] ) ) : '';
@@ -169,42 +212,115 @@ function sterimar_validate_phone_checkout() {
     }
 }
 
-/**
- * Script de renforcement dynamique du champ téléphone obligatoire côté client au Checkout
- */
+// 7. Validation serveur Store API (WooCommerce Blocks Checkout)
+add_action( 'woocommerce_store_api_checkout_update_order_from_request', 'sterimar_validate_blocks_phone_checkout', 10, 2 );
+function sterimar_validate_blocks_phone_checkout( $order, $request ) {
+    $billing_address = $request->get_param( 'billing_address' );
+    $shipping_address = $request->get_param( 'shipping_address' );
+    
+    $phone = '';
+    if ( is_array( $billing_address ) && ! empty( $billing_address['phone'] ) ) {
+        $phone = $billing_address['phone'];
+    } elseif ( is_array( $shipping_address ) && ! empty( $shipping_address['phone'] ) ) {
+        $phone = $shipping_address['phone'];
+    } elseif ( method_exists( $order, 'get_billing_phone' ) ) {
+        $phone = $order->get_billing_phone();
+    }
+    
+    if ( empty( trim( $phone ) ) ) {
+        if ( class_exists( '\Automattic\WooCommerce\StoreApi\Exceptions\RouteException' ) ) {
+            throw new \Automattic\WooCommerce\StoreApi\Exceptions\RouteException(
+                'woocommerce_rest_checkout_missing_phone',
+                __( 'Le numéro de téléphone est obligatoire pour valider la commande et la livraison.', 'woocommerce' ),
+                400
+            );
+        } else {
+            throw new \Exception( __( 'Le numéro de téléphone est obligatoire pour valider la commande.', 'woocommerce' ) );
+        }
+    }
+}
+
+// 8. Script client universel (Classic + Blocks MutationObserver)
 function sterimar_checkout_phone_client_script() {
-    if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+    if ( ( function_exists( 'is_checkout' ) && is_checkout() ) || ( function_exists( 'is_cart' ) && is_cart() ) ) {
         ?>
         <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            function enforcePhoneMandatory() {
-                var phoneInput = document.getElementById('billing_phone');
-                var phoneField = document.getElementById('billing_phone_field');
-                if (phoneInput) {
-                    phoneInput.required = true;
-                    phoneInput.setAttribute('required', 'required');
-                    phoneInput.setAttribute('aria-required', 'true');
-                }
-                if (phoneField) {
-                    phoneField.classList.add('validate-required');
-                    var optionalSpan = phoneField.querySelector('.optional');
-                    if (optionalSpan) {
-                        optionalSpan.remove();
+        (function() {
+            function enforcePhoneRequired() {
+                var phoneInputs = document.querySelectorAll('input[type="tel"], input[autocomplete="tel"], input#phone, input#billing_phone, input#shipping-phone');
+                phoneInputs.forEach(function(input) {
+                    input.required = true;
+                    input.setAttribute('required', 'required');
+                    input.setAttribute('aria-required', 'true');
+                    
+                    var parentField = input.closest('.wc-block-components-text-input') || input.closest('.form-row') || input.parentElement;
+                    if (parentField) {
+                        // Masquer ou supprimer les mentions "(facultatif)"
+                        var optionals = parentField.querySelectorAll('.optional, .wc-block-components-address-form__optional, .wc-block-components-form-field-optional');
+                        optionals.forEach(function(el) { el.style.display = 'none'; });
+                        
+                        var label = parentField.querySelector('label');
+                        if (label) {
+                            if (label.innerHTML.indexOf('(facultatif)') !== -1) {
+                                label.innerHTML = label.innerHTML.replace(/\(facultatif\)/gi, '');
+                            }
+                            if (!label.querySelector('.sterimar-phone-star')) {
+                                var star = document.createElement('span');
+                                star.className = 'sterimar-phone-star';
+                                star.style.color = '#dc2626';
+                                star.style.fontWeight = 'bold';
+                                star.style.marginLeft = '4px';
+                                star.textContent = ' *';
+                                label.appendChild(star);
+                            }
+                        }
                     }
-                    var label = phoneField.querySelector('label');
-                    if (label && !label.querySelector('.required')) {
-                        var requiredAbbr = document.createElement('abbr');
-                        requiredAbbr.className = 'required';
-                        requiredAbbr.title = 'obligatoire';
-                        requiredAbbr.innerText = ' *';
-                        requiredAbbr.style.color = '#dc2626';
-                        label.appendChild(requiredAbbr);
-                    }
-                }
+                });
             }
-            enforcePhoneMandatory();
-            document.body.addEventListener('updated_checkout', enforcePhoneMandatory);
-        });
+
+            // Exécution immédiate
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', enforcePhoneRequired);
+            } else {
+                enforcePhoneRequired();
+            }
+
+            // Écoute des mises à jour AJAX classiques et React Blocks
+            document.body.addEventListener('updated_checkout', enforcePhoneRequired);
+
+            // MutationObserver pour observer les rendus dynamiques React de WooCommerce Blocks
+            if (window.MutationObserver) {
+                var observer = new MutationObserver(function() {
+                    enforcePhoneRequired();
+                });
+                observer.observe(document.body, { childList: true, subtree: true });
+            }
+
+            // Interception avant soumission pour bloquer si le téléphone est vide
+            document.addEventListener('click', function(e) {
+                var submitBtn = e.target.closest('.wc-block-components-checkout-place-order-button, #place_order, button[type="submit"]');
+                if (submitBtn) {
+                    var phoneInputs = document.querySelectorAll('input[type="tel"], input[autocomplete="tel"], input#phone, input#billing_phone, input#shipping-phone');
+                    var emptyPhone = null;
+                    phoneInputs.forEach(function(input) {
+                        if (!emptyPhone && input.offsetParent !== null && !input.value.trim()) {
+                            emptyPhone = input;
+                        }
+                    });
+                    if (emptyPhone) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        emptyPhone.focus();
+                        emptyPhone.style.borderColor = '#dc2626';
+                        emptyPhone.style.boxShadow = '0 0 0 3px rgba(220, 38, 38, 0.2)';
+                        
+                        // Notification toast ou alerte claire
+                        alert('Le numéro de téléphone est obligatoire pour valider la commande et assurer la livraison.');
+                        emptyPhone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            }, true);
+        })();
         </script>
         <?php
     }

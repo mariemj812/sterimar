@@ -5472,11 +5472,19 @@ li.wc_payment_method label {
     aspect-ratio: 672 / 400;
 }
 
-/* WooCommerce Checkout Mandatory Phone Field */
-#billing_phone_field .optional {
+/* WooCommerce Checkout Mandatory Phone Field (Classic + Block Checkout) */
+#billing_phone_field .optional,
+.wc-block-components-address-form__optional,
+.wc-block-components-form-field-optional,
+.wc-block-components-address-form-phone .optional,
+.wc-block-components-address-form-phone .wc-block-components-address-form__optional,
+.wc-block-components-text-input:has(input[type="tel"]) .optional,
+.wc-block-components-text-input:has(input[type="tel"]) .wc-block-components-address-form__optional {
     display: none !important;
 }
-#billing_phone_field label .required {
+
+#billing_phone_field label .required,
+.sterimar-phone-star {
     display: inline-block !important;
     color: #DC2626 !important;
     font-weight: 700 !important;
