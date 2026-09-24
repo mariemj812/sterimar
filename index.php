@@ -154,38 +154,24 @@ if ( ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) ||
 
 $page_file = 'index.html';
 
-// 1. 301 Permanent Redirect for any old URLs with ?page_file=*.html
+// 301 Permanent Redirect for any old URLs with ?page_file=*.html
 if ( isset( $_GET['page_file'] ) ) {
     $clean_page = basename( sanitize_file_name( $_GET['page_file'] ) );
-    $clean_slug = preg_replace( '/\.html$/i', '', $clean_page );
-    if ( $clean_slug === 'index' || empty( $clean_slug ) ) {
+    if ( $clean_page === 'index.html' ) {
         wp_safe_redirect( home_url( '/' ), 301 );
         exit;
     }
-    wp_safe_redirect( trailingslashit( home_url( '/' . $clean_slug ) ), 301 );
-    exit;
+    if ( file_exists( $theme_dir . '/' . $clean_page ) && preg_match( '/\.html$/i', $clean_page ) ) {
+        wp_safe_redirect( trailingslashit( home_url() ) . $clean_page, 301 );
+        exit;
+    }
 }
 
 if ( ! $is_native_wp ) {
-    // Check current URL path
+    // Check if the current URL path matches any HTML file
     $request_uri = trim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
     $path_parts = array_filter( explode( '/', $request_uri ) );
     $last_part = end( $path_parts );
-
-    // 2. 301 Permanent Redirect for direct /xyz.html requests to clean /xyz/
-    if ( ! empty( $last_part ) && preg_match( '/\.html$/i', $last_part ) ) {
-        $clean_slug = preg_replace( '/\.html$/i', '', $last_part );
-        if ( $clean_slug === 'index' || empty( $clean_slug ) ) {
-            wp_safe_redirect( home_url( '/' ), 301 );
-            exit;
-        }
-        if ( file_exists( $theme_dir . '/' . $clean_slug . '.html' ) ) {
-            wp_safe_redirect( trailingslashit( home_url( '/' . $clean_slug ) ), 301 );
-            exit;
-        }
-    }
-
-    // 3. Resolve clean /slug/ route to static template
     if ( ! empty( $last_part ) ) {
         $candidate_html = preg_match( '/\.html$/i', $last_part ) ? $last_part : $last_part . '.html';
         if ( file_exists( $theme_dir . '/' . $candidate_html ) ) {
@@ -223,18 +209,18 @@ if ( $is_native_wp ) {
             </a>
             <div class="nav-links" id="nav-links">
                 <a href="<?php echo esc_url( home_url('/') ); ?>" class="nav-link">Accueil</a>
-                <a href="<?php echo esc_url( trailingslashit( home_url('/boutique') ) ); ?>" class="nav-link">Boutique</a>
-                <a href="<?php echo esc_url( trailingslashit( home_url('/blog') ) ); ?>" class="nav-link">Blog</a>
-                <a href="<?php echo esc_url( trailingslashit( home_url('/qui-sommes-nous') ) ); ?>" class="nav-link">Qui sommes-nous</a>
-                <a href="<?php echo esc_url( trailingslashit( home_url('/contact') ) ); ?>" class="nav-link">Contact</a>
-                <a href="<?php echo esc_url( trailingslashit( home_url('/creation-compte') ) ); ?>" class="nav-link nav-account" id="nav-account" aria-label="Mon compte">
+                <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'boutique.html' ); ?>" class="nav-link">Boutique</a>
+                <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'blog.html' ); ?>" class="nav-link">Blog</a>
+                <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'qui-sommes-nous.html' ); ?>" class="nav-link">Qui sommes-nous</a>
+                <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'contact.html' ); ?>" class="nav-link">Contact</a>
+                <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'creation-compte.html' ); ?>" class="nav-link nav-account" id="nav-account" aria-label="Mon compte">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                         <circle cx="12" cy="7" r="4" />
                     </svg>
                     <span id="nav-account-label">Compte</span>
                 </a>
-                <a href="<?php echo esc_url( trailingslashit( home_url('/panier') ) ); ?>" class="nav-link nav-cart" aria-label="Voir mon panier">
+                <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'panier.html' ); ?>" class="nav-link nav-cart" aria-label="Voir mon panier">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1" />
                         <circle cx="20" cy="21" r="1" />
@@ -286,18 +272,18 @@ if ( $is_native_wp ) {
                 <div class="footer-links">
                     <h4>Navigation</h4>
                     <a href="<?php echo esc_url( home_url('/') ); ?>">Accueil</a>
-                    <a href="<?php echo esc_url( trailingslashit( home_url('/boutique') ) ); ?>">Boutique</a>
-                    <a href="<?php echo esc_url( trailingslashit( home_url('/blog') ) ); ?>">Blog</a>
-                    <a href="<?php echo esc_url( trailingslashit( home_url('/qui-sommes-nous') ) ); ?>">Qui sommes-nous</a>
-                    <a href="<?php echo esc_url( trailingslashit( home_url('/contact') ) ); ?>">Contact</a>
-                    <a href="<?php echo esc_url( trailingslashit( home_url('/creation-compte') ) ); ?>">Mon Compte</a>
-                    <a href="<?php echo esc_url( trailingslashit( home_url('/panier') ) ); ?>">Panier</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'boutique.html' ); ?>">Boutique</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'blog.html' ); ?>">Blog</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'qui-sommes-nous.html' ); ?>">Qui sommes-nous</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'contact.html' ); ?>">Contact</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'creation-compte.html' ); ?>">Mon Compte</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'panier.html' ); ?>">Panier</a>
                 </div>
                 <div class="footer-links">
                     <h4>Informations</h4>
-                    <a href="<?php echo esc_url( trailingslashit( home_url('/mentions-legales') ) ); ?>">Mentions légales</a>
-                    <a href="<?php echo esc_url( trailingslashit( home_url('/politique-confidentialite') ) ); ?>">Politique de confidentialité</a>
-                    <a href="<?php echo esc_url( trailingslashit( home_url('/conditions-generales') ) ); ?>">Conditions générales</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'mentions-legales.html' ); ?>">Mentions légales</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'politique-confidentialite.html' ); ?>">Politique de confidentialité</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'conditions-generales.html' ); ?>">Conditions générales</a>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -413,16 +399,15 @@ $html = preg_replace_callback( '/url\(\s*[\'"]?([^\'")]+)[\'"]?\s*\)/i', functio
     return "url('" . $theme_uri . '/' . ltrim( $url, '/' ) . "')";
 }, $html );
 
-// 6. Rewrite relative HTML page links to clean URLs without .html: href="boutique.html#rhume" -> href="SITE_URL/boutique/#rhume"
+// 6. Rewrite relative HTML page links to clean URLs: href="boutique.html#rhume" -> href="SITE_URL/boutique.html#rhume"
 $home_url = home_url();
 $html = preg_replace_callback( '/href=["\']([a-zA-Z0-9_\-]+\.html)(#[^"\']*)?["\']/i', function( $matches ) use ( $home_url ) {
     $page = basename( $matches[1] );
     $hash = isset( $matches[2] ) ? $matches[2] : '';
-    $slug = preg_replace( '/\.html$/i', '', $page );
-    if ( $slug === 'index' ) {
+    if ( $page === 'index.html' ) {
         return 'href="' . esc_url( trailingslashit( $home_url ) ) . $hash . '"';
     }
-    return 'href="' . esc_url( trailingslashit( home_url( '/' . $slug ) ) ) . $hash . '"';
+    return 'href="' . esc_url( trailingslashit( $home_url ) . $page ) . $hash . '"';
 }, $html );
 
 // 7. Output page

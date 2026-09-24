@@ -355,7 +355,7 @@ async function checkout() {
         formData.append('sterimar_wc_checkout', '1');
         formData.append('cart', JSON.stringify(cart));
         
-        const response = await fetch('/index.php', {
+        const response = await fetch(window.location.pathname.includes('.html') ? 'index.php' : window.location.href, {
             method: 'POST',
             body: formData
         });
@@ -688,7 +688,7 @@ function initNavbar() {
     // Inject mobile direct account button if not present
     if (navToggle && !document.getElementById('mobile-header-account')) {
         const mobileAccount = document.createElement('a');
-        mobileAccount.href = '/creation-compte/';
+        mobileAccount.href = 'creation-compte.html';
         mobileAccount.id = 'mobile-header-account';
         mobileAccount.className = 'mobile-header-account';
         mobileAccount.setAttribute('aria-label', 'Mon compte');
@@ -704,7 +704,7 @@ function initNavbar() {
     // Inject mobile direct cart button if not present
     if (navToggle && navPanier && !document.getElementById('mobile-header-cart')) {
         const mobileCart = document.createElement('a');
-        mobileCart.href = navPanier.getAttribute('href') || '/panier/';
+        mobileCart.href = navPanier.getAttribute('href') || 'panier.html';
         mobileCart.id = 'mobile-header-cart';
         mobileCart.className = 'mobile-header-cart';
         mobileCart.setAttribute('aria-label', 'Panier');
@@ -886,13 +886,13 @@ const aiChatState = {
 };
 
 const productPageUrls = {
-    0: '/produit-hygiene-du-nez/',
-    1: '/produit-nez-sujet-aux-rhumes/',
-    2: '/produit-nez-bouche/',
-    3: '/produit-nez-allergique/',
-    4: '/produit-hygiene-du-nez-bebe/',
-    5: '/produit-nez-bouche-bebe/',
-    6: '/boutique/#rhume'
+    0: 'produit-hygiene-du-nez.html',
+    1: 'produit-nez-sujet-aux-rhumes.html',
+    2: 'produit-nez-bouche.html',
+    3: 'produit-nez-allergique.html',
+    4: 'produit-hygiene-du-nez-bebe.html',
+    5: 'produit-nez-bouche-bebe.html',
+    6: 'boutique.html#rhume'
 };
 
 function setAIQuickPrompts(prompts) {
