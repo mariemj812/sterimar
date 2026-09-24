@@ -127,3 +127,88 @@ function sterimar_disable_emojis_remove_dns( $urls, $relation_type ) {
     return $urls;
 }
 
+/**
+ * --------------------------------------------------------------------------
+ * Rendre le Numéro de Téléphone OBLIGATOIRE au Checkout / Validation Paiement
+ * --------------------------------------------------------------------------
+ */
+add_filter( 'woocommerce_billing_fields', 'sterimar_billing_phone_mandatory', 999 );
+function sterimar_billing_phone_mandatory( $fields ) {
+    if ( isset( $fields['billing_phone'] ) ) {
+        $fields['billing_phone']['required']    = true;
+        $fields['billing_phone']['label']       = __( 'Numéro de téléphone', 'woocommerce' );
+        $fields['billing_phone']['placeholder'] = __( 'Ex: 29 550 043', 'woocommerce' );
+        $fields['billing_phone']['class'][]     = 'validate-required';
+        $fields['billing_phone']['class'][]     = 'validate-phone';
+    }
+    return $fields;
+}
+
+add_filter( 'woocommerce_checkout_fields', 'sterimar_checkout_phone_mandatory', 999 );
+function sterimar_checkout_phone_mandatory( $fields ) {
+    if ( isset( $fields['billing']['billing_phone'] ) ) {
+        $fields['billing']['billing_phone']['required']    = true;
+        $fields['billing']['billing_phone']['label']       = __( 'Numéro de téléphone', 'woocommerce' );
+        $fields['billing']['billing_phone']['placeholder'] = __( 'Ex: 29 550 043', 'woocommerce' );
+        $fields['billing']['billing_phone']['class'][]     = 'validate-required';
+        $fields['billing']['billing_phone']['class'][]     = 'validate-phone';
+    }
+    return $fields;
+}
+
+add_action( 'woocommerce_checkout_process', 'sterimar_validate_phone_checkout' );
+function sterimar_validate_phone_checkout() {
+    $phone = isset( $_POST['billing_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['billing_phone'] ) ) : '';
+    if ( empty( trim( $phone ) ) ) {
+        wc_add_notice( __( 'Le <strong>numéro de téléphone</strong> est obligatoire pour valider la commande et assurer la livraison.', 'woocommerce' ), 'error' );
+        return;
+    }
+    $digits = preg_replace( '/\D/', '', $phone );
+    if ( strlen( $digits ) < 8 ) {
+        wc_add_notice( __( 'Veuillez saisir un <strong>numéro de téléphone valide</strong> (minimum 8 chiffres).', 'woocommerce' ), 'error' );
+    }
+}
+
+/**
+ * Script de renforcement dynamique du champ téléphone obligatoire côté client au Checkout
+ */
+function sterimar_checkout_phone_client_script() {
+    if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+        ?>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function enforcePhoneMandatory() {
+                var phoneInput = document.getElementById('billing_phone');
+                var phoneField = document.getElementById('billing_phone_field');
+                if (phoneInput) {
+                    phoneInput.required = true;
+                    phoneInput.setAttribute('required', 'required');
+                    phoneInput.setAttribute('aria-required', 'true');
+                }
+                if (phoneField) {
+                    phoneField.classList.add('validate-required');
+                    var optionalSpan = phoneField.querySelector('.optional');
+                    if (optionalSpan) {
+                        optionalSpan.remove();
+                    }
+                    var label = phoneField.querySelector('label');
+                    if (label && !label.querySelector('.required')) {
+                        var requiredAbbr = document.createElement('abbr');
+                        requiredAbbr.className = 'required';
+                        requiredAbbr.title = 'obligatoire';
+                        requiredAbbr.innerText = ' *';
+                        requiredAbbr.style.color = '#dc2626';
+                        label.appendChild(requiredAbbr);
+                    }
+                }
+            }
+            enforcePhoneMandatory();
+            document.body.addEventListener('updated_checkout', enforcePhoneMandatory);
+        });
+        </script>
+        <?php
+    }
+}
+add_action( 'wp_footer', 'sterimar_checkout_phone_client_script', 99 );
+
+

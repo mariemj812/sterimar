@@ -5471,3 +5471,15 @@ li.wc_payment_method label {
     width: auto;
     aspect-ratio: 672 / 400;
 }
+
+/* WooCommerce Checkout Mandatory Phone Field */
+#billing_phone_field .optional {
+    display: none !important;
+}
+#billing_phone_field label .required {
+    display: inline-block !important;
+    color: #DC2626 !important;
+    font-weight: 700 !important;
+    margin-left: 3px;
+}
+
