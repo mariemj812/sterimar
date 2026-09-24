@@ -30,14 +30,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=15">
+    <link rel="stylesheet" href="style.css?v=20">
     <link rel="icon" href="favicon-32x32.png" sizes="32x32">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo" id="nav-logo">
+            <a href="index.html" class="nav-logo" id="nav-logo" aria-label="Stérimar Tunisie - Accueil">
                 <img src="logo.png" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async" fetchpriority="high">
                 <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
                 
@@ -55,7 +56,7 @@
                     </svg>
                     <span id="nav-account-label">Compte</span>
                 </a>
-                <a href="panier.html" class="nav-link nav-cart" id="nav-panier">
+                <a href="panier.html" class="nav-link nav-cart" id="nav-panier" aria-label="Voir mon panier">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1" />
                         <circle cx="20" cy="21" r="1" />
@@ -65,11 +66,13 @@
                     Panier
                 </a>
             </div>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu de navigation" aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
         </div>
     </nav>
+
+    <main id="main-content">
 
     <!-- About Hero -->
     <section class="about-hero" id="about-hero">
@@ -218,15 +221,15 @@
                     <p style="font-size: 1.125rem; color: #4b5563; margin-bottom: 2rem;">Chaque paramètre de nos sprays (forme, taille, cône de dispersion) a été scrupuleusement testé pour être utilisé en toute sécurité chez le nourrisson, l'enfant et l'adulte.</p>
                     <ul style="list-style: none; padding: 0; margin: 0;">
                         <li style="margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1rem;">
-                            <div style="color: #00B8E5; flex-shrink: 0;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+                            <div style="color: #0284C7; flex-shrink: 0;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
                             <div><strong style="display: block; font-size: 1.1rem; color: #1e293b;">Microdiffusion douce</strong> Des gouttelettes fines et optimales diffusées à une pression constante.</div>
                         </li>
                         <li style="margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1rem;">
-                            <div style="color: #00B8E5; flex-shrink: 0;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+                            <div style="color: #0284C7; flex-shrink: 0;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
                             <div><strong style="display: block; font-size: 1.1rem; color: #1e293b;">Valve Poche & Gaz inerte</strong> Contient et préserve la solution de tout contact avec le boîtier aluminium et le gaz naturel (azote).</div>
                         </li>
                         <li style="margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1rem;">
-                            <div style="color: #00B8E5; flex-shrink: 0;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+                            <div style="color: #0284C7; flex-shrink: 0;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
                             <div><strong style="display: block; font-size: 1.1rem; color: #1e293b;">Système anti-reflux</strong> Empêche la pollution extérieure (bactéries, agents pathogènes) de contaminer la formule. Présent aussi sur nos formats pompe 20ml !</div>
                         </li>
                     </ul>
@@ -244,28 +247,28 @@
             </div>
             <div class="values-grid">
                 <div class="value-card" id="value-1">
-                    <div class="value-icon" style="background: linear-gradient(135deg, #00B8E5, #0077B6);">
+                    <div class="value-icon" style="background: linear-gradient(135deg, #0284C7, #0077B6);">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                     </div>
                     <h3>Une richesse naturelle</h3>
                     <p>Puisée dans la Baie de Cancale, notre eau de mer offre toute la richesse des oligo-éléments marins. Sans conservateur, pour une hydratation et une protection optimales.</p>
                 </div>
                 <div class="value-card" id="value-2">
-                    <div class="value-icon" style="background: linear-gradient(135deg, #79C142, #4CAF50);">
+                    <div class="value-icon" style="background: linear-gradient(135deg, #15803D, #4CAF50);">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                     </div>
                     <h3>Pureté certifiée</h3>
                     <p>Contrôlée chimiquement et bactériologiquement par l'IFREMER, notre eau de mer est micro-filtrée et stérile. Une efficacité soutenue par de rigoureuses études cliniques.</p>
                 </div>
                 <div class="value-card" id="value-3">
-                    <div class="value-icon" style="background: linear-gradient(135deg, #F15B2B, #E64A19);">
+                    <div class="value-icon" style="background: linear-gradient(135deg, #C2410C, #E64A19);">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                     </div>
                     <h3>Technologie brevetée</h3>
                     <p>Nos sprays allient un système de valve-poche stérile à une microdiffusion douce. Nos pompes intègrent quant à elles un système de valve anti-reflux inédit sur le marché.</p>
                 </div>
                 <div class="value-card" id="value-4">
-                    <div class="value-icon" style="background: linear-gradient(135deg, #59AEE1, #42A5F5);">
+                    <div class="value-icon" style="background: linear-gradient(135deg, #0284C7, #42A5F5);">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
                     </div>
                     <h3>Engagements durables</h3>
@@ -290,7 +293,9 @@
         </div>
     </section>
 
-                    <!-- Footer -->
+                        </main>
+
+    <!-- Footer -->
     <footer class="footer" id="footer">
         <div class="container">
             <div class="footer-grid">

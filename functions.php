@@ -28,9 +28,9 @@ add_action( 'after_setup_theme', 'sterimar_setup_theme' );
 function sterimar_enqueue_assets() {
     $theme_uri = untrailingslashit( get_template_directory_uri() );
     
-    wp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap', array(), null );
-    wp_enqueue_style( 'sterimar-style', $theme_uri . '/style.css', array(), '1.2' );
-    wp_enqueue_script( 'sterimar-app', $theme_uri . '/app.js', array(), '1.2', true );
+    wp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap', array(), null );
+    wp_enqueue_style( 'sterimar-style', $theme_uri . '/style.css', array(), '2.0' );
+    wp_enqueue_script( 'sterimar-app', $theme_uri . '/app.js', array(), '2.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'sterimar_enqueue_assets' );
 
@@ -98,4 +98,32 @@ function sterimar_disable_external_chatbots() {
 add_action( 'wp_enqueue_scripts', 'sterimar_disable_external_chatbots', 999 );
 add_action( 'wp_print_scripts', 'sterimar_disable_external_chatbots', 999 );
 add_action( 'wp_print_styles', 'sterimar_disable_external_chatbots', 999 );
+
+/**
+ * Disable WordPress Emojis for Performance
+ */
+function sterimar_disable_emojis() {
+    remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+    remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+    remove_action( 'wp_print_styles', 'print_emoji_styles' );
+    remove_action( 'admin_print_styles', 'print_emoji_styles' );
+    remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
+    remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
+    remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+    add_filter( 'tiny_mce_plugins', 'sterimar_disable_emojis_tinymce' );
+    add_filter( 'wp_resource_hints', 'sterimar_disable_emojis_remove_dns', 10, 2 );
+}
+add_action( 'init', 'sterimar_disable_emojis' );
+
+function sterimar_disable_emojis_tinymce( $plugins ) {
+    return is_array( $plugins ) ? array_diff( $plugins, array( 'wpemoji' ) ) : array();
+}
+
+function sterimar_disable_emojis_remove_dns( $urls, $relation_type ) {
+    if ( 'dns-prefetch' === $relation_type ) {
+        $emoji_svg_url = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/' );
+        $urls = array_diff( $urls, array( $emoji_svg_url ) );
+    }
+    return $urls;
+}
 

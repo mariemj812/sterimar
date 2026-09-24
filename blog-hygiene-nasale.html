@@ -30,7 +30,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=15">
+    <link rel="stylesheet" href="style.css?v=20">
     <link rel="icon" href="favicon-32x32.png" sizes="32x32">
     <style>
         /* ==========================================
@@ -302,10 +302,11 @@
     </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo" id="nav-logo">
+            <a href="index.html" class="nav-logo" id="nav-logo" aria-label="Stérimar Tunisie - Accueil">
                 <img src="logo.png" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async" fetchpriority="high">
                 <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
             </a>
@@ -322,7 +323,7 @@
                     </svg>
                     <span id="nav-account-label">Compte</span>
                 </a>
-                <a href="panier.html" class="nav-link nav-cart" id="nav-panier">
+                <a href="panier.html" class="nav-link nav-cart" id="nav-panier" aria-label="Voir mon panier">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1" />
                         <circle cx="20" cy="21" r="1" />
@@ -332,11 +333,13 @@
                     Panier
                 </a>
             </div>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu de navigation" aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
         </div>
     </nav>
+
+    <main id="main-content">
 
     <!-- Article Hero -->
     <section class="article-hero">
@@ -502,7 +505,9 @@
         </div>
     </section>
 
-                    <!-- Footer -->
+                        </main>
+
+    <!-- Footer -->
     <footer class="footer" id="footer">
         <div class="container">
             <div class="footer-grid">

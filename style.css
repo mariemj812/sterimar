@@ -41,6 +41,38 @@ input, textarea, [contenteditable="true"] {
     user-select: text;
 }
 
+/* --- Accessibility: Skip Link & Focus Outline --- */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 1rem;
+    background: #0077B6;
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    z-index: 999999;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    transition: top 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+    top: 1rem;
+    outline: 3px solid #00B4D8;
+    outline-offset: 3px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid #0077B6;
+    outline-offset: 2px;
+}
+
 :root {
     /* Brand Colors */
     --blue-primary: #0077B6;
@@ -891,16 +923,16 @@ a {
     filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));
 }
 
-/* Colors Backgrounds */
-.bg-hygiene { background: #00B8E5; }
-.bg-rhume { background: #F15B2B; }
-.bg-allergie { background: #79C142; }
-.bg-bebe { background: #59AEE1; }
+/* Colors Backgrounds (WCAG AA Compliant >= 4.5:1) */
+.bg-hygiene { background: #0284C7; }
+.bg-rhume { background: #C2410C; }
+.bg-allergie { background: #15803D; }
+.bg-bebe { background: #0284C7; }
 
-.color-hygiene { color: #00B8E5; }
-.color-rhume { color: #F15B2B; }
-.color-allergie { color: #79C142; }
-.color-bebe { color: #59AEE1; }
+.color-hygiene { color: #0284C7; }
+.color-rhume { color: #C2410C; }
+.color-allergie { color: #15803D; }
+.color-bebe { color: #0284C7; }
 
 .gammes-footer-btn {
     text-align: center;
@@ -1002,6 +1034,14 @@ a {
     background: linear-gradient(135deg, rgba(var(--product-color), 0.05), var(--gray-50));
     min-height: 250px;
     transition: all var(--transition-normal);
+}
+
+.product-image picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
 .product-image img {
@@ -1180,6 +1220,14 @@ a {
     min-height: 280px;
     background: var(--gray-50);
     overflow: hidden;
+}
+
+.product-card-image picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
 .product-card-image img {
@@ -2915,20 +2963,29 @@ a {
     justify-content: center;
     align-items: center;
     height: 100%;
-    padding: 1rem;
+    width: 100%;
+    padding: 1.5rem 2.5rem;
     box-sizing: border-box;
 }
 
-.productSwiper .swiper-slide img {
+.productSwiper .swiper-slide picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
-    max-height: 95%;
-    max-width: 95%;
+}
+
+.productSwiper .swiper-slide img {
+    max-height: 380px;
+    max-width: 78%;
+    width: auto;
+    height: auto;
     object-fit: contain;
     margin: auto;
     display: block;
-    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.12));
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .productSwiper .swiper-slide-active img {
@@ -2937,7 +2994,7 @@ a {
 
 @keyframes floatProduct {
     0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-6px); }
     100% { transform: translateY(0px); }
 }
 
@@ -3202,9 +3259,16 @@ a {
     .productSwiper {
         height: 350px;
     }
+
+    .productSwiper .swiper-slide {
+        padding: 1rem 1.5rem;
+    }
     
     .productSwiper .swiper-slide img {
-        max-height: 290px;
+        max-height: 270px;
+        max-width: 80%;
+        width: auto;
+        height: auto;
     }
     
     .product-info-container {
@@ -3231,11 +3295,18 @@ a {
     }
     
     .productSwiper {
-        height: 280px;
+        height: 290px;
+    }
+
+    .productSwiper .swiper-slide {
+        padding: 0.75rem 1rem;
     }
     
     .productSwiper .swiper-slide img {
-        max-height: 240px;
+        max-height: 220px;
+        max-width: 82%;
+        width: auto;
+        height: auto;
     }
     
     .product-info-container {

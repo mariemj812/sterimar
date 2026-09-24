@@ -62,26 +62,30 @@
     }
 }
     </script>
+    <!-- Preload Critical LCP Hero Banner -->
+    <link rel="preload" as="image" href="banner-generale-mobile.webp" media="(max-width: 768px)" type="image/webp">
+    <link rel="preload" as="image" href="banner-generale-desktop.webp" media="(min-width: 769px)" type="image/webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-    <link rel="preload" href="style.css?v=16" as="style">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="style.css?v=16">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" /></noscript>
+    <link rel="stylesheet" href="style.css?v=20">
     <link rel="icon"
         href="favicon-32x32.png"
         sizes="32x32">
 </head>
 
 <body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo" id="nav-logo">
+            <a href="index.html" class="nav-logo" id="nav-logo" aria-label="Stérimar Tunisie - Accueil">
                 <img src="logo.png" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async" fetchpriority="high">
                 <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
 
@@ -99,7 +103,7 @@
                     </svg>
                     <span id="nav-account-label">Compte</span>
                 </a>
-                <a href="panier.html" class="nav-link nav-cart" id="nav-panier">
+                <a href="panier.html" class="nav-link nav-cart" id="nav-panier" aria-label="Voir mon panier">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1" />
                         <circle cx="20" cy="21" r="1" />
@@ -109,11 +113,13 @@
                     Panier
                 </a>
             </div>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu de navigation" aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
         </div>
     </nav>
+
+    <main id="main-content">
 
     <!-- Hero Slider Section -->
     <section class="hero-slider" id="hero">
@@ -281,7 +287,7 @@
     <!-- Conseil Banner (Inspired by Reference) -->
     <section class="conseil-banner-section">
         <div class="conseil-banner-container">
-            <button class="banner-nav-btn prev swiper-button-prev-conseil">
+            <button class="banner-nav-btn prev swiper-button-prev-conseil" aria-label="Conseil précédent">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                     <path d="M15 18l-6-6 6-6" />
                 </svg>
@@ -359,7 +365,7 @@
                 </div>
             </div>
 
-            <button class="banner-nav-btn next swiper-button-next-conseil">
+            <button class="banner-nav-btn next swiper-button-next-conseil" aria-label="Conseil suivant">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                     <path d="M9 18l6-6-6-6" />
                 </svg>
@@ -377,14 +383,14 @@
             <div class="products-scroll">
                 <div class="product-card" id="featured-1">
                     <div class="product-badge">Best-seller</div>
-                    <a href="produit-hygiene-du-nez.html" class="product-image" style="--product-color: #00B8E5; display: flex; align-items: center; justify-content: center;">
+                    <a href="produit-hygiene-du-nez.html" class="product-image" aria-label="Voir la fiche Hygiène du Nez" style="--product-color: #0284C7; display: flex; align-items: center; justify-content: center;">
                         <picture>
                             <source type="image/webp" srcset="hygiene-adulte.webp">
                             <img src="hygiene-adulte.png" alt="Stérimar Hygiène du Nez" width="756" height="945" decoding="async" loading="lazy">
                         </picture>
                     </a>
                     <div class="product-info">
-                        <span class="product-category" style="color: #00B8E5;">Hygiène</span>
+                        <span class="product-category" style="color: #0284C7;">Hygiène</span>
                         <h3 class="product-name">Hygiène du Nez</h3>
                         <p class="product-molecule">Physiologique • Oligo-éléments</p>
                         <div class="product-footer">
@@ -394,14 +400,14 @@
                     </div>
                 </div>
                 <div class="product-card" id="featured-2">
-                    <a href="produit-nez-bouche.html" class="product-image" style="--product-color: #F15B2B; display: flex; align-items: center; justify-content: center;">
+                    <a href="produit-nez-bouche.html" class="product-image" aria-label="Voir la fiche Nez Bouché" style="--product-color: #C2410C; display: flex; align-items: center; justify-content: center;">
                         <picture>
                             <source type="image/webp" srcset="nez-bouché-adulte.webp">
                             <img src="nez-bouché-adulte.png" alt="Stérimar Nez Bouché" width="756" height="945" decoding="async" loading="lazy">
                         </picture>
                     </a>
                     <div class="product-info">
-                        <span class="product-category" style="color: #F15B2B;">Rhume</span>
+                        <span class="product-category" style="color: #C2410C;">Rhume</span>
                         <h3 class="product-name">Nez Bouché</h3>
                         <p class="product-molecule">Hypertonique • Cuivre</p>
                         <div class="product-footer">
@@ -411,14 +417,14 @@
                     </div>
                 </div>
                 <div class="product-card" id="featured-3">
-                    <a href="produit-nez-allergique.html" class="product-image" style="--product-color: #79C142; display: flex; align-items: center; justify-content: center;">
+                    <a href="produit-nez-allergique.html" class="product-image" aria-label="Voir la fiche Nez Allergique" style="--product-color: #15803D; display: flex; align-items: center; justify-content: center;">
                         <picture>
                             <source type="image/webp" srcset="allergie.webp">
                             <img src="allergie.png" alt="Stérimar Nez Allergique" width="756" height="945" decoding="async" loading="lazy">
                         </picture>
                     </a>
                     <div class="product-info">
-                        <span class="product-category" style="color: #79C142;">Allergie</span>
+                        <span class="product-category" style="color: #15803D;">Allergie</span>
                         <h3 class="product-name">Nez Allergique</h3>
                         <p class="product-molecule">Physiologique • Manganèse</p>
                         <div class="product-footer">
@@ -511,7 +517,9 @@
         </div>
     </section>
 
-                    <!-- Footer -->
+                        </main>
+
+    <!-- Footer -->
     <footer class="footer" id="footer">
         <div class="container">
             <div class="footer-grid">

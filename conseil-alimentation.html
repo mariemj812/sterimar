@@ -30,7 +30,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=15">
+    <link rel="stylesheet" href="style.css?v=20">
     <link rel="icon" href="favicon-32x32.png" sizes="32x32">
     <style>
         .article-hero { position: relative; height: 480px; overflow: hidden; }
@@ -62,7 +62,7 @@
         .article-share span { font-size: 0.85rem; font-weight: 600; color: var(--gray-500); }
         .share-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--gray-200); background: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--transition-fast); color: var(--gray-500); }
         .share-btn:hover { background: var(--green-allergie); border-color: var(--green-allergie); color: white; transform: translateY(-2px); }
-        .article-cta { background: linear-gradient(135deg, #79C142 0%, #4CAF50 100%); border-radius: var(--radius-xl); padding: 3rem; text-align: center; margin: 3rem 0; }
+        .article-cta { background: linear-gradient(135deg, #15803D 0%, #4CAF50 100%); border-radius: var(--radius-xl); padding: 3rem; text-align: center; margin: 3rem 0; }
         .article-cta h3 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 0.75rem; }
         .article-cta p { color: rgba(255,255,255,0.7); margin-bottom: 1.5rem; font-size: 0.95rem; }
         .related-section { padding: 4rem 0; background: var(--gray-50); }
@@ -80,9 +80,10 @@
     </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo" id="nav-logo">
+            <a href="index.html" class="nav-logo" id="nav-logo" aria-label="Stérimar Tunisie - Accueil">
                 <img src="logo.png" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async" fetchpriority="high">
                 <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
             </a>
@@ -99,7 +100,7 @@
                     </svg>
                     <span id="nav-account-label">Compte</span>
                 </a>
-                <a href="panier.html" class="nav-link nav-cart" id="nav-panier">
+                <a href="panier.html" class="nav-link nav-cart" id="nav-panier" aria-label="Voir mon panier">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1" />
                         <circle cx="20" cy="21" r="1" />
@@ -109,9 +110,11 @@
                     Panier
                 </a>
             </div>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu de navigation" aria-expanded="false"><span></span><span></span><span></span></button>
         </div>
     </nav>
+
+    <main id="main-content">
 
     <section class="article-hero">
         <picture>
@@ -268,7 +271,9 @@
         </div>
     </section>
 
-                    <!-- Footer -->
+                        </main>
+
+    <!-- Footer -->
     <footer class="footer" id="footer">
         <div class="container">
             <div class="footer-grid">
