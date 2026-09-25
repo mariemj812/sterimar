@@ -62,7 +62,8 @@
     }
 }
     </script>
-    <link rel="preload" as="image" href="banner-generale-desktop.jpg" fetchpriority="high">
+    <link rel="preload" as="image" href="banner-generale-mobile.jpg" media="(max-width: 768px)">
+    <link rel="preload" as="image" href="banner-generale-desktop.jpg" media="(min-width: 769px)">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -144,9 +145,10 @@
                     </a>
                 </div>
                                 <div class="swiper-slide slide-bebe">
-                    <div class="slide-bebe-bg">
+                    <picture class="slide-bebe-bg">
+                        <source media="(max-width: 768px)" srcset="banner-bebe-mobile.jpg">
                         <img src="banner-bebe-desktop.jpg" alt="Fond mer Stérimar Bébé" width="1376" height="768" loading="lazy" decoding="async">
-                    </div>
+                    </picture>
                     <div class="slide-bebe-overlay">
                         <img src="hygiene-bébé.png" alt="Stérimar Hygiène Bébé" class="slide-bebe-packshot" width="756" height="945" loading="lazy" decoding="async">
                         <div class="slide-bebe-text">
