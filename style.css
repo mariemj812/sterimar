@@ -5545,8 +5545,3 @@ img {
     image-rendering: auto;
 }
 
-/* Reduce reflow on lazy images — reserve space */
-img[loading="lazy"] {
-    background: #f1f5f9;
-}
-
