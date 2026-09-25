@@ -5514,3 +5514,12 @@ li.wc_payment_method label {
     font-weight: 700 !important;
     margin-left: 3px;
 }
+
+
+@media (max-width: 768px) {
+    .hero-slider .swiper-slide picture,
+    .hero-slider .swiper-slide img {
+        aspect-ratio: 1 / 1 !important;
+        height: auto !important;
+    }
+}
