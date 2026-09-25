@@ -176,9 +176,20 @@ if ( ! $is_native_wp ) {
         $candidate_html = preg_match( '/\.html$/i', $last_part ) ? $last_part : $last_part . '.html';
         if ( file_exists( $theme_dir . '/' . $candidate_html ) ) {
             $page_file = $candidate_html;
+            status_header( 200 );
+            global $wp_query;
+            if ( isset( $wp_query ) ) {
+                $wp_query->is_404 = false;
+            }
         } else {
             // It's a WordPress native route (like /commander/, /checkout/, /commande-recue/)
             $is_native_wp = true;
+        }
+    } else {
+        status_header( 200 );
+        global $wp_query;
+        if ( isset( $wp_query ) ) {
+            $wp_query->is_404 = false;
         }
     }
 }
