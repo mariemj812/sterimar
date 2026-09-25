@@ -53,12 +53,40 @@
     }
 }
     </script>
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Accueil",
+            "item": "https://sterimar.shop/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Boutique",
+            "item": "https://sterimar.shop/boutique/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Nez Allergique",
+            "item": "https://sterimar.shop/produit-nez-allergique/"
+        }
+    ]
+}
+    </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="style.css?v=22">
     <link rel="icon" href="favicon-32x32.png" sizes="32x32">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" /></noscript>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Aller au contenu principal</a>
@@ -66,7 +94,10 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo" id="nav-logo" aria-label="Stérimar Tunisie - Accueil">
-                <img src="logo.png" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async" fetchpriority="high">
+                <picture>
+                    <source type="image/webp" srcset="logo.webp">
+                    <img src="logo.png" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async" fetchpriority="high">
+                </picture>
                 <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
                 
             </a>
@@ -112,26 +143,23 @@
                             <div class="swiper-slide">
                                 <picture>
                             <source type="image/webp" srcset="allergie.webp">
-                            <img src="allergie.png" alt="Nez Allergique" width="756" height="945" loading="lazy" decoding="async">
+                            <img src="allergie.png" alt="Nez Allergique" width="756" height="945" decoding="async" fetchpriority="high">
                         </picture>
                             </div>
                             <div class="swiper-slide">
-                                <img src="nez-allergique-1.jpg" alt="Stérimar Nez Allergique Meilleur Produit Pharma" width="860" height="1075" loading="lazy" decoding="async">
+                                <picture><source type="image/webp" srcset="nez-allergique-1.webp"><img src="nez-allergique-1.webp" alt="Stérimar Nez Allergique Meilleur Produit Pharma" width="860" height="1075" loading="lazy" decoding="async"></picture>
                             </div>
                             <div class="swiper-slide">
-                                <img src="nez-allergique-2.jpg" alt="Stérimar Nez Allergique Shooting" width="860" height="1075" loading="lazy" decoding="async">
+                                <picture><source type="image/webp" srcset="nez-allergique-2.webp"><img src="nez-allergique-2.webp" alt="Stérimar Nez Allergique Shooting" width="860" height="1075" loading="lazy" decoding="async"></picture>
                             </div>
                             <div class="swiper-slide">
-                                <img src="nez-allergique-3.jpg" alt="Stérimar Pulvérisation Nez Allergique" width="860" height="1075" loading="lazy" decoding="async">
+                                <picture><source type="image/webp" srcset="nez-allergique-3.webp"><img src="nez-allergique-3.webp" alt="Stérimar Pulvérisation Nez Allergique" width="860" height="1075" loading="lazy" decoding="async"></picture>
                             </div>
                             <div class="swiper-slide">
-                                <img src="nez-allergique-4.jpg" alt="Stérimar Utilisation Nez Allergique" width="860" height="1075" loading="lazy" decoding="async">
+                                <picture><source type="image/webp" srcset="nez-allergique-4.webp"><img src="nez-allergique-4.webp" alt="Stérimar Utilisation Nez Allergique" width="860" height="1075" loading="lazy" decoding="async"></picture>
                             </div>
                             <div class="swiper-slide">
-                                <picture>
-                            <source type="image/webp" srcset="nez-allergique-5.webp">
-                            <img src="nez-allergique-5.png" alt="Stérimar Nez Allergique Étui" width="860" height="860" loading="lazy" decoding="async">
-                        </picture>
+                                <picture><source type="image/webp" srcset="nez-allergique-5.webp"><img src="nez-allergique-5.webp" alt="Stérimar Nez Allergique Étui" width="860" height="860" loading="lazy" decoding="async"></picture>
                             </div>
                         </div>
                         <div class="swiper-pagination"></div>
@@ -192,8 +220,11 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="index.html" aria-label="Stérimar Accueil">
-                        <img src="logo.png" alt="Stérimar Logo" class="footer-logo"
-                            style="height: 144px; margin-bottom: 1rem; cursor: pointer;" width="672" height="400" decoding="async" loading="lazy">
+                        <picture>
+                            <source type="image/webp" srcset="logo.webp">
+                            <img src="logo.png" alt="Stérimar Logo" class="footer-logo"
+                                style="height: 144px; margin-bottom: 1rem; cursor: pointer;" width="672" height="400" decoding="async" loading="lazy">
+                        </picture>
                     </a>
                     <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
                     <div class="footer-social">
@@ -243,7 +274,7 @@
     </footer>
 
     <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script defer src="app.js?v=4"></script>
+    <script defer src="app.js?v=5"></script>
 </body>
 </html>
 

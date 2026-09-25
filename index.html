@@ -62,7 +62,6 @@
     }
 }
     </script>
-    <!-- Preload Critical LCP Hero Banner -->
     <link rel="preload" as="image" href="banner-generale-mobile.webp" media="(max-width: 768px)" type="image/webp">
     <link rel="preload" as="image" href="banner-generale-desktop.webp" media="(min-width: 769px)" type="image/webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,10 +70,12 @@
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet"></noscript>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" /></noscript>
-    <link rel="stylesheet" href="style.css?v=20">
+    <link rel="stylesheet" href="style.css?v=22">
     <link rel="icon"
         href="favicon-32x32.png"
         sizes="32x32">
@@ -86,7 +87,10 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo" id="nav-logo" aria-label="Stérimar Tunisie - Accueil">
-                <img src="logo.png" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async" fetchpriority="high">
+                <picture>
+                    <source type="image/webp" srcset="logo.webp">
+                    <img src="logo.png" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async" fetchpriority="high">
+                </picture>
                 <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
 
             </a>
@@ -156,12 +160,9 @@
                 </div>
                 <div class="swiper-slide slide-bebe">
                     <picture class="slide-bebe-bg">
-                        <source media="(max-width: 768px)" srcset="banner-bebe-mobile.jpg">
+                        <source media="(max-width: 768px)" srcset="banner-bebe-mobile.webp" type="image/webp">
                         <source type="image/webp" srcset="banner-bebe-desktop.webp">
-                            <picture>
-                            <source type="image/webp" srcset="banner-bebe-desktop.webp">
-                            <img src="banner-bebe-desktop.jpg" alt="Fond mer Stérimar Bébé" width="1376" height="768" loading="lazy" decoding="async">
-                        </picture>
+                        <img src="banner-bebe-desktop.jpg" alt="Fond mer Stérimar Bébé" width="1376" height="768" loading="lazy" decoding="async">
                     </picture>
                     <div class="slide-bebe-overlay">
                         <picture>
@@ -449,35 +450,35 @@
             </div>
             <div class="benefits-grid">
                 <div class="benefit-card" id="benefit-1">
-                    <div class="benefit-icon">🌊</div>
+                    <div class="benefit-icon" role="img" aria-label="Vague de mer">🌊</div>
                     <h3>100% Eau de Mer</h3>
                     <p>Puisée au large de Saint-Malo, notre eau de mer est naturellement riche en oligo-éléments et
                         minéraux essentiels.</p>
                 </div>
                 <div class="benefit-card" id="benefit-2">
-                    <div class="benefit-icon">🔬</div>
+                    <div class="benefit-icon" role="img" aria-label="Microscope">🔬</div>
                     <h3>Enrichie en Oligo-éléments</h3>
                     <p>Cuivre, manganèse, soufre… Chaque formule est enrichie en oligo-éléments spécifiques pour une
                         action ciblée.</p>
                 </div>
                 <div class="benefit-card" id="benefit-3">
-                    <div class="benefit-icon">👶</div>
+                    <div class="benefit-icon" role="img" aria-label="Bébé">👶</div>
                     <h3>Pour Toute la Famille</h3>
                     <p>Des solutions adaptées à chaque âge, dès la naissance pour les bébés jusqu'aux adultes.</p>
                 </div>
                 <div class="benefit-card" id="benefit-4">
-                    <div class="benefit-icon">🏆</div>
+                    <div class="benefit-icon" role="img" aria-label="Trophée">🏆</div>
                     <h3>N°1 en Pharmacie</h3>
                     <p>Plus de 50 ans d'expertise et la confiance de millions de familles et de professionnels de santé.
                     </p>
                 </div>
                 <div class="benefit-card" id="benefit-5">
-                    <div class="benefit-icon">♻️</div>
+                    <div class="benefit-icon" role="img" aria-label="Recyclage">♻️</div>
                     <h3>Sans Conservateur</h3>
                     <p>Formules sans gaz propulseur, sans conservateur et sans risque d'accoutumance.</p>
                 </div>
                 <div class="benefit-card" id="benefit-6">
-                    <div class="benefit-icon">💧</div>
+                    <div class="benefit-icon" role="img" aria-label="Goutte d'eau">💧</div>
                     <h3>Micro-diffusion</h3>
                     <p>Technologie de micro-diffusion brevetée pour une pulvérisation douce et efficace.</p>
                 </div>
@@ -502,16 +503,28 @@
             <h2 class="engagement-title">Nos engagements</h2>
             <div class="engagement-grid">
                 <div class="engagement-item">
-                    <img src="picto-efficacite.png" alt="Efficacité cliniquement prouvée" loading="lazy" width="862" height="406" decoding="async">
+                    <picture>
+                        <source type="image/webp" srcset="picto-efficacite.webp">
+                        <img src="picto-efficacite.png" alt="Efficacité cliniquement prouvée" loading="lazy" width="862" height="406" decoding="async">
+                    </picture>
                 </div>
                 <div class="engagement-item">
-                    <img src="picto-anti-reflux.png" alt="Système anti-reflux" loading="lazy" width="721" height="463" decoding="async">
+                    <picture>
+                        <source type="image/webp" srcset="picto-anti-reflux.webp">
+                        <img src="picto-anti-reflux.png" alt="Système anti-reflux" loading="lazy" width="721" height="463" decoding="async">
+                    </picture>
                 </div>
                 <div class="engagement-item">
-                    <img src="picto-eau-de-mer.png" alt="Eau de Mer 100% Naturelle" loading="lazy" width="736" height="423" decoding="async">
+                    <picture>
+                        <source type="image/webp" srcset="picto-eau-de-mer.webp">
+                        <img src="picto-eau-de-mer.png" alt="Eau de Mer 100% Naturelle" loading="lazy" width="736" height="423" decoding="async">
+                    </picture>
                 </div>
                 <div class="engagement-item">
-                    <img src="picto-livraison.png" alt="Livraison gratuite dès 100 DT" loading="lazy" width="860" height="410" decoding="async">
+                    <picture>
+                        <source type="image/webp" srcset="picto-livraison.webp">
+                        <img src="picto-livraison.png" alt="Livraison gratuite dès 100 DT" loading="lazy" width="860" height="410" decoding="async">
+                    </picture>
                 </div>
             </div>
         </div>
@@ -525,8 +538,11 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="index.html" aria-label="Stérimar Accueil">
-                        <img src="logo.png" alt="Stérimar Logo" class="footer-logo"
-                            style="height: 144px; margin-bottom: 1rem; cursor: pointer;" width="672" height="400" decoding="async" loading="lazy">
+                        <picture>
+                            <source type="image/webp" srcset="logo.webp">
+                            <img src="logo.png" alt="Stérimar Logo" class="footer-logo"
+                                style="height: 144px; margin-bottom: 1rem; cursor: pointer;" width="672" height="400" decoding="async" loading="lazy">
+                        </picture>
                     </a>
                     <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
                     <div class="footer-social">
@@ -576,7 +592,7 @@
     </footer>
 
     <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script defer src="app.js?v=4"></script>
+    <script defer src="app.js?v=5"></script>
 </body>
 
 </html>

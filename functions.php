@@ -24,15 +24,38 @@ add_action( 'after_setup_theme', 'sterimar_setup_theme' );
 
 /**
  * Enqueue Theme Assets
+ * Only for native WooCommerce / WordPress pages (Checkout, Cart, Account).
+ * Static HTML pages already include their own optimized stylesheets and deferred scripts.
  */
 function sterimar_enqueue_assets() {
-    $theme_uri = untrailingslashit( get_template_directory_uri() );
-    
-    wp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap', array(), null );
-    wp_enqueue_style( 'sterimar-style', $theme_uri . '/style.css', array(), '2.0' );
-    wp_enqueue_script( 'sterimar-app', $theme_uri . '/app.js', array(), '2.0', true );
+    if ( is_admin() ) {
+        return;
+    }
+
+    $is_native = false;
+    if ( ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) ||
+         ( function_exists( 'is_checkout' ) && is_checkout() ) ||
+         ( function_exists( 'is_cart' ) && is_cart() ) ||
+         ( function_exists( 'is_account_page' ) && is_account_page() ) ) {
+        $is_native = true;
+    }
+
+    if ( $is_native ) {
+        $theme_uri = untrailingslashit( get_template_directory_uri() );
+        wp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap', array(), null );
+        wp_enqueue_style( 'sterimar-style', $theme_uri . '/style.css', array(), '22' );
+        wp_enqueue_script( 'sterimar-app', $theme_uri . '/app.js', array(), '22', array( 'strategy' => 'defer', 'in_footer' => true ) );
+    }
+
+    // Remove Gutenberg Block CSS for non-post pages to improve performance
+    if ( ! is_singular( 'post' ) ) {
+        wp_dequeue_style( 'wp-block-library' );
+        wp_dequeue_style( 'wp-block-library-theme' );
+        wp_dequeue_style( 'wc-blocks-style' );
+        wp_dequeue_style( 'classic-theme-styles' );
+    }
 }
-add_action( 'wp_enqueue_scripts', 'sterimar_enqueue_assets' );
+add_action( 'wp_enqueue_scripts', 'sterimar_enqueue_assets', 100 );
 
 /**
  * Meta Pixel Tracking Code (Base + PageView)

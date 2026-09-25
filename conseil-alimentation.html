@@ -29,8 +29,9 @@
     <meta name="twitter:image" content="https://sterimar.shop/conseil-alimentation.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="style.css?v=22">
     <link rel="icon" href="favicon-32x32.png" sizes="32x32">
     <style>
         .article-hero { position: relative; height: 480px; overflow: hidden; }
@@ -84,7 +85,10 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo" id="nav-logo" aria-label="Stérimar Tunisie - Accueil">
-                <img src="logo.png" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async" fetchpriority="high">
+                <picture>
+                    <source type="image/webp" srcset="logo.webp">
+                    <img src="logo.png" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async" fetchpriority="high">
+                </picture>
                 <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
             </a>
                         <div class="nav-links" id="nav-links">
@@ -279,8 +283,11 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="index.html" aria-label="Stérimar Accueil">
-                        <img src="logo.png" alt="Stérimar Logo" class="footer-logo"
-                            style="height: 144px; margin-bottom: 1rem; cursor: pointer;" width="672" height="400" decoding="async" loading="lazy">
+                        <picture>
+                            <source type="image/webp" srcset="logo.webp">
+                            <img src="logo.png" alt="Stérimar Logo" class="footer-logo"
+                                style="height: 144px; margin-bottom: 1rem; cursor: pointer;" width="672" height="400" decoding="async" loading="lazy">
+                        </picture>
                     </a>
                     <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
                     <div class="footer-social">
@@ -328,7 +335,7 @@
             </div>
         </div>
     </footer>
-    <script defer src="app.js?v=4"></script>
+    <script defer src="app.js?v=5"></script>
 </body>
 </html>
 

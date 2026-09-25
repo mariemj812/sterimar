@@ -17,3 +17,5 @@ Thumbs.db
 # Archives & Documents
 *.zip
 *.pdf
+*.mp4
+mcp_config.json

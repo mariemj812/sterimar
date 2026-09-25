@@ -17,7 +17,9 @@ Text Domain: sterimar
 /* --- Custom Fonts --- */
 @font-face {
     font-family: 'Lumios Marker';
-    src: url('Lumios Marker_0.otf') format('opentype');
+    src: url('Lumios-Marker.woff2') format('woff2'),
+         url('Lumios-Marker.woff') format('woff'),
+         url('Lumios Marker_0.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -28,10 +30,6 @@ Text Domain: sterimar
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 input, textarea, [contenteditable="true"] {
@@ -5489,5 +5487,39 @@ li.wc_payment_method label {
     color: #DC2626 !important;
     font-weight: 700 !important;
     margin-left: 3px;
+}
+
+/* ==========================================
+   PERFORMANCE OPTIMIZATIONS
+   ========================================== */
+
+/* CSS Containment — isolate layout/paint for cards */
+.product-card,
+.product-card-full,
+.benefit-card,
+.gamme-card {
+    contain: layout style;
+}
+
+/* Optimize scroll-driven animations */
+.navbar {
+    will-change: transform;
+}
+
+/* Reduce paint area on images */
+.product-card-image img,
+.gamme-packshot,
+.engagement-item img {
+    content-visibility: auto;
+}
+
+/* Efficient image rendering */
+img {
+    image-rendering: auto;
+}
+
+/* Reduce reflow on lazy images — reserve space */
+img[loading="lazy"] {
+    background: #f1f5f9;
 }
 

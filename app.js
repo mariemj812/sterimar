@@ -2,10 +2,13 @@
    STÉRIMAR™ E-Commerce — Application Logic
    ========================================== */
 
+if (typeof window.__STERIMAR_APP_INITIALIZED__ === 'undefined') {
+window.__STERIMAR_APP_INITIALIZED__ = true;
+
 // ==========================================
 // PRODUCTS DATA
 // ==========================================
-const products = [
+var products = window.products = [
     {
         id: 0,
         wcId: 18,
@@ -179,7 +182,7 @@ const products = [
 // ==========================================
 // CART MANAGEMENT
 // ==========================================
-let cart = JSON.parse(localStorage.getItem('sterimar_cart')) || [];
+var cart = window.cart = JSON.parse(localStorage.getItem('sterimar_cart')) || [];
 
 function saveCart() {
     localStorage.setItem('sterimar_cart', JSON.stringify(cart));
@@ -488,8 +491,9 @@ function updateCategoryBanner(filterKey) {
 
     if (bannerContent) {
         bannerContent.style.animation = 'none';
-        bannerContent.offsetHeight; // trigger reflow
-        bannerContent.style.animation = 'fadeIn 0.35s ease forwards';
+        requestAnimationFrame(() => {
+            bannerContent.style.animation = 'fadeIn 0.35s ease forwards';
+        });
     }
 
     // Update active state of pagination dots
@@ -1846,4 +1850,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Expose critical functions to window for inline onclick attributes
+window.products = products;
+window.cart = cart;
+window.saveCart = saveCart;
+window.updateCartCount = updateCartCount;
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.updateQuantity = updateQuantity;
+window.renderCart = renderCart;
+window.checkout = checkout;
+window.showToast = showToast;
+window.initNavbar = initNavbar;
+window.initSwiper = initSwiper;
+window.initAIAssistant = typeof initAIAssistant !== 'undefined' ? initAIAssistant : undefined;
+window.openAIAssistant = typeof openAIAssistant !== 'undefined' ? openAIAssistant : undefined;
+window.closeAIAssistant = typeof closeAIAssistant !== 'undefined' ? closeAIAssistant : undefined;
+window.toggleAIAssistant = typeof toggleAIAssistant !== 'undefined' ? toggleAIAssistant : undefined;
+window.togglePasswordVisibility = typeof togglePasswordVisibility !== 'undefined' ? togglePasswordVisibility : undefined;
+window.switchAuthTab = typeof switchAuthTab !== 'undefined' ? switchAuthTab : undefined;
+window.updateNavAccount = typeof updateNavAccount !== 'undefined' ? updateNavAccount : undefined;
+
+} // End of window.__STERIMAR_APP_INITIALIZED__ guard
 

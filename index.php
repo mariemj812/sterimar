@@ -333,6 +333,8 @@ $wp_footer_output = ob_get_clean();
 
 // Strip conflicting external chatbot plugin (e.g. Rapls AI Chatbot)
 $wp_head_output = preg_replace( '/<link[^>]*href=["\'][^"\']*rapls-ai-chatbot[^"\']*["\'][^>]*\/?>/is', '', $wp_head_output );
+$wp_head_output = preg_replace( '/<link[^>]*id=["\']sterimar-style-css["\'][^>]*\/?>/is', '', $wp_head_output );
+$wp_footer_output = preg_replace( '/<script[^>]*id=["\']sterimar-app-js["\'][^>]*>.*?<\/script>/is', '', $wp_footer_output );
 $wp_footer_output = preg_replace( '/<div[^>]*id=["\']wp-ai-chatbot["\'][^>]*>.*?<\/div>/is', '', $wp_footer_output );
 $wp_footer_output = preg_replace( '/<script[^>]*src=["\'][^"\']*rapls-ai-chatbot[^"\']*["\'][^>]*>.*?<\/script>/is', '', $wp_footer_output );
 $wp_footer_output = preg_replace( '/<script[^>]*id=["\']raplsaich-[^"\']*["\'][^>]*>.*?<\/script>/is', '', $wp_footer_output );
