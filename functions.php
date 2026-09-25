@@ -84,7 +84,7 @@ src="https://www.facebook.com/tr?id=1060943890086095&ev=PageView&noscript=1"
 add_action( 'wp_head', 'sterimar_add_meta_pixel', 1 );
 
 /**
- * Automatic Meta Pixel Purchase Event on WooCommerce Order Received
+ * Automatic Meta Pixel Purchase Event & Local Cart Clearance on Order Received
  */
 function sterimar_track_wc_purchase( $order_id ) {
     if ( ! $order_id ) {
@@ -95,8 +95,19 @@ function sterimar_track_wc_purchase( $order_id ) {
         return;
     }
     ?>
-<!-- Meta Pixel Purchase Event -->
+<!-- Clear Local Cart & Track Meta Pixel Purchase -->
 <script>
+try {
+    localStorage.removeItem('sterimar_cart');
+    if (typeof window.cart !== 'undefined') {
+        window.cart = [];
+    }
+    var cartBadges = document.querySelectorAll('#cart-count, #mobile-cart-count, .cart-count');
+    cartBadges.forEach(function(badge) {
+        badge.textContent = '0';
+    });
+} catch(e) {}
+
 if (typeof fbq === 'function') {
     fbq('track', 'Purchase', {
         value: <?php echo esc_js( $order->get_total() ); ?>,

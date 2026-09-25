@@ -53,6 +53,23 @@ if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checko
     $cart_data = json_decode( $cart_json, true );
     
     if ( function_exists( 'WC' ) && ! empty( $cart_data ) && is_array( $cart_data ) ) {
+        // Initialize WooCommerce Session handler if needed
+        if ( is_null( WC()->session ) ) {
+            $session_class = apply_filters( 'woocommerce_session_handler', 'WC_Session_Handler' );
+            WC()->session = new $session_class();
+            WC()->session->init();
+        }
+
+        // Set customer session cookie
+        if ( ! WC()->session->has_session() ) {
+            WC()->session->set_customer_session_cookie( true );
+        }
+
+        // Initialize Customer and Cart
+        if ( is_null( WC()->customer ) ) {
+            WC()->customer = new WC_Customer( get_current_user_id(), true );
+        }
+
         if ( is_null( WC()->cart ) ) {
             wc_load_cart();
         }
@@ -77,6 +94,7 @@ if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checko
             6                       => 25,
         );
         
+        $added_count = 0;
         foreach ( $cart_data as $item ) {
             $wc_product_id = 0;
             
@@ -118,14 +136,28 @@ if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checko
             $qty = isset( $item['quantity'] ) ? max( 1, intval( $item['quantity'] ) ) : 1;
             
             if ( $wc_product_id > 0 ) {
-                WC()->cart->add_to_cart( $wc_product_id, $qty );
+                $cart_item_key = WC()->cart->add_to_cart( $wc_product_id, $qty );
+                if ( $cart_item_key ) {
+                    $added_count++;
+                }
             }
+        }
+        
+        // Recalculate totals and persist to WooCommerce session & database
+        WC()->cart->calculate_totals();
+        WC()->cart->set_session();
+        WC()->cart->maybe_set_cart_cookies();
+        
+        if ( is_object( WC()->session ) && method_exists( WC()->session, 'save_data' ) ) {
+            WC()->session->save_data();
         }
         
         $checkout_url = wc_get_checkout_url();
         echo json_encode( array(
             'success'      => true,
             'woocommerce'  => true,
+            'added_count'  => $added_count,
+            'cart_count'   => WC()->cart->get_cart_contents_count(),
             'checkout_url' => $checkout_url,
         ) );
         exit;
