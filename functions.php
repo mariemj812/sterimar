@@ -43,8 +43,8 @@ function sterimar_enqueue_assets() {
     if ( $is_native ) {
         $theme_uri = untrailingslashit( get_template_directory_uri() );
         wp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap', array(), null );
-        wp_enqueue_style( 'sterimar-style', $theme_uri . '/style.css', array(), '22' );
-        wp_enqueue_script( 'sterimar-app', $theme_uri . '/app.js', array(), '22', array( 'strategy' => 'defer', 'in_footer' => true ) );
+        wp_enqueue_style( 'sterimar-style', $theme_uri . '/style.css', array(), '25' );
+        wp_enqueue_script( 'sterimar-app', $theme_uri . '/app.js', array(), '9', array( 'strategy' => 'defer', 'in_footer' => true ) );
     }
 
     // Remove Gutenberg Block CSS for non-post pages to improve performance

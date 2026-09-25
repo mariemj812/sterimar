@@ -528,8 +528,7 @@ a {
 .hero-slider {
     margin-top: 76px; /* Exact match with 76px fixed navbar */
     width: 100%;
-    contain: layout style;
-}
+    }
 
 .hero-slider .swiper {
     width: 100%;
@@ -2112,7 +2111,7 @@ a {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: url('footer-wave-bg.webp') no-repeat center center / cover;
+    background: url('footer-wave-bg.jpg') no-repeat center center / cover;
     opacity: 0.25;
     z-index: -2;
     pointer-events: none;
@@ -5515,33 +5514,3 @@ li.wc_payment_method label {
     font-weight: 700 !important;
     margin-left: 3px;
 }
-
-/* ==========================================
-   PERFORMANCE OPTIMIZATIONS
-   ========================================== */
-
-/* CSS Containment — isolate layout/paint for cards */
-.product-card,
-.product-card-full,
-.benefit-card,
-.gamme-card {
-    contain: layout style;
-}
-
-/* Optimize scroll-driven animations */
-.navbar {
-    will-change: transform;
-}
-
-/* Reduce paint area on images */
-.product-card-image img,
-.gamme-packshot,
-.engagement-item img {
-    content-visibility: auto;
-}
-
-/* Efficient image rendering */
-img {
-    image-rendering: auto;
-}
-

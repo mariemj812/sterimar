@@ -62,8 +62,7 @@
     }
 }
     </script>
-    <link rel="preload" as="image" href="banner-generale-mobile.webp" media="(max-width: 768px)" type="image/webp">
-    <link rel="preload" as="image" href="banner-generale-desktop.jpg" media="(min-width: 769px)" type="image/webp">
+    <link rel="preload" as="image" href="banner-generale-desktop.jpg" fetchpriority="high">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -75,7 +74,7 @@
     <noscript><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet"></noscript>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" /></noscript>
-    <link rel="stylesheet" href="style.css?v=24">
+    <link rel="stylesheet" href="style.css?v=25">
     <link rel="icon"
         href="favicon-32x32.png"
         sizes="32x32">
@@ -129,13 +128,9 @@
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
 
-                <div class="swiper-slide">
+                                <div class="swiper-slide">
                     <a href="boutique.html" style="display: block; width: 100%; height: 100%;">
-                        <picture>
-                            <source media="(max-width: 768px)" srcset="banner-generale-mobile.webp">
-                            <source type="image/webp" srcset="banner-generale-desktop.jpg">
-                            <img src="banner-generale-desktop.jpg" alt="Stérimar Tunisie Bannière Générale Eau de Mer" width="2560" height="784" fetchpriority="high" decoding="async">
-                        </picture>
+                        <img src="banner-generale-desktop.jpg" alt="Stérimar Tunisie Bannière Générale Eau de Mer" width="2560" height="784" fetchpriority="high" decoding="async">
                     </a>
                 </div>
                 <div class="swiper-slide">
@@ -143,21 +138,15 @@
                         <img src="couv.jpg" alt="Stérimar Nez Bouché - Débouche le nez jusqu'à 6h" width="2550" height="788" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover;">
                     </a>
                 </div>
-                <div class="swiper-slide">
+                                <div class="swiper-slide">
                     <a href="boutique.html#allergie" style="display: block; width: 100%; height: 100%;">
-                        <picture>
-                            <source media="(max-width: 768px)" srcset="banner-allergie-mobile.webp">
-                            <source type="image/webp" srcset="banner-allergie-desktop.jpg">
-                            <img src="banner-allergie-desktop.jpg" alt="Bannière Allergie Stérimar" width="2560" height="784" loading="lazy" decoding="async">
-                        </picture>
+                        <img src="banner-allergie-desktop.jpg" alt="Bannière Allergie Stérimar" width="2560" height="784" loading="lazy" decoding="async">
                     </a>
                 </div>
-                <div class="swiper-slide slide-bebe">
-                    <picture class="slide-bebe-bg">
-                        <source media="(max-width: 768px)" srcset="banner-bebe-mobile.jpg" type="image/webp">
-                        <source type="image/webp" srcset="banner-bebe-desktop.jpg">
+                                <div class="swiper-slide slide-bebe">
+                    <div class="slide-bebe-bg">
                         <img src="banner-bebe-desktop.jpg" alt="Fond mer Stérimar Bébé" width="1376" height="768" loading="lazy" decoding="async">
-                    </picture>
+                    </div>
                     <div class="slide-bebe-overlay">
                         <img src="hygiene-bébé.png" alt="Stérimar Hygiène Bébé" class="slide-bebe-packshot" width="756" height="945" loading="lazy" decoding="async">
                         <div class="slide-bebe-text">
@@ -538,7 +527,7 @@
     </footer>
 
     <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script defer src="app.js?v=8"></script>
+    <script defer src="app.js?v=9"></script>
 </body>
 
 </html>
