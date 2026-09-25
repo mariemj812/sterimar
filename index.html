@@ -75,7 +75,7 @@
     <noscript><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet"></noscript>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" /></noscript>
-    <link rel="stylesheet" href="style.css?v=26">
+    <link rel="stylesheet" href="style.css?v=27">
     <link rel="icon"
         href="favicon-32x32.png"
         sizes="32x32">
@@ -131,7 +131,10 @@
 
                                 <div class="swiper-slide">
                     <a href="boutique.html" style="display: block; width: 100%; height: 100%;">
-                        <img src="banner-generale-desktop.jpg" alt="Stérimar Tunisie Bannière Générale Eau de Mer"  fetchpriority="high" decoding="async">
+                        <picture>
+                            <source media="(max-width: 768px)" srcset="banner-generale-mobile.jpg" width="800" height="800">
+                            <img src="banner-generale-desktop.jpg" alt="Stérimar Tunisie Bannière Générale Eau de Mer" width="2560" height="784" fetchpriority="high" decoding="async" style="aspect-ratio: auto;">
+                        </picture>
                     </a>
                 </div>
                 <div class="swiper-slide">
@@ -141,7 +144,10 @@
                 </div>
                                 <div class="swiper-slide">
                     <a href="boutique.html#allergie" style="display: block; width: 100%; height: 100%;">
-                        <img src="banner-allergie-desktop.jpg" alt="Bannière Allergie Stérimar"  loading="lazy" decoding="async">
+                        <picture>
+                            <source media="(max-width: 768px)" srcset="banner-allergie-mobile.jpg" width="800" height="800">
+                            <img src="banner-allergie-desktop.jpg" alt="Bannière Allergie Stérimar" width="2560" height="784" loading="lazy" decoding="async" style="aspect-ratio: auto;">
+                        </picture>
                     </a>
                 </div>
                                 <div class="swiper-slide slide-bebe">
@@ -529,7 +535,7 @@
     </footer>
 
     <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script defer src="app.js?v=26"></script>
+    <script defer src="app.js?v=27"></script>
 </body>
 
 </html>
