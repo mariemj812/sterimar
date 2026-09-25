@@ -335,7 +335,10 @@ function renderCart() {
 }
 
 async function checkout() {
-    if (cart.length === 0) return;
+    if (!cart || cart.length === 0) {
+        showToast('Votre panier est vide !');
+        return;
+    }
 
     // Meta Pixel InitiateCheckout
     if (typeof fbq === 'function') {
@@ -350,7 +353,7 @@ async function checkout() {
     const checkoutBtn = document.getElementById('checkout-btn');
     if (checkoutBtn) {
         checkoutBtn.disabled = true;
-        checkoutBtn.innerHTML = `<span>Synchronisation en cours...</span>`;
+        checkoutBtn.innerHTML = `<span>Redirection vers la caisse...</span>`;
     }
     
     try {
@@ -358,34 +361,26 @@ async function checkout() {
         formData.append('sterimar_wc_checkout', '1');
         formData.append('cart', JSON.stringify(cart));
         
-        const response = await fetch(window.location.pathname.includes('.html') ? 'index.php' : window.location.href, {
+        const rootUrl = window.location.origin + '/';
+        const response = await fetch(rootUrl, {
             method: 'POST',
-            body: formData
+            body: formData,
+            credentials: 'include'
         });
         
         if (response.ok) {
             const data = await response.json();
-            if (data.woocommerce && data.checkout_url) {
+            if (data.checkout_url) {
                 window.location.href = data.checkout_url;
                 return;
             }
         }
     } catch (err) {
-        console.warn('WooCommerce sync note:', err);
+        console.warn('WooCommerce sync warning:', err);
     }
     
-    const checkoutModal = document.getElementById('checkout-modal');
-    if (checkoutModal) {
-        checkoutModal.style.display = 'flex';
-        cart = [];
-        saveCart();
-        renderCart();
-    }
-    
-    if (checkoutBtn) {
-        checkoutBtn.disabled = false;
-        checkoutBtn.innerHTML = `Passer la commande <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12h14m-7-7 7 7-7 7"/></svg>`;
-    }
+    // Direct fallback to WooCommerce checkout page
+    window.location.href = window.location.origin + '/commander/';
 }
 
 // ==========================================
