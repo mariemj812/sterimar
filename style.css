@@ -528,11 +528,30 @@ a {
 .hero-slider {
     margin-top: 76px; /* Exact match with 76px fixed navbar */
     width: 100%;
+    contain: layout style;
 }
 
 .hero-slider .swiper {
     width: 100%;
-    height: auto;
+    aspect-ratio: 2560 / 784;
+    overflow: hidden;
+}
+
+/* Fix CLS before Swiper JS initializes */
+.hero-slider .swiper:not(.swiper-initialized) .swiper-wrapper {
+    display: flex;
+    aspect-ratio: 2560 / 784;
+    overflow: hidden;
+}
+
+.hero-slider .swiper:not(.swiper-initialized) .swiper-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+}
+
+.hero-slider .swiper:not(.swiper-initialized) .swiper-slide:not(:first-child) {
+    display: none;
 }
 
 .hero-slider .swiper-slide {
@@ -545,13 +564,21 @@ a {
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
-    .hero-slider .swiper-slide {
+    .hero-slider .swiper,
+    .hero-slider .swiper-slide,
+    .hero-slider .swiper:not(.swiper-initialized) .swiper-wrapper {
         aspect-ratio: 16 / 9;
     }
 }
 
 @media (max-width: 768px) {
-    .hero-slider .swiper-slide {
+    .hero-slider {
+        margin-top: 82px;
+    }
+    
+    .hero-slider .swiper,
+    .hero-slider .swiper-slide,
+    .hero-slider .swiper:not(.swiper-initialized) .swiper-wrapper {
         aspect-ratio: 1 / 1;
     }
     

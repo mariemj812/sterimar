@@ -1771,9 +1771,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initSwiper();
     initFilters();
     initCategoryBannerNav();
-    initScrollReveal();
-    initModalClose();
-    initAIAssistant();
     
     // Render cart if on cart page
     if (document.getElementById('cart-items')) {
@@ -1785,70 +1782,84 @@ document.addEventListener('DOMContentLoaded', () => {
         renderAuthView();
     }
 
-    // ==========================================
-    // META PIXEL — RETARGETING EVENTS
-    // ==========================================
-    if (typeof fbq === 'function') {
-
-        // --- ViewContent: fires on every product detail page ---
-        const productPage = document.querySelector('.product-page');
-        if (productPage) {
-            const addToCartBtn = productPage.querySelector('[onclick*="addToCart"]');
-            let productId = null;
-            if (addToCartBtn) {
-                const match = addToCartBtn.getAttribute('onclick').match(/addToCart\((\d+)/);
-                if (match) productId = parseInt(match[1]);
-            }
-            const product = (productId !== null && products[productId]) ? products[productId] : null;
-            fbq('track', 'ViewContent', {
-                content_name: product ? product.name : (document.querySelector('h1') ? document.querySelector('h1').textContent.trim() : 'Produit Stérimar'),
-                content_ids: [product ? String(product.wcId || productId) : '0'],
-                content_type: 'product',
-                value: product ? product.price : 0,
-                currency: 'TND'
-            });
+    // Defer non-critical scripts to idle time to minimize Total Blocking Time (TBT)
+    const runIdle = (fn) => {
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(fn, { timeout: 1500 });
+        } else {
+            setTimeout(fn, 150);
         }
+    };
 
-        // --- Contact: fires when the contact form is successfully submitted ---
-        const contactForm = document.getElementById('contact-form');
-        if (contactForm) {
-            const origSubmit = window.handleContactSubmit;
-            if (typeof origSubmit === 'function') {
-                window.handleContactSubmit = async function(e) {
-                    await origSubmit(e);
-                    fbq('track', 'Contact');
-                };
-            } else {
-                contactForm.addEventListener('submit', function() {
-                    fbq('track', 'Contact');
+    runIdle(() => {
+        initScrollReveal();
+        initModalClose();
+        initAIAssistant();
+
+        // ==========================================
+        // META PIXEL — RETARGETING EVENTS
+        // ==========================================
+        if (typeof fbq === 'function') {
+            // --- ViewContent: fires on every product detail page ---
+            const productPage = document.querySelector('.product-page');
+            if (productPage) {
+                const addToCartBtn = productPage.querySelector('[onclick*="addToCart"]');
+                let productId = null;
+                if (addToCartBtn) {
+                    const match = addToCartBtn.getAttribute('onclick').match(/addToCart\((\d+)/);
+                    if (match) productId = parseInt(match[1]);
+                }
+                const product = (productId !== null && products[productId]) ? products[productId] : null;
+                fbq('track', 'ViewContent', {
+                    content_name: product ? product.name : (document.querySelector('h1') ? document.querySelector('h1').textContent.trim() : 'Produit Stérimar'),
+                    content_ids: [product ? String(product.wcId || productId) : '0'],
+                    content_type: 'product',
+                    value: product ? product.price : 0,
+                    currency: 'TND'
                 });
             }
-        }
 
-        // --- CompleteRegistration: fires when user creates an account ---
-        const registerForm = document.getElementById('register-form');
-        if (registerForm) {
-            registerForm.addEventListener('submit', function() {
-                fbq('track', 'CompleteRegistration', {
-                    content_name: 'Stérimar Tunisie',
-                    status: true
-                });
-            });
-        }
-
-        // --- Search: fires when user uses boutique category filters ---
-        document.querySelectorAll('.filter-btn, [data-category]').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                const cat = btn.getAttribute('data-category') || btn.textContent.trim();
-                if (cat && cat !== 'all') {
-                    fbq('track', 'Search', {
-                        search_string: cat,
-                        content_category: 'Produits Stérimar'
+            // --- Contact: fires when the contact form is successfully submitted ---
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                const origSubmit = window.handleContactSubmit;
+                if (typeof origSubmit === 'function') {
+                    window.handleContactSubmit = async function(e) {
+                        await origSubmit(e);
+                        fbq('track', 'Contact');
+                    };
+                } else {
+                    contactForm.addEventListener('submit', function() {
+                        fbq('track', 'Contact');
                     });
                 }
+            }
+
+            // --- CompleteRegistration: fires when user creates an account ---
+            const registerForm = document.getElementById('register-form');
+            if (registerForm) {
+                registerForm.addEventListener('submit', function() {
+                    fbq('track', 'CompleteRegistration', {
+                        content_name: 'Stérimar Tunisie',
+                        status: true
+                    });
+                });
+            }
+
+            // --- Search: fires when user uses boutique category filters ---
+            document.querySelectorAll('.filter-btn, [data-category]').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const cat = btn.getAttribute('data-category') || btn.textContent.trim();
+                    if (cat && cat !== 'all') {
+                        fbq('track', 'Search', {
+                            search_string: cat,
+                            content_category: 'Produits Stérimar'
+                        });
+                    }
+                });
             });
-        });
-    }
+        }
+    });
 });
 
 // Expose critical functions to window for inline onclick attributes
