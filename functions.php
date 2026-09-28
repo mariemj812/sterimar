@@ -382,4 +382,19 @@ add_action( 'template_redirect', function() {
     }
 }, 1 );
 
+/**
+ * Ensure /boutique/ and WooCommerce Shop archive use index.php to render the custom boutique.html template.
+ */
+add_filter( 'template_include', function( $template ) {
+    $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? trim( (string) parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' ) : '';
+    $path_parts = array_values( array_filter( explode( '/', $request_uri ) ) );
+    $last_part = ! empty( $path_parts ) ? end( $path_parts ) : '';
+
+    if ( $last_part === 'boutique' || ( function_exists( 'is_shop' ) && is_shop() ) ) {
+        return get_template_directory() . '/index.php';
+    }
+    return $template;
+}, 999 );
+
+
 
