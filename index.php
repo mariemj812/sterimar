@@ -390,6 +390,16 @@ $wp_footer_output = preg_replace( '/<div[^>]*id=["\']wp-ai-chatbot["\'][^>]*>.*?
 $wp_footer_output = preg_replace( '/<script[^>]*src=["\'][^"\']*rapls-ai-chatbot[^"\']*["\'][^>]*>.*?<\/script>/is', '', $wp_footer_output );
 $wp_footer_output = preg_replace( '/<script[^>]*id=["\']raplsaich-[^"\']*["\'][^>]*>.*?<\/script>/is', '', $wp_footer_output );
 
+// Remove jQuery and heavy WooCommerce scripts from static pages (all static pages use pure Vanilla JS)
+$wp_head_output = preg_replace( '/<script[^>]*src=["\'][^"\']*(?:jquery|blockUI|sourcebuster)[^"\']*["\'][^>]*>.*?<\/script>/is', '', $wp_head_output );
+$wp_head_output = preg_replace( '/<script[^>]*src=["\'][^"\']*(?:reddit|snapchat)[^"\']*["\'][^>]*>.*?<\/script>/is', '', $wp_head_output );
+$wp_footer_output = preg_replace( '/<script[^>]*src=["\'][^"\']*(?:jquery|blockUI|sourcebuster)[^"\']*["\'][^>]*>.*?<\/script>/is', '', $wp_footer_output );
+$wp_footer_output = preg_replace( '/<script[^>]*src=["\'][^"\']*(?:reddit|snapchat)[^"\']*["\'][^>]*>.*?<\/script>/is', '', $wp_footer_output );
+
+// Defer any remaining third-party scripts so they never block HTML parsing or initial render
+$wp_head_output = preg_replace( '/<script(?![^>]*(?:defer|async))([^>]*src=[^>]+)>/i', '<script defer$1>', $wp_head_output );
+$wp_footer_output = preg_replace( '/<script(?![^>]*(?:defer|async))([^>]*src=[^>]+)>/i', '<script defer$1>', $wp_footer_output );
+
 // Inject window.STERIMAR_THEME_URI and wp_head before </head>
 $injected_head = '<script>window.STERIMAR_THEME_URI = "' . esc_js( $theme_uri ) . '";</script>' . "\n" . $wp_head_output;
 if ( stripos( $html, '</head>' ) !== false ) {
