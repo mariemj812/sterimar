@@ -358,7 +358,7 @@ if ( ! file_exists( $theme_dir . '/' . $page_file ) ) {
 $html = file_get_contents( $theme_dir . '/' . $page_file );
 
 // 2. Rewrite relative CSS files: href="style.css..." -> href="THEME_URI/style.css..."
-$html = preg_replace( '/href=["\'](style\.css[^"\']*)["\']/i', 'href="' . $theme_uri . '/$1"', $html );
+$html = preg_replace( '/href=["\'](style(?:\.min)?\.css[^"\']*)["\']/i', 'href="' . $theme_uri . '/$1"', $html );
 
 // 3. Rewrite relative JS files: src="app.js..." -> src="THEME_URI/app.js..."
 $html = preg_replace( '/src=["\'](app\.js[^"\']*)["\']/i', 'src="' . $theme_uri . '/$1"', $html );
@@ -441,6 +441,17 @@ $html = preg_replace_callback( '/(src|srcset)=["\']([^"\']+)["\']/i', function( 
     }
     
     return $attr . '="' . $theme_uri . '/' . ltrim( $val, '/' ) . '"';
+}, $html );
+
+// 4.1 Rewrite relative image preload and favicon links: <link ... href="banner-*.webp" ...>
+$html = preg_replace_callback( '/<link\s+([^>]*href=["\'])([^"\']+\.(?:webp|jpg|jpeg|png|svg|ico))(["\'][^>]*)>/i', function( $matches ) use ( $theme_uri ) {
+    $before = $matches[1];
+    $val = $matches[2];
+    $after = $matches[3];
+    if ( preg_match( '/^(https?:\/\/|\/\/|data:)/i', $val ) ) {
+        return $matches[0];
+    }
+    return '<link ' . $before . $theme_uri . '/' . ltrim( $val, '/' ) . $after . '>';
 }, $html );
 
 // 5. Rewrite inline style url('...') for local files

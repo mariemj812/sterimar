@@ -54,11 +54,33 @@ function sterimar_enqueue_assets() {
         wp_dequeue_style( 'wc-blocks-style' );
         wp_dequeue_style( 'classic-theme-styles' );
     }
+
+    // On static HTML pages (home, shop, blog, about, contact), dequeue heavy unused WooCommerce & jQuery scripts
+    if ( ! $is_native ) {
+        wp_dequeue_style( 'woocommerce-layout' );
+        wp_dequeue_style( 'woocommerce-smallscreen' );
+        wp_dequeue_style( 'woocommerce-general' );
+        wp_dequeue_style( 'woocommerce-inline' );
+
+        wp_dequeue_script( 'jquery' );
+        wp_dequeue_script( 'jquery-core' );
+        wp_dequeue_script( 'jquery-migrate' );
+        wp_dequeue_script( 'jquery-blockui' );
+        wp_dequeue_script( 'woocommerce' );
+        wp_dequeue_script( 'wc-add-to-cart' );
+        wp_dequeue_script( 'wc-cart-fragments' );
+        wp_dequeue_script( 'sourcebuster-js' );
+        wp_dequeue_script( 'wc-order-attribution' );
+        wp_dequeue_script( 'js-cookie' );
+        wp_dequeue_script( 'reddit-for-woocommerce-tracking' );
+        wp_dequeue_script( 'snapchat-for-woocommerce-tracking' );
+        wp_dequeue_script( 'google-sign-in-button' );
+    }
 }
 add_action( 'wp_enqueue_scripts', 'sterimar_enqueue_assets', 100 );
 
 /**
- * Meta Pixel Tracking Code (Base + PageView)
+ * Meta Pixel Tracking Code (Base + PageView) - High Performance Defer
  */
 function sterimar_add_meta_pixel() {
     ?>
@@ -68,10 +90,22 @@ function sterimar_add_meta_pixel() {
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
 if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
+n.queue=[];
+var loaded=false;
+function loadPixel(){
+    if(loaded)return;loaded=true;
+    t=b.createElement(e);t.async=true;t.src=v;
+    s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s);
+}
+if('requestIdleCallback' in window){
+    requestIdleCallback(function(){ setTimeout(loadPixel, 1000); });
+} else {
+    setTimeout(loadPixel, 1500);
+}
+['scroll','touchstart','click'].forEach(function(ev){
+    window.addEventListener(ev, loadPixel, {once:true, passive:true});
+});
+}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '1060943890086095');
 fbq('track', 'PageView');
 </script>
