@@ -32,20 +32,12 @@ function sterimar_enqueue_assets() {
         return;
     }
 
-    $request_uri = trim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
-    $path_parts = array_filter( explode( '/', $request_uri ) );
-    $last_part = ! empty( $path_parts ) ? end( $path_parts ) : '';
-    $candidate_html = preg_match( '/\.html$/i', $last_part ) ? $last_part : ( $last_part ? $last_part . '.html' : 'index.html' );
-    $theme_dir = get_template_directory();
-
     $is_native = false;
-    if ( ! file_exists( $theme_dir . '/' . $candidate_html ) ) {
-        if ( ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) ||
-             ( function_exists( 'is_checkout' ) && is_checkout() ) ||
-             ( function_exists( 'is_cart' ) && is_cart() ) ||
-             ( function_exists( 'is_account_page' ) && is_account_page() ) ) {
-            $is_native = true;
-        }
+    if ( ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) ||
+         ( function_exists( 'is_checkout' ) && is_checkout() ) ||
+         ( function_exists( 'is_cart' ) && is_cart() ) ||
+         ( function_exists( 'is_account_page' ) && is_account_page() ) ) {
+        $is_native = true;
     }
 
     if ( $is_native ) {
@@ -370,36 +362,24 @@ function sterimar_checkout_phone_client_script() {
 add_action( 'wp_footer', 'sterimar_checkout_phone_client_script', 99 );
 
 /**
- * Prevent WordPress from sending 404 status or redirecting static HTML templates.
+ * Prevent WordPress from sending 404 status for theme static HTML templates.
  * Forces HTTP 200 OK so browsers, SEO crawlers and LiteSpeed Cache recognize and cache all subpages.
  */
 add_action( 'template_redirect', function() {
     $request_uri = trim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
     $path_parts = array_filter( explode( '/', $request_uri ) );
-    $last_part = ! empty( $path_parts ) ? end( $path_parts ) : '';
-    $candidate_html = preg_match( '/\.html$/i', $last_part ) ? $last_part : ( $last_part ? $last_part . '.html' : 'index.html' );
-    $theme_dir = get_template_directory();
-
-    if ( file_exists( $theme_dir . '/' . $candidate_html ) ) {
-        status_header( 200 );
-        global $wp_query;
-        if ( isset( $wp_query ) ) {
-            $wp_query->is_404 = false;
+    $last_part = end( $path_parts );
+    if ( ! empty( $last_part ) ) {
+        $candidate_html = preg_match( '/\.html$/i', $last_part ) ? $last_part : $last_part . '.html';
+        $theme_dir = get_template_directory();
+        if ( file_exists( $theme_dir . '/' . $candidate_html ) ) {
+            status_header( 200 );
+            global $wp_query;
+            if ( isset( $wp_query ) ) {
+                $wp_query->is_404 = false;
+            }
         }
     }
 }, 1 );
-
-add_filter( 'redirect_canonical', function( $redirect_url, $requested_url ) {
-    $request_uri = trim( parse_url( $requested_url, PHP_URL_PATH ), '/' );
-    $path_parts = array_filter( explode( '/', $request_uri ) );
-    $last_part = ! empty( $path_parts ) ? end( $path_parts ) : '';
-    $candidate_html = preg_match( '/\.html$/i', $last_part ) ? $last_part : ( $last_part ? $last_part . '.html' : 'index.html' );
-    $theme_dir = get_template_directory();
-
-    if ( file_exists( $theme_dir . '/' . $candidate_html ) ) {
-        return false; // Prevent WordPress canonical redirect from breaking /boutique/ or /boutique.html/
-    }
-    return $redirect_url;
-}, 10, 2 );
 
 

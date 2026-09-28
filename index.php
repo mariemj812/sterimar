@@ -174,6 +174,18 @@ if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checko
 $theme_uri = untrailingslashit( get_template_directory_uri() );
 $theme_dir = get_template_directory();
 
+// 1. Determine which page to display (Static HTML Template vs Native WooCommerce / WordPress Page)
+$is_native_wp = false;
+
+if ( ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) ||
+     ( function_exists( 'is_checkout' ) && is_checkout() ) ||
+     ( function_exists( 'is_cart' ) && is_cart() ) ||
+     ( function_exists( 'is_account_page' ) && is_account_page() ) ) {
+    $is_native_wp = true;
+}
+
+$page_file = 'index.html';
+
 // 301 Permanent Redirect for any old URLs with ?page_file=*.html
 if ( isset( $_GET['page_file'] ) ) {
     $clean_page = basename( sanitize_file_name( $_GET['page_file'] ) );
@@ -187,39 +199,30 @@ if ( isset( $_GET['page_file'] ) ) {
     }
 }
 
-// 1. Determine which page to display (Static HTML Template vs Native WooCommerce / WordPress Page)
-$is_native_wp = false;
-$page_file = 'index.html';
-
-// Extract requested path from URL (supports /boutique/, /boutique, /boutique.html, /boutique.html/)
-$request_uri = trim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
-$path_parts = array_filter( explode( '/', $request_uri ) );
-$last_part = ! empty( $path_parts ) ? end( $path_parts ) : '';
-
-if ( empty( $last_part ) ) {
-    // Homepage (/)
-    $page_file = 'index.html';
-    $is_native_wp = false;
-    status_header( 200 );
-    global $wp_query;
-    if ( isset( $wp_query ) ) {
-        $wp_query->is_404 = false;
-    }
-} else {
-    // Check if the current URL matches an HTML template file in the theme
-    $candidate_html = preg_match( '/\.html$/i', $last_part ) ? $last_part : $last_part . '.html';
-    
-    if ( file_exists( $theme_dir . '/' . $candidate_html ) ) {
-        $page_file = $candidate_html;
-        $is_native_wp = false;
+if ( ! $is_native_wp ) {
+    // Check if the current URL path matches any HTML file
+    $request_uri = trim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+    $path_parts = array_filter( explode( '/', $request_uri ) );
+    $last_part = end( $path_parts );
+    if ( ! empty( $last_part ) ) {
+        $candidate_html = preg_match( '/\.html$/i', $last_part ) ? $last_part : $last_part . '.html';
+        if ( file_exists( $theme_dir . '/' . $candidate_html ) ) {
+            $page_file = $candidate_html;
+            status_header( 200 );
+            global $wp_query;
+            if ( isset( $wp_query ) ) {
+                $wp_query->is_404 = false;
+            }
+        } else {
+            // It's a WordPress native route (like /commander/, /checkout/, /commande-recue/)
+            $is_native_wp = true;
+        }
+    } else {
         status_header( 200 );
         global $wp_query;
         if ( isset( $wp_query ) ) {
             $wp_query->is_404 = false;
         }
-    } else {
-        // No matching HTML file -> Treat as native WooCommerce / WordPress (e.g. /commander/, /checkout/, /commande-recue/)
-        $is_native_wp = true;
     }
 }
 
