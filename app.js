@@ -19,7 +19,7 @@ var products = window.products = [
         type: "Physiologique",
         molecule: "Oligo-éléments",
         price: 16.00,
-        image: "hygiene-adulte.png",
+        image: "hygiene-adulte.webp",
         description: "Spray nasal isotonique pour nettoyer, humidifier et protéger la muqueuse nasale au quotidien. Enrichi en oligo-éléments marins, il élimine les impuretés, poussières et allergènes tout en hydratant les cavités nasales.",
         features: [
             "Solution isotonique d'eau de mer",
@@ -43,7 +43,7 @@ var products = window.products = [
         type: "Physiologique",
         molecule: "Soufre",
         price: 16.00,
-        image: "cold-adulte.png",
+        image: "cold-adulte.webp",
         description: "Spray nasal préventif enrichi en soufre pour renforcer la résistance de la muqueuse nasale face aux agressions hivernales. Il aide à prévenir l'apparition des rhumes en maintenant une barrière nasale saine.",
         features: [
             "Enrichi en soufre",
@@ -67,7 +67,7 @@ var products = window.products = [
         type: "Hypertonique",
         molecule: "Cuivre",
         price: 16.00,
-        image: "nez-bouché-adulte.png",
+        image: "nez-bouché-adulte.webp",
         description: "Spray hypertonique enrichi en cuivre pour décongestionner rapidement le nez bouché. Son action osmotique aide à réduire l'œdème de la muqueuse nasale et facilite l'élimination du mucus en cas de rhume ou de sinusite.",
         features: [
             "Solution hypertonique concentrée",
@@ -91,7 +91,7 @@ var products = window.products = [
         type: "Physiologique",
         molecule: "Manganèse",
         price: 16.00,
-        image: "allergie.png",
+        image: "allergie.webp",
         description: "Spray enrichi en manganèse pour soulager les symptômes d'allergie nasale : éternuements, nez qui coule, congestion. Élu Meilleur Produit Pharma, il aide à éliminer les allergènes (pollens, acariens, poussières) et à apaiser la muqueuse nasale irritée.",
         features: [
             "Enrichi en manganèse anti-allergique",
@@ -115,7 +115,7 @@ var products = window.products = [
         type: "Physiologique",
         molecule: "Oligo-éléments",
         price: 16.00,
-        image: "hygiene-bébé.png",
+        image: "hygiene-bébé.webp",
         description: "Spray nasal pour les petits de 0 à 3 ans destiné à nettoyer et hydrater le nez et éliminer les impuretés. Ce spray prévient et diminue les symptômes nasaux (rhume, rhinite, sinusite). Nouvel embout sécurité bébé à forme douce et ergonomique.",
         features: [
             "Riche en oligo-éléments marins",
@@ -139,7 +139,7 @@ var products = window.products = [
         type: "Hypertonique",
         molecule: "Cuivre",
         price: 16.00,
-        image: "nez-bouché-bébé.png",
+        image: "nez-bouché-bébé.webp",
         description: "Spray hypertonique enrichi en cuivre pour décongestionner rapidement le nez de bébé dès 3 mois. Avec son nouvel embout sécurité bébé à forme douce et ergonomique, moucher son bébé devient un jeu d'enfant.",
         features: [
             "Hypertonique enrichi en cuivre",
@@ -163,7 +163,7 @@ var products = window.products = [
         type: "Stop & Protect",
         molecule: "Soufre",
         price: 16.00,
-        image: "cold-adulte.png",
+        image: "cold-adulte.webp",
         description: "Spray innovant combinant l'eau de mer enrichie en soufre avec une action protectrice. Stop & Protect aide à stopper le rhume dès les premiers symptômes et protège la muqueuse nasale grâce à un film protecteur. Format compact idéal pour emporter partout.",
         features: [
             "Action Stop : stoppe le rhume dès les premiers symptômes",

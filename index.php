@@ -361,7 +361,7 @@ $html = file_get_contents( $theme_dir . '/' . $page_file );
 $html = preg_replace( '/href=["\'](style(?:\.min)?\.css[^"\']*)["\']/i', 'href="' . $theme_uri . '/$1"', $html );
 
 // 3. Rewrite relative JS files: src="app.js..." -> src="THEME_URI/app.js..."
-$html = preg_replace( '/src=["\'](app\.js[^"\']*)["\']/i', 'src="' . $theme_uri . '/$1"', $html );
+$html = preg_replace( '/src=["\'](app(?:\.min)?\.js[^"\']*)["\']/i', 'src="' . $theme_uri . '/$1"', $html );
 
 // Inject WordPress standard hooks (required by Google Site Kit, Analytics, Tag Manager, SEO plugins)
 wp_dequeue_script( 'sterimar-app' );
@@ -484,5 +484,6 @@ $html = preg_replace_callback( '/href=["\']([a-zA-Z0-9_\-]+\.html)(#[^"\']*)?["\
     return 'href="' . esc_url( trailingslashit( $home_url ) . $page ) . $hash . '"';
 }, $html );
 
-// 7. Output page
+// 7. Output page with browser and edge cache headers
+header( 'Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800' );
 echo $html;
