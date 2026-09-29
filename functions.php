@@ -295,15 +295,15 @@ function sterimar_validate_blocks_phone_checkout( $order, $request ) {
         $phone = $order->get_billing_phone();
     }
     
-    if ( empty( trim( $phone ) ) ) {
+    if ( empty( trim( (string) $phone ) ) ) {
         if ( class_exists( '\Automattic\WooCommerce\StoreApi\Exceptions\RouteException' ) ) {
             throw new \Automattic\WooCommerce\StoreApi\Exceptions\RouteException(
                 'woocommerce_rest_checkout_missing_phone',
                 __( 'Le numéro de téléphone est obligatoire pour valider la commande et la livraison.', 'woocommerce' ),
                 400
             );
-        } else {
-            throw new \Exception( __( 'Le numéro de téléphone est obligatoire pour valider la commande.', 'woocommerce' ) );
+        } elseif ( function_exists( 'wc_add_notice' ) ) {
+            wc_add_notice( __( 'Le numéro de téléphone est obligatoire pour valider la commande et assurer la livraison.', 'woocommerce' ), 'error' );
         }
     }
 }
@@ -400,9 +400,9 @@ add_action( 'wp_footer', 'sterimar_checkout_phone_client_script', 99 );
  * Forces HTTP 200 OK so browsers, SEO crawlers and LiteSpeed Cache recognize and cache all subpages.
  */
 add_action( 'template_redirect', function() {
-    $request_uri = trim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
-    $path_parts = array_filter( explode( '/', $request_uri ) );
-    $last_part = end( $path_parts );
+    $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? trim( (string) parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' ) : '';
+    $path_parts = array_values( array_filter( explode( '/', $request_uri ) ) );
+    $last_part = ! empty( $path_parts ) ? end( $path_parts ) : '';
     if ( ! empty( $last_part ) ) {
         $candidate_html = preg_match( '/\.html$/i', $last_part ) ? $last_part : $last_part . '.html';
         $theme_dir = get_template_directory();
