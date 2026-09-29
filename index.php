@@ -9,6 +9,7 @@
 
 // 0. Handle Contact Form Submission (Server-side sending to commercial@sterimar.shop)
 if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['sterimar_contact'] ) ) {
+    status_header( 200 );
     header( 'Content-Type: application/json; charset=UTF-8' );
     
     $name    = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
@@ -47,6 +48,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['sterimar_contact'] 
 
 // 0.1 Handle WooCommerce Cart Sync & Checkout Redirect
 if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checkout'] ) ) {
+    status_header( 200 );
     header( 'Content-Type: application/json; charset=UTF-8' );
     
     $cart_json = isset( $_POST['cart'] ) ? wp_unslash( $_POST['cart'] ) : ( isset( $_GET['cart'] ) ? wp_unslash( $_GET['cart'] ) : '' );
@@ -246,7 +248,7 @@ if ( $is_native_wp ) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo esc_url( $theme_uri . '/style.css?v=29' ); ?>">
+    <link rel="stylesheet" href="<?php echo esc_url( $theme_uri . '/style.css?v=31' ); ?>">
     <link rel="icon" href="<?php echo esc_url( $theme_uri . '/favicon-32x32.png' ); ?>" sizes="32x32">
     <?php wp_head(); ?>
 </head>
@@ -344,7 +346,7 @@ if ( $is_native_wp ) {
     </footer>
 
     <?php wp_footer(); ?>
-    <script src="<?php echo esc_url( $theme_uri . '/app.js?v=29' ); ?>"></script>
+    <script src="<?php echo esc_url( $theme_uri . '/app.js?v=31' ); ?>"></script>
 </body>
 </html>
     <?php

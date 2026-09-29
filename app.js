@@ -361,7 +361,7 @@ async function checkout() {
         formData.append('sterimar_wc_checkout', '1');
         formData.append('cart', JSON.stringify(cart));
         
-        const rootUrl = window.location.origin + '/';
+        const rootUrl = window.location.origin + '/index.php';
         const response = await fetch(rootUrl, {
             method: 'POST',
             body: formData,
