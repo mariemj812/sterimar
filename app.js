@@ -1,3 +1,8 @@
+// Force www.sterimar.shop domain redirection
+if (typeof window !== 'undefined' && window.location && window.location.hostname === 'sterimar.shop') {
+    window.location.replace('https://www.sterimar.shop' + window.location.pathname + window.location.search + window.location.hash);
+}
+
 /* ==========================================
    STÉRIMAR™ E-Commerce — Application Logic
    ========================================== */
