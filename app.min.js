@@ -714,6 +714,8 @@ function handleHashFilter() {
 function initFilters() {
     const filterBtns = document.querySelectorAll('.filter-btn');
     const productCards = document.querySelectorAll('.product-card-full');
+    const shopProductsSec = document.getElementById('shop-products');
+    const shopPacksSec = document.getElementById('shop-packs');
     
     if (filterBtns.length === 0) return;
     
@@ -740,6 +742,29 @@ function initFilters() {
                     card.classList.add('hidden');
                 }
             });
+
+            // Toggle sections display based on filter selection
+            if (shopProductsSec) {
+                if (filter === 'packs') {
+                    shopProductsSec.style.display = 'none';
+                } else {
+                    shopProductsSec.style.display = '';
+                }
+            }
+
+            if (shopPacksSec) {
+                const visiblePacks = shopPacksSec.querySelectorAll('.product-card-pack:not(.hidden)');
+                if (visiblePacks.length > 0) {
+                    shopPacksSec.style.display = '';
+                    if (filter === 'packs') {
+                        setTimeout(() => {
+                            shopPacksSec.scrollIntoView({ behavior: 'smooth' });
+                        }, 80);
+                    }
+                } else {
+                    shopPacksSec.style.display = 'none';
+                }
+            }
         });
     });
     
