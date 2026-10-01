@@ -430,5 +430,48 @@ add_filter( 'template_include', function( $template ) {
     return $template;
 }, 999 );
 
+/**
+ * --------------------------------------------------------------------------
+ * Support des Packs & Offres Combinées (-10% de remise automatique au panier)
+ * --------------------------------------------------------------------------
+ */
+add_action( 'woocommerce_before_calculate_totals', 'sterimar_apply_pack_discount_wc', 20, 1 );
+function sterimar_apply_pack_discount_wc( $cart ) {
+    if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
+        return;
+    }
+    if ( did_action( 'woocommerce_before_calculate_totals' ) >= 2 ) {
+        return;
+    }
+    foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) {
+        if ( ! empty( $cart_item['pack_discount'] ) ) {
+            $discount_rate = floatval( $cart_item['pack_discount'] );
+            $original_price = floatval( $cart_item['data']->get_regular_price() );
+            if ( $original_price <= 0 ) {
+                $original_price = floatval( $cart_item['data']->get_price() );
+            }
+            if ( $original_price > 0 && $discount_rate > 0 ) {
+                $discounted_price = round( $original_price * ( 1 - $discount_rate ), 2 );
+                $cart_item['data']->set_price( $discounted_price );
+            }
+        }
+    }
+}
 
+add_filter( 'woocommerce_get_item_data', 'sterimar_display_pack_cart_item_meta', 10, 2 );
+function sterimar_display_pack_cart_item_meta( $item_data, $cart_item ) {
+    if ( ! empty( $cart_item['pack_name'] ) ) {
+        $item_data[] = array(
+            'key'   => __( 'Offre Pack Spéciale', 'woocommerce' ),
+            'value' => esc_html( $cart_item['pack_name'] ) . ' (-10% appliqué)',
+        );
+    }
+    return $item_data;
+}
 
+add_action( 'woocommerce_checkout_create_order_line_item', 'sterimar_save_pack_order_item_meta', 10, 4 );
+function sterimar_save_pack_order_item_meta( $item, $cart_item_key, $values, $order ) {
+    if ( ! empty( $values['pack_name'] ) ) {
+        $item->add_meta_data( __( 'Offre Pack', 'woocommerce' ), $values['pack_name'] . ' (-10%)' );
+    }
+}

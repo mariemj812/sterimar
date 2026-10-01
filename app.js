@@ -177,6 +177,71 @@ var products = window.products = [
         audience: "Dès 6 ans",
         volume: "20ml"
     }
+,
+    {
+        id: 7,
+        wcId: 0,
+        name: "Pack Famille (Adulte + Bébé)",
+        shortName: "Pack Famille",
+        category: "packs",
+        categoryLabel: "Pack Duo",
+        categoryColor: "#0284C7",
+        type: "Duo Hygiène Quotidienne",
+        molecule: "Oligo-éléments Marins",
+        price: 28.80,
+        originalPrice: 32.00,
+        discountPercent: 10,
+        savings: 3.20,
+        isPack: true,
+        bundleItems: [0, 4],
+        bundleWcIds: [18, 32],
+        image: "pack-famille.webp",
+        url: "produit-pack-famille.html",
+        description: "Le duo indispensable pour le nez de toute la famille. Composé de Stérimar Hygiène Adulte (100ml) et Stérimar Bébé Hygiène (100ml), ce pack offre un lavage et une hydratation nasale 100% naturelle de la naissance à l'âge adulte, avec 10% de remise immédiate.",
+        features: [
+            "1x Stérimar Hygiène du Nez Adulte (100ml)",
+            "1x Stérimar Hygiène du Nez Bébé (100ml)",
+            "Remise immédiate de 10% (Économisez 3,20 DT)",
+            "100% Eau de mer naturelle puisée en baie de Cancale",
+            "Micro-diffusion douce brevetée & embout sécurité bébé",
+            "Pour toute la famille : dès la naissance et adultes"
+        ],
+        usage: "Adulte & Enfant : 1 à 2 pulvérisations par narine, 1 à 3 fois par jour. Bébé : 1 pulvérisation douce par narine 1 à 3 fois par jour la tête inclinée.",
+        audience: "Toute la famille (Nourrisson & Adulte)",
+        volume: "2 x 100ml (200ml)"
+    },
+    {
+        id: 8,
+        wcId: 0,
+        name: "Pack Hiver Serein",
+        shortName: "Pack Hiver Serein",
+        category: "packs",
+        categoryLabel: "Pack Spécial Hiver",
+        categoryColor: "#C2410C",
+        type: "Trio Bouclier Hivernal",
+        molecule: "Soufre & Cuivre",
+        price: 43.20,
+        originalPrice: 48.00,
+        discountPercent: 10,
+        savings: 4.80,
+        isPack: true,
+        bundleItems: [0, 1, 5],
+        bundleWcIds: [18, 25, 34],
+        image: "pack-hiver-serein.webp",
+        url: "produit-pack-hiver-serein.html",
+        description: "La routine bouclier 3-en-1 face aux agressions de l'hiver. Ce pack complet réunit 1 spray hygiène quotidienne, 1 spray préventif anti-rhume au soufre et 1 spray hypertonique décongestionnant au cuivre spécial bébé, avec 10% de réduction immédiate.",
+        features: [
+            "1x Stérimar Hygiène du Nez Quotidien (100ml)",
+            "1x Stérimar Nez sujet aux Rhumes enrichi en Soufre (100ml)",
+            "1x Stérimar Nez Bouché Bébé au Cuivre (100ml)",
+            "Remise immédiate de 10% (Économisez 4,80 DT)",
+            "Action 3-en-1 : Nettoyer au quotidien, Prévenir les rhumes, Décongestionner bébé",
+            "Sans vasoconstricteur, sans conservateur, 100% naturel"
+        ],
+        usage: "Quotidien : 1 à 2 pulvérisations/jour. Rhume : 2 à 3 pulvérisations/jour dès les premiers frimas. Nez bouché bébé : 1 pulvérisation 2 à 3 fois/jour en cas de nez encombré.",
+        audience: "Famille & Bébé (Dès 3 mois)",
+        volume: "3 x 100ml (300ml)"
+    }
 ];
 
 // ==========================================
@@ -208,9 +273,14 @@ function addToCart(productId, qty = 1) {
     } else {
         cart.push({
             id: productId,
-            wcId: product.wcId,
+            wcId: product.wcId || 0,
             name: product.name,
             price: product.price,
+            originalPrice: product.originalPrice || null,
+            savings: product.savings || null,
+            isPack: !!product.isPack,
+            bundleWcIds: product.bundleWcIds || null,
+            bundleItems: product.bundleItems || null,
             image: product.image,
             category: product.categoryLabel,
             quantity: qty
@@ -273,23 +343,39 @@ function renderCart() {
     if (cartEmptyEl) cartEmptyEl.style.display = 'none';
     if (cartSummaryEl) cartSummaryEl.style.display = 'block';
     
-    cartItemsEl.innerHTML = cart.map(item => `
-        <div class="cart-item" data-id="${item.id}">
+    cartItemsEl.innerHTML = cart.map(item => {
+        const isPack = !!item.isPack || item.id === 7 || item.id === 8;
+        const oldPriceHtml = (isPack && item.originalPrice)
+            ? `<span style="text-decoration: line-through; color: #94a3b8; font-size: 0.85rem; margin-right: 6px;">${(item.originalPrice * item.quantity).toFixed(2).replace('.', ',')} DT</span>`
+            : '';
+        const packBadgeHtml = isPack
+            ? `<div style="margin-top: 5px;"><span style="display:inline-flex; align-items:center; gap:4px; background:#ECFDF5; color:#059669; font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:12px; border:1px solid #A7F3D0;">✨ Remise Pack -10% appliquée</span></div>`
+            : '';
+        const packDescHtml = item.id === 7
+            ? `<div style="font-size: 0.78rem; color: #64748b; margin-top: 3px;">Inclus : 1x Hygiène Adulte 100ml + 1x Hygiène Bébé 100ml</div>`
+            : (item.id === 8
+                ? `<div style="font-size: 0.78rem; color: #64748b; margin-top: 3px;">Inclus : 1x Hygiène Quotidien + 1x Rhume Soufre + 1x Nez Bouché Bébé</div>`
+                : '');
+
+        return `
+        <div class="cart-item ${isPack ? 'cart-item-pack' : ''}" data-id="${item.id}">
             <div class="cart-item-image">
                 <img src="${getAssetUrl(item.image)}" alt="${item.name}">
             </div>
             <div class="cart-item-info">
                 <span class="cart-item-category">${item.category}</span>
                 <h3>${item.name}</h3>
-                <span class="cart-item-price-mobile">${(item.price * item.quantity).toFixed(2).replace('.', ',')} DT</span>
+                ${packDescHtml}
+                ${packBadgeHtml}
+                <span class="cart-item-price-mobile">${oldPriceHtml}${(item.price * item.quantity).toFixed(2).replace('.', ',')} DT</span>
             </div>
             <div class="cart-item-actions">
                 <div class="quantity-control">
-                    <button onclick="updateQuantity(${item.id}, -1)" aria-label="Diminuer">−</button>
+                    <button onclick="updateQuantity(${item.id}, -1)" aria-label="Diminuer">-</button>
                     <span>${item.quantity}</span>
                     <button onclick="updateQuantity(${item.id}, 1)" aria-label="Augmenter">+</button>
                 </div>
-                <span class="cart-item-price">${(item.price * item.quantity).toFixed(2).replace('.', ',')} DT</span>
+                <span class="cart-item-price">${oldPriceHtml}${(item.price * item.quantity).toFixed(2).replace('.', ',')} DT</span>
                 <button class="cart-item-remove" onclick="removeFromCart(${item.id})" aria-label="Supprimer">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
@@ -297,7 +383,8 @@ function renderCart() {
                 </button>
             </div>
         </div>
-    `).join('');
+        `;
+    }).join('');
     
     // Update summary
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -421,6 +508,14 @@ function getAssetUrl(path) {
 // CATEGORY BANNER DATA & MANAGEMENT
 // ==========================================
 const categoryBannerData = {
+    packs: {
+        tag: "Offres Privilèges Stérimar™",
+        title: "Nos Packs Avantages (-10%)",
+        subtitle: "Bénéficiez de 10% de remise immédiate sur nos packs combinés pour toute la famille. Des routines complètes pour chaque besoin.",
+        badge: "Offre Exclusive • -10% de Remise Immédiate",
+        image: "cat-banner-all.jpg?v=20260922g",
+        themeColor: "#0077B6"
+    },
     all: {
         tag: "Collection Complète Stérimar™",
         title: "Toutes Nos Solutions",
@@ -463,7 +558,7 @@ const categoryBannerData = {
     }
 };
 
-const bannerCategoryOrder = ['all', 'hygiene', 'rhume', 'allergie', 'bebe'];
+const bannerCategoryOrder = ['all', 'packs', 'hygiene', 'rhume', 'allergie', 'bebe'];
 
 function updateCategoryBanner(filterKey) {
     const data = categoryBannerData[filterKey] || categoryBannerData.all;
@@ -635,7 +730,10 @@ function initFilters() {
             
             // Filter products with animation
             productCards.forEach(card => {
-                if (filter === 'all' || card.dataset.category === filter) {
+                const cardCats = (card.dataset.category || '').toLowerCase().split(/\s+/);
+                const isPack = card.classList.contains('product-card-pack') || card.dataset.isPack === 'true' || cardCats.includes('packs');
+                let matches = (filter === 'all') || (filter === 'packs' && isPack) || cardCats.includes(filter);
+                if (matches) {
                     card.classList.remove('hidden');
                     card.style.animation = 'fadeInUp 0.5s var(--ease-out) forwards';
                 } else {

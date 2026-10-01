@@ -95,9 +95,67 @@ if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checko
             5                       => 34,
             6                       => 25,
         );
-        
+
+        $pack_definitions = array(
+            7 => array(
+                'name'     => 'Pack Famille',
+                'discount' => 0.10,
+                'items'    => array(
+                    array( 'id' => 18, 'name' => 'Hygiène du Nez', 'qty' => 1 ),
+                    array( 'id' => 32, 'name' => 'Hygiène du Nez Bébé', 'qty' => 1 ),
+                ),
+            ),
+            8 => array(
+                'name'     => 'Pack Hiver Serein',
+                'discount' => 0.10,
+                'items'    => array(
+                    array( 'id' => 18, 'name' => 'Hygiène du Nez', 'qty' => 1 ),
+                    array( 'id' => 25, 'name' => 'Nez sujet aux Rhumes', 'qty' => 1 ),
+                    array( 'id' => 34, 'name' => 'Nez Bouché Bébé', 'qty' => 1 ),
+                ),
+            ),
+        );
+
         $added_count = 0;
         foreach ( $cart_data as $item ) {
+            $item_id = isset( $item['id'] ) ? $item['id'] : null;
+            $item_name = ! empty( $item['name'] ) ? $item['name'] : '';
+            $qty = isset( $item['quantity'] ) ? max( 1, intval( $item['quantity'] ) ) : 1;
+
+            // Check if this item is a recognized Pack
+            $matched_pack = null;
+            if ( isset( $pack_definitions[ $item_id ] ) ) {
+                $matched_pack = $pack_definitions[ $item_id ];
+            } elseif ( stripos( $item_name, 'Pack Famille' ) !== false ) {
+                $matched_pack = $pack_definitions[7];
+            } elseif ( stripos( $item_name, 'Hiver Serein' ) !== false ) {
+                $matched_pack = $pack_definitions[8];
+            }
+
+            if ( $matched_pack ) {
+                $wc_pack_product = get_page_by_title( $matched_pack['name'], OBJECT, 'product' );
+                if ( $wc_pack_product && $wc_pack_product->ID > 0 ) {
+                    $cart_item_key = WC()->cart->add_to_cart( $wc_pack_product->ID, $qty );
+                    if ( $cart_item_key ) {
+                        $added_count++;
+                    }
+                } else {
+                    foreach ( $matched_pack['items'] as $bundle_item ) {
+                        $sub_wc_id = $bundle_item['id'];
+                        $sub_qty   = $bundle_item['qty'] * $qty;
+                        $custom_data = array(
+                            'pack_discount' => $matched_pack['discount'],
+                            'pack_name'     => $matched_pack['name'],
+                        );
+                        $cart_item_key = WC()->cart->add_to_cart( $sub_wc_id, $sub_qty, 0, array(), $custom_data );
+                        if ( $cart_item_key ) {
+                            $added_count++;
+                        }
+                    }
+                }
+                continue;
+            }
+
             $wc_product_id = 0;
             
             // 1. Direct wcId if passed from frontend
