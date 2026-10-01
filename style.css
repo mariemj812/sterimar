@@ -6084,3 +6084,344 @@ li.wc_payment_method label {
         gap: 1rem;
     }
 }
+
+/* =========================================================
+   MOBILE RESPONSIVENESS: PACKS & OFFRES SPECIALES
+   ========================================================= */
+
+.pack-savings-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 1.25rem 0 1.75rem;
+    border-radius: 14px;
+}
+
+/* Tablet & Intermediate Screens (<= 992px) */
+@media (max-width: 992px) {
+    .packs-home-grid,
+    .shop-packs-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        max-width: 100%;
+    }
+}
+
+/* Tablets & Mobile Screens (<= 768px) */
+@media (max-width: 768px) {
+    .packs-home-section {
+        padding: 3.25rem 0 2.75rem;
+    }
+
+    .shop-packs-section {
+        padding: 3.25rem 0 3.75rem;
+    }
+
+    .shop-packs-header {
+        margin-bottom: 2rem;
+        gap: 1.25rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .packs-home-grid,
+    .shop-packs-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        gap: 1.75rem;
+        margin: 0 auto;
+    }
+
+    .product-card-pack .product-card-image {
+        min-height: 230px;
+        padding: 2.2rem 1rem 1rem;
+    }
+
+    .product-card-pack .product-card-image img {
+        max-height: 200px;
+    }
+
+    .pack-hero-savings-banner {
+        padding: 10px 14px;
+        gap: 10px;
+    }
+
+    .pack-hero-savings-banner .savings-icon {
+        font-size: 1.3rem;
+    }
+
+    .pack-hero-savings-banner .savings-text {
+        font-size: 0.86rem;
+    }
+
+    .pack-composition-detail {
+        margin-top: 2.5rem;
+        padding-top: 2rem;
+    }
+
+    .pack-composition-title {
+        font-size: 1.3rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .pack-items-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1.15rem;
+        margin-bottom: 2rem;
+    }
+
+    .pack-sub-card {
+        padding: 1.15rem;
+        gap: 1rem;
+    }
+
+    .pack-sub-card img {
+        width: 70px;
+        height: 85px;
+    }
+
+    .pack-savings-table {
+        margin: 0;
+        min-width: 500px;
+    }
+
+    .pack-savings-table th,
+    .pack-savings-table td {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+    }
+
+    .pack-faq-section {
+        margin-top: 2.5rem;
+        padding: 1.5rem 1.25rem;
+        border-radius: 16px;
+    }
+
+    .pack-faq-question {
+        padding: 0.85rem 1rem;
+        font-size: 0.92rem;
+    }
+
+    .pack-faq-answer {
+        padding: 0 1rem 0.85rem;
+        font-size: 0.86rem;
+    }
+}
+
+/* Small Mobiles & Smartphones (<= 520px) */
+@media (max-width: 520px) {
+    .packs-home-section {
+        padding: 2.5rem 0 2rem;
+    }
+
+    .shop-packs-section {
+        padding: 2.25rem 0 2.75rem;
+    }
+
+    .shop-packs-header {
+        margin-bottom: 1.25rem;
+        gap: 0.75rem;
+    }
+
+    .shop-packs-header .section-title {
+        font-size: clamp(1.3rem, 5.5vw, 1.65rem) !important;
+        line-height: 1.25;
+    }
+
+    .shop-packs-header p {
+        font-size: 0.88rem !important;
+        line-height: 1.45;
+    }
+
+    .pack-badge-savings-pill {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        font-size: 0.82rem;
+        padding: 7px 12px;
+        box-sizing: border-box;
+    }
+
+    .packs-home-grid,
+    .shop-packs-grid {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        gap: 1.35rem;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .product-card-pack {
+        border-radius: var(--radius-lg);
+        box-shadow: 0 6px 18px rgba(0, 119, 182, 0.08);
+        border-width: 1.5px;
+    }
+
+    .product-card-pack .product-card-image {
+        min-height: 195px;
+        padding: 2.2rem 0.75rem 0.85rem;
+    }
+
+    .product-card-pack .product-card-image img {
+        max-height: 170px;
+        width: auto;
+        max-width: 88%;
+        object-fit: contain;
+    }
+
+    /* Badges placement on mobile to avoid overlapping */
+    .pack-ribbon-badge {
+        top: 10px;
+        left: 10px;
+        padding: 4px 9px;
+        font-size: 0.67rem;
+        letter-spacing: 0.3px;
+        gap: 4px;
+        box-shadow: 0 2px 8px rgba(254, 50, 0, 0.25);
+    }
+
+    .pack-popular-badge {
+        top: 10px;
+        right: 10px;
+        padding: 4px 8px;
+        font-size: 0.65rem;
+        letter-spacing: 0.3px;
+        box-shadow: 0 2px 6px rgba(0, 119, 182, 0.2);
+    }
+
+    .product-card-pack .product-card-body {
+        padding: 1.15rem 0.95rem;
+    }
+
+    .product-card-pack .product-card-meta {
+        gap: 6px;
+        margin-bottom: 0.4rem;
+    }
+
+    .product-card-pack .pack-type-tag {
+        font-size: 0.68rem;
+        padding: 2px 8px;
+    }
+
+    .product-card-pack .product-type {
+        font-size: 0.72rem;
+    }
+
+    .product-card-pack .product-card-title {
+        font-size: 1.15rem;
+        margin-bottom: 0.35rem;
+        line-height: 1.3;
+    }
+
+    .product-card-pack .product-card-desc {
+        font-size: 0.84rem;
+        line-height: 1.45;
+        margin-bottom: 0.65rem;
+    }
+
+    .pack-included-items {
+        padding: 8px 10px;
+        margin: 0.5rem 0 0.85rem;
+        border-radius: 10px;
+    }
+
+    .pack-included-title {
+        font-size: 0.7rem;
+        margin-bottom: 5px;
+    }
+
+    .pack-included-item {
+        font-size: 0.78rem;
+        line-height: 1.35;
+        gap: 6px;
+    }
+
+    .pack-included-item .pack-check {
+        width: 14px;
+        height: 14px;
+        font-size: 0.75rem;
+    }
+
+    /* Stack footer: Price row above, full-width button below */
+    .product-card-pack .product-card-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+        padding-top: 0.75rem;
+    }
+
+    .product-card-pack .product-card-footer .pack-pricing {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .price-discounted {
+        font-size: 1.5rem;
+    }
+
+    .price-striked {
+        font-size: 0.95rem;
+    }
+
+    .pack-savings-tag {
+        font-size: 0.72rem;
+        padding: 2px 7px;
+        margin-top: 0;
+    }
+
+    .product-card-pack .product-card-footer .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.75rem 1rem;
+        font-size: 0.92rem;
+        font-weight: 700;
+        box-sizing: border-box;
+    }
+}
+
+/* Very Small Mobile Screens (<= 360px, e.g. iPhone SE, Galaxy Fold cover) */
+@media (max-width: 360px) {
+    .pack-ribbon-badge {
+        top: 8px;
+        left: 8px;
+        padding: 3px 7px;
+        font-size: 0.62rem;
+    }
+
+    .pack-popular-badge {
+        top: 8px;
+        right: 8px;
+        padding: 3px 6px;
+        font-size: 0.6rem;
+    }
+
+    .product-card-pack .product-card-image {
+        min-height: 175px;
+        padding: 2rem 0.5rem 0.65rem;
+    }
+
+    .product-card-pack .product-card-image img {
+        max-height: 150px;
+    }
+
+    .product-card-pack .product-card-body {
+        padding: 1rem 0.8rem;
+    }
+
+    .product-card-pack .product-card-title {
+        font-size: 1.05rem;
+    }
+
+    .price-discounted {
+        font-size: 1.35rem;
+    }
+
+    .pack-savings-tag {
+        font-size: 0.67rem;
+    }
+}
