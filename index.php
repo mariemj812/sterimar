@@ -404,7 +404,7 @@ if ( $is_native_wp ) {
     </footer>
 
     <?php wp_footer(); ?>
-    <script src="<?php echo esc_url( $theme_uri . '/app.js?v=31' ); ?>"></script>
+    <script src="<?php echo esc_url( $theme_uri . '/app.min.js?v=34' ); ?>"></script>
 </body>
 </html>
     <?php
