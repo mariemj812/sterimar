@@ -7,15 +7,6 @@
 RewriteEngine On
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 RewriteBase /
-
-# Force www and HTTPS
-RewriteCond %{HTTP_HOST} ^sterimar\.shop$ [NC]
-RewriteRule ^(.*)$ https://www.sterimar.shop/$1 [R=301,L]
-
-RewriteCond %{HTTPS} off
-RewriteCond %{HTTP_HOST} ^(www\.)?sterimar\.shop$ [NC]
-RewriteRule ^(.*)$ https://www.sterimar.shop/$1 [R=301,L]
-
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

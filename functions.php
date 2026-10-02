@@ -10,26 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Forcer le domaine canonique officiel vers https://www.sterimar.shop
- * Empêche WordPress de rediriger www vers non-www
- */
-add_filter( 'option_home', function( $url ) {
-    return 'https://www.sterimar.shop';
-}, 1 );
-
-add_filter( 'option_siteurl', function( $url ) {
-    return 'https://www.sterimar.shop';
-}, 1 );
-
-// Synchronise la base de données WordPress si nécessaire
-if ( get_option( 'home' ) !== 'https://www.sterimar.shop' ) {
-    update_option( 'home', 'https://www.sterimar.shop' );
-}
-if ( get_option( 'siteurl' ) !== 'https://www.sterimar.shop' ) {
-    update_option( 'siteurl', 'https://www.sterimar.shop' );
-}
-
-/**
  * Setup Theme Support
  */
 function sterimar_setup_theme() {
@@ -64,7 +44,7 @@ function sterimar_enqueue_assets() {
         $theme_uri = untrailingslashit( get_template_directory_uri() );
         wp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap', array(), null );
         wp_enqueue_style( 'sterimar-style', $theme_uri . '/style.css', array(), '29' );
-        wp_enqueue_script( 'sterimar-app', $theme_uri . '/app.min.js', array(), '34', array( 'strategy' => 'defer', 'in_footer' => true ) );
+        wp_enqueue_script( 'sterimar-app', $theme_uri . '/app.js', array(), '9', array( 'strategy' => 'defer', 'in_footer' => true ) );
     }
 
     // Remove Gutenberg Block CSS for non-post pages to improve performance
