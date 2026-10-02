@@ -10,6 +10,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Forcer le domaine canonique vers https://sterimar.shop (sans www)
+ * Override les options WordPress pour empêcher la redirection vers www
+ */
+add_filter( 'option_home', function( $url ) {
+    return 'https://sterimar.shop';
+}, 1 );
+
+add_filter( 'option_siteurl', function( $url ) {
+    return 'https://sterimar.shop';
+}, 1 );
+
+/**
  * Setup Theme Support
  */
 function sterimar_setup_theme() {
