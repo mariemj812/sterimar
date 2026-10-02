@@ -196,7 +196,7 @@ var products = window.products = [
         bundleItems: [0, 4],
         bundleWcIds: [18, 32],
         image: "pack-famille.webp",
-        url: "produit-pack-famille.html",
+        url: "https://www.sterimar.shop/produit-pack-famille/",
         description: "Le duo indispensable pour le nez de toute la famille. Composé de Stérimar Hygiène Adulte (100ml) et Stérimar Bébé Hygiène (100ml), ce pack offre un lavage et une hydratation nasale 100% naturelle de la naissance à l'âge adulte, avec 10% de remise immédiate.",
         features: [
             "1x Stérimar Hygiène du Nez Adulte (100ml)",
@@ -228,7 +228,7 @@ var products = window.products = [
         bundleItems: [0, 1, 5],
         bundleWcIds: [18, 25, 34],
         image: "pack-hiver-serein.webp",
-        url: "produit-pack-hiver-serein.html",
+        url: "https://www.sterimar.shop/produit-pack-hiver-serein/",
         description: "La routine bouclier 3-en-1 face aux agressions de l'hiver. Ce pack complet réunit 1 spray hygiène quotidienne, 1 spray préventif anti-rhume au soufre et 1 spray hypertonique décongestionnant au cuivre spécial bébé, avec 10% de réduction immédiate.",
         features: [
             "1x Stérimar Hygiène du Nez Quotidien (100ml)",
@@ -810,7 +810,7 @@ function initNavbar() {
     // Inject mobile direct account button if not present
     if (navToggle && !document.getElementById('mobile-header-account')) {
         const mobileAccount = document.createElement('a');
-        mobileAccount.href = 'creation-compte.html';
+        mobileAccount.href = 'https://www.sterimar.shop/creation-compte/';
         mobileAccount.id = 'mobile-header-account';
         mobileAccount.className = 'mobile-header-account';
         mobileAccount.setAttribute('aria-label', 'Mon compte');
@@ -826,7 +826,7 @@ function initNavbar() {
     // Inject mobile direct cart button if not present
     if (navToggle && navPanier && !document.getElementById('mobile-header-cart')) {
         const mobileCart = document.createElement('a');
-        mobileCart.href = navPanier.getAttribute('href') || 'panier.html';
+        mobileCart.href = navPanier.getAttribute('href') || 'https://www.sterimar.shop/panier/';
         mobileCart.id = 'mobile-header-cart';
         mobileCart.className = 'mobile-header-cart';
         mobileCart.setAttribute('aria-label', 'Panier');
@@ -1008,13 +1008,13 @@ const aiChatState = {
 };
 
 const productPageUrls = {
-    0: 'produit-hygiene-du-nez.html',
-    1: 'produit-nez-sujet-aux-rhumes.html',
-    2: 'produit-nez-bouche.html',
-    3: 'produit-nez-allergique.html',
-    4: 'produit-hygiene-du-nez-bebe.html',
-    5: 'produit-nez-bouche-bebe.html',
-    6: 'boutique.html#rhume'
+    0: 'https://www.sterimar.shop/produit-hygiene-du-nez/',
+    1: 'https://www.sterimar.shop/produit-nez-sujet-aux-rhumes/',
+    2: 'https://www.sterimar.shop/produit-nez-bouche/',
+    3: 'https://www.sterimar.shop/produit-nez-allergique/',
+    4: 'https://www.sterimar.shop/produit-hygiene-du-nez-bebe/',
+    5: 'https://www.sterimar.shop/produit-nez-bouche-bebe/',
+    6: 'https://www.sterimar.shop/boutique/#rhume'
 };
 
 function setAIQuickPrompts(prompts) {
@@ -1048,7 +1048,7 @@ window.handleAICartAdd = function(productId) {
         const p = products[productId];
         const confirmMsg = document.createElement('div');
         confirmMsg.className = 'ai-msg bot';
-        confirmMsg.innerHTML = `✅ <strong>${p.name}</strong> a bien été ajouté à votre panier (16,00 DT) !<br><br><a href="panier.html" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">👉 Voir mon panier & Commander</a>`;
+        confirmMsg.innerHTML = `✅ <strong>${p.name}</strong> a bien été ajouté à votre panier (16,00 DT) !<br><br><a href="https://www.sterimar.shop/panier/" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">👉 Voir mon panier & Commander</a>`;
         msgs.appendChild(confirmMsg);
         msgs.scrollTop = msgs.scrollHeight;
     }
@@ -1317,7 +1317,7 @@ function generateAIResponse(query) {
                 addToCart(p.id, 1);
             }
             const cartQty = (typeof cart !== 'undefined' && Array.isArray(cart)) ? cart.reduce((s, i) => s + i.quantity, 0) : 1;
-            responseText = `🛒 <strong>C'est fait !</strong> J'ai ajouté <strong>${p.name}</strong> à votre panier (<strong>16,00 DT</strong>).<br><br>Vous avez actuellement <strong>${cartQty} article(s)</strong> dans votre panier.<br>📦 Rappel : La livraison est <strong>GRATUITE dès 100 DT d'achat</strong> (ou pack 4 sprays).<br><br><a href="panier.html" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">👉 Voir mon panier & Finaliser ma commande</a>`;
+            responseText = `🛒 <strong>C'est fait !</strong> J'ai ajouté <strong>${p.name}</strong> à votre panier (<strong>16,00 DT</strong>).<br><br>Vous avez actuellement <strong>${cartQty} article(s)</strong> dans votre panier.<br>📦 Rappel : La livraison est <strong>GRATUITE dès 100 DT d'achat</strong> (ou pack 4 sprays).<br><br><a href="https://www.sterimar.shop/panier/" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">👉 Voir mon panier & Finaliser ma commande</a>`;
             nextPrompts = [
                 { label: "🛍️ Voir mon panier", prompt: "Voir mon panier" },
                 { label: "🚚 Délais de livraison", prompt: "Quels sont les délais de livraison ?" },
@@ -1337,7 +1337,7 @@ function generateAIResponse(query) {
     // 2. Cart status & checkout link
     else if (hasAnyWord(q, ['panier', 'mon panier', 'finaliser ma commande', 'regarder mon panier'])) {
         const cartQty = (typeof cart !== 'undefined' && Array.isArray(cart)) ? cart.reduce((s, i) => s + i.quantity, 0) : 0;
-        responseText = `Vous avez actuellement <strong>${cartQty} article(s)</strong> dans votre panier.<br><br>Vous pouvez finaliser votre commande en toute sécurité avec paiement en espèces à la livraison :<br><br><a href="panier.html" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">🛒 Accéder à mon panier (${cartQty})</a>`;
+        responseText = `Vous avez actuellement <strong>${cartQty} article(s)</strong> dans votre panier.<br><br>Vous pouvez finaliser votre commande en toute sécurité avec paiement en espèces à la livraison :<br><br><a href="https://www.sterimar.shop/panier/" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">🛒 Accéder à mon panier (${cartQty})</a>`;
         nextPrompts = [
             { label: "🚚 Délais de livraison", prompt: "Quels sont les délais de livraison ?" },
             { label: "💳 Modes de paiement", prompt: "Quels sont les modes de paiement ?" },
@@ -1535,7 +1535,7 @@ function generateAIResponse(query) {
     if (recommendedProductId !== null && products[recommendedProductId]) {
         const p = products[recommendedProductId];
         aiChatState.lastProductId = p.id;
-        const pageUrl = productPageUrls[p.id] || 'boutique.html';
+        const pageUrl = productPageUrls[p.id] || 'https://www.sterimar.shop/boutique/';
         const cardEl = document.createElement('div');
         cardEl.className = 'ai-product-card-msg';
         cardEl.innerHTML = `

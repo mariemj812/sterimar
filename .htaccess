@@ -7,12 +7,35 @@
 RewriteEngine On
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 RewriteBase /
+
+# --- Force HTTPS + www ---
+# Redirect non-www to www
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+
+# Redirect HTTP to HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# --- Clean URLs: Remove .html extension ---
+# If the request has .html, redirect to the clean URL (visible to user)
+RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+RewriteRule ^ /%1/ [R=301,L]
+
+# Internally serve the .html file for clean URLs (invisible to user)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_URI}.html -f
+RewriteRule ^(.+?)/?$ $1.html [L]
+
+# --- WordPress fallback ---
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]
 </IfModule>
 # END WordPress
+
 
 <IfModule mod_expires.c>
     ExpiresActive On
@@ -55,7 +78,18 @@ RewriteRule . /index.php [L]
 
     # Security & Performance Headers
     Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Hide server technology
+    Header unset X-Powered-By
+    Header always unset X-Powered-By
+    Header unset Server
 </IfModule>
+
+# Hide server signature
+ServerSignature Off
 
 <IfModule mod_deflate.c>
     # GZIP Compression
