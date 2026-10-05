@@ -263,6 +263,12 @@ function updateCartCount() {
     });
 }
 
+// Meta Pixel requires `value` to be a number > 0 (decimal point, max 2 decimals)
+function pixelValue(v) {
+    const n = parseFloat(v);
+    return isFinite(n) && n > 0 ? Math.round(n * 100) / 100 : 0.01;
+}
+
 function addToCart(productId, qty = 1) {
     const product = products[productId];
     const existingItem = cart.find(item => item.id === productId);
@@ -296,7 +302,8 @@ function addToCart(productId, qty = 1) {
             content_name: product.name,
             content_ids: [product.wcId ? String(product.wcId) : String(productId)],
             content_type: 'product',
-            value: (product.price || 0) * qty,
+            contents: [{ id: product.wcId ? String(product.wcId) : String(productId), quantity: Number(qty) || 1, item_price: Number(product.price) || 0 }],
+            value: pixelValue((Number(product.price) || 0) * (Number(qty) || 1)),
             currency: 'TND'
         });
     }
@@ -432,7 +439,7 @@ async function checkout() {
         const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         fbq('track', 'InitiateCheckout', {
             num_items: cart.reduce((sum, item) => sum + item.quantity, 0),
-            value: cartTotal,
+            value: pixelValue(cartTotal),
             currency: 'TND'
         });
     }

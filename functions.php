@@ -92,6 +92,78 @@ function sterimar_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'sterimar_enqueue_assets', 100 );
 
 /**
+ * Meta Pixel Advanced Matching: build normalised customer data.
+ * Values are hashed (SHA-256) automatically by the pixel in the browser.
+ * Format rules: https://developers.facebook.com/docs/meta-pixel/advanced/advanced-matching
+ *
+ * @param WC_Order|null $order Order to read billing data from (thank-you page).
+ * @return array
+ */
+function sterimar_get_pixel_user_data( $order = null ) {
+    $raw = array();
+
+    if ( $order && is_a( $order, 'WC_Order' ) ) {
+        $raw = array(
+            'em'      => $order->get_billing_email(),
+            'ph'      => $order->get_billing_phone(),
+            'fn'      => $order->get_billing_first_name(),
+            'ln'      => $order->get_billing_last_name(),
+            'ct'      => $order->get_billing_city(),
+            'zp'      => $order->get_billing_postcode(),
+            'country' => $order->get_billing_country(),
+        );
+        if ( $order->get_user_id() ) {
+            $raw['external_id'] = (string) $order->get_user_id();
+        }
+    } elseif ( is_user_logged_in() ) {
+        $user = wp_get_current_user();
+        $raw  = array(
+            'em'          => $user->user_email,
+            'fn'          => get_user_meta( $user->ID, 'billing_first_name', true ) ?: $user->first_name,
+            'ln'          => get_user_meta( $user->ID, 'billing_last_name', true ) ?: $user->last_name,
+            'ph'          => get_user_meta( $user->ID, 'billing_phone', true ),
+            'ct'          => get_user_meta( $user->ID, 'billing_city', true ),
+            'zp'          => get_user_meta( $user->ID, 'billing_postcode', true ),
+            'country'     => get_user_meta( $user->ID, 'billing_country', true ),
+            'external_id' => (string) $user->ID,
+        );
+    }
+
+    $data = array();
+    foreach ( $raw as $key => $value ) {
+        $value = trim( (string) $value );
+        if ( '' === $value ) {
+            continue;
+        }
+        switch ( $key ) {
+            case 'em':
+                $value = strtolower( $value );
+                break;
+            case 'ph':
+                $value = preg_replace( '/\D+/', '', $value ); // digits only, with country code
+                break;
+            case 'ct':
+                $value = preg_replace( '/[^\p{L}]+/u', '', mb_strtolower( $value, 'UTF-8' ) );
+                break;
+            case 'zp':
+                $value = strtolower( preg_replace( '/\s+/', '', $value ) );
+                break;
+            case 'country':
+                $value = strtolower( $value ); // ISO 3166-1 alpha-2
+                break;
+            case 'external_id':
+                break;
+            default: // fn, ln
+                $value = mb_strtolower( $value, 'UTF-8' );
+        }
+        if ( '' !== $value ) {
+            $data[ $key ] = $value;
+        }
+    }
+    return $data;
+}
+
+/**
  * Meta Pixel Tracking Code (Base + PageView) - High Performance Defer
  */
 function sterimar_add_meta_pixel() {
@@ -118,7 +190,12 @@ if('requestIdleCallback' in window){
     window.addEventListener(ev, loadPixel, {once:true, passive:true});
 });
 }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1060943890086095');
+fbq('init', '1060943890086095'<?php
+    $sterimar_pixel_user = sterimar_get_pixel_user_data();
+    if ( ! empty( $sterimar_pixel_user ) ) {
+        echo ', ' . wp_json_encode( $sterimar_pixel_user );
+    }
+?>);
 fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
@@ -155,6 +232,9 @@ try {
 } catch(e) {}
 
 if (typeof fbq === 'function') {
+<?php $sterimar_order_user = sterimar_get_pixel_user_data( $order ); if ( ! empty( $sterimar_order_user ) ) : ?>
+    fbq('init', '1060943890086095', <?php echo wp_json_encode( $sterimar_order_user ); ?>);
+<?php endif; ?>
     fbq('track', 'Purchase', {
         value: <?php echo esc_js( $order->get_total() ); ?>,
         currency: '<?php echo esc_js( $order->get_currency() ); ?>'
