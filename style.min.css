@@ -843,3 +843,47 @@
         font-size: 0.67rem;
     }
 }
+
+/* ==========================================
+   PROMO PRICE (21 DT -> 16 DT, -25%)
+   ========================================== */
+.promo-price {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+}
+
+.promo-old-price {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: #94A3B8;
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+}
+
+.promo-price-xl .promo-old-price { font-size: 1.25rem; }
+
+.promo-badge {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #F97316, #DC2626);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+    animation: promoPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes promoPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.07); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .promo-badge { animation: none; }
+}
