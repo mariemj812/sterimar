@@ -524,7 +524,7 @@ add_filter( 'template_include', function( $template ) {
 
 /**
  * --------------------------------------------------------------------------
- * Support des Packs & Offres Combinées (-10% de remise automatique au panier)
+ * Support des Packs & Offres Combinées (-35% de remise immédiate)
  * --------------------------------------------------------------------------
  */
 add_action( 'woocommerce_before_calculate_totals', 'sterimar_apply_pack_discount_wc', 20, 1 );
@@ -555,7 +555,7 @@ function sterimar_display_pack_cart_item_meta( $item_data, $cart_item ) {
     if ( ! empty( $cart_item['pack_name'] ) ) {
         $item_data[] = array(
             'key'   => __( 'Offre Pack Spéciale', 'woocommerce' ),
-            'value' => esc_html( $cart_item['pack_name'] ) . ' (-10% appliqué)',
+            'value' => esc_html( $cart_item['pack_name'] ) . ' (-35% appliqué)',
         );
     }
     return $item_data;
@@ -564,6 +564,6 @@ function sterimar_display_pack_cart_item_meta( $item_data, $cart_item ) {
 add_action( 'woocommerce_checkout_create_order_line_item', 'sterimar_save_pack_order_item_meta', 10, 4 );
 function sterimar_save_pack_order_item_meta( $item, $cart_item_key, $values, $order ) {
     if ( ! empty( $values['pack_name'] ) ) {
-        $item->add_meta_data( __( 'Offre Pack', 'woocommerce' ), $values['pack_name'] . ' (-10%)' );
+        $item->add_meta_data( __( 'Offre Pack', 'woocommerce' ), $values['pack_name'] . ' (-35%)' );
     }
 }
