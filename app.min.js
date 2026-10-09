@@ -19,7 +19,7 @@ var products = window.products = [
         type: "Physiologique",
         molecule: "Oligo-éléments",
         price: 16.00,
-        originalPrice: 21.00,
+        originalPrice: 21.50,
         image: "hygiene-adulte.webp",
         description: "Spray nasal isotonique pour nettoyer, humidifier et protéger la muqueuse nasale au quotidien. Enrichi en oligo-éléments marins, il élimine les impuretés, poussières et allergènes tout en hydratant les cavités nasales.",
         features: [
@@ -44,7 +44,7 @@ var products = window.products = [
         type: "Physiologique",
         molecule: "Soufre",
         price: 16.00,
-        originalPrice: 21.00,
+        originalPrice: 21.50,
         image: "cold-adulte.webp",
         description: "Spray nasal préventif enrichi en soufre pour renforcer la résistance de la muqueuse nasale face aux agressions hivernales. Il aide à prévenir l'apparition des rhumes en maintenant une barrière nasale saine.",
         features: [
@@ -69,7 +69,7 @@ var products = window.products = [
         type: "Hypertonique",
         molecule: "Cuivre",
         price: 16.00,
-        originalPrice: 21.00,
+        originalPrice: 21.50,
         image: "nez-bouché-adulte.webp",
         description: "Spray hypertonique enrichi en cuivre pour décongestionner rapidement le nez bouché. Son action osmotique aide à réduire l'œdème de la muqueuse nasale et facilite l'élimination du mucus en cas de rhume ou de sinusite.",
         features: [
@@ -94,7 +94,7 @@ var products = window.products = [
         type: "Physiologique",
         molecule: "Manganèse",
         price: 16.00,
-        originalPrice: 21.00,
+        originalPrice: 21.50,
         image: "allergie.webp",
         description: "Spray enrichi en manganèse pour soulager les symptômes d'allergie nasale : éternuements, nez qui coule, congestion. Élu Meilleur Produit Pharma, il aide à éliminer les allergènes (pollens, acariens, poussières) et à apaiser la muqueuse nasale irritée.",
         features: [
@@ -119,7 +119,7 @@ var products = window.products = [
         type: "Physiologique",
         molecule: "Oligo-éléments",
         price: 16.00,
-        originalPrice: 21.00,
+        originalPrice: 21.50,
         image: "hygiene-bébé.webp",
         description: "Spray nasal pour les petits de 0 à 3 ans destiné à nettoyer et hydrater le nez et éliminer les impuretés. Ce spray prévient et diminue les symptômes nasaux (rhume, rhinite, sinusite). Nouvel embout sécurité bébé à forme douce et ergonomique.",
         features: [
@@ -144,7 +144,7 @@ var products = window.products = [
         type: "Hypertonique",
         molecule: "Cuivre",
         price: 16.00,
-        originalPrice: 21.00,
+        originalPrice: 21.50,
         image: "nez-bouché-bébé.webp",
         description: "Spray hypertonique enrichi en cuivre pour décongestionner rapidement le nez de bébé dès 3 mois. Avec son nouvel embout sécurité bébé à forme douce et ergonomique, moucher son bébé devient un jeu d'enfant.",
         features: [
@@ -169,7 +169,7 @@ var products = window.products = [
         type: "Stop & Protect",
         molecule: "Soufre",
         price: 16.00,
-        originalPrice: 21.00,
+        originalPrice: 21.50,
         image: "cold-adulte.webp",
         description: "Spray innovant combinant l'eau de mer enrichie en soufre avec une action protectrice. Stop & Protect aide à stopper le rhume dès les premiers symptômes et protège la muqueuse nasale grâce à un film protecteur. Format compact idéal pour emporter partout.",
         features: [
@@ -196,19 +196,19 @@ var products = window.products = [
         type: "Duo Hygiène Quotidienne",
         molecule: "Oligo-éléments Marins",
         price: 28.80,
-        originalPrice: 42.00,
-        discountPercent: 35,
-        savings: 13.20,
+        originalPrice: 43.00,
+        discountPercent: 33,
+        savings: 14.20,
         isPack: true,
         bundleItems: [0, 4],
         bundleWcIds: [18, 32],
         image: "pack-famille.webp",
         url: "produit-pack-famille.html",
-        description: "Le duo indispensable pour le nez de toute la famille. Composé de Stérimar Hygiène Adulte (100ml) et Stérimar Bébé Hygiène (100ml), ce pack offre un lavage et une hydratation nasale 100% naturelle de la naissance à l'âge adulte, avec 35% de remise immédiate.",
+        description: "Le duo indispensable pour le nez de toute la famille. Composé de Stérimar Hygiène Adulte (100ml) et Stérimar Bébé Hygiène (100ml), ce pack offre un lavage et une hydratation nasale 100% naturelle de la naissance à l'âge adulte, avec 33% de remise immédiate.",
         features: [
             "1x Stérimar Hygiène du Nez Adulte (100ml)",
             "1x Stérimar Hygiène du Nez Bébé (100ml)",
-            "Remise immédiate de 35% (Économisez 13,20 DT)",
+            "Remise immédiate de 33% (Économisez 14,20 DT)",
             "100% Eau de mer naturelle puisée en baie de Cancale",
             "Micro-diffusion douce brevetée & embout sécurité bébé",
             "Pour toute la famille : dès la naissance et adultes"
@@ -228,20 +228,20 @@ var products = window.products = [
         type: "Trio Bouclier Hivernal",
         molecule: "Soufre & Cuivre",
         price: 43.20,
-        originalPrice: 63.00,
-        discountPercent: 35,
-        savings: 19.80,
+        originalPrice: 64.50,
+        discountPercent: 33,
+        savings: 21.30,
         isPack: true,
         bundleItems: [0, 1, 5],
         bundleWcIds: [18, 25, 34],
         image: "pack-hiver-serein.webp",
         url: "produit-pack-hiver-serein.html",
-        description: "La routine bouclier 3-en-1 face aux agressions de l'hiver. Ce pack complet réunit 1 spray hygiène quotidienne, 1 spray préventif anti-rhume au soufre et 1 spray hypertonique décongestionnant au cuivre spécial bébé, avec 35% de réduction immédiate.",
+        description: "La routine bouclier 3-en-1 face aux agressions de l'hiver. Ce pack complet réunit 1 spray hygiène quotidienne, 1 spray préventif anti-rhume au soufre et 1 spray hypertonique décongestionnant au cuivre spécial bébé, avec 33% de réduction immédiate.",
         features: [
             "1x Stérimar Hygiène du Nez Quotidien (100ml)",
             "1x Stérimar Nez sujet aux Rhumes enrichi en Soufre (100ml)",
             "1x Stérimar Nez Bouché Bébé au Cuivre (100ml)",
-            "Remise immédiate de 35% (Économisez 19,80 DT)",
+            "Remise immédiate de 33% (Économisez 21,30 DT)",
             "Action 3-en-1 : Nettoyer au quotidien, Prévenir les rhumes, Décongestionner bébé",
             "Sans vasoconstricteur, sans conservateur, 100% naturel"
         ],
@@ -363,7 +363,7 @@ function renderCart() {
             ? `<span style="text-decoration: line-through; color: #94a3b8; font-size: 0.85rem; margin-right: 6px;">${(item.originalPrice * item.quantity).toFixed(2).replace('.', ',')} DT</span>`
             : '';
         const packBadgeHtml = isPack
-            ? `<div style="margin-top: 5px;"><span style="display:inline-flex; align-items:center; gap:4px; background:#ECFDF5; color:#059669; font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:12px; border:1px solid #A7F3D0;">✨ Remise Pack -35% appliquée</span></div>`
+            ? `<div style="margin-top: 5px;"><span style="display:inline-flex; align-items:center; gap:4px; background:#ECFDF5; color:#059669; font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:12px; border:1px solid #A7F3D0;">✨ Remise Pack -33% appliquée</span></div>`
             : '';
         const packDescHtml = item.id === 7
             ? `<div style="font-size: 0.78rem; color: #64748b; margin-top: 3px;">Inclus : 1x Hygiène Adulte 100ml + 1x Hygiène Bébé 100ml</div>`
@@ -524,9 +524,9 @@ function getAssetUrl(path) {
 const categoryBannerData = {
     packs: {
         tag: "Offres Privilèges Stérimar™",
-        title: "Nos Packs Avantages (-35%)",
-        subtitle: "Bénéficiez jusqu'à 35% de remise immédiate sur nos packs combinés pour toute la famille. Des routines complètes pour chaque besoin.",
-        badge: "Offre Exclusive • Jusqu'à -35% de Remise Immédiate",
+        title: "Nos Packs Avantages (-33%)",
+        subtitle: "Bénéficiez jusqu'à 33% de remise immédiate sur nos packs combinés pour toute la famille. Des routines complètes pour chaque besoin.",
+        badge: "Offre Exclusive • Jusqu'à -33% de Remise Immédiate",
         image: "cat-banner-all.jpg?v=20260922g",
         themeColor: "#0077B6"
     },

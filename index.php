@@ -99,7 +99,7 @@ if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checko
         $pack_definitions = array(
             7 => array(
                 'name'     => 'Pack Famille',
-                'discount' => 0.35,
+                'discount' => 0.33,
                 'items'    => array(
                     array( 'id' => 18, 'name' => 'Hygiène du Nez', 'qty' => 1 ),
                     array( 'id' => 32, 'name' => 'Hygiène du Nez Bébé', 'qty' => 1 ),
@@ -107,7 +107,7 @@ if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checko
             ),
             8 => array(
                 'name'     => 'Pack Hiver Serein',
-                'discount' => 0.35,
+                'discount' => 0.33,
                 'items'    => array(
                     array( 'id' => 18, 'name' => 'Hygiène du Nez', 'qty' => 1 ),
                     array( 'id' => 25, 'name' => 'Nez sujet aux Rhumes', 'qty' => 1 ),
