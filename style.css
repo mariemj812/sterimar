@@ -6086,15 +6086,99 @@ li.wc_payment_method label {
 }
 
 /* =========================================================
-   MOBILE RESPONSIVENESS: PACKS & OFFRES SPECIALES
+   MOBILE RESPONSIVENESS: PACKS & OFFRES SPECIALES (100% RESPONSIVE)
    ========================================================= */
+
+.mobile-table-sub {
+    display: none;
+}
 
 .pack-savings-table-wrapper {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     margin: 1.25rem 0 1.75rem;
     border-radius: 14px;
+}
+
+.pack-savings-table {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    border-collapse: collapse;
+    background: #FFFFFF;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
+    margin: 0;
+}
+
+/* Pack Detail Buy Row & Controls */
+.pack-buy-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+}
+
+.pack-buy-row .quantity-control {
+    flex-shrink: 0;
+}
+
+.pack-buy-row .btn-primary {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Pack Trust Badges */
+.pack-trust-badges {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--gray-100);
+    width: 100%;
+    min-width: 0;
+}
+
+.pack-trust-badge-item {
+    font-size: 0.75rem;
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.pack-trust-badge-item .trust-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/* Qui Sommes-Nous Grids Base */
+.quality-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.clinical-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.tech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
 }
 
 /* Tablet & Intermediate Screens (<= 992px) */
@@ -6110,15 +6194,15 @@ li.wc_payment_method label {
 /* Tablets & Mobile Screens (<= 768px) */
 @media (max-width: 768px) {
     .packs-home-section {
-        padding: 3.25rem 0 2.75rem;
+        padding: 3rem 0 2.5rem;
     }
 
     .shop-packs-section {
-        padding: 3.25rem 0 3.75rem;
+        padding: 3rem 0 3.5rem;
     }
 
     .shop-packs-header {
-        margin-bottom: 2rem;
+        margin-bottom: 1.75rem;
         gap: 1.25rem;
         flex-direction: column;
         align-items: flex-start;
@@ -6127,18 +6211,28 @@ li.wc_payment_method label {
     .packs-home-grid,
     .shop-packs-grid {
         grid-template-columns: 1fr;
-        max-width: 500px;
+        max-width: 520px;
         gap: 1.75rem;
         margin: 0 auto;
+        width: 100%;
+    }
+
+    /* Disable dark hover overlays on touch screens to keep product packs visible */
+    .product-card-pack .product-overlay,
+    .product-card-full .product-overlay {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
     }
 
     .product-card-pack .product-card-image {
-        min-height: 230px;
+        min-height: 220px;
         padding: 2.2rem 1rem 1rem;
     }
 
     .product-card-pack .product-card-image img {
-        max-height: 200px;
+        max-height: 190px;
     }
 
     .pack-hero-savings-banner {
@@ -6180,15 +6274,18 @@ li.wc_payment_method label {
         height: 85px;
     }
 
+    /* Fully responsive table without fixed min-width overflow */
     .pack-savings-table {
         margin: 0;
-        min-width: 500px;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
     }
 
     .pack-savings-table th,
     .pack-savings-table td {
-        padding: 10px 12px;
-        font-size: 0.85rem;
+        padding: 10px 10px;
+        font-size: 0.84rem;
     }
 
     .pack-faq-section {
@@ -6206,16 +6303,109 @@ li.wc_payment_method label {
         padding: 0 1rem 0.85rem;
         font-size: 0.86rem;
     }
+
+    /* Floating AI Chatbot: compact button, hide large pill covering content */
+    .sterimar-ai-launcher {
+        bottom: 16px !important;
+        right: 16px !important;
+        gap: 0 !important;
+    }
+
+    .ai-launcher-badge {
+        display: none !important;
+    }
+
+    .ai-launcher-btn {
+        width: 48px !important;
+        height: 48px !important;
+        border-width: 2px !important;
+        box-shadow: 0 4px 14px rgba(0, 119, 182, 0.35) !important;
+    }
+
+    .ai-launcher-btn svg {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    .sterimar-ai-modal {
+        bottom: 10px !important;
+        right: 10px !important;
+        left: 10px !important;
+        width: auto !important;
+        max-width: calc(100vw - 20px) !important;
+        height: calc(100vh - 85px) !important;
+        border-radius: 20px !important;
+    }
+
+    .quality-grid, .clinical-grid, .tech-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+}
+
+/* Small Screens & Tablets (<= 640px) */
+@media (max-width: 640px) {
+    .pack-trust-badges {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .pack-trust-badge-item {
+        font-size: 0.8rem;
+    }
+
+    .product-detail-card {
+        border-radius: var(--radius-lg) !important;
+    }
+
+    .product-gallery-container {
+        padding: 1.25rem 0.5rem !important;
+        min-height: 260px !important;
+    }
+
+    .productSwiper {
+        height: 260px !important;
+    }
+
+    .product-info-container {
+        padding: 1.25rem 1rem !important;
+    }
+}
+
+/* Mobile Screens (<= 560px) */
+@media (max-width: 560px) {
+    /* Auto-collapse extra detail column in table, show sub-line */
+    .table-col-details {
+        display: none !important;
+    }
+
+    .mobile-table-sub {
+        display: block !important;
+        font-size: 0.72rem;
+        color: var(--gray-500);
+        margin-top: 3px;
+        font-weight: 500;
+    }
+
+    .pack-savings-table th,
+    .pack-savings-table td {
+        padding: 9px 8px;
+        font-size: 0.8rem;
+    }
+
+    .pack-savings-table tr.total-row td {
+        font-size: 0.9rem;
+    }
 }
 
 /* Small Mobiles & Smartphones (<= 520px) */
 @media (max-width: 520px) {
     .packs-home-section {
-        padding: 2.5rem 0 2rem;
+        padding: 2.25rem 0 1.75rem;
     }
 
     .shop-packs-section {
-        padding: 2.25rem 0 2.75rem;
+        padding: 2rem 0 2.5rem;
     }
 
     .shop-packs-header {
@@ -6258,34 +6448,39 @@ li.wc_payment_method label {
     }
 
     .product-card-pack .product-card-image {
-        min-height: 195px;
+        min-height: 190px;
         padding: 2.2rem 0.75rem 0.85rem;
     }
 
     .product-card-pack .product-card-image img {
-        max-height: 170px;
+        max-height: 165px;
         width: auto;
-        max-width: 88%;
+        max-width: 86%;
         object-fit: contain;
     }
 
     /* Badges placement on mobile to avoid overlapping */
     .pack-ribbon-badge {
-        top: 10px;
-        left: 10px;
-        padding: 4px 9px;
-        font-size: 0.67rem;
-        letter-spacing: 0.3px;
-        gap: 4px;
+        top: 8px;
+        left: 8px;
+        padding: 4px 8px;
+        font-size: 0.65rem;
+        letter-spacing: 0.2px;
+        max-width: 55%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         box-shadow: 0 2px 8px rgba(254, 50, 0, 0.25);
     }
 
     .pack-popular-badge {
-        top: 10px;
-        right: 10px;
+        top: 8px;
+        right: 8px;
         padding: 4px 8px;
-        font-size: 0.65rem;
-        letter-spacing: 0.3px;
+        font-size: 0.62rem;
+        letter-spacing: 0.2px;
+        max-width: 42%;
+        white-space: nowrap;
         box-shadow: 0 2px 6px rgba(0, 119, 182, 0.2);
     }
 
@@ -6334,6 +6529,7 @@ li.wc_payment_method label {
         font-size: 0.78rem;
         line-height: 1.35;
         gap: 6px;
+        word-break: break-word;
     }
 
     .pack-included-item .pack-check {
@@ -6348,6 +6544,7 @@ li.wc_payment_method label {
         align-items: stretch;
         gap: 0.75rem;
         padding-top: 0.75rem;
+        margin-top: auto;
     }
 
     .product-card-pack .product-card-footer .pack-pricing {
@@ -6375,42 +6572,66 @@ li.wc_payment_method label {
     }
 
     .product-card-pack .product-card-footer .btn {
-        width: 100%;
+        width: 100% !important;
         justify-content: center;
         padding: 0.75rem 1rem;
         font-size: 0.92rem;
         font-weight: 700;
         box-sizing: border-box;
     }
+
+    /* Pack Buy Row on mobile */
+    .pack-buy-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .pack-buy-row .quantity-control {
+        width: 100%;
+        max-width: 180px;
+        margin: 0 auto;
+        justify-content: center;
+    }
+
+    .pack-buy-row .btn-primary {
+        width: 100% !important;
+        min-width: 0 !important;
+        white-space: normal !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 0.85rem 1rem !important;
+        font-size: 0.95rem !important;
+    }
 }
 
 /* Very Small Mobile Screens (<= 360px, e.g. iPhone SE, Galaxy Fold cover) */
 @media (max-width: 360px) {
     .pack-ribbon-badge {
-        top: 8px;
-        left: 8px;
-        padding: 3px 7px;
-        font-size: 0.62rem;
+        top: 6px;
+        left: 6px;
+        padding: 3px 6px;
+        font-size: 0.58rem;
     }
 
     .pack-popular-badge {
-        top: 8px;
-        right: 8px;
+        top: 6px;
+        right: 6px;
         padding: 3px 6px;
-        font-size: 0.6rem;
+        font-size: 0.56rem;
     }
 
     .product-card-pack .product-card-image {
-        min-height: 175px;
-        padding: 2rem 0.5rem 0.65rem;
+        min-height: 165px;
+        padding: 1.8rem 0.5rem 0.65rem;
     }
 
     .product-card-pack .product-card-image img {
-        max-height: 150px;
+        max-height: 140px;
     }
 
     .product-card-pack .product-card-body {
-        padding: 1rem 0.8rem;
+        padding: 0.95rem 0.75rem;
     }
 
     .product-card-pack .product-card-title {

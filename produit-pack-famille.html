@@ -87,7 +87,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="style.css?v=34">
+    <link rel="stylesheet" href="style.css?v=35">
     <link rel="icon" href="favicon-32x32.png" sizes="32x32">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" /></noscript>
@@ -203,27 +203,33 @@
                                 <thead>
                                     <tr>
                                         <th>Produit Inclus</th>
-                                        <th>Format</th>
+                                        <th class="table-col-details">Format</th>
                                         <th style="text-align: right;">Prix Unitaire</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>1x Stérimar Hygiène du Nez (Adulte & Enfant)</td>
-                                        <td>100ml</td>
-                                        <td style="text-align: right; font-weight: 600;">21,50 DT</td>
+                                        <td>
+                                            <strong>1x Stérimar Hygiène du Nez (Adulte & Enfant)</strong>
+                                            <div class="mobile-table-sub">Format 100ml • Dès 3 ans</div>
+                                        </td>
+                                        <td class="table-col-details">100ml</td>
+                                        <td class="table-col-price" style="text-align: right; font-weight: 600;">21,50 DT</td>
                                     </tr>
                                     <tr>
-                                        <td>1x Stérimar Hygiène du Nez Bébé (Dès la naissance)</td>
-                                        <td>100ml</td>
-                                        <td style="text-align: right; font-weight: 600;">21,50 DT</td>
+                                        <td>
+                                            <strong>1x Stérimar Hygiène du Nez Bébé (Dès la naissance)</strong>
+                                            <div class="mobile-table-sub">Format 100ml • Embout sécurité</div>
+                                        </td>
+                                        <td class="table-col-details">100ml</td>
+                                        <td class="table-col-price" style="text-align: right; font-weight: 600;">21,50 DT</td>
                                     </tr>
                                     <tr style="background: #F8FAFC;">
-                                        <td colspan="2" style="font-weight: 600; color: #64748B;">Total acheté séparément :</td>
+                                        <td class="table-total-label" colspan="2" style="font-weight: 600; color: #64748B;">Total acheté séparément :</td>
                                         <td style="text-align: right; text-decoration: line-through; color: #94A3B8; font-weight: 600;">43,00 DT</td>
                                     </tr>
                                     <tr class="total-row">
-                                        <td colspan="2">Prix Spécial Pack Famille (-33%) :</td>
+                                        <td class="table-total-label" colspan="2">Prix Spécial Pack Famille (-33%) :</td>
                                         <td style="text-align: right;">28,80 DT</td>
                                     </tr>
                                 </tbody>
@@ -245,7 +251,7 @@
 
                     <!-- Footer / Add to Cart -->
                     <div class="modal-footer" style="margin-top: 1.5rem; flex-direction: column; align-items: stretch; gap: 1rem;">
-                        <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
                             <div class="pack-pricing">
                                 <div class="pack-pricing-row">
                                     <span class="price-striked" style="font-size: 1.15rem;">43,00 DT</span>
@@ -256,14 +262,14 @@
                             <span style="font-size: 0.85rem; color: #059669; font-weight: 600;">✓ En stock • Expédié sous 24h</span>
                         </div>
 
-                        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                        <div class="pack-buy-row">
                             <div class="quantity-control" style="background: white; border: 1.5px solid var(--gray-300);">
                                 <button onclick="let v = document.getElementById('qty'); v.innerText = Math.max(1, parseInt(v.innerText) - 1);" aria-label="Diminuer">-</button>
                                 <span id="qty">1</span>
                                 <button onclick="let v = document.getElementById('qty'); v.innerText = parseInt(document.getElementById('qty').innerText) + 1;" aria-label="Augmenter">+</button>
                             </div>
 
-                            <button class="btn btn-primary btn-lg" style="flex: 1; min-width: 220px;" onclick="addToCart(7, parseInt(document.getElementById('qty').innerText))" id="add-pack-famille-detail">
+                            <button class="btn btn-primary btn-lg" onclick="addToCart(7, parseInt(document.getElementById('qty').innerText))" id="add-pack-famille-detail">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="m12 5v14m-7-7h14" />
                                 </svg>
@@ -272,17 +278,18 @@
                         </div>
 
                         <!-- Trust Reassurance Badges -->
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 0.75rem; padding-top: 1rem; border-top: 1px solid var(--gray-100);">
-                            <div style="font-size: 0.75rem; color: var(--gray-600); display: flex; align-items: center; gap: 6px;">
-                                <span style="font-size: 1rem;">🚚</span> Livraison express 24-48h
+                        <div class="pack-trust-badges">
+                            <div class="pack-trust-badge-item">
+                                <span class="trust-icon">🚚</span> <span>Livraison express 24-48h</span>
                             </div>
-                            <div style="font-size: 0.75rem; color: var(--gray-600); display: flex; align-items: center; gap: 6px;">
-                                <span style="font-size: 1rem;">💵</span> Paiement à la livraison
+                            <div class="pack-trust-badge-item">
+                                <span class="trust-icon">💵</span> <span>Paiement à la livraison</span>
                             </div>
-                            <div style="font-size: 0.75rem; color: var(--gray-600); display: flex; align-items: center; gap: 6px;">
-                                <span style="font-size: 1rem;">🛡️</span> 100% authentique certifié
+                            <div class="pack-trust-badge-item">
+                                <span class="trust-icon">🛡️</span> <span>100% authentique certifié</span>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
 
