@@ -33,7 +33,7 @@ jobs:
         run: |
           # Remove files not needed for preview
           rm -rf scratch/ __pycache__/
-          rm -f *.py *.pyc *.pyo
+          rm -f *.py *.pyc *.pyo *.mp4
           rm -f index.php
           rm -f .gitignore
           echo "Files to deploy:"

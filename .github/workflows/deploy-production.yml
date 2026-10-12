@@ -39,4 +39,5 @@ jobs:
             **/*.py
             **/*.pyc
             **/*.pyo
+            **/*.mp4
             **/.github/**
