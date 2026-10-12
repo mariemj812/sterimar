@@ -1085,7 +1085,7 @@ function initAIAssistant() {
     launcher.id = 'sterimar-ai-launcher';
     launcher.className = 'sterimar-ai-launcher';
     launcher.innerHTML = `
-        <div class="ai-launcher-badge" id="ai-launcher-badge">
+        <div class="ai-launcher-badge" id="ai-launcher-badge"${window.innerWidth <= 768 ? ' style="display:none !important;"' : ''}>
             <span>💬 Conseiller Stérimar IA</span>
         </div>
         <button class="ai-launcher-btn" id="ai-launcher-btn" aria-label="Ouvrir le Conseiller IA">

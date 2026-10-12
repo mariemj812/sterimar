@@ -1530,21 +1530,29 @@ a {
 .modal-features ul {
     list-style: none;
     margin-bottom: 1.5rem;
+    padding: 0;
 }
 
 .modal-features li {
-    padding: 0.3rem 0;
-    font-size: 0.85rem;
+    position: relative;
+    padding: 0.35rem 0 0.35rem 1.6rem;
+    font-size: 0.88rem;
+    line-height: 1.55;
     color: var(--gray-600);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    display: block;
+    word-break: normal;
+    overflow-wrap: break-word;
 }
 
 .modal-features li::before {
     content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0.35rem;
     color: var(--green-allergie);
     font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1;
 }
 
 .modal-usage p {
@@ -6235,6 +6243,43 @@ li.wc_payment_method label {
         max-height: 190px;
     }
 
+    /* Stack pack card footer on mobile and tablet */
+    .product-card-pack .product-card-footer,
+    .product-card-full.product-card-pack .product-card-footer,
+    .product-card-full[data-is-pack="true"] .product-card-footer {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.75rem !important;
+        padding-top: 0.75rem !important;
+        margin-top: auto !important;
+    }
+
+    .product-card-pack .product-card-footer .pack-pricing,
+    .product-card-full.product-card-pack .product-card-footer .pack-pricing,
+    .product-card-full[data-is-pack="true"] .product-card-footer .pack-pricing {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+
+    .product-card-pack .product-card-footer .btn,
+    .product-card-full.product-card-pack .product-card-footer .btn,
+    .product-card-full[data-is-pack="true"] .product-card-footer .btn {
+        width: 100% !important;
+        min-width: 0 !important;
+        justify-content: center !important;
+        padding: 0.85rem 1rem !important;
+        font-size: 0.95rem !important;
+        font-weight: 700 !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
     .pack-hero-savings-banner {
         padding: 10px 14px;
         gap: 10px;
@@ -6311,8 +6356,12 @@ li.wc_payment_method label {
         gap: 0 !important;
     }
 
-    .ai-launcher-badge {
+    .ai-launcher-badge,
+    #ai-launcher-badge {
         display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
     }
 
     .ai-launcher-btn {
