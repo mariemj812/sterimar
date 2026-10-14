@@ -3223,10 +3223,33 @@ a {
     border-radius: 2px;
 }
 
+.product-info-container .modal-features ul {
+    list-style: none;
+    margin-bottom: 1.5rem;
+    padding: 0;
+}
+
 .product-info-container .modal-features li {
+    position: relative;
+    display: block;
     font-size: 0.95rem;
-    padding: 0.4rem 0;
-    transition: transform 0.2s ease;
+    line-height: 1.55;
+    padding: 0.45rem 0 0.45rem 1.6rem;
+    color: var(--gray-700);
+    word-break: normal;
+    overflow-wrap: break-word;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.product-info-container .modal-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0.45rem;
+    color: var(--green-allergie);
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1;
 }
 
 .product-info-container .modal-features li:hover {

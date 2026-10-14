@@ -60,6 +60,17 @@ RewriteRule . /index.php [L]
 <IfModule mod_deflate.c>
     # GZIP Compression
     <IfModule mod_filter.c>
-        AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css application/xml application/xhtml+xml application/rss+xml application/javascript application/x-javascript text/javascript application/json image/svg+xml font/woff2
+        AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css application/xml application/xhtml+xml application/rss+xml application/javascript application/x-javascript text/javascript application/json application/ld+json application/manifest+json image/svg+xml image/x-icon font/woff2 font/otf font/ttf application/x-font-ttf application/vnd.ms-fontobject
     </IfModule>
+</IfModule>
+
+<IfModule mod_brotli.c>
+    # Brotli Compression (preferred over GZIP by modern browsers when available)
+    AddOutputFilterByType BROTLI_COMPRESS text/plain text/html text/xml text/css application/xml application/xhtml+xml application/rss+xml application/javascript application/x-javascript text/javascript application/json application/ld+json application/manifest+json image/svg+xml image/x-icon font/otf font/ttf
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(html|css|js|json|svg|xml|otf|ttf)$">
+        Header append Vary Accept-Encoding
+    </FilesMatch>
 </IfModule>

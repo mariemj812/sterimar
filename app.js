@@ -498,7 +498,7 @@ function getAssetUrl(path) {
         return base + path.replace(/^\/+/, '');
     }
     // 2. Auto-detect from app.js script tag
-    const script = document.querySelector('script[src*="app.js"]');
+    const script = document.querySelector('script[src*="app.js"], script[src*="app.min.js"]');
     if (script && script.src) {
         const srcClean = script.src.split('?')[0];
         const base = srcClean.substring(0, srcClean.lastIndexOf('/') + 1);

@@ -55,7 +55,7 @@ function sterimar_enqueue_assets() {
     if ( $is_native ) {
         $theme_uri = untrailingslashit( get_template_directory_uri() );
         wp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap', array(), null );
-        wp_enqueue_style( 'sterimar-style', $theme_uri . '/style.min.css', array(), '37' );
+        wp_enqueue_style( 'sterimar-style', $theme_uri . '/style.min.css', array(), '38' );
         wp_enqueue_script( 'sterimar-app', $theme_uri . '/app.js', array(), '9', array( 'strategy' => 'defer', 'in_footer' => true ) );
     }
 
@@ -182,13 +182,12 @@ function loadPixel(){
     s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s);
 }
 if('requestIdleCallback' in window){
-    requestIdleCallback(function(){ setTimeout(loadPixel, 1000); });
+    requestIdleCallback(function(){ setTimeout(loadPixel, 1000); }, {timeout: 4000});
 } else {
     setTimeout(loadPixel, 1500);
 }
-['scroll','touchstart','click'].forEach(function(ev){
-    window.addEventListener(ev, loadPixel, {once:true, passive:true});
-});
+// Scroll only: loading the pixel on click/touch would run fbevents.js during the interaction (hurts INP)
+window.addEventListener('scroll', function(){ setTimeout(loadPixel, 300); }, {once:true, passive:true});
 }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '1060943890086095'<?php
     $sterimar_pixel_user = sterimar_get_pixel_user_data();
@@ -274,6 +273,21 @@ function sterimar_disable_emojis() {
     add_filter( 'wp_resource_hints', 'sterimar_disable_emojis_remove_dns', 10, 2 );
 }
 add_action( 'init', 'sterimar_disable_emojis' );
+
+/**
+ * Remove useless <head> tags (smaller HTML, fewer hints/requests).
+ */
+function sterimar_clean_wp_head() {
+    remove_action( 'wp_head', 'rsd_link' );
+    remove_action( 'wp_head', 'wlwmanifest_link' );
+    remove_action( 'wp_head', 'wp_generator' );
+    remove_action( 'wp_head', 'wp_shortlink_wp_head', 10 );
+    remove_action( 'wp_head', 'rest_output_link_wp_head', 10 );
+    remove_action( 'wp_head', 'wp_oembed_add_discovery_links', 10 );
+    remove_action( 'wp_head', 'wp_oembed_add_host_js' );
+    remove_action( 'template_redirect', 'rest_output_link_header', 11 );
+}
+add_action( 'init', 'sterimar_clean_wp_head' );
 
 function sterimar_disable_emojis_tinymce( $plugins ) {
     return is_array( $plugins ) ? array_diff( $plugins, array( 'wpemoji' ) ) : array();
