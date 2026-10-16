@@ -777,10 +777,6 @@ add_filter( 'woocommerce_cart_needs_shipping', '__return_true', 9999 );
 // B. Calcul automatique des tarifs de livraison
 add_filter( 'woocommerce_package_rates', 'sterimar_auto_shipping_rates', 9999, 2 );
 function sterimar_auto_shipping_rates( $rates, $package ) {
-    // Do not recalculate shipping on the checkout page; keep existing rates from cart
-    if ( is_checkout() ) {
-        return $rates;
-    }
     $subtotal = 0;
     if ( ! empty( $package['contents'] ) ) {
         foreach ( $package['contents'] as $item ) {
@@ -843,21 +839,10 @@ add_filter( 'woocommerce_shipping_chosen_method', function( $default, $rates ) {
     }
     return $default;
 }, 9999, 2 );
-add_filter( 'woocommerce_shipping_chosen_method', function( $default, $rates ) {
-    if ( ! empty( $rates ) ) {
-        $keys = array_keys( $rates );
-        return reset( $keys );
-    }
-    return $default;
-}, 9999, 2 );
 
 // D. Filet de sécurité via les frais de panier (si le module shipping WooCommerce est inactif)
 add_action( 'woocommerce_cart_calculate_fees', 'sterimar_fallback_shipping_fee', 9999, 1 );
 function sterimar_fallback_shipping_fee( $cart ) {
-    // Do not add fallback shipping fee on checkout; totals are already calculated on the cart page
-    if ( is_checkout() ) {
-        return;
-    }
     if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
         return;
     }
@@ -1117,28 +1102,23 @@ add_filter( 'template_include', function( $template ) {
 
 /**
  * --------------------------------------------------------------------------
- * Support des Packs & Offres Combinées (-33% de remise immédiate)
+ * Support des Prix Panier & Packs Stérimar™
  * --------------------------------------------------------------------------
+ * Applique strictement et fidèlement les prix unitaires calculés par le panier.
+ * La page validation des commandes affiche uniquement ces prix sans recalcul
+ * ni réductions supplémentaires.
  */
-// Remises Pack — appliquées à CHAQUE calculate_totals() (panier + checkout).
-// WooCommerce recharge les objets produit depuis la DB à chaque appel,
-// donc on recalcule depuis get_regular_price() qui est toujours le prix de base.
-// Résultat : toujours regular_price × (1 - taux) — identique panier et checkout.
-add_action( 'woocommerce_before_calculate_totals', 'sterimar_apply_pack_discount_wc', 20, 1 );
-function sterimar_apply_pack_discount_wc( $cart ) {
+add_action( 'woocommerce_before_calculate_totals', 'sterimar_apply_exact_cart_prices', 9999, 1 );
+function sterimar_apply_exact_cart_prices( $cart ) {
     if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
         return;
     }
     foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) {
-        if ( ! empty( $cart_item['pack_discount'] ) ) {
-            $discount_rate  = floatval( $cart_item['pack_discount'] );
-            $original_price = floatval( $cart_item['data']->get_regular_price() );
-            if ( $original_price <= 0 ) {
-                $original_price = floatval( $cart_item['data']->get_price() );
-            }
-            if ( $original_price > 0 && $discount_rate > 0 ) {
-                $cart_item['data']->set_price( round( $original_price * ( 1 - $discount_rate ), 2 ) );
-            }
+        if ( isset( $cart_item['exact_price'] ) && floatval( $cart_item['exact_price'] ) > 0 ) {
+            $price = floatval( $cart_item['exact_price'] );
+            $cart_item['data']->set_price( $price );
+            $cart_item['data']->set_regular_price( $price );
+            $cart_item['data']->set_sale_price( '' );
         }
     }
 }
@@ -1147,8 +1127,8 @@ add_filter( 'woocommerce_get_item_data', 'sterimar_display_pack_cart_item_meta',
 function sterimar_display_pack_cart_item_meta( $item_data, $cart_item ) {
     if ( ! empty( $cart_item['pack_name'] ) ) {
         $item_data[] = array(
-            'key'   => __( 'Offre Pack Spéciale', 'woocommerce' ),
-            'value' => esc_html( $cart_item['pack_name'] ) . ' (-33% appliqué)',
+            'key'   => __( 'Offre Pack', 'woocommerce' ),
+            'value' => esc_html( $cart_item['pack_name'] ),
         );
     }
     return $item_data;
@@ -1157,6 +1137,6 @@ function sterimar_display_pack_cart_item_meta( $item_data, $cart_item ) {
 add_action( 'woocommerce_checkout_create_order_line_item', 'sterimar_save_pack_order_item_meta', 10, 4 );
 function sterimar_save_pack_order_item_meta( $item, $cart_item_key, $values, $order ) {
     if ( ! empty( $values['pack_name'] ) ) {
-        $item->add_meta_data( __( 'Offre Pack', 'woocommerce' ), $values['pack_name'] . ' (-33%)' );
+        $item->add_meta_data( __( 'Offre Pack', 'woocommerce' ), $values['pack_name'] );
     }
 }

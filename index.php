@@ -133,24 +133,22 @@ if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checko
             }
 
             if ( $matched_pack ) {
-                $wc_pack_product = get_page_by_title( $matched_pack['name'], OBJECT, 'product' );
-                if ( $wc_pack_product && $wc_pack_product->ID > 0 ) {
-                    $cart_item_key = WC()->cart->add_to_cart( $wc_pack_product->ID, $qty );
+                $pack_total_price = isset( $item['price'] ) && floatval( $item['price'] ) > 0 
+                    ? floatval( $item['price'] ) 
+                    : ( $item_id == 7 ? 28.80 : 43.20 );
+                $items_count = count( $matched_pack['items'] );
+                $unit_price  = round( $pack_total_price / $items_count, 2 );
+
+                foreach ( $matched_pack['items'] as $bundle_item ) {
+                    $sub_wc_id   = $bundle_item['id'];
+                    $sub_qty     = $bundle_item['qty'] * $qty;
+                    $custom_data = array(
+                        'exact_price' => $unit_price,
+                        'pack_name'   => $matched_pack['name'],
+                    );
+                    $cart_item_key = WC()->cart->add_to_cart( $sub_wc_id, $sub_qty, 0, array(), $custom_data );
                     if ( $cart_item_key ) {
                         $added_count++;
-                    }
-                } else {
-                    foreach ( $matched_pack['items'] as $bundle_item ) {
-                        $sub_wc_id = $bundle_item['id'];
-                        $sub_qty   = $bundle_item['qty'] * $qty;
-                        $custom_data = array(
-                            'pack_discount' => $matched_pack['discount'],
-                            'pack_name'     => $matched_pack['name'],
-                        );
-                        $cart_item_key = WC()->cart->add_to_cart( $sub_wc_id, $sub_qty, 0, array(), $custom_data );
-                        if ( $cart_item_key ) {
-                            $added_count++;
-                        }
                     }
                 }
                 continue;
@@ -194,9 +192,15 @@ if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checko
             }
             
             $qty = isset( $item['quantity'] ) ? max( 1, intval( $item['quantity'] ) ) : 1;
+            $unit_price = isset( $item['price'] ) && floatval( $item['price'] ) > 0 
+                ? floatval( $item['price'] ) 
+                : 16.00;
+            $custom_data = array(
+                'exact_price' => $unit_price,
+            );
             
             if ( $wc_product_id > 0 ) {
-                $cart_item_key = WC()->cart->add_to_cart( $wc_product_id, $qty );
+                $cart_item_key = WC()->cart->add_to_cart( $wc_product_id, $qty, 0, array(), $custom_data );
                 if ( $cart_item_key ) {
                     $added_count++;
                 }
