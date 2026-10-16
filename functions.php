@@ -890,13 +890,7 @@ function sterimar_fallback_shipping_fee( $cart ) {
 }
 
 
-// E. Recalculer la livraison lors des rafraîchissements AJAX du checkout
-add_action( 'woocommerce_checkout_update_order_review', function() {
-    if ( WC()->cart ) {
-        WC()->cart->calculate_shipping();
-        WC()->cart->calculate_totals();
-    }
-} );
+
 
 // 13. Script client universel (Classic + Blocks MutationObserver)
 function sterimar_checkout_client_script() {
@@ -1126,14 +1120,13 @@ add_filter( 'template_include', function( $template ) {
  * Support des Packs & Offres Combinées (-33% de remise immédiate)
  * --------------------------------------------------------------------------
  */
-// ÉTAPE 1 — Appliquer les remises pack uniquement sur la page PANIER
+// Remises Pack — appliquées à CHAQUE calculate_totals() (panier + checkout).
+// WooCommerce recharge les objets produit depuis la DB à chaque appel,
+// donc on recalcule depuis get_regular_price() qui est toujours le prix de base.
+// Résultat : toujours regular_price × (1 - taux) — identique panier et checkout.
 add_action( 'woocommerce_before_calculate_totals', 'sterimar_apply_pack_discount_wc', 20, 1 );
 function sterimar_apply_pack_discount_wc( $cart ) {
     if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
-        return;
-    }
-    // Sur la page de validation, les prix sont restaurés depuis la session panier (voir ci-dessous)
-    if ( is_checkout() ) {
         return;
     }
     foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) {
@@ -1144,51 +1137,8 @@ function sterimar_apply_pack_discount_wc( $cart ) {
                 $original_price = floatval( $cart_item['data']->get_price() );
             }
             if ( $original_price > 0 && $discount_rate > 0 ) {
-                $discounted_price = round( $original_price * ( 1 - $discount_rate ), 2 );
-                $cart_item['data']->set_price( $discounted_price );
+                $cart_item['data']->set_price( round( $original_price * ( 1 - $discount_rate ), 2 ) );
             }
-        }
-    }
-}
-
-// ÉTAPE 2 — Verrouiller les prix finaux du PANIER dans la session WooCommerce
-add_action( 'woocommerce_after_calculate_totals', 'sterimar_store_locked_cart_prices', 99, 1 );
-function sterimar_store_locked_cart_prices( $cart ) {
-    if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
-        return;
-    }
-    if ( is_checkout() ) {
-        return; // Ne pas écraser depuis la page validation
-    }
-    if ( ! WC()->session ) {
-        return;
-    }
-    $prices = array();
-    foreach ( $cart->get_cart() as $key => $item ) {
-        $prices[ $key ] = floatval( $item['data']->get_price() );
-    }
-    WC()->session->set( 'sterimar_locked_cart_prices', $prices );
-}
-
-// ÉTAPE 3 — Restaurer les prix du panier sur la page de VALIDATION (aucun recalcul)
-add_action( 'woocommerce_before_calculate_totals', 'sterimar_restore_cart_prices_on_checkout', 5, 1 );
-function sterimar_restore_cart_prices_on_checkout( $cart ) {
-    if ( ! is_checkout() ) {
-        return;
-    }
-    if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
-        return;
-    }
-    if ( ! WC()->session ) {
-        return;
-    }
-    $prices = WC()->session->get( 'sterimar_locked_cart_prices' );
-    if ( empty( $prices ) ) {
-        return;
-    }
-    foreach ( $cart->get_cart() as $key => $item ) {
-        if ( isset( $prices[ $key ] ) ) {
-            $item['data']->set_price( $prices[ $key ] );
         }
     }
 }
