@@ -1148,14 +1148,26 @@ function sterimar_save_pack_order_item_meta( $item, $cart_item_key, $values, $or
 /**
  * Supprimer l'extrait / description en gris des produits dans le récapitulatif Store API / WooCommerce Blocks
  */
-add_filter( 'woocommerce_store_api_cart_response', 'sterimar_remove_cart_item_description_store_api', 9999, 1 );
-function sterimar_remove_cart_item_description_store_api( $response ) {
-    if ( isset( $response['items'] ) && is_array( $response['items'] ) ) {
-        foreach ( $response['items'] as &$item ) {
-            $item['description'] = '';
-            $item['short_description'] = '';
-        }
+add_filter( 'woocommerce_store_api_cart_item_response', function( $response, $item ) {
+    if ( is_array( $response ) ) {
+        $response['description'] = '';
+        $response['short_description'] = '';
     }
     return $response;
-}
+}, 9999, 2 );
+
+add_filter( 'woocommerce_product_get_description', function( $desc ) {
+    if ( ( function_exists( 'is_checkout' ) && is_checkout() ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+        return '';
+    }
+    return $desc;
+}, 9999 );
+
+add_filter( 'woocommerce_product_get_short_description', function( $desc ) {
+    if ( ( function_exists( 'is_checkout' ) && is_checkout() ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+        return '';
+    }
+    return $desc;
+}, 9999 );
+
 
