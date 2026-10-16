@@ -1131,16 +1131,11 @@ function sterimar_apply_pack_discount_wc( $cart ) {
     if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
         return;
     }
-    // Ne pas appliquer les remises pack sur la page de validation — le prix vient déjà du panier
-    if ( is_checkout() ) {
-        return;
-    }
-    if ( did_action( 'woocommerce_before_calculate_totals' ) >= 2 ) {
-        return;
-    }
+    // WooCommerce réinitialise les prix à chaque calculate_totals() — on doit ré-appliquer la remise
+    // à chaque fois, que ce soit sur la page panier ou la page de validation.
     foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) {
         if ( ! empty( $cart_item['pack_discount'] ) ) {
-            $discount_rate = floatval( $cart_item['pack_discount'] );
+            $discount_rate  = floatval( $cart_item['pack_discount'] );
             $original_price = floatval( $cart_item['data']->get_regular_price() );
             if ( $original_price <= 0 ) {
                 $original_price = floatval( $cart_item['data']->get_price() );
