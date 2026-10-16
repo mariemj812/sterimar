@@ -1126,13 +1126,16 @@ add_filter( 'template_include', function( $template ) {
  * Support des Packs & Offres Combinées (-33% de remise immédiate)
  * --------------------------------------------------------------------------
  */
+// ÉTAPE 1 — Appliquer les remises pack uniquement sur la page PANIER
 add_action( 'woocommerce_before_calculate_totals', 'sterimar_apply_pack_discount_wc', 20, 1 );
 function sterimar_apply_pack_discount_wc( $cart ) {
     if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
         return;
     }
-    // WooCommerce réinitialise les prix à chaque calculate_totals() — on doit ré-appliquer la remise
-    // à chaque fois, que ce soit sur la page panier ou la page de validation.
+    // Sur la page de validation, les prix sont restaurés depuis la session panier (voir ci-dessous)
+    if ( is_checkout() ) {
+        return;
+    }
     foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) {
         if ( ! empty( $cart_item['pack_discount'] ) ) {
             $discount_rate  = floatval( $cart_item['pack_discount'] );
@@ -1144,6 +1147,48 @@ function sterimar_apply_pack_discount_wc( $cart ) {
                 $discounted_price = round( $original_price * ( 1 - $discount_rate ), 2 );
                 $cart_item['data']->set_price( $discounted_price );
             }
+        }
+    }
+}
+
+// ÉTAPE 2 — Verrouiller les prix finaux du PANIER dans la session WooCommerce
+add_action( 'woocommerce_after_calculate_totals', 'sterimar_store_locked_cart_prices', 99, 1 );
+function sterimar_store_locked_cart_prices( $cart ) {
+    if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
+        return;
+    }
+    if ( is_checkout() ) {
+        return; // Ne pas écraser depuis la page validation
+    }
+    if ( ! WC()->session ) {
+        return;
+    }
+    $prices = array();
+    foreach ( $cart->get_cart() as $key => $item ) {
+        $prices[ $key ] = floatval( $item['data']->get_price() );
+    }
+    WC()->session->set( 'sterimar_locked_cart_prices', $prices );
+}
+
+// ÉTAPE 3 — Restaurer les prix du panier sur la page de VALIDATION (aucun recalcul)
+add_action( 'woocommerce_before_calculate_totals', 'sterimar_restore_cart_prices_on_checkout', 5, 1 );
+function sterimar_restore_cart_prices_on_checkout( $cart ) {
+    if ( ! is_checkout() ) {
+        return;
+    }
+    if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
+        return;
+    }
+    if ( ! WC()->session ) {
+        return;
+    }
+    $prices = WC()->session->get( 'sterimar_locked_cart_prices' );
+    if ( empty( $prices ) ) {
+        return;
+    }
+    foreach ( $cart->get_cart() as $key => $item ) {
+        if ( isset( $prices[ $key ] ) ) {
+            $item['data']->set_price( $prices[ $key ] );
         }
     }
 }
