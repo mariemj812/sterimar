@@ -5590,23 +5590,147 @@ li.wc_payment_method label {
     aspect-ratio: 672 / 400;
 }
 
-/* WooCommerce Checkout Mandatory Phone Field (Classic + Block Checkout) */
+/* ==========================================================================
+   FORMULAIRE DE VALIDATION DE COMMANDE ULTRA-SIMPLIFIÉ & LIVRAISON AUTOMATIQUE
+   ========================================================================== */
+
+/* Affichage pleine largeur et aéré des 4 seuls champs autorisés */
+#billing_first_name_field,
+#billing_address_1_field,
+#billing_phone_field,
+#billing_email_field,
+.woocommerce form .form-row#billing_first_name_field,
+.woocommerce form .form-row#billing_address_1_field,
+.woocommerce form .form-row#billing_phone_field,
+.woocommerce form .form-row#billing_email_field {
+    width: 100% !important;
+    float: none !important;
+    clear: both !important;
+    margin-bottom: 1.35rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Masquage strict de tous les champs supplémentaires ("pas +") */
+#billing_last_name_field,
+#billing_company_field,
+#billing_country_field,
+#billing_address_2_field,
+#billing_city_field,
+#billing_state_field,
+#billing_postcode_field,
+.woocommerce-shipping-fields,
+.woocommerce-additional-fields,
+#order_comments_field,
+.shipping_address,
+.woocommerce form .form-row#billing_last_name_field,
+.woocommerce form .form-row#billing_company_field,
+.woocommerce form .form-row#billing_country_field,
+.woocommerce form .form-row#billing_address_2_field,
+.woocommerce form .form-row#billing_city_field,
+.woocommerce form .form-row#billing_state_field,
+.woocommerce form .form-row#billing_postcode_field,
+.woocommerce form .form-row#order_comments_field,
+/* WooCommerce Blocks selectors */
+.wc-block-components-address-form__company,
+.wc-block-components-address-form__address_2,
+.wc-block-components-address-form__city,
+.wc-block-components-address-form__state,
+.wc-block-components-address-form__postcode,
+.wc-block-components-country-input,
+.wc-block-components-address-form__country,
+.wc-block-checkout__shipping-address,
+.wc-block-checkout__use-address-for-billing,
+.wc-block-checkout__add-note,
+.wc-block-components-order-notes {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+/* Gestion précise des étoiles requises et des libellés */
+#billing_first_name_field label .required,
+#billing_address_1_field label .required,
+#billing_phone_field label .required,
+.sterimar-phone-star,
+.sterimar-req-star {
+    display: inline-block !important;
+    color: #DC2626 !important;
+    font-weight: 700 !important;
+    margin-left: 3px !important;
+}
+
+/* Masquer les mentions facultatives sur les 3 champs obligatoires */
+#billing_first_name_field .optional,
+#billing_address_1_field .optional,
 #billing_phone_field .optional,
 .wc-block-components-address-form__optional,
 .wc-block-components-form-field-optional,
 .wc-block-components-address-form-phone .optional,
-.wc-block-components-address-form-phone .wc-block-components-address-form__optional,
-.wc-block-components-text-input:has(input[type="tel"]) .optional,
-.wc-block-components-text-input:has(input[type="tel"]) .wc-block-components-address-form__optional {
+.wc-block-components-text-input:has(input[type="tel"]) .optional {
     display: none !important;
 }
 
-#billing_phone_field label .required,
-.sterimar-phone-star {
+/* Email facultatif : masquer toute étoile */
+#billing_email_field label .required,
+#billing_email_field label abbr.required {
+    display: none !important;
+}
+
+#billing_email_field .optional {
     display: inline-block !important;
-    color: #DC2626 !important;
+    color: #64748B !important;
+    font-weight: 400 !important;
+    font-size: 0.85rem !important;
+    margin-left: 4px !important;
+}
+
+/* Styling de la livraison automatique dans le récapitulatif de commande */
+.woocommerce table.shop_table tr.shipping th,
+.woocommerce table.shop_table tr.shipping td,
+.woocommerce-shipping-totals th,
+.woocommerce-shipping-totals td {
+    padding: 0.9rem 1rem !important;
+    font-weight: 600 !important;
+    color: #0F172A !important;
+    vertical-align: middle !important;
+}
+
+.woocommerce-shipping-totals td {
+    text-align: right !important;
+}
+
+/* Masquage des puces radio inutiles si méthode de livraison automatique unique */
+#shipping_method {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#shipping_method li {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-weight: 600 !important;
+    color: #0369A1 !important;
+    background: #F0F9FF !important;
+    padding: 6px 12px !important;
+    border-radius: 8px !important;
+    border: 1px solid #BAE6FD !important;
+}
+
+#shipping_method li input[type="radio"] {
+    display: none !important;
+}
+
+#shipping_method li label {
+    margin: 0 !important;
+    cursor: default !important;
+    font-size: 0.92rem !important;
     font-weight: 700 !important;
-    margin-left: 3px;
 }
 
 

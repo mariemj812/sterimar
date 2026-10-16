@@ -276,8 +276,47 @@ function pixelValue(v) {
     return isFinite(n) && n > 0 ? Math.round(n * 100) / 100 : 0.01;
 }
 
+// Return all matching IDs for Meta Catalog matching (WooCommerce ID + fallback IDs)
+function getProductContentIds(product) {
+    if (!product) return ['18', 'wc_post_id_18'];
+    const ids = [];
+    if (product.bundleWcIds && product.bundleWcIds.length > 0) {
+        product.bundleWcIds.forEach(id => {
+            ids.push(String(id));
+            ids.push('wc_post_id_' + id);
+        });
+    } else if (product.wcId && Number(product.wcId) > 0) {
+        ids.push(String(product.wcId));
+        ids.push('wc_post_id_' + product.wcId);
+    } else if (product.id !== undefined) {
+        ids.push(String(product.id));
+    }
+    return Array.from(new Set(ids));
+}
+
+// Return structured contents array for Meta Catalog
+function getProductContents(product, qty = 1) {
+    if (!product) return [{ id: '18', quantity: Number(qty) || 1, item_price: 16.00 }];
+    const quantity = Number(qty) || 1;
+    if (product.bundleWcIds && product.bundleWcIds.length > 0) {
+        const itemPrice = Math.round(((Number(product.price) || 0) / product.bundleWcIds.length) * 100) / 100;
+        return product.bundleWcIds.map(id => ({
+            id: String(id),
+            quantity: quantity,
+            item_price: itemPrice
+        }));
+    }
+    const primaryId = product.wcId && Number(product.wcId) > 0 ? String(product.wcId) : String(product.id);
+    return [{
+        id: primaryId,
+        quantity: quantity,
+        item_price: Number(product.price) || 0
+    }];
+}
+
 function addToCart(productId, qty = 1) {
     const product = products[productId];
+    if (!product) return;
     const existingItem = cart.find(item => item.id === productId);
     
     if (existingItem) {
@@ -305,11 +344,13 @@ function addToCart(productId, qty = 1) {
 
     // Meta Pixel AddToCart
     if (typeof fbq === 'function') {
+        const contentIds = getProductContentIds(product);
+        const contents = getProductContents(product, qty);
         fbq('track', 'AddToCart', {
             content_name: product.name,
-            content_ids: [product.wcId ? String(product.wcId) : String(productId)],
+            content_ids: contentIds,
             content_type: 'product',
-            contents: [{ id: product.wcId ? String(product.wcId) : String(productId), quantity: Number(qty) || 1, item_price: Number(product.price) || 0 }],
+            contents: contents,
             value: pixelValue((Number(product.price) || 0) * (Number(qty) || 1)),
             currency: 'TND'
         });
@@ -444,7 +485,20 @@ async function checkout() {
     // Meta Pixel InitiateCheckout
     if (typeof fbq === 'function') {
         const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const allContentIds = [];
+        const allContents = [];
+        cart.forEach(item => {
+            const p = products.find(p => p.id === item.id) || item;
+            getProductContentIds(p).forEach(id => {
+                if (!allContentIds.includes(id)) allContentIds.push(id);
+            });
+            getProductContents(p, item.quantity).forEach(c => allContents.push(c));
+        });
         fbq('track', 'InitiateCheckout', {
+            content_name: 'Panier Stérimar',
+            content_type: 'product',
+            content_ids: allContentIds,
+            contents: allContents,
             num_items: cart.reduce((sum, item) => sum + item.quantity, 0),
             value: pixelValue(cartTotal),
             currency: 'TND'
@@ -1931,25 +1985,51 @@ document.addEventListener('DOMContentLoaded', () => {
         // ==========================================
         // META PIXEL — RETARGETING EVENTS
         // ==========================================
-        if (typeof fbq === 'function') {
-            // --- ViewContent: fires on every product detail page ---
-            const productPage = document.querySelector('.product-page');
-            if (productPage) {
-                const addToCartBtn = productPage.querySelector('[onclick*="addToCart"]');
-                let productId = null;
-                if (addToCartBtn) {
-                    const match = addToCartBtn.getAttribute('onclick').match(/addToCart\((\d+)/);
-                    if (match) productId = parseInt(match[1]);
-                }
-                const product = (productId !== null && products[productId]) ? products[productId] : null;
-                fbq('track', 'ViewContent', {
-                    content_name: product ? product.name : (document.querySelector('h1') ? document.querySelector('h1').textContent.trim() : 'Produit Stérimar'),
-                    content_ids: [product ? String(product.wcId || productId) : '0'],
-                    content_type: 'product',
-                    value: product ? product.price : 0,
-                    currency: 'TND'
-                });
+        // --- ViewContent: fires on every product detail page ---
+        const productPage = document.querySelector('.product-page');
+        if (productPage) {
+            const addToCartBtn = productPage.querySelector('[onclick*="addToCart"]');
+            let productId = null;
+            if (addToCartBtn) {
+                const match = addToCartBtn.getAttribute('onclick').match(/addToCart\((\d+)/);
+                if (match) productId = parseInt(match[1]);
             }
+            if (productId === null) {
+                const path = window.location.pathname.toLowerCase();
+                const matchedProd = products.find(p => p.url && path.includes(p.url.replace('.html', '')));
+                if (matchedProd) productId = matchedProd.id;
+            }
+            const product = (productId !== null && products[productId]) ? products[productId] : null;
+
+            function triggerViewContent() {
+                if (typeof fbq === 'function' && product) {
+                    const contentIds = getProductContentIds(product);
+                    const contents = getProductContents(product, 1);
+                    fbq('track', 'ViewContent', {
+                        content_name: product.name,
+                        content_ids: contentIds,
+                        content_type: 'product',
+                        contents: contents,
+                        value: pixelValue(product.price),
+                        currency: 'TND'
+                    });
+                    return true;
+                }
+                return false;
+            }
+
+            if (!triggerViewContent()) {
+                let attempts = 0;
+                const interval = setInterval(() => {
+                    attempts++;
+                    if (triggerViewContent() || attempts >= 20) {
+                        clearInterval(interval);
+                    }
+                }, 200);
+            }
+        }
+
+        if (typeof fbq === 'function') {
 
             // --- Contact: fires when the contact form is successfully submitted ---
             const contactForm = document.getElementById('contact-form');
