@@ -5591,27 +5591,183 @@ li.wc_payment_method label {
 }
 
 /* ==========================================================================
-   FORMULAIRE DE VALIDATION DE COMMANDE ULTRA-SIMPLIFIÉ & LIVRAISON AUTOMATIQUE
+   STERIMAR "CHECKOUT" CARD DESIGN (EXACT MATCH SPECIFICATION IMAGE)
    ========================================================================== */
 
-/* Affichage pleine largeur et aéré des 4 seuls champs autorisés */
-#billing_first_name_field,
-#billing_address_1_field,
-#billing_phone_field,
-#billing_email_field,
-.woocommerce form .form-row#billing_first_name_field,
-.woocommerce form .form-row#billing_address_1_field,
-.woocommerce form .form-row#billing_phone_field,
-.woocommerce form .form-row#billing_email_field {
-    width: 100% !important;
-    float: none !important;
-    clear: both !important;
-    margin-bottom: 1.35rem !important;
-    display: flex !important;
-    flex-direction: column !important;
+body.woocommerce-checkout {
+    background: #F9FAFB !important;
 }
 
-/* Masquage strict de tous les champs supplémentaires ("pas +") */
+body.woocommerce-checkout .shop-header {
+    display: none !important;
+}
+
+body.woocommerce-checkout .wc-main-wrapper {
+    background: transparent !important;
+    padding: 3rem 1rem 5rem !important;
+    min-height: auto !important;
+}
+
+body.woocommerce-checkout .wc-main-container {
+    max-width: 540px !important;
+    margin: 0 auto !important;
+    background: #FFFFFF !important;
+    border-radius: 6px !important;
+    border: 1px solid #E5E7EB !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+    padding: 2.5rem 2.25rem !important;
+}
+
+@media (max-width: 600px) {
+    body.woocommerce-checkout .wc-main-wrapper {
+        padding: 1.5rem 0.75rem 3rem !important;
+    }
+    body.woocommerce-checkout .wc-main-container {
+        padding: 1.75rem 1.25rem !important;
+        border-radius: 6px !important;
+    }
+}
+
+/* 1. Title "Checkout" */
+.sterimar-checkout-title,
+.woocommerce-checkout h1.sterimar-checkout-title {
+    font-size: 1.85rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    margin: 0 0 1.5rem 0 !important;
+    font-family: inherit !important;
+    letter-spacing: -0.02em !important;
+    text-align: left !important;
+    line-height: 1.2 !important;
+}
+
+/* 2. Checkout Form Layout (Single Column) */
+body.woocommerce-checkout form.checkout {
+    display: flex !important;
+    flex-direction: column !important;
+    margin: 0 !important;
+    gap: 0 !important;
+}
+
+body.woocommerce-checkout .col2-set,
+body.woocommerce-checkout .woocommerce-billing-fields,
+body.woocommerce-checkout .woocommerce-checkout-review-order {
+    width: 100% !important;
+    float: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Masquer les titres internes de facturation par défaut */
+.woocommerce-billing-fields h3,
+.woocommerce-billing-fields > h3,
+#order_review_heading.woocommerce-shipping-fields h3 {
+    display: none !important;
+}
+
+/* 3. Fields & Labels */
+.woocommerce form .form-row {
+    margin-bottom: 1.25rem !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    clear: both !important;
+    float: none !important;
+}
+
+.woocommerce form .form-row label {
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #1F2937 !important;
+    margin-bottom: 0.45rem !important;
+    display: flex !important;
+    align-items: center !important;
+    line-height: normal !important;
+}
+
+.woocommerce form .form-row label .required {
+    color: #EF4444 !important;
+    font-weight: 700 !important;
+    margin-left: 2px !important;
+    text-decoration: none !important;
+}
+
+.sterimar-req-star,
+.sterimar-phone-star {
+    color: #EF4444 !important;
+    font-weight: 700 !important;
+    margin-left: 2px !important;
+}
+
+.woocommerce-input-wrapper {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+}
+
+/* SVG Field Icon on the left */
+.sterimar-field-icon {
+    position: absolute !important;
+    left: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 2 !important;
+    pointer-events: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #6B7280 !important;
+}
+
+.sterimar-field-icon svg {
+    display: block !important;
+    stroke: #6B7280 !important;
+}
+
+/* Inputs */
+.woocommerce form .form-row input.input-text,
+.woocommerce form .form-row input[type="text"],
+.woocommerce form .form-row input[type="tel"],
+.woocommerce form .form-row input[type="email"] {
+    width: 100% !important;
+    height: 48px !important;
+    padding: 0.65rem 1rem 0.65rem 44px !important;
+    border: 1px solid #E5E7EB !important;
+    border-radius: 4px !important;
+    font-size: 0.95rem !important;
+    color: #1F2937 !important;
+    background: #FFFFFF !important;
+    outline: none !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+    box-sizing: border-box !important;
+}
+
+.woocommerce form .form-row input.input-text::placeholder,
+.woocommerce form .form-row input::placeholder {
+    color: #9CA3AF !important;
+    font-size: 0.92rem !important;
+    opacity: 1 !important;
+}
+
+.woocommerce form .form-row input.input-text:focus {
+    border-color: #0077B6 !important;
+    box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.15) !important;
+}
+
+/* Address width matching specification image (~50% on desktop, 100% on mobile) */
+#billing_address_1_field .woocommerce-input-wrapper,
+#billing_address_1_field input.input-text {
+    max-width: 280px !important;
+}
+
+@media (max-width: 600px) {
+    #billing_address_1_field .woocommerce-input-wrapper,
+    #billing_address_1_field input.input-text {
+        max-width: 100% !important;
+    }
+}
+
+/* Hide all other fields strictly ("pas +") */
 #billing_last_name_field,
 #billing_company_field,
 #billing_country_field,
@@ -5623,15 +5779,6 @@ li.wc_payment_method label {
 .woocommerce-additional-fields,
 #order_comments_field,
 .shipping_address,
-.woocommerce form .form-row#billing_last_name_field,
-.woocommerce form .form-row#billing_company_field,
-.woocommerce form .form-row#billing_country_field,
-.woocommerce form .form-row#billing_address_2_field,
-.woocommerce form .form-row#billing_city_field,
-.woocommerce form .form-row#billing_state_field,
-.woocommerce form .form-row#billing_postcode_field,
-.woocommerce form .form-row#order_comments_field,
-/* WooCommerce Blocks selectors */
 .wc-block-components-address-form__company,
 .wc-block-components-address-form__address_2,
 .wc-block-components-address-form__city,
@@ -5651,35 +5798,6 @@ li.wc_payment_method label {
     border: none !important;
 }
 
-/* Gestion précise des étoiles requises et des libellés */
-#billing_first_name_field label .required,
-#billing_address_1_field label .required,
-#billing_phone_field label .required,
-.sterimar-phone-star,
-.sterimar-req-star {
-    display: inline-block !important;
-    color: #DC2626 !important;
-    font-weight: 700 !important;
-    margin-left: 3px !important;
-}
-
-/* Masquer les mentions facultatives sur les 3 champs obligatoires */
-#billing_first_name_field .optional,
-#billing_address_1_field .optional,
-#billing_phone_field .optional,
-.wc-block-components-address-form__optional,
-.wc-block-components-form-field-optional,
-.wc-block-components-address-form-phone .optional,
-.wc-block-components-text-input:has(input[type="tel"]) .optional {
-    display: none !important;
-}
-
-/* Email facultatif : masquer toute étoile */
-#billing_email_field label .required,
-#billing_email_field label abbr.required {
-    display: none !important;
-}
-
 #billing_email_field .optional {
     display: inline-block !important;
     color: #64748B !important;
@@ -5688,22 +5806,95 @@ li.wc_payment_method label {
     margin-left: 4px !important;
 }
 
-/* Styling de la livraison automatique dans le récapitulatif de commande */
-.woocommerce table.shop_table tr.shipping th,
-.woocommerce table.shop_table tr.shipping td,
-.woocommerce-shipping-totals th,
-.woocommerce-shipping-totals td {
-    padding: 0.9rem 1rem !important;
-    font-weight: 600 !important;
-    color: #0F172A !important;
-    vertical-align: middle !important;
+/* 4. Section "Order summary" */
+#order_review_heading {
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    margin: 2rem 0 1rem 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    font-family: inherit !important;
+    text-align: left !important;
 }
 
-.woocommerce-shipping-totals td {
+#order_review {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Order Summary Table */
+.woocommerce table.shop_table {
+    border: none !important;
+    background: transparent !important;
+    margin: 0 0 1rem 0 !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+.woocommerce table.shop_table thead,
+.woocommerce table.shop_table tbody {
+    display: none !important;
+}
+
+.woocommerce table.shop_table tfoot {
+    display: block !important;
+    width: 100% !important;
+}
+
+.woocommerce table.shop_table tfoot tr {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0.45rem 0 !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+.woocommerce table.shop_table tfoot th {
+    font-size: 0.95rem !important;
+    color: #4B5563 !important;
+    font-weight: 500 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    text-align: left !important;
+}
+
+.woocommerce table.shop_table tfoot td {
+    font-size: 0.95rem !important;
+    color: #111827 !important;
+    font-weight: 500 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
     text-align: right !important;
 }
 
-/* Masquage des puces radio inutiles si méthode de livraison automatique unique */
+/* Dashed divider above Total */
+.woocommerce table.shop_table tfoot tr.order-total {
+    border-top: 1px dashed #E5E7EB !important;
+    margin-top: 0.75rem !important;
+    padding-top: 0.85rem !important;
+    background: transparent !important;
+}
+
+.woocommerce table.shop_table tfoot tr.order-total th {
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+}
+
+.woocommerce table.shop_table tfoot tr.order-total td,
+.woocommerce table.shop_table tfoot tr.order-total td strong {
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+}
+
+/* Hide shipping radio button list clutter */
 #shipping_method {
     list-style: none !important;
     padding: 0 !important;
@@ -5711,15 +5902,7 @@ li.wc_payment_method label {
 }
 
 #shipping_method li {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    font-weight: 600 !important;
-    color: #0369A1 !important;
-    background: #F0F9FF !important;
-    padding: 6px 12px !important;
-    border-radius: 8px !important;
-    border: 1px solid #BAE6FD !important;
+    display: inline !important;
 }
 
 #shipping_method li input[type="radio"] {
@@ -5729,8 +5912,75 @@ li.wc_payment_method label {
 #shipping_method li label {
     margin: 0 !important;
     cursor: default !important;
-    font-size: 0.92rem !important;
+    font-size: 0.95rem !important;
+    font-weight: 500 !important;
+    color: #111827 !important;
+    display: inline !important;
+}
+
+/* 5. Payment box & BUY IT NOW Button */
+.woocommerce-checkout-payment {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 1.25rem 0 0 0 !important;
+}
+
+.woocommerce-checkout-payment ul.payment_methods {
+    display: none !important;
+}
+
+.woocommerce-checkout-payment .place-order {
+    padding: 0 !important;
+    margin: 0 !important;
+    float: none !important;
+}
+
+#place_order,
+.woocommerce button.button#place_order,
+.woocommerce input.button#place_order,
+.wc-block-components-checkout-place-order-button {
+    background: #E5E7EB !important;
+    color: #FFFFFF !important;
+    font-size: 0.95rem !important;
     font-weight: 700 !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+    border-radius: 4px !important;
+    height: 50px !important;
+    line-height: 50px !important;
+    padding: 0 1.5rem !important;
+    width: 100% !important;
+    border: none !important;
+    cursor: pointer !important;
+    display: block !important;
+    text-align: center !important;
+    box-shadow: none !important;
+    transition: all 0.25s ease !important;
+    margin-top: 1.25rem !important;
+}
+
+#place_order:hover,
+#place_order:focus,
+#place_order.ready,
+.woocommerce button.button#place_order:hover,
+.woocommerce button.button#place_order.ready,
+.wc-block-components-checkout-place-order-button:hover,
+.wc-block-components-checkout-place-order-button.ready {
+    background: #0077B6 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 14px rgba(0, 119, 182, 0.3) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Hide clutter notices and coupon forms on clean checkout card */
+.woocommerce-form-coupon-toggle,
+.checkout_coupon,
+.woocommerce-form-login-toggle,
+.woocommerce-form-login,
+.woocommerce-privacy-policy-text,
+.woocommerce-terms-and-conditions-wrapper:has(input[type="hidden"]) {
+    display: none !important;
 }
 
 
