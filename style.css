@@ -5733,6 +5733,16 @@ li.wc_payment_method label {
     font-weight: 700 !important;
 }
 
+/* Masquer l'extrait / description en gris des produits dans le récapitulatif de commande */
+.wc-block-components-product-metadata__description,
+.wc-block-components-product-metadata .wc-block-components-product-metadata__description,
+.wc-block-components-order-summary-item__description .wc-block-components-product-metadata__description,
+.woocommerce-checkout .wc-block-components-product-metadata__description,
+.woocommerce-checkout .product-description,
+.woocommerce-checkout .product-short-description {
+    display: none !important;
+}
+
 
 
 

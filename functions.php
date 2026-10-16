@@ -828,7 +828,7 @@ remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_paymen
 // Add inline CSS to hide shipping and payment method blocks (still calculated in backend)
 add_action( 'wp_enqueue_scripts', function() {
     if ( is_checkout() ) {
-        $custom_css = "\n            .woocommerce-checkout .woocommerce-shipping-methods,\n            .woocommerce-checkout .woocommerce-payment-methods {\n                display: none !important;\n            }\n        ";
+        $custom_css = "\n            .woocommerce-checkout .woocommerce-shipping-methods,\n            .woocommerce-checkout .woocommerce-payment-methods,\n            .wc-block-components-product-metadata__description,\n            .wc-block-components-order-summary-item__description .wc-block-components-product-metadata__description,\n            .wc-block-components-product-metadata .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .product-description,\n            .woocommerce-checkout .product-short-description {\n                display: none !important;\n            }\n        ";
         wp_add_inline_style( 'sterimar-style', $custom_css );
     }
 }, 101 );
@@ -963,6 +963,10 @@ function sterimar_checkout_client_script() {
     '.wc-block-components-country-input', '.wc-block-checkout__shipping-address',
     '.wc-block-checkout__use-address-for-billing', '.wc-block-checkout__add-note',
     '.wc-block-components-order-notes',
+    '.wc-block-components-product-metadata__description',
+    '.wc-block-components-order-summary-item__description .wc-block-components-product-metadata__description',
+    '.woocommerce-checkout .product-short-description',
+    '.woocommerce-checkout .product-description',
     // Hide shipping and payment method sections
     '.shipping_method', '#shipping_method', '.woocommerce-shipping-totals',
     '.payment_method', '#payment', '.wc-payment-method', '.payment_methods'
@@ -1140,3 +1144,18 @@ function sterimar_save_pack_order_item_meta( $item, $cart_item_key, $values, $or
         $item->add_meta_data( __( 'Offre Pack', 'woocommerce' ), $values['pack_name'] );
     }
 }
+
+/**
+ * Supprimer l'extrait / description en gris des produits dans le récapitulatif Store API / WooCommerce Blocks
+ */
+add_filter( 'woocommerce_store_api_cart_response', 'sterimar_remove_cart_item_description_store_api', 9999, 1 );
+function sterimar_remove_cart_item_description_store_api( $response ) {
+    if ( isset( $response['items'] ) && is_array( $response['items'] ) ) {
+        foreach ( $response['items'] as &$item ) {
+            $item['description'] = '';
+            $item['short_description'] = '';
+        }
+    }
+    return $response;
+}
+
