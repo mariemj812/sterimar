@@ -311,7 +311,7 @@ if ( $is_native_wp ) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo esc_url( $theme_uri . '/style.min.css?v=39' ); ?>">
+    <link rel="stylesheet" href="<?php echo esc_url( $theme_uri . '/style.min.css?v=38' ); ?>">
     <link rel="icon" href="<?php echo esc_url( $theme_uri . '/favicon-32x32.png' ); ?>" sizes="32x32">
     <?php wp_head(); ?>
 </head>
@@ -353,7 +353,6 @@ if ( $is_native_wp ) {
     </nav>
 
     <!-- Header -->
-    <?php if ( ! ( function_exists( 'is_checkout' ) && is_checkout() ) ) : ?>
     <section class="shop-header" style="background: linear-gradient(135deg, #0077B6 0%, #00B8E5 100%);">
         <div class="container">
             <span class="section-tag" style="background: rgba(255,255,255,0.2); color:#fff; border:1px solid rgba(255,255,255,0.3);">Paiement Sécurisé</span>
@@ -361,7 +360,6 @@ if ( $is_native_wp ) {
             <p class="page-subtitle" style="color: rgba(255,255,255,0.9);">Veuillez renseigner vos coordonnées de livraison et confirmer votre paiement.</p>
         </div>
     </section>
-    <?php endif; ?>
 
     <!-- Main Native Content -->
     <main class="wc-main-wrapper">
