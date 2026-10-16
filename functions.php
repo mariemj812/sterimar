@@ -777,6 +777,10 @@ add_filter( 'woocommerce_cart_needs_shipping', '__return_true', 9999 );
 // B. Calcul automatique des tarifs de livraison
 add_filter( 'woocommerce_package_rates', 'sterimar_auto_shipping_rates', 9999, 2 );
 function sterimar_auto_shipping_rates( $rates, $package ) {
+    // Do not recalculate shipping on the checkout page; keep existing rates from cart
+    if ( is_checkout() ) {
+        return $rates;
+    }
     $subtotal = 0;
     if ( ! empty( $package['contents'] ) ) {
         foreach ( $package['contents'] as $item ) {
@@ -823,6 +827,22 @@ function sterimar_auto_shipping_rates( $rates, $package ) {
 }
 
 // C. Sélectionner automatiquement la méthode calculée
+// Hide payment methods section from checkout UI
+remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20 );
+// Add inline CSS to hide shipping and payment method blocks (still calculated in backend)
+add_action( 'wp_enqueue_scripts', function() {
+    if ( is_checkout() ) {
+        $custom_css = "\n            .woocommerce-checkout .woocommerce-shipping-methods,\n            .woocommerce-checkout .woocommerce-payment-methods {\n                display: none !important;\n            }\n        ";
+        wp_add_inline_style( 'sterimar-style', $custom_css );
+    }
+}, 101 );
+add_filter( 'woocommerce_shipping_chosen_method', function( $default, $rates ) {
+    if ( ! empty( $rates ) ) {
+        $keys = array_keys( $rates );
+        return reset( $keys );
+    }
+    return $default;
+}, 9999, 2 );
 add_filter( 'woocommerce_shipping_chosen_method', function( $default, $rates ) {
     if ( ! empty( $rates ) ) {
         $keys = array_keys( $rates );
@@ -834,6 +854,10 @@ add_filter( 'woocommerce_shipping_chosen_method', function( $default, $rates ) {
 // D. Filet de sécurité via les frais de panier (si le module shipping WooCommerce est inactif)
 add_action( 'woocommerce_cart_calculate_fees', 'sterimar_fallback_shipping_fee', 9999, 1 );
 function sterimar_fallback_shipping_fee( $cart ) {
+    // Do not add fallback shipping fee on checkout; totals are already calculated on the cart page
+    if ( is_checkout() ) {
+        return;
+    }
     if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
         return;
     }
@@ -848,8 +872,8 @@ function sterimar_fallback_shipping_fee( $cart ) {
     }
 
     $has_rate = false;
-    if ( WC()->shipping() ) {
-        $packages = WC()->shipping()->get_packages();
+    if ( WC()->shipping ) {
+        $packages = WC()->shipping->get_packages();
         if ( ! empty( $packages ) ) {
             foreach ( $packages as $p ) {
                 if ( ! empty( $p['rates'] ) ) {
@@ -864,6 +888,7 @@ function sterimar_fallback_shipping_fee( $cart ) {
         $cart->add_fee( __( 'Frais de livraison', 'woocommerce' ), 7.00, false );
     }
 }
+
 
 // E. Recalculer la livraison lors des rafraîchissements AJAX du checkout
 add_action( 'woocommerce_checkout_update_order_review', function() {
@@ -950,16 +975,19 @@ function sterimar_checkout_client_script() {
 
                 // 5. Cacher tous les autres champs superflus
                 var fieldsToHideSelectors = [
-                    '#billing_last_name_field', '#billing_company_field', '#billing_country_field',
-                    '#billing_address_2_field', '#billing_city_field', '#billing_state_field',
-                    '#billing_postcode_field', '.woocommerce-shipping-fields', '.woocommerce-additional-fields',
-                    '#order_comments_field', '.wc-block-components-address-form__company',
-                    '.wc-block-components-address-form__address_2', '.wc-block-components-address-form__city',
-                    '.wc-block-components-address-form__state', '.wc-block-components-address-form__postcode',
-                    '.wc-block-components-country-input', '.wc-block-checkout__shipping-address',
-                    '.wc-block-checkout__use-address-for-billing', '.wc-block-checkout__add-note',
-                    '.wc-block-components-order-notes'
-                ];
+    '#billing_last_name_field', '#billing_company_field', '#billing_country_field',
+    '#billing_address_2_field', '#billing_city_field', '#billing_state_field',
+    '#billing_postcode_field', '.woocommerce-shipping-fields', '.woocommerce-additional-fields',
+    '#order_comments_field', '.wc-block-components-address-form__company',
+    '.wc-block-components-address-form__address_2', '.wc-block-components-address-form__city',
+    '.wc-block-components-address-form__state', '.wc-block-components-address-form__postcode',
+    '.wc-block-components-country-input', '.wc-block-checkout__shipping-address',
+    '.wc-block-checkout__use-address-for-billing', '.wc-block-checkout__add-note',
+    '.wc-block-components-order-notes',
+    // Hide shipping and payment method sections
+    '.shipping_method', '#shipping_method', '.woocommerce-shipping-totals',
+    '.payment_method', '#payment', '.wc-payment-method', '.payment_methods'
+];
                 fieldsToHideSelectors.forEach(function(sel) {
                     document.querySelectorAll(sel).forEach(function(el) {
                         el.style.display = 'none';
@@ -1101,6 +1129,10 @@ add_filter( 'template_include', function( $template ) {
 add_action( 'woocommerce_before_calculate_totals', 'sterimar_apply_pack_discount_wc', 20, 1 );
 function sterimar_apply_pack_discount_wc( $cart ) {
     if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
+        return;
+    }
+    // Ne pas appliquer les remises pack sur la page de validation — le prix vient déjà du panier
+    if ( is_checkout() ) {
         return;
     }
     if ( did_action( 'woocommerce_before_calculate_totals' ) >= 2 ) {
