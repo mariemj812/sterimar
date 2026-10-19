@@ -498,7 +498,7 @@ function sterimar_configure_default_address_fields( $fields ) {
     // 3. Téléphone (Obligatoire)
     if ( isset( $fields['phone'] ) ) {
         $fields['phone']['label']              = __( 'Numéro de téléphone', 'woocommerce' );
-        $fields['phone']['placeholder']        = __( 'Ex: 29 550 043', 'woocommerce' );
+        $fields['phone']['placeholder']        = '';
         $fields['phone']['required']           = true;
         $fields['phone']['class']              = array( 'form-row-wide', 'validate-required', 'validate-phone' );
         $fields['phone']['priority']           = 30;
@@ -545,7 +545,7 @@ function sterimar_configure_billing_fields( $fields ) {
     // 3. Numéro de téléphone (Obligatoire)
     $clean_fields['billing_phone'] = array(
         'label'        => __( 'Numéro de téléphone', 'woocommerce' ),
-        'placeholder'  => __( 'Ex: 29 550 043', 'woocommerce' ),
+        'placeholder'  => '',
         'required'     => true,
         'class'        => array( 'form-row-wide', 'validate-required', 'validate-phone' ),
         'autocomplete' => 'tel',
@@ -556,7 +556,7 @@ function sterimar_configure_billing_fields( $fields ) {
     // 4. Adresse e-mail (Facultatif)
     $clean_fields['billing_email'] = array(
         'label'        => __( 'Adresse e-mail (facultatif)', 'woocommerce' ),
-        'placeholder'  => __( 'Ex: client@exemple.com', 'woocommerce' ),
+        'placeholder'  => '',
         'required'     => false,
         'class'        => array( 'form-row-wide' ),
         'autocomplete' => 'email',
@@ -920,7 +920,7 @@ function sterimar_checkout_client_script() {
                     input.required = true;
                     input.setAttribute('required', 'required');
                     input.setAttribute('aria-required', 'true');
-                    input.placeholder = 'Ex: 29 550 043';
+                    input.placeholder = '';
                     
                     var parentField = input.closest('.wc-block-components-text-input') || input.closest('.form-row') || input.parentElement;
                     if (parentField) {
@@ -940,7 +940,7 @@ function sterimar_checkout_client_script() {
                     emailInput.required = false;
                     emailInput.removeAttribute('required');
                     emailInput.removeAttribute('aria-required');
-                    emailInput.placeholder = 'Ex: client@exemple.com';
+                    emailInput.placeholder = '';
                     var pEmail = emailInput.closest('.form-row') || emailInput.closest('.wc-block-components-text-input') || emailInput.parentElement;
                     if (pEmail) {
                         var emailStars = pEmail.querySelectorAll('.required, abbr.required, .sterimar-req-star, .sterimar-phone-star');
