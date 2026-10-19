@@ -561,7 +561,8 @@ function sterimar_configure_billing_fields( $fields ) {
         'class'        => array( 'form-row-wide' ),
         'autocomplete' => 'email',
         'priority'     => 40,
-        'type'         => 'email',
+        'type'         => 'text',
+        'validate'     => array(),
     );
 
     return $clean_fields;
@@ -755,6 +756,7 @@ function sterimar_force_blocks_checkout_fields( $data ) {
         if ( isset( $data['defaultFields']['email'] ) ) {
             $data['defaultFields']['email']['label'] = __( 'Adresse e-mail (facultatif)', 'woocommerce' );
             $data['defaultFields']['email']['required'] = false;
+            $data['defaultFields']['email']['hidden'] = false;
         }
         foreach ( array( 'last_name', 'company', 'address_2', 'city', 'state', 'postcode', 'country' ) as $kf ) {
             if ( isset( $data['defaultFields'][ $kf ] ) ) {
@@ -764,6 +766,35 @@ function sterimar_force_blocks_checkout_fields( $data ) {
     }
     return $data;
 }
+
+// 12b. Bypass WooCommerce Store API email validation (email is optional)
+add_filter( 'woocommerce_store_api_checkout_order_processed', function( $order ) {
+    // Do nothing - just allow the order through without email
+}, 10, 1 );
+
+// 12c. Override the Store API schema to make email not required
+add_action( 'woocommerce_blocks_loaded', function() {
+    // Intercept the checkout request to inject a dummy email if empty
+    add_filter( 'woocommerce_store_api_checkout_update_customer_from_request', function( $customer, $request ) {
+        return $customer;
+    }, 9999, 2 );
+}, 10 );
+
+// 12d. If email is empty, set a placeholder so WooCommerce doesn't reject the order
+add_filter( 'woocommerce_checkout_posted_data', function( $data ) {
+    if ( empty( $data['billing_email'] ) ) {
+        $data['billing_email'] = 'client@sterimar.tn';
+    }
+    return $data;
+}, 99999 );
+
+// 12e. Also intercept Store API billing address to inject placeholder email
+add_action( 'woocommerce_store_api_checkout_update_order_from_request', function( $order, $request ) {
+    $billing = $request->get_param( 'billing_address' );
+    if ( is_array( $billing ) && empty( $billing['email'] ) ) {
+        $order->set_billing_email( 'client@sterimar.tn' );
+    }
+}, 5, 2 );
 
 /**
  * --------------------------------------------------------------------------
@@ -941,6 +972,8 @@ function sterimar_checkout_client_script() {
                     emailInput.removeAttribute('required');
                     emailInput.removeAttribute('aria-required');
                     emailInput.placeholder = '';
+                    emailInput.type = 'text';
+                    emailInput.removeAttribute('pattern');
                     var pEmail = emailInput.closest('.form-row') || emailInput.closest('.wc-block-components-text-input') || emailInput.parentElement;
                     if (pEmail) {
                         var emailStars = pEmail.querySelectorAll('.required, abbr.required, .sterimar-req-star, .sterimar-phone-star');
