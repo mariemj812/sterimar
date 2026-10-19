@@ -828,7 +828,7 @@ remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_paymen
 // Add inline CSS to hide shipping and payment method blocks (still calculated in backend)
 add_action( 'wp_enqueue_scripts', function() {
     if ( is_checkout() ) {
-        $custom_css = "\n            .woocommerce-checkout .woocommerce-shipping-methods,\n            .woocommerce-checkout .woocommerce-payment-methods,\n            .wc-block-components-product-metadata__description,\n            .wc-block-components-order-summary-item__description .wc-block-components-product-metadata__description,\n            .wc-block-components-product-metadata .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .product-description,\n            .woocommerce-checkout .product-short-description {\n                display: none !important;\n            }\n        ";
+        $custom_css = "\n            .woocommerce-checkout .woocommerce-shipping-methods,\n            .woocommerce-checkout .woocommerce-payment-methods,\n            .wc-block-checkout__shipping-option,\n            .wc-block-checkout__payment-method,\n            .wp-block-woocommerce-checkout-shipping-methods-block,\n            .wp-block-woocommerce-checkout-payment-block,\n            .wc-block-components-shipping-rates-control,\n            .wc-block-components-payment-method-label,\n            .wc-block-components-payment-method-icons,\n            .wc-block-components-radio-control--highlight-checked,\n            .wc-block-components-product-metadata__description,\n            .wc-block-components-order-summary-item__description .wc-block-components-product-metadata__description,\n            .wc-block-components-product-metadata .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .product-description,\n            .woocommerce-checkout .product-short-description {\n                display: none !important;\n            }\n        ";
         wp_add_inline_style( 'sterimar-style', $custom_css );
     }
 }, 101 );
@@ -969,7 +969,13 @@ function sterimar_checkout_client_script() {
     '.woocommerce-checkout .product-description',
     // Hide shipping and payment method sections
     '.shipping_method', '#shipping_method', '.woocommerce-shipping-totals',
-    '.payment_method', '#payment', '.wc-payment-method', '.payment_methods'
+    '.payment_method', '#payment', '.wc-payment-method', '.payment_methods',
+    '.wc-block-checkout__shipping-option', '.wc-block-checkout__payment-method',
+    '.wp-block-woocommerce-checkout-shipping-methods-block',
+    '.wp-block-woocommerce-checkout-payment-block',
+    '.wc-block-components-shipping-rates-control',
+    '.wc-block-components-payment-method-label',
+    '.wc-block-components-payment-method-icons'
 ];
                 fieldsToHideSelectors.forEach(function(sel) {
                     document.querySelectorAll(sel).forEach(function(el) {
