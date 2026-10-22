@@ -938,18 +938,20 @@ function sterimar_fallback_shipping_fee( $cart ) {
 
 
 
-// 13. Script client universel (Classic + Blocks MutationObserver)
+// 13. Script client universel (Classic + Blocks) — OPTIMISÉ anti-blocage
 function sterimar_checkout_client_script() {
     if ( ( function_exists( 'is_checkout' ) && is_checkout() ) || ( function_exists( 'is_cart' ) && is_cart() ) ) {
         ?>
         <script>
         (function() {
-            // Helper pour injecter la valeur dans le state React (évite blocage de validation React)
+            var _busy = false; // Guard anti boucle infinie MutationObserver
+
+            // Helper pour injecter la valeur dans le state React SANS boucle
             function setReactValue(input, val) {
-                if (!input) return;
+                if (!input || input.value === val) return; // Skip si déjà correct
+                _busy = true;
                 try {
-                    var proto = window.HTMLInputElement.prototype;
-                    var desc = Object.getOwnPropertyDescriptor(proto, 'value');
+                    var desc = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value');
                     if (desc && desc.set) {
                         desc.set.call(input, val);
                     } else {
@@ -960,6 +962,14 @@ function sterimar_checkout_client_script() {
                 } catch(e) {
                     input.value = val;
                 }
+                // Relâcher le guard après que React a traité les events
+                setTimeout(function() { _busy = false; }, 50);
+            }
+
+            // Remplir silencieusement (sans events React) — pour les champs déjà cachés
+            function setValueSilent(input, val) {
+                if (!input || input.value === val) return;
+                input.value = val;
             }
 
             function enforceCheckoutFields() {
@@ -1013,15 +1023,14 @@ function sterimar_checkout_client_script() {
                     }
                 });
 
-                // 4. Email (Masqué et prérempli dans React avec adresse valide instantanée)
+                // 4. Email (Masqué — prérempli UNE SEULE FOIS via setReactValue)
                 var emailInputs = document.querySelectorAll('input#billing_email, input[name="billing_email"], input[type="email"], input#email, input#billing-email');
                 emailInputs.forEach(function(emailInput) {
                     emailInput.required = false;
                     emailInput.removeAttribute('required');
                     emailInput.removeAttribute('aria-required');
-                    if (emailInput.value !== 'client@sterimar.shop') {
-                        setReactValue(emailInput, 'client@sterimar.shop');
-                    }
+                    // setReactValue ne fait rien si la valeur est déjà correcte (guard interne)
+                    setReactValue(emailInput, 'client@sterimar.shop');
                     var pEmail = emailInput.closest('.form-row') || emailInput.closest('.wc-block-components-text-input') || emailInput.closest('.wc-block-checkout__contact-fields') || emailInput.parentElement;
                     if (pEmail) {
                         pEmail.style.setProperty('display', 'none', 'important');
@@ -1047,7 +1056,6 @@ function sterimar_checkout_client_script() {
                     '.wc-block-components-order-summary-item__description .wc-block-components-product-metadata__description',
                     '.woocommerce-checkout .product-short-description',
                     '.woocommerce-checkout .product-description',
-                    // Hide shipping and payment method sections
                     '.shipping_method', '#shipping_method', '.woocommerce-shipping-totals',
                     '.payment_method', '#payment', '.wc-payment-method', '.payment_methods',
                     '.wc-block-checkout__shipping-option', '.wc-block-checkout__payment-method',
@@ -1065,7 +1073,7 @@ function sterimar_checkout_client_script() {
                     });
                 });
 
-                // Remplir les valeurs par défaut pour les champs cachés
+                // Remplir les valeurs par défaut pour les champs cachés (silencieux, pas de React events)
                 var cityInputs = document.querySelectorAll('input#billing_city, input[name="billing_city"], [id*="billing-city"] input, input#billing-city');
                 cityInputs.forEach(function(ci) { if (!ci.value) setReactValue(ci, 'Tunisie'); });
                 var postInputs = document.querySelectorAll('input#billing_postcode, input[name="billing_postcode"], [id*="billing-postcode"] input, input#billing-postcode');
@@ -1074,86 +1082,91 @@ function sterimar_checkout_client_script() {
                 lastInputs.forEach(function(li) { if (!li.value) setReactValue(li, '.'); });
             }
 
-            // Exécution immédiate
+            // Exécution initiale
             if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', enforceCheckoutFields);
+                document.addEventListener('DOMContentLoaded', function() { requestAnimationFrame(enforceCheckoutFields); });
             } else {
-                enforceCheckoutFields();
+                requestAnimationFrame(enforceCheckoutFields);
             }
 
-            // Écoute des mises à jour AJAX classiques et React Blocks
+            // Écoute des mises à jour AJAX classiques
             document.body.addEventListener('updated_checkout', enforceCheckoutFields);
 
-            // MutationObserver pour observer les rendus dynamiques React de WooCommerce Blocks
+            // MutationObserver DEBOUNCED — évite la boucle infinie
             if (window.MutationObserver) {
+                var _debounceTimer = null;
                 var observer = new MutationObserver(function() {
-                    enforceCheckoutFields();
+                    if (_busy) return; // Ignorer les mutations causées par setReactValue
+                    clearTimeout(_debounceTimer);
+                    _debounceTimer = setTimeout(enforceCheckoutFields, 150);
                 });
                 observer.observe(document.body, { childList: true, subtree: true });
             }
 
-            // Interception avant soumission pour validation sans alert() bloquante et préremplissage
+            // Validation au clic — RAPIDE, ne bloque PAS si tout est OK
             document.addEventListener('click', function(e) {
                 var submitBtn = e.target.closest('.wc-block-components-checkout-place-order-button, #place_order, button[type="submit"]');
-                if (submitBtn) {
-                    // Préremplir l'email dans React immédiatement avant soumission
-                    var emailInputs = document.querySelectorAll('input#billing_email, input[name="billing_email"], input[type="email"], input#email, input#billing-email');
-                    emailInputs.forEach(function(em) {
-                        if (!em.value || em.value !== 'client@sterimar.shop') {
-                            setReactValue(em, 'client@sterimar.shop');
-                        }
-                    });
+                if (!submitBtn) return;
 
-                    // 1. Vérifier Nom & Prénom
-                    var nameInput = document.querySelector('input#billing_first_name, input[name="billing_first_name"], input#billing-first_name, input#shipping-first_name, input[autocomplete="name"], input[autocomplete="given-name"]');
-                    if (nameInput && !nameInput.value.trim()) {
-                        e.preventDefault();
-                        nameInput.focus();
-                        nameInput.style.borderColor = '#dc2626';
-                        nameInput.style.boxShadow = '0 0 0 3px rgba(220, 38, 38, 0.2)';
-                        nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        return;
+                // Assurer email silencieusement (pas de React events si déjà bon)
+                var emailInputs = document.querySelectorAll('input#billing_email, input[name="billing_email"], input[type="email"], input#email, input#billing-email');
+                emailInputs.forEach(function(em) {
+                    if (em.value !== 'client@sterimar.shop') {
+                        setValueSilent(em, 'client@sterimar.shop');
                     }
+                });
 
-                    // 2. Vérifier Adresse
-                    var addrInput = document.querySelector('input#billing_address_1, input[name="billing_address_1"], input#billing-address_1, input#shipping-address_1, input[autocomplete="address-line1"], input[autocomplete="street-address"]');
-                    if (addrInput && !addrInput.value.trim()) {
-                        e.preventDefault();
-                        addrInput.focus();
-                        addrInput.style.borderColor = '#dc2626';
-                        addrInput.style.boxShadow = '0 0 0 3px rgba(220, 38, 38, 0.2)';
-                        addrInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        return;
+                // 1. Vérifier Nom & Prénom
+                var nameInput = document.querySelector('input#billing_first_name, input[name="billing_first_name"], input#billing-first_name, input#shipping-first_name, input[autocomplete="name"], input[autocomplete="given-name"]');
+                if (nameInput && !nameInput.value.trim()) {
+                    e.preventDefault();
+                    nameInput.focus();
+                    nameInput.style.borderColor = '#dc2626';
+                    nameInput.style.boxShadow = '0 0 0 3px rgba(220, 38, 38, 0.2)';
+                    nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+
+                // 2. Vérifier Adresse
+                var addrInput = document.querySelector('input#billing_address_1, input[name="billing_address_1"], input#billing-address_1, input#shipping-address_1, input[autocomplete="address-line1"], input[autocomplete="street-address"]');
+                if (addrInput && !addrInput.value.trim()) {
+                    e.preventDefault();
+                    addrInput.focus();
+                    addrInput.style.borderColor = '#dc2626';
+                    addrInput.style.boxShadow = '0 0 0 3px rgba(220, 38, 38, 0.2)';
+                    addrInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+
+                // 3. Vérifier Téléphone
+                var phoneInputs = document.querySelectorAll('input[type="tel"], input[autocomplete="tel"], input#phone, input#billing_phone, input#billing-phone, input#shipping-phone');
+                var emptyPhone = null;
+                phoneInputs.forEach(function(input) {
+                    if (!emptyPhone && input.offsetParent !== null && !input.value.trim()) {
+                        emptyPhone = input;
                     }
+                });
+                if (emptyPhone) {
+                    e.preventDefault();
+                    emptyPhone.focus();
+                    emptyPhone.style.borderColor = '#dc2626';
+                    emptyPhone.style.boxShadow = '0 0 0 3px rgba(220, 38, 38, 0.2)';
+                    emptyPhone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
 
-                    // 3. Vérifier Téléphone
-                    var phoneInputs = document.querySelectorAll('input[type="tel"], input[autocomplete="tel"], input#phone, input#billing_phone, input#billing-phone, input#shipping-phone');
-                    var emptyPhone = null;
-                    phoneInputs.forEach(function(input) {
-                        if (!emptyPhone && input.offsetParent !== null && !input.value.trim()) {
-                            emptyPhone = input;
-                        }
-                    });
-                    if (emptyPhone) {
-                        e.preventDefault();
-                        emptyPhone.focus();
-                        emptyPhone.style.borderColor = '#dc2626';
-                        emptyPhone.style.boxShadow = '0 0 0 3px rgba(220, 38, 38, 0.2)';
-                        emptyPhone.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        return;
-                    }
-
-                    // Remplir le nom de famille si caché
-                    var lastNameInput = document.querySelector('input#billing_last_name, input[name="billing_last_name"], input#billing-last_name');
-                    if (lastNameInput && !lastNameInput.value) {
-                        if (nameInput && nameInput.value.trim()) {
-                            var parts = nameInput.value.trim().split(' ');
-                            setReactValue(lastNameInput, parts.length > 1 ? parts.slice(1).join(' ') : parts[0]);
-                        } else {
-                            setReactValue(lastNameInput, '.');
-                        }
+                // Remplir le nom de famille silencieusement
+                var lastNameInput = document.querySelector('input#billing_last_name, input[name="billing_last_name"], input#billing-last_name');
+                if (lastNameInput && !lastNameInput.value) {
+                    if (nameInput && nameInput.value.trim()) {
+                        var parts = nameInput.value.trim().split(' ');
+                        setValueSilent(lastNameInput, parts.length > 1 ? parts.slice(1).join(' ') : parts[0]);
+                    } else {
+                        setValueSilent(lastNameInput, '.');
                     }
                 }
+
+                // ✅ Tout est OK — on ne fait RIEN, le clic passe directement à WooCommerce/React
             });
         })();
         </script>
