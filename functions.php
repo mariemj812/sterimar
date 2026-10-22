@@ -479,7 +479,7 @@ function sterimar_configure_default_address_fields( $fields ) {
     // 1. Nom & Prénom (Obligatoire)
     if ( isset( $fields['first_name'] ) ) {
         $fields['first_name']['label']         = __( 'Nom et Prénom', 'woocommerce' );
-        $fields['first_name']['placeholder']   = __( 'Votre nom et prénom (ex: Mohamed Trabelsi)', 'woocommerce' );
+        $fields['first_name']['placeholder']   = '';
         $fields['first_name']['required']      = true;
         $fields['first_name']['class']         = array( 'form-row-wide' );
         $fields['first_name']['priority']      = 10;
@@ -488,7 +488,7 @@ function sterimar_configure_default_address_fields( $fields ) {
     // 2. Adresse unique (Obligatoire)
     if ( isset( $fields['address_1'] ) ) {
         $fields['address_1']['label']          = __( 'Adresse de livraison', 'woocommerce' );
-        $fields['address_1']['placeholder']    = __( 'Rue, N°, quartier, ville...', 'woocommerce' );
+        $fields['address_1']['placeholder']    = '';
         $fields['address_1']['required']       = true;
         $fields['address_1']['class']          = array( 'form-row-wide' );
         $fields['address_1']['priority']      = 20;
@@ -522,7 +522,7 @@ function sterimar_configure_billing_fields( $fields ) {
     // 1. Nom & Prénom (Obligatoire)
     $clean_fields['billing_first_name'] = array(
         'label'        => __( 'Nom et Prénom', 'woocommerce' ),
-        'placeholder'  => __( 'Votre nom et prénom (ex: Mohamed Trabelsi)', 'woocommerce' ),
+        'placeholder'  => '',
         'required'     => true,
         'class'        => array( 'form-row-wide', 'validate-required' ),
         'autocomplete' => 'name',
@@ -533,7 +533,7 @@ function sterimar_configure_billing_fields( $fields ) {
     // 2. Adresse complète (Obligatoire - champ unique)
     $clean_fields['billing_address_1'] = array(
         'label'        => __( 'Adresse de livraison', 'woocommerce' ),
-        'placeholder'  => __( 'Rue, N°, appartement, quartier, ville...', 'woocommerce' ),
+        'placeholder'  => '',
         'required'     => true,
         'class'        => array( 'form-row-wide', 'validate-required' ),
         'autocomplete' => 'street-address',
@@ -751,19 +751,22 @@ function sterimar_force_blocks_checkout_fields( $data ) {
     // 1. Définir strictement les 3 champs obligatoires et masquer les autres
     if ( isset( $data['defaultFields'] ) && is_array( $data['defaultFields'] ) ) {
         if ( isset( $data['defaultFields']['first_name'] ) ) {
-            $data['defaultFields']['first_name']['label']    = __( 'Nom et Prénom', 'woocommerce' );
-            $data['defaultFields']['first_name']['required'] = true;
-            $data['defaultFields']['first_name']['hidden']   = false;
+            $data['defaultFields']['first_name']['label']       = __( 'Nom et Prénom', 'woocommerce' );
+            $data['defaultFields']['first_name']['placeholder'] = '';
+            $data['defaultFields']['first_name']['required']    = true;
+            $data['defaultFields']['first_name']['hidden']      = false;
         }
         if ( isset( $data['defaultFields']['address_1'] ) ) {
-            $data['defaultFields']['address_1']['label']    = __( 'Adresse de livraison', 'woocommerce' );
-            $data['defaultFields']['address_1']['required'] = true;
-            $data['defaultFields']['address_1']['hidden']   = false;
+            $data['defaultFields']['address_1']['label']       = __( 'Adresse de livraison', 'woocommerce' );
+            $data['defaultFields']['address_1']['placeholder'] = '';
+            $data['defaultFields']['address_1']['required']    = true;
+            $data['defaultFields']['address_1']['hidden']      = false;
         }
         if ( isset( $data['defaultFields']['phone'] ) ) {
-            $data['defaultFields']['phone']['label']    = __( 'Numéro de téléphone', 'woocommerce' );
-            $data['defaultFields']['phone']['required'] = true;
-            $data['defaultFields']['phone']['hidden']   = false;
+            $data['defaultFields']['phone']['label']       = __( 'Numéro de téléphone', 'woocommerce' );
+            $data['defaultFields']['phone']['placeholder'] = '';
+            $data['defaultFields']['phone']['required']    = true;
+            $data['defaultFields']['phone']['hidden']      = false;
         }
         foreach ( array( 'email', 'last_name', 'company', 'address_2', 'city', 'state', 'postcode', 'country' ) as $kf ) {
             if ( isset( $data['defaultFields'][ $kf ] ) ) {
@@ -959,7 +962,7 @@ remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_paymen
 // Add inline CSS to hide shipping, payment method blocks and email fields (still calculated in backend)
 add_action( 'wp_enqueue_scripts', function() {
     if ( is_checkout() ) {
-        $custom_css = "\n            #billing_email_field,\n            .woocommerce form .form-row#billing_email_field,\n            .wc-block-checkout__contact-fields,\n            .wc-block-components-address-form__email,\n            .wc-block-components-text-input:has(input[type='email']),\n            .wc-block-components-text-input:has(input#email),\n            .woocommerce-checkout .woocommerce-shipping-methods,\n            .woocommerce-checkout .woocommerce-payment-methods,\n            .wc-block-checkout__shipping-option,\n            .wc-block-checkout__payment-method,\n            .wp-block-woocommerce-checkout-shipping-methods-block,\n            .wp-block-woocommerce-checkout-payment-block,\n            .wc-block-components-shipping-rates-control,\n            .wc-block-components-payment-method-label,\n            .wc-block-components-payment-method-icons,\n            .wc-block-components-radio-control--highlight-checked,\n            .wc-block-components-product-metadata__description,\n            .wc-block-components-order-summary-item__description .wc-block-components-product-metadata__description,\n            .wc-block-components-product-metadata .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .product-description,\n            .woocommerce-checkout .product-short-description {\n                display: none !important;\n                visibility: hidden !important;\n                height: 0 !important;\n                margin: 0 !important;\n                padding: 0 !important;\n                border: none !important;\n            }\n        ";
+        $custom_css = "\n            #billing_email_field,\n            .woocommerce form .form-row#billing_email_field,\n            .wc-block-checkout__contact-fields,\n            .wc-block-components-address-form__email,\n            .wc-block-components-text-input:has(input[type='email']),\n            .wc-block-components-text-input:has(input#email),\n            .woocommerce-checkout .woocommerce-shipping-methods,\n            .woocommerce-checkout .woocommerce-payment-methods,\n            .wc-block-checkout__shipping-option,\n            .wc-block-checkout__payment-method,\n            .wp-block-woocommerce-checkout-shipping-methods-block,\n            .wp-block-woocommerce-checkout-payment-block,\n            .wc-block-components-shipping-rates-control,\n            .wc-block-components-payment-method-label,\n            .wc-block-components-payment-method-icons,\n            .wc-block-components-radio-control--highlight-checked,\n            .wc-block-components-product-metadata__description,\n            .wc-block-components-order-summary-item__description .wc-block-components-product-metadata__description,\n            .wc-block-components-product-metadata .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .product-description,\n            .woocommerce-checkout .product-short-description {\n                display: none !important;\n                visibility: hidden !important;\n                height: 0 !important;\n                margin: 0 !important;\n                padding: 0 !important;\n                border: none !important;\n            }\n            .wc-block-components-text-input input::placeholder,\n            .woocommerce-checkout input::placeholder {\n                opacity: 0 !important;\n                color: transparent !important;\n            }\n        ";
         wp_add_inline_style( 'sterimar-style', $custom_css );
     }
 }, 101 );
@@ -1058,7 +1061,8 @@ function sterimar_checkout_client_script() {
                 var nameInputs = document.querySelectorAll('input#billing_first_name, input[name="billing_first_name"], input#billing-first_name, input#shipping-first_name, input[autocomplete="name"], input[autocomplete="given-name"]');
                 nameInputs.forEach(function(n) {
                     n.required = true; n.setAttribute('required','required');
-                    if (!n.placeholder) n.placeholder = 'Votre nom et prénom (ex: Mohamed Trabelsi)';
+                    n.placeholder = '';
+                    n.removeAttribute('placeholder');
                     var p = n.closest('.form-row') || n.closest('.wc-block-components-text-input') || n.parentElement;
                     if (p) {
                         var l = p.querySelector('label');
@@ -1072,7 +1076,8 @@ function sterimar_checkout_client_script() {
                 var addrInputs = document.querySelectorAll('input#billing_address_1, input[name="billing_address_1"], input#billing-address_1, input#shipping-address_1, input[autocomplete="address-line1"], input[autocomplete="street-address"]');
                 addrInputs.forEach(function(a) {
                     a.required = true; a.setAttribute('required','required');
-                    if (!a.placeholder) a.placeholder = 'Rue, N°, appartement, quartier, ville...';
+                    a.placeholder = '';
+                    a.removeAttribute('placeholder');
                     var p = a.closest('.form-row') || a.closest('.wc-block-components-text-input') || a.parentElement;
                     if (p) {
                         var l = p.querySelector('label');
@@ -1086,6 +1091,8 @@ function sterimar_checkout_client_script() {
                 var phoneInputs = document.querySelectorAll('input[type="tel"], input[autocomplete="tel"], input#phone, input#billing_phone, input#shipping-phone');
                 phoneInputs.forEach(function(t) {
                     t.required = true; t.setAttribute('required','required'); t.setAttribute('aria-required','true');
+                    t.placeholder = '';
+                    t.removeAttribute('placeholder');
                     var p = t.closest('.wc-block-components-text-input') || t.closest('.form-row') || t.parentElement;
                     if (p) {
                         p.querySelectorAll('.optional, .wc-block-components-address-form__optional, .wc-block-components-form-field-optional').forEach(function(el) { el.style.display = 'none'; });
