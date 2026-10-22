@@ -5594,15 +5594,13 @@ li.wc_payment_method label {
    FORMULAIRE DE VALIDATION DE COMMANDE ULTRA-SIMPLIFIÉ & LIVRAISON AUTOMATIQUE
    ========================================================================== */
 
-/* Affichage pleine largeur et aéré des 4 seuls champs autorisés */
+/* Affichage pleine largeur et aéré des 3 seuls champs autorisés (Nom, Adresse, Téléphone) */
 #billing_first_name_field,
 #billing_address_1_field,
 #billing_phone_field,
-#billing_email_field,
 .woocommerce form .form-row#billing_first_name_field,
 .woocommerce form .form-row#billing_address_1_field,
-.woocommerce form .form-row#billing_phone_field,
-.woocommerce form .form-row#billing_email_field {
+.woocommerce form .form-row#billing_phone_field {
     width: 100% !important;
     float: none !important;
     clear: both !important;
@@ -5611,7 +5609,13 @@ li.wc_payment_method label {
     flex-direction: column !important;
 }
 
-/* Masquage strict de tous les champs supplémentaires ("pas +") */
+/* Masquage strict de l'email et de tous les champs supplémentaires */
+#billing_email_field,
+.woocommerce form .form-row#billing_email_field,
+.wc-block-checkout__contact-fields,
+.wc-block-components-address-form__email,
+.wc-block-components-text-input:has(input[type="email"]),
+.wc-block-components-text-input:has(input#email),
 #billing_last_name_field,
 #billing_company_field,
 #billing_country_field,
@@ -5672,20 +5676,6 @@ li.wc_payment_method label {
 .wc-block-components-address-form-phone .optional,
 .wc-block-components-text-input:has(input[type="tel"]) .optional {
     display: none !important;
-}
-
-/* Email facultatif : masquer toute étoile */
-#billing_email_field label .required,
-#billing_email_field label abbr.required {
-    display: none !important;
-}
-
-#billing_email_field .optional {
-    display: inline-block !important;
-    color: #64748B !important;
-    font-weight: 400 !important;
-    font-size: 0.85rem !important;
-    margin-left: 4px !important;
 }
 
 /* Styling de la livraison automatique dans le récapitulatif de commande */

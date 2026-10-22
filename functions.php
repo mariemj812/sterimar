@@ -443,12 +443,11 @@ function sterimar_disable_emojis_remove_dns( $urls, $relation_type ) {
  * --------------------------------------------------------------------------
  * VALIDATION DE COMMANDE & LIVRAISON AUTOMATIQUE STÉRIMAR™
  * 
- * 1. FORMULAIRE ULTRA-SIMPLIFIÉ (STRICTEMENT 4 CHAMPS) :
+ * 1. FORMULAIRE ULTRA-SIMPLIFIÉ (STRICTEMENT 3 CHAMPS) :
  *    - Nom et Prénom (Obligatoire)
  *    - Adresse de livraison (Obligatoire - champ unique)
  *    - Numéro de téléphone (Obligatoire)
- *    - Adresse e-mail (Facultatif)
- *    -> Aucun autre champ (Société, adresse 2, ville, région, code postal, pays, notes supprimés)
+ *    -> Tous les autres champs sont supprimés (Société, adresse 2, ville, région, code postal, pays, e-mail, notes)
  * 
  * 2. LIVRAISON AUTOMATIQUE :
  *    - Ajout automatique de 7 DT
@@ -505,7 +504,7 @@ function sterimar_configure_default_address_fields( $fields ) {
     }
 
     // Rendre tous les autres champs secondaires non obligatoires
-    $unneeded_fields = array( 'last_name', 'company', 'address_2', 'city', 'state', 'postcode', 'country' );
+    $unneeded_fields = array( 'email', 'last_name', 'company', 'address_2', 'city', 'state', 'postcode', 'country' );
     foreach ( $unneeded_fields as $key ) {
         if ( isset( $fields[ $key ] ) ) {
             $fields[ $key ]['required'] = false;
@@ -515,7 +514,7 @@ function sterimar_configure_default_address_fields( $fields ) {
     return $fields;
 }
 
-// 6. Filtrer les champs de facturation (Classic Checkout + Store API) : Strictement les 4 champs
+// 6. Filtrer les champs de facturation (Classic Checkout + Store API) : Strictement les 3 champs
 add_filter( 'woocommerce_billing_fields', 'sterimar_configure_billing_fields', 9999 );
 function sterimar_configure_billing_fields( $fields ) {
     $clean_fields = array();
@@ -553,25 +552,13 @@ function sterimar_configure_billing_fields( $fields ) {
         'type'         => 'tel',
     );
 
-    // 4. Adresse e-mail (Facultatif)
-    $clean_fields['billing_email'] = array(
-        'label'        => __( 'Adresse e-mail (facultatif)', 'woocommerce' ),
-        'placeholder'  => '',
-        'required'     => false,
-        'class'        => array( 'form-row-wide' ),
-        'autocomplete' => 'email',
-        'priority'     => 40,
-        'type'         => 'text',
-        'validate'     => array(),
-    );
-
     return $clean_fields;
 }
 
 // 7. Filtrage global des champs au checkout
 add_filter( 'woocommerce_checkout_fields', 'sterimar_configure_checkout_fields', 9999 );
 function sterimar_configure_checkout_fields( $fields ) {
-    // Appliquer nos 4 champs stricts pour la facturation
+    // Appliquer nos 3 champs stricts pour la facturation
     $fields['billing'] = sterimar_configure_billing_fields( isset( $fields['billing'] ) ? $fields['billing'] : array() );
 
     // Supprimer tous les champs d'expédition séparée
@@ -580,6 +567,11 @@ function sterimar_configure_checkout_fields( $fields ) {
     // Supprimer le champ notes de commande
     if ( isset( $fields['order']['order_comments'] ) ) {
         unset( $fields['order']['order_comments'] );
+    }
+
+    // Supprimer explicitement le champ email s'il subsiste
+    if ( isset( $fields['billing']['billing_email'] ) ) {
+        unset( $fields['billing']['billing_email'] );
     }
 
     return $fields;
@@ -612,10 +604,11 @@ function sterimar_prepare_checkout_posted_data( $data ) {
         $data['shipping_phone'] = $data['billing_phone'];
     }
 
-    // 4. Email
-    if ( ! empty( $data['billing_email'] ) ) {
-        $data['shipping_email'] = $data['billing_email'];
+    // 4. Email (Automatique - pas de saisie demandée au client)
+    if ( empty( $data['billing_email'] ) ) {
+        $data['billing_email'] = 'client@sterimar.tn';
     }
+    $data['shipping_email'] = $data['billing_email'];
 
     // 5. Pays Tunisie (TN)
     $data['billing_country']  = 'TN';
@@ -649,12 +642,16 @@ function sterimar_finalize_order_customer_data( $order, $data ) {
     $order->set_shipping_last_name( $order->get_billing_last_name() );
     $order->set_shipping_address_1( $order->get_billing_address_1() );
     $order->set_shipping_phone( $order->get_billing_phone() );
-    if ( $order->get_billing_email() ) {
-        $order->set_shipping_email( $order->get_billing_email() );
+    
+    $email = $order->get_billing_email();
+    if ( empty( $email ) ) {
+        $email = 'client@sterimar.tn';
+        $order->set_billing_email( $email );
     }
+    $order->set_shipping_email( $email );
 }
 
-// 10. Validation serveur Classic Checkout (Nom, Adresse, Téléphone obligatoires ; Email facultatif)
+// 10. Validation serveur Classic Checkout (Nom, Adresse, Téléphone obligatoires ; Pas de saisie e-mail)
 add_action( 'woocommerce_checkout_process', 'sterimar_validate_custom_checkout_fields' );
 function sterimar_validate_custom_checkout_fields() {
     // 1. Nom & Prénom
@@ -679,13 +676,15 @@ function sterimar_validate_custom_checkout_fields() {
             wc_add_notice( __( 'Veuillez saisir un <strong>numéro de téléphone valide</strong> (minimum 8 chiffres).', 'woocommerce' ), 'error' );
         }
     }
-
-    // 4. Email (Facultatif - uniquement vérifié si l'utilisateur l'a renseigné)
-    $email = isset( $_POST['billing_email'] ) ? sanitize_email( wp_unslash( $_POST['billing_email'] ) ) : '';
-    if ( ! empty( $email ) && ! is_email( $email ) ) {
-        wc_add_notice( __( 'Veuillez saisir une <strong>adresse e-mail valide</strong> ou laisser le champ vide.', 'woocommerce' ), 'error' );
-    }
 }
+
+// 10b. Bypass toute erreur de validation WooCommerce core liée à l'email
+add_action( 'woocommerce_after_checkout_validation', function( $data, $errors ) {
+    if ( is_wp_error( $errors ) ) {
+        $errors->remove( 'billing_email_required' );
+        $errors->remove( 'billing_email' );
+    }
+}, 999, 2 );
 
 // 11. Validation Store API (WooCommerce Blocks Checkout)
 add_action( 'woocommerce_store_api_checkout_update_order_from_request', 'sterimar_validate_blocks_custom_checkout', 10, 2 );
@@ -710,6 +709,10 @@ function sterimar_validate_blocks_custom_checkout( $order, $request ) {
     }
     if ( empty( $address ) && method_exists( $order, 'get_billing_address_1' ) ) {
         $address = $order->get_billing_address_1();
+    }
+
+    if ( method_exists( $order, 'get_billing_email' ) && ! $order->get_billing_email() ) {
+        $order->set_billing_email( 'client@sterimar.tn' );
     }
 
     $errors = array();
@@ -753,28 +756,25 @@ function sterimar_force_blocks_checkout_fields( $data ) {
             $data['defaultFields']['phone']['label'] = __( 'Numéro de téléphone', 'woocommerce' );
             $data['defaultFields']['phone']['required'] = true;
         }
-        if ( isset( $data['defaultFields']['email'] ) ) {
-            $data['defaultFields']['email']['label'] = __( 'Adresse e-mail (facultatif)', 'woocommerce' );
-            $data['defaultFields']['email']['required'] = false;
-            $data['defaultFields']['email']['hidden'] = false;
-        }
-        foreach ( array( 'last_name', 'company', 'address_2', 'city', 'state', 'postcode', 'country' ) as $kf ) {
+        foreach ( array( 'email', 'last_name', 'company', 'address_2', 'city', 'state', 'postcode', 'country' ) as $kf ) {
             if ( isset( $data['defaultFields'][ $kf ] ) ) {
                 $data['defaultFields'][ $kf ]['required'] = false;
+                $data['defaultFields'][ $kf ]['hidden'] = true;
             }
         }
     }
     return $data;
 }
 
-// 12b. Bypass WooCommerce Store API email validation (email is optional)
+// 12b. Bypass WooCommerce Store API email validation (email is hidden)
 add_filter( 'woocommerce_store_api_checkout_order_processed', function( $order ) {
-    // Do nothing - just allow the order through without email
+    if ( method_exists( $order, 'get_billing_email' ) && ! $order->get_billing_email() ) {
+        $order->set_billing_email( 'client@sterimar.tn' );
+    }
 }, 10, 1 );
 
-// 12c. Override the Store API schema to make email not required
+// 12c. Intercept the checkout request to inject a dummy email if empty
 add_action( 'woocommerce_blocks_loaded', function() {
-    // Intercept the checkout request to inject a dummy email if empty
     add_filter( 'woocommerce_store_api_checkout_update_customer_from_request', function( $customer, $request ) {
         return $customer;
     }, 9999, 2 );
@@ -791,10 +791,21 @@ add_filter( 'woocommerce_checkout_posted_data', function( $data ) {
 // 12e. Also intercept Store API billing address to inject placeholder email
 add_action( 'woocommerce_store_api_checkout_update_order_from_request', function( $order, $request ) {
     $billing = $request->get_param( 'billing_address' );
-    if ( is_array( $billing ) && empty( $billing['email'] ) ) {
+    if ( ( is_array( $billing ) && empty( $billing['email'] ) ) || ( method_exists( $order, 'get_billing_email' ) && ! $order->get_billing_email() ) ) {
         $order->set_billing_email( 'client@sterimar.tn' );
     }
 }, 5, 2 );
+
+// 12f. Ne pas envoyer les emails de confirmation WooCommerce à l'adresse placeholder client@sterimar.tn
+add_filter( 'woocommerce_email_recipient_customer_processing_order', 'sterimar_filter_dummy_email_recipient', 99, 2 );
+add_filter( 'woocommerce_email_recipient_customer_completed_order', 'sterimar_filter_dummy_email_recipient', 99, 2 );
+add_filter( 'woocommerce_email_recipient_customer_on_hold_order', 'sterimar_filter_dummy_email_recipient', 99, 2 );
+function sterimar_filter_dummy_email_recipient( $recipient, $order ) {
+    if ( is_string( $recipient ) && stripos( $recipient, 'client@sterimar.tn' ) !== false ) {
+        return '';
+    }
+    return $recipient;
+}
 
 /**
  * --------------------------------------------------------------------------
@@ -856,10 +867,10 @@ function sterimar_auto_shipping_rates( $rates, $package ) {
 // C. Sélectionner automatiquement la méthode calculée
 // Hide payment methods section from checkout UI
 remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20 );
-// Add inline CSS to hide shipping and payment method blocks (still calculated in backend)
+// Add inline CSS to hide shipping, payment method blocks and email fields (still calculated in backend)
 add_action( 'wp_enqueue_scripts', function() {
     if ( is_checkout() ) {
-        $custom_css = "\n            .woocommerce-checkout .woocommerce-shipping-methods,\n            .woocommerce-checkout .woocommerce-payment-methods,\n            .wc-block-checkout__shipping-option,\n            .wc-block-checkout__payment-method,\n            .wp-block-woocommerce-checkout-shipping-methods-block,\n            .wp-block-woocommerce-checkout-payment-block,\n            .wc-block-components-shipping-rates-control,\n            .wc-block-components-payment-method-label,\n            .wc-block-components-payment-method-icons,\n            .wc-block-components-radio-control--highlight-checked,\n            .wc-block-components-product-metadata__description,\n            .wc-block-components-order-summary-item__description .wc-block-components-product-metadata__description,\n            .wc-block-components-product-metadata .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .product-description,\n            .woocommerce-checkout .product-short-description {\n                display: none !important;\n            }\n        ";
+        $custom_css = "\n            #billing_email_field,\n            .woocommerce form .form-row#billing_email_field,\n            .wc-block-checkout__contact-fields,\n            .wc-block-components-address-form__email,\n            .wc-block-components-text-input:has(input[type='email']),\n            .wc-block-components-text-input:has(input#email),\n            .woocommerce-checkout .woocommerce-shipping-methods,\n            .woocommerce-checkout .woocommerce-payment-methods,\n            .wc-block-checkout__shipping-option,\n            .wc-block-checkout__payment-method,\n            .wp-block-woocommerce-checkout-shipping-methods-block,\n            .wp-block-woocommerce-checkout-payment-block,\n            .wc-block-components-shipping-rates-control,\n            .wc-block-components-payment-method-label,\n            .wc-block-components-payment-method-icons,\n            .wc-block-components-radio-control--highlight-checked,\n            .wc-block-components-product-metadata__description,\n            .wc-block-components-order-summary-item__description .wc-block-components-product-metadata__description,\n            .wc-block-components-product-metadata .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .product-description,\n            .woocommerce-checkout .product-short-description {\n                display: none !important;\n                visibility: hidden !important;\n                height: 0 !important;\n                margin: 0 !important;\n                padding: 0 !important;\n                border: none !important;\n            }\n        ";
         wp_add_inline_style( 'sterimar-style', $custom_css );
     }
 }, 101 );
@@ -965,54 +976,57 @@ function sterimar_checkout_client_script() {
                     }
                 });
 
-                // 4. Email (Facultatif)
-                var emailInput = document.querySelector('input#billing_email, input[name="billing_email"], input[type="email"]');
-                if (emailInput) {
+                // 4. Email (Masqué et rempli automatiquement en arrière-plan)
+                var emailInputs = document.querySelectorAll('input#billing_email, input[name="billing_email"], input[type="email"], input#email');
+                emailInputs.forEach(function(emailInput) {
                     emailInput.required = false;
                     emailInput.removeAttribute('required');
                     emailInput.removeAttribute('aria-required');
-                    emailInput.placeholder = '';
-                    emailInput.type = 'text';
-                    emailInput.removeAttribute('pattern');
-                    var pEmail = emailInput.closest('.form-row') || emailInput.closest('.wc-block-components-text-input') || emailInput.parentElement;
-                    if (pEmail) {
-                        var emailStars = pEmail.querySelectorAll('.required, abbr.required, .sterimar-req-star, .sterimar-phone-star');
-                        emailStars.forEach(function(st) { st.style.display = 'none'; });
-                        var lblEmail = pEmail.querySelector('label');
-                        if (lblEmail && lblEmail.innerHTML.indexOf('(facultatif)') === -1) {
-                            lblEmail.innerHTML = 'Adresse e-mail <span class="optional" style="color:#64748b; font-weight:normal; font-size:0.85em;">(facultatif)</span>';
-                        }
+                    if (!emailInput.value) {
+                        emailInput.value = 'client@sterimar.tn';
+                        emailInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        emailInput.dispatchEvent(new Event('change', { bubbles: true }));
                     }
-                }
+                    var pEmail = emailInput.closest('.form-row') || emailInput.closest('.wc-block-components-text-input') || emailInput.closest('.wc-block-checkout__contact-fields') || emailInput.parentElement;
+                    if (pEmail) {
+                        pEmail.style.setProperty('display', 'none', 'important');
+                        pEmail.style.setProperty('visibility', 'hidden', 'important');
+                        pEmail.style.setProperty('height', '0', 'important');
+                    }
+                });
 
-                // 5. Cacher tous les autres champs superflus
+                // 5. Cacher tous les autres champs superflus + Email
                 var fieldsToHideSelectors = [
-    '#billing_last_name_field', '#billing_company_field', '#billing_country_field',
-    '#billing_address_2_field', '#billing_city_field', '#billing_state_field',
-    '#billing_postcode_field', '.woocommerce-shipping-fields', '.woocommerce-additional-fields',
-    '#order_comments_field', '.wc-block-components-address-form__company',
-    '.wc-block-components-address-form__address_2', '.wc-block-components-address-form__city',
-    '.wc-block-components-address-form__state', '.wc-block-components-address-form__postcode',
-    '.wc-block-components-country-input', '.wc-block-checkout__shipping-address',
-    '.wc-block-checkout__use-address-for-billing', '.wc-block-checkout__add-note',
-    '.wc-block-components-order-notes',
-    '.wc-block-components-product-metadata__description',
-    '.wc-block-components-order-summary-item__description .wc-block-components-product-metadata__description',
-    '.woocommerce-checkout .product-short-description',
-    '.woocommerce-checkout .product-description',
-    // Hide shipping and payment method sections
-    '.shipping_method', '#shipping_method', '.woocommerce-shipping-totals',
-    '.payment_method', '#payment', '.wc-payment-method', '.payment_methods',
-    '.wc-block-checkout__shipping-option', '.wc-block-checkout__payment-method',
-    '.wp-block-woocommerce-checkout-shipping-methods-block',
-    '.wp-block-woocommerce-checkout-payment-block',
-    '.wc-block-components-shipping-rates-control',
-    '.wc-block-components-payment-method-label',
-    '.wc-block-components-payment-method-icons'
-];
+                    '#billing_email_field', '.woocommerce form .form-row#billing_email_field',
+                    '.wc-block-checkout__contact-fields', '.wc-block-components-address-form__email',
+                    '#billing_last_name_field', '#billing_company_field', '#billing_country_field',
+                    '#billing_address_2_field', '#billing_city_field', '#billing_state_field',
+                    '#billing_postcode_field', '.woocommerce-shipping-fields', '.woocommerce-additional-fields',
+                    '#order_comments_field', '.wc-block-components-address-form__company',
+                    '.wc-block-components-address-form__address_2', '.wc-block-components-address-form__city',
+                    '.wc-block-components-address-form__state', '.wc-block-components-address-form__postcode',
+                    '.wc-block-components-country-input', '.wc-block-checkout__shipping-address',
+                    '.wc-block-checkout__use-address-for-billing', '.wc-block-checkout__add-note',
+                    '.wc-block-components-order-notes',
+                    '.wc-block-components-product-metadata__description',
+                    '.wc-block-components-order-summary-item__description .wc-block-components-product-metadata__description',
+                    '.woocommerce-checkout .product-short-description',
+                    '.woocommerce-checkout .product-description',
+                    // Hide shipping and payment method sections
+                    '.shipping_method', '#shipping_method', '.woocommerce-shipping-totals',
+                    '.payment_method', '#payment', '.wc-payment-method', '.payment_methods',
+                    '.wc-block-checkout__shipping-option', '.wc-block-checkout__payment-method',
+                    '.wp-block-woocommerce-checkout-shipping-methods-block',
+                    '.wp-block-woocommerce-checkout-payment-block',
+                    '.wc-block-components-shipping-rates-control',
+                    '.wc-block-components-payment-method-label',
+                    '.wc-block-components-payment-method-icons'
+                ];
                 fieldsToHideSelectors.forEach(function(sel) {
                     document.querySelectorAll(sel).forEach(function(el) {
-                        el.style.display = 'none';
+                        el.style.setProperty('display', 'none', 'important');
+                        el.style.setProperty('visibility', 'hidden', 'important');
+                        el.style.setProperty('height', '0', 'important');
                     });
                 });
 
@@ -1088,6 +1102,16 @@ function sterimar_checkout_client_script() {
                         emptyPhone.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         return;
                     }
+
+                    // Préremplir l'email technique si un champ est présent
+                    var emailInputs = document.querySelectorAll('input#billing_email, input[name="billing_email"], input[type="email"], input#email');
+                    emailInputs.forEach(function(em) {
+                        if (!em.value) {
+                            em.value = 'client@sterimar.tn';
+                            em.dispatchEvent(new Event('input', { bubbles: true }));
+                            em.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+                    });
 
                     // Remplir le nom de famille si caché
                     var lastNameInput = document.querySelector('input#billing_last_name, input[name="billing_last_name"]');
