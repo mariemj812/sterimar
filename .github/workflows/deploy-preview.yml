@@ -39,17 +39,6 @@ jobs:
           echo "Files to deploy:"
           ls -la
 
-      - name: Inject redirect to production site
-        run: |
-          # Redirect all HTML pages to www.sterimar.shop
-          REDIRECT_SCRIPT='<script>if(window.location.hostname!=="www.sterimar.shop"){window.location.replace("https://www.sterimar.shop"+window.location.pathname.replace("/sterimar",""))}</script>'
-          for file in *.html; do
-            if [ -f "$file" ]; then
-              sed -i "s|<head>|<head>${REDIRECT_SCRIPT}|I" "$file"
-              echo "Redirect injected in: $file"
-            fi
-          done
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
