@@ -2,6 +2,17 @@
 # STÉRIMAR™ — WordPress Rewrite & Optimization
 # ==========================================
 
+# BEGIN Redirect non-www to www & Force HTTPS
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^sterimar\.shop$ [NC]
+RewriteRule ^(.*)$ https://www.sterimar.shop/$1 [R=301,L]
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP_HOST} ^www\.sterimar\.shop$ [NC]
+RewriteRule ^(.*)$ https://www.sterimar.shop/$1 [R=301,L]
+</IfModule>
+# END Redirect non-www to www & Force HTTPS
+
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On

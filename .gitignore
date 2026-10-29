@@ -19,3 +19,4 @@ Thumbs.db
 *.pdf
 *.mp4
 mcp_config.json
+wp-config.php

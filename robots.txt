@@ -3,4 +3,4 @@ Allow: /
 Disallow: /wp-admin/
 Allow: /wp-admin/admin-ajax.php
 
-Sitemap: https://sterimar.shop/sitemap.xml
+Sitemap: https://www.sterimar.shop/sitemap.xml

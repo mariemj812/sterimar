@@ -10,15 +10,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Forcer le domaine canonique vers https://sterimar.shop (sans www)
- * Override les options WordPress pour empêcher la redirection vers www
+ * Forcer le domaine canonique vers https://www.sterimar.shop (avec www)
+ * Override les options WordPress pour assurer la navigation avec www
  */
 add_filter( 'option_home', function( $url ) {
-    return 'https://sterimar.shop';
+    return 'https://www.sterimar.shop';
 }, 1 );
 
 add_filter( 'option_siteurl', function( $url ) {
-    return 'https://sterimar.shop';
+    return 'https://www.sterimar.shop';
 }, 1 );
 
 /**
@@ -287,7 +287,7 @@ add_action( 'woocommerce_thankyou', 'sterimar_track_wc_purchase', 20 );
 
 /**
  * Meta Product Catalog XML Feed (Facebook / Google Shopping RSS 2.0)
- * Accessible via https://sterimar.shop/?feed=meta-catalog
+ * Accessible via https://www.sterimar.shop/?feed=meta-catalog
  */
 function sterimar_render_meta_catalog_feed() {
     if ( ! isset( $_GET['feed'] ) || $_GET['feed'] !== 'meta-catalog' ) {
@@ -300,7 +300,7 @@ function sterimar_render_meta_catalog_feed() {
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
   <channel>
     <title>Stérimar Tunisie - Catalogue Officiel</title>
-    <link>https://sterimar.shop/</link>
+    <link>https://www.sterimar.shop/</link>
     <description>Catalogue officiel des produits Stérimar synchronisé avec Meta Commerce Manager</description>
     <?php
     $feed_products = array(
@@ -308,8 +308,8 @@ function sterimar_render_meta_catalog_feed() {
             'id'          => '18',
             'title'       => 'Stérimar Hygiène du Nez (100ml)',
             'description' => 'Spray nasal isotonique pour nettoyer, humidifier et protéger la muqueuse nasale au quotidien. Enrichi en oligo-éléments marins.',
-            'link'        => 'https://sterimar.shop/produit-hygiene-du-nez/',
-            'image'       => 'https://sterimar.shop/hygiene-adulte.webp',
+            'link'        => 'https://www.sterimar.shop/produit-hygiene-du-nez/',
+            'image'       => 'https://www.sterimar.shop/hygiene-adulte.webp',
             'price'       => '16.00 TND',
             'category'    => 'Santé et beauté > Soins de santé > Soins des voies respiratoires > Sprays nasaux',
         ),
@@ -317,8 +317,8 @@ function sterimar_render_meta_catalog_feed() {
             'id'          => '25',
             'title'       => 'Stérimar Nez sujet aux Rhumes (100ml)',
             'description' => 'Spray nasal préventif enrichi en soufre pour renforcer la résistance de la muqueuse nasale face aux agressions hivernales.',
-            'link'        => 'https://sterimar.shop/produit-nez-sujet-aux-rhumes/',
-            'image'       => 'https://sterimar.shop/cold-adulte.webp',
+            'link'        => 'https://www.sterimar.shop/produit-nez-sujet-aux-rhumes/',
+            'image'       => 'https://www.sterimar.shop/cold-adulte.webp',
             'price'       => '16.00 TND',
             'category'    => 'Santé et beauté > Soins de santé > Soins des voies respiratoires > Sprays nasaux',
         ),
@@ -326,8 +326,8 @@ function sterimar_render_meta_catalog_feed() {
             'id'          => '36',
             'title'       => 'Stérimar Nez Bouché (100ml)',
             'description' => 'Spray hypertonique enrichi en cuivre pour décongestionner rapidement le nez bouché chez l\'adulte et l\'enfant dès 3 ans.',
-            'link'        => 'https://sterimar.shop/produit-nez-bouche/',
-            'image'       => 'https://sterimar.shop/nez-bouché-adulte.webp',
+            'link'        => 'https://www.sterimar.shop/produit-nez-bouche/',
+            'image'       => 'https://www.sterimar.shop/nez-bouché-adulte.webp',
             'price'       => '16.00 TND',
             'category'    => 'Santé et beauté > Soins de santé > Soins des voies respiratoires > Sprays nasaux',
         ),
@@ -335,8 +335,8 @@ function sterimar_render_meta_catalog_feed() {
             'id'          => '35',
             'title'       => 'Stérimar Nez Allergique (100ml)',
             'description' => 'Spray enrichi en manganèse pour soulager les symptômes d\'allergie nasale : éternuements, nez qui coule, congestion. Élu Meilleur Produit Pharma.',
-            'link'        => 'https://sterimar.shop/produit-nez-allergique/',
-            'image'       => 'https://sterimar.shop/allergie.webp',
+            'link'        => 'https://www.sterimar.shop/produit-nez-allergique/',
+            'image'       => 'https://www.sterimar.shop/allergie.webp',
             'price'       => '16.00 TND',
             'category'    => 'Santé et beauté > Soins de santé > Soins des voies respiratoires > Sprays nasaux',
         ),
@@ -344,8 +344,8 @@ function sterimar_render_meta_catalog_feed() {
             'id'          => '32',
             'title'       => 'Stérimar Hygiène du Nez Bébé (100ml)',
             'description' => 'Spray nasal pour les petits de 0 à 3 ans destiné à nettoyer et hydrater le nez et éliminer les impuretés avec embout sécurité bébé.',
-            'link'        => 'https://sterimar.shop/produit-hygiene-du-nez-bebe/',
-            'image'       => 'https://sterimar.shop/hygiene-bébé.webp',
+            'link'        => 'https://www.sterimar.shop/produit-hygiene-du-nez-bebe/',
+            'image'       => 'https://www.sterimar.shop/hygiene-bébé.webp',
             'price'       => '16.00 TND',
             'category'    => 'Santé et beauté > Soins de santé > Soins des voies respiratoires > Sprays nasaux',
         ),
@@ -353,8 +353,8 @@ function sterimar_render_meta_catalog_feed() {
             'id'          => '34',
             'title'       => 'Stérimar Nez Bouché Bébé (100ml)',
             'description' => 'Spray hypertonique enrichi en cuivre pour décongestionner rapidement le nez de bébé dès 3 mois avec embout sécurité ergonomique.',
-            'link'        => 'https://sterimar.shop/produit-nez-bouche-bebe/',
-            'image'       => 'https://sterimar.shop/nez-bouché-bébé.webp',
+            'link'        => 'https://www.sterimar.shop/produit-nez-bouche-bebe/',
+            'image'       => 'https://www.sterimar.shop/nez-bouché-bébé.webp',
             'price'       => '16.00 TND',
             'category'    => 'Santé et beauté > Soins de santé > Soins des voies respiratoires > Sprays nasaux',
         ),
