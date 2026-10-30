@@ -510,13 +510,6 @@ async function checkout() {
         checkoutBtn.disabled = true;
         checkoutBtn.innerHTML = `<span>Redirection vers la caisse...</span>`;
     }
-
-    // Sur l'environnement de preview (ex: GitHub Pages), redirection directe vers la commande officielle www.sterimar.shop
-    const isLive = window.location.hostname === 'www.sterimar.shop' || window.location.hostname === 'sterimar.shop';
-    if (!isLive) {
-        window.location.href = 'https://www.sterimar.shop/commander/';
-        return;
-    }
     
     try {
         const formData = new FormData();
