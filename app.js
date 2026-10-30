@@ -477,6 +477,12 @@ function renderCart() {
 }
 
 async function checkout() {
+    // Sur l'environnement de preview (ex: GitHub Pages), redirection directe vers la commande officielle www.sterimar.shop
+    const isLive = window.location.hostname === 'www.sterimar.shop' || window.location.hostname === 'sterimar.shop';
+    if (!isLive) {
+        window.location.href = 'https://www.sterimar.shop/commander/';
+        return;
+    }
     if (!cart || cart.length === 0) {
         showToast('Votre panier est vide !');
         return;
