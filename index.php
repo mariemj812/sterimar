@@ -46,6 +46,145 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && isset( $_POST['sterimar_contact'] 
     exit;
 }
 
+// 0.05 Handle Express One-Page Order Submission (Landing Page COD)
+if ( ( $_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'OPTIONS' ) && isset( $_REQUEST['sterimar_express_order'] ) ) {
+    header( 'Access-Control-Allow-Origin: *' );
+    header( 'Access-Control-Allow-Methods: POST, OPTIONS' );
+    header( 'Access-Control-Allow-Headers: Content-Type' );
+    if ( $_SERVER['REQUEST_METHOD'] === 'OPTIONS' ) {
+        status_header( 200 );
+        exit;
+    }
+    status_header( 200 );
+    header( 'Content-Type: application/json; charset=UTF-8' );
+    
+    $name        = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+    $phone       = isset( $_POST['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '';
+    $governorate = isset( $_POST['governorate'] ) ? sanitize_text_field( wp_unslash( $_POST['governorate'] ) ) : '';
+    $address     = isset( $_POST['address'] ) ? sanitize_textarea_field( wp_unslash( $_POST['address'] ) ) : '';
+    $pack_id     = isset( $_POST['pack_id'] ) ? intval( $_POST['pack_id'] ) : 8;
+    $pack_qty    = isset( $_POST['pack_qty'] ) ? max( 1, intval( $_POST['pack_qty'] ) ) : 1;
+    $notes       = isset( $_POST['notes'] ) ? sanitize_textarea_field( wp_unslash( $_POST['notes'] ) ) : '';
+    
+    if ( empty( $name ) || empty( $phone ) ) {
+        echo json_encode( array( 'success' => false, 'message' => 'Veuillez renseigner votre nom et votre numéro de téléphone.' ) );
+        exit;
+    }
+    
+    $packs_info = array(
+        7 => array(
+            'name'     => 'Pack Famille (Adulte + Bébé)',
+            'price'    => 28.80,
+            'shipping' => 7.00,
+            'wc_items' => array( array( 'id' => 18, 'qty' => 1 ), array( 'id' => 32, 'qty' => 1 ) ),
+        ),
+        8 => array(
+            'name'     => 'Pack Hiver Serein (Trio 3-en-1)',
+            'price'    => 43.20,
+            'shipping' => 7.00,
+            'wc_items' => array( array( 'id' => 18, 'qty' => 1 ), array( 'id' => 25, 'qty' => 1 ), array( 'id' => 34, 'qty' => 1 ) ),
+        ),
+        9 => array(
+            'name'     => 'Pack Ultime 5 Sprays (Famille + Hiver)',
+            'price'    => 72.00,
+            'shipping' => 0.00,
+            'wc_items' => array( array( 'id' => 18, 'qty' => 2 ), array( 'id' => 25, 'qty' => 1 ), array( 'id' => 32, 'qty' => 1 ), array( 'id' => 34, 'qty' => 1 ) ),
+        ),
+    );
+    
+    $selected_pack = isset( $packs_info[ $pack_id ] ) ? $packs_info[ $pack_id ] : $packs_info[8];
+    $unit_price    = $selected_pack['price'];
+    $shipping_fee  = ( ( $unit_price * $pack_qty ) >= 100 || $pack_id == 9 ) ? 0.00 : $selected_pack['shipping'];
+    $total_amount  = ( $unit_price * $pack_qty ) + $shipping_fee;
+    
+    $order_id = 0;
+    
+    if ( function_exists( 'wc_create_order' ) ) {
+        try {
+            $order = wc_create_order();
+            
+            foreach ( $selected_pack['wc_items'] as $item ) {
+                $product_obj = wc_get_product( $item['id'] );
+                if ( $product_obj ) {
+                    $order->add_product( $product_obj, $item['qty'] * $pack_qty, array(
+                        'subtotal' => ( $unit_price / count( $selected_pack['wc_items'] ) ) * $item['qty'] * $pack_qty,
+                        'total'    => ( $unit_price / count( $selected_pack['wc_items'] ) ) * $item['qty'] * $pack_qty,
+                    ) );
+                }
+            }
+            
+            if ( $shipping_fee > 0 ) {
+                $shipping_item = new WC_Order_Item_Shipping();
+                $shipping_item->set_method_title( 'Livraison Standard Tunisie (24-48h)' );
+                $shipping_item->set_total( $shipping_fee );
+                $order->add_item( $shipping_item );
+            }
+            
+            $clean_phone = preg_replace( '/\D/', '', $phone );
+            $address_data = array(
+                'first_name' => $name,
+                'last_name'  => '',
+                'phone'      => $phone,
+                'email'      => 'client-' . $clean_phone . '@sterimar.shop',
+                'address_1'  => $address,
+                'city'       => $governorate,
+                'state'      => $governorate,
+                'postcode'   => '1000',
+                'country'    => 'TN',
+            );
+            
+            $order->set_address( $address_data, 'billing' );
+            $order->set_address( $address_data, 'shipping' );
+            $order->set_payment_method( 'cod' );
+            $order->set_payment_method_title( 'Paiement à la livraison (Espèces)' );
+            
+            if ( ! empty( $notes ) ) {
+                $order->add_order_note( 'Note client : ' . $notes );
+            }
+            $order->add_order_note( 'Commande express générée depuis la Landing Page (' . $selected_pack['name'] . ')' );
+            
+            $order->calculate_totals();
+            $order->update_status( 'processing', 'Commande express confirmée via Landing Page.' );
+            $order_id = $order->get_id();
+        } catch ( Exception $e ) {
+            error_log( 'Erreur création commande WC express : ' . $e->getMessage() );
+        }
+    }
+    
+    // Notification Email
+    $to = 'commercial@sterimar.shop';
+    $subject = 'Nouvelle Commande Express #' . ( $order_id ? $order_id : 'WEB' ) . ' - ' . $name . ' (' . $selected_pack['name'] . ')';
+    $body = "Nouvelle commande express reçue depuis la Landing Page Stérimar™ :\n\n";
+    $body .= "Numéro Commande : #" . ( $order_id ? $order_id : 'N/A' ) . "\n";
+    $body .= "Client : " . $name . "\n";
+    $body .= "Téléphone : " . $phone . "\n";
+    $body .= "Gouvernorat : " . $governorate . "\n";
+    $body .= "Adresse complète : " . $address . "\n";
+    $body .= "Produit commandé : " . $selected_pack['name'] . " (Qté: " . $pack_qty . ")\n";
+    $body .= "Frais de livraison : " . ( $shipping_fee == 0 ? "GRATUITE (0,00 DT)" : number_format( $shipping_fee, 2 ) . " DT" ) . "\n";
+    $body .= "Total à encaisser : " . number_format( $total_amount, 2 ) . " DT (Paiement à la livraison)\n";
+    if ( ! empty( $notes ) ) {
+        $body .= "Remarques : " . $notes . "\n";
+    }
+    
+    $headers = array( 'Content-Type: text/plain; charset=UTF-8', 'From: Stérimar Express <commercial@sterimar.shop>' );
+    if ( function_exists( 'wp_mail' ) ) {
+        wp_mail( $to, $subject, $body, $headers );
+    } else {
+        @mail( $to, $subject, $body, implode( "\r\n", $headers ) );
+    }
+    
+    echo json_encode( array(
+        'success'      => true,
+        'order_id'     => $order_id ? $order_id : time(),
+        'pack_name'    => $selected_pack['name'],
+        'total'        => number_format( $total_amount, 2 ) . ' DT',
+        'customer'     => $name,
+        'phone'        => $phone,
+    ) );
+    exit;
+}
+
 // 0.1 Handle WooCommerce Cart Sync & Checkout Redirect
 if ( isset( $_POST['sterimar_wc_checkout'] ) || isset( $_GET['sterimar_wc_checkout'] ) ) {
     status_header( 200 );
