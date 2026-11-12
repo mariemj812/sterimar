@@ -362,10 +362,52 @@ function addToCart(productId, qty = 1) {
     }
 }
 
-function goToCheckout() {
-    const isGithub = typeof window !== 'undefined' && window.location.hostname.includes('github.io');
-    const target = isGithub ? '/sterimar/validation-commande.html' : '/validation-commande.html';
-    window.location.href = target;
+async function goToCheckout(buttonEl) {
+    if (!cart || cart.length === 0) {
+        window.location.href = 'https://www.sterimar.shop/commander/';
+        return;
+    }
+
+    if (buttonEl && buttonEl.tagName) {
+        try {
+            buttonEl.disabled = true;
+            buttonEl.style.opacity = '0.7';
+            buttonEl.style.cursor = 'wait';
+        } catch (e) {}
+    }
+
+    const isLive = typeof window !== 'undefined' && window.location.hostname.includes('sterimar.shop');
+
+    if (isLive) {
+        try {
+            const formData = new FormData();
+            formData.append('sterimar_wc_checkout', '1');
+            formData.append('cart', JSON.stringify(cart));
+
+            const response = await fetch('/index.php', {
+                method: 'POST',
+                body: formData,
+                credentials: 'include'
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.checkout_url) {
+                    window.location.href = data.checkout_url;
+                    return;
+                }
+            }
+        } catch (err) {
+            console.warn('WooCommerce sync warning:', err);
+        }
+        window.location.href = 'https://www.sterimar.shop/commander/';
+    } else {
+        const lastItem = cart[cart.length - 1];
+        const wcIdMap = { 0: 18, 1: 25, 2: 36, 3: 35, 4: 32, 5: 34, 7: 18, 8: 18 };
+        const wcId = (lastItem && (lastItem.wcId || wcIdMap[lastItem.id])) || 18;
+        const qty = (lastItem && lastItem.quantity) || 1;
+        window.location.href = `https://www.sterimar.shop/commander/?add-to-cart=${wcId}&quantity=${qty}`;
+    }
 }
 
 function removeFromCart(productId) {
