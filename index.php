@@ -83,10 +83,17 @@ if ( ( $_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === '
             'wc_items' => array( array( 'id' => 18, 'qty' => 1 ), array( 'id' => 25, 'qty' => 1 ), array( 'id' => 34, 'qty' => 1 ) ),
         ),
         9 => array(
-            'name'     => 'Pack Ultime 5 Sprays (Famille + Hiver)',
-            'price'    => 72.00,
+            'name'     => 'Pack Ultime 7 Sprays (Gamme Complète)',
+            'price'    => 99.00,
             'shipping' => 0.00,
-            'wc_items' => array( array( 'id' => 18, 'qty' => 2 ), array( 'id' => 25, 'qty' => 1 ), array( 'id' => 32, 'qty' => 1 ), array( 'id' => 34, 'qty' => 1 ) ),
+            'wc_items' => array(
+                array( 'id' => 18, 'qty' => 2 ), // 2x Hygiène Adulte
+                array( 'id' => 25, 'qty' => 1 ), // 1x Nez Rhume Soufre
+                array( 'id' => 36, 'qty' => 1 ), // 1x Nez Bouché Adulte
+                array( 'id' => 35, 'qty' => 1 ), // 1x Nez Allergique
+                array( 'id' => 32, 'qty' => 1 ), // 1x Hygiène Bébé
+                array( 'id' => 34, 'qty' => 1 ), // 1x Nez Bouché Bébé
+            ),
         ),
     );
     
