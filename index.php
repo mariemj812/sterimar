@@ -60,14 +60,12 @@ if ( ( $_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === '
     
     $name        = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
     $phone       = isset( $_POST['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '';
-    $governorate = isset( $_POST['governorate'] ) ? sanitize_text_field( wp_unslash( $_POST['governorate'] ) ) : '';
     $address     = isset( $_POST['address'] ) ? sanitize_textarea_field( wp_unslash( $_POST['address'] ) ) : '';
     $pack_id     = isset( $_POST['pack_id'] ) ? intval( $_POST['pack_id'] ) : 8;
     $pack_qty    = isset( $_POST['pack_qty'] ) ? max( 1, intval( $_POST['pack_qty'] ) ) : 1;
-    $notes       = isset( $_POST['notes'] ) ? sanitize_textarea_field( wp_unslash( $_POST['notes'] ) ) : '';
     
-    if ( empty( $name ) || empty( $phone ) ) {
-        echo json_encode( array( 'success' => false, 'message' => 'Veuillez renseigner votre nom et votre numéro de téléphone.' ) );
+    if ( empty( $name ) || empty( $phone ) || empty( $address ) ) {
+        echo json_encode( array( 'success' => false, 'message' => 'Veuillez renseigner votre nom, numéro de téléphone et adresse de livraison.' ) );
         exit;
     }
     
@@ -127,8 +125,8 @@ if ( ( $_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === '
                 'phone'      => $phone,
                 'email'      => 'client-' . $clean_phone . '@sterimar.shop',
                 'address_1'  => $address,
-                'city'       => $governorate,
-                'state'      => $governorate,
+                'city'       => 'Tunisie',
+                'state'      => '',
                 'postcode'   => '1000',
                 'country'    => 'TN',
             );
@@ -138,9 +136,6 @@ if ( ( $_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === '
             $order->set_payment_method( 'cod' );
             $order->set_payment_method_title( 'Paiement à la livraison (Espèces)' );
             
-            if ( ! empty( $notes ) ) {
-                $order->add_order_note( 'Note client : ' . $notes );
-            }
             $order->add_order_note( 'Commande express générée depuis la Landing Page (' . $selected_pack['name'] . ')' );
             
             $order->calculate_totals();
@@ -156,16 +151,12 @@ if ( ( $_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === '
     $subject = 'Nouvelle Commande Express #' . ( $order_id ? $order_id : 'WEB' ) . ' - ' . $name . ' (' . $selected_pack['name'] . ')';
     $body = "Nouvelle commande express reçue depuis la Landing Page Stérimar™ :\n\n";
     $body .= "Numéro Commande : #" . ( $order_id ? $order_id : 'N/A' ) . "\n";
-    $body .= "Client : " . $name . "\n";
+    $body .= "Nom et Prénom : " . $name . "\n";
     $body .= "Téléphone : " . $phone . "\n";
-    $body .= "Gouvernorat : " . $governorate . "\n";
-    $body .= "Adresse complète : " . $address . "\n";
+    $body .= "Adresse de livraison : " . $address . "\n";
     $body .= "Produit commandé : " . $selected_pack['name'] . " (Qté: " . $pack_qty . ")\n";
     $body .= "Frais de livraison : " . ( $shipping_fee == 0 ? "GRATUITE (0,00 DT)" : number_format( $shipping_fee, 2 ) . " DT" ) . "\n";
     $body .= "Total à encaisser : " . number_format( $total_amount, 2 ) . " DT (Paiement à la livraison)\n";
-    if ( ! empty( $notes ) ) {
-        $body .= "Remarques : " . $notes . "\n";
-    }
     
     $headers = array( 'Content-Type: text/plain; charset=UTF-8', 'From: Stérimar Express <commercial@sterimar.shop>' );
     if ( function_exists( 'wp_mail' ) ) {
@@ -469,6 +460,7 @@ if ( $is_native_wp ) {
             <div class="nav-links" id="nav-links">
                 <a href="<?php echo esc_url( home_url('/') ); ?>" class="nav-link">Accueil</a>
                 <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'boutique.html' ); ?>" class="nav-link">Boutique</a>
+                <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'offre-speciale.html' ); ?>" class="nav-link">Offre Spéciale</a>
                 <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'blog.html' ); ?>" class="nav-link">Blog</a>
                 <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'qui-sommes-nous.html' ); ?>" class="nav-link">Qui sommes-nous</a>
                 <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'contact.html' ); ?>" class="nav-link">Contact</a>
@@ -532,6 +524,7 @@ if ( $is_native_wp ) {
                     <h4>Navigation</h4>
                     <a href="<?php echo esc_url( home_url('/') ); ?>">Accueil</a>
                     <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'boutique.html' ); ?>">Boutique</a>
+                    <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'offre-speciale.html' ); ?>">Offre Spéciale</a>
                     <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'blog.html' ); ?>">Blog</a>
                     <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'qui-sommes-nous.html' ); ?>">Qui sommes-nous</a>
                     <a href="<?php echo esc_url( trailingslashit( $home_url ) . 'contact.html' ); ?>">Contact</a>

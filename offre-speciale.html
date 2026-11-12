@@ -46,46 +46,16 @@
             padding: 0.65rem 1rem;
             text-align: center;
             letter-spacing: 0.2px;
+            margin-top: 76px;
+        }
+        @media (max-width: 768px) {
+            .top-bar {
+                margin-top: 82px;
+            }
         }
         .top-bar strong {
             color: #FDE047;
             text-decoration: underline;
-        }
-
-        /* Landing Header */
-        .landing-header {
-            background: #ffffff;
-            border-bottom: 1px solid #E2E8F0;
-            padding: 0.9rem 1.5rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-        }
-        .landing-header-inner {
-            max-width: 1180px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .landing-logo img {
-            height: 48px;
-            width: auto;
-            display: block;
-        }
-        .header-phone-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: #F0FDF4;
-            color: #166534;
-            border: 1px solid #BBF7D0;
-            padding: 0.4rem 0.9rem;
-            border-radius: 9999px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-decoration: none;
         }
 
         /* Hero Landing */
@@ -690,23 +660,47 @@
 </head>
 <body>
 
+    <!-- Navigation (Identique à tout le site) -->
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Menu principal">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" id="nav-logo" aria-label="Stérimar Tunisie - Accueil">
+                <img src="logo.webp" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async">
+                <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link" id="nav-home">Accueil</a>
+                <a href="boutique.html" class="nav-link" id="nav-boutique">Boutique</a>
+                <a href="offre-speciale.html" class="nav-link active" id="nav-offre">Offre Spéciale</a>
+                <a href="blog.html" class="nav-link" id="nav-blog">Blog</a>
+                <a href="qui-sommes-nous.html" class="nav-link" id="nav-about">Qui sommes-nous</a>
+                <a href="contact.html" class="nav-link" id="nav-contact">Contact</a>
+                <a href="creation-compte.html" class="nav-link nav-account" id="nav-account" aria-label="Mon compte">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <span id="nav-account-label">Compte</span>
+                </a>
+                <a href="panier.html" class="nav-link nav-cart" id="nav-panier" aria-label="Voir mon panier">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                    <span class="cart-count" id="cart-count">0</span>
+                    Panier
+                </a>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu de navigation" aria-controls="nav-links" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
     <!-- 1. Top Urgency Bar -->
     <div class="top-bar">
         ⚡ <strong>OFFRE SPÉCIALE HIVER</strong> : -33% sur tous les Packs &middot; 🚚 Livraison 24-48h partout en Tunisie &middot; 💵 Paiement à la livraison
     </div>
-
-    <!-- 2. Sticky Header -->
-    <header class="landing-header">
-        <div class="landing-header-inner">
-            <a href="index.html" class="landing-logo" aria-label="Stérimar Tunisie">
-                <img src="logo.webp" alt="Stérimar Logo" width="168" height="100">
-            </a>
-            <a href="tel:+21650000000" class="header-phone-badge" id="lp-call-header">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                Assistance téléphonique
-            </a>
-        </div>
-    </header>
 
     <main>
         <!-- 3. Hero Section -->
@@ -907,54 +901,18 @@
 
                             <div class="form-grid">
                                 <div class="form-group">
-                                    <label class="form-label" for="cust-name">Nom & Prénom *</label>
-                                    <input type="text" id="cust-name" class="form-input" placeholder="Ex: Mohamed Ben Ali" required autocomplete="name">
+                                    <label class="form-label" for="cust-name">Nom et prénom *</label>
+                                    <input type="text" id="cust-name" class="form-input" placeholder="Votre nom et prénom" required autocomplete="name">
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label" for="cust-phone">Numéro de Téléphone (8 chiffres) *</label>
+                                    <label class="form-label" for="cust-phone">Numéro de téléphone *</label>
                                     <input type="tel" id="cust-phone" class="form-input" placeholder="Ex: 98 123 456" pattern="[0-9]{8}" maxlength="8" required autocomplete="tel">
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="form-label" for="cust-gov">Gouvernorat *</label>
-                                    <select id="cust-gov" class="form-select" required>
-                                        <option value="">Sélectionnez votre gouvernorat</option>
-                                        <option value="Tunis">Tunis</option>
-                                        <option value="Ariana">Ariana</option>
-                                        <option value="Ben Arous">Ben Arous</option>
-                                        <option value="Manouba">Manouba</option>
-                                        <option value="Nabeul">Nabeul</option>
-                                        <option value="Sousse">Sousse</option>
-                                        <option value="Monastir">Monastir</option>
-                                        <option value="Mahdia">Mahdia</option>
-                                        <option value="Sfax">Sfax</option>
-                                        <option value="Bizerte">Bizerte</option>
-                                        <option value="Béja">Béja</option>
-                                        <option value="Jendouba">Jendouba</option>
-                                        <option value="Le Kef">Le Kef</option>
-                                        <option value="Siliana">Siliana</option>
-                                        <option value="Kairouan">Kairouan</option>
-                                        <option value="Kasserine">Kasserine</option>
-                                        <option value="Sidi Bouzid">Sidi Bouzid</option>
-                                        <option value="Gafsa">Gafsa</option>
-                                        <option value="Tozeur">Tozeur</option>
-                                        <option value="Kébili">Kébili</option>
-                                        <option value="Gabès">Gabès</option>
-                                        <option value="Médenine">Médenine</option>
-                                        <option value="Tataouine">Tataouine</option>
-                                        <option value="Zaghouan">Zaghouan</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label" for="cust-address">Ville & Adresse de Livraison *</label>
-                                    <input type="text" id="cust-address" class="form-input" placeholder="Ex: Ennasr 2, Rue de la liberté..." required autocomplete="street-address">
-                                </div>
-
                                 <div class="form-group full">
-                                    <label class="form-label" for="cust-notes">Instructions pour le livreur (Optionnel)</label>
-                                    <input type="text" id="cust-notes" class="form-input" placeholder="Ex: Appeler avant d'arriver, livraison le matin...">
+                                    <label class="form-label" for="cust-address">Adresse de livraison *</label>
+                                    <input type="text" id="cust-address" class="form-input" placeholder="Votre adresse complète (ville, rue...)" required autocomplete="street-address">
                                 </div>
                             </div>
 
@@ -1048,13 +1006,66 @@
         </section>
     </main>
 
-    <!-- Footer Simple -->
-    <footer style="background:#0F172A; color:#94A3B8; padding:2rem 1rem; text-align:center; font-size:0.85rem;">
-        <div class="lp-container">
-            <p style="margin-bottom:0.5rem;">© 2026 Stérimar™ Tunisie &middot; Dispositif Médical conforme aux normes internationales.</p>
-            <p>Paiement sécurisé à la livraison &middot; Expédition sous 24-48h partout en Tunisie.</p>
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" aria-label="Stérimar Accueil">
+                        <img src="logo.webp" alt="Stérimar Logo" class="footer-logo"
+                            style="height: 144px; margin-bottom: 1rem; cursor: pointer;" width="672" height="400"
+                            decoding="async" loading="lazy">
+                    </a>
+                    <p>50 ans d'innovation naturellement efficace pour votre bien-être nasal.</p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/alfatunisie" target="_blank" rel="noopener noreferrer"
+                            aria-label="Facebook" id="social-fb">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/alfa_healthcare_tunisie/" target="_blank"
+                            rel="noopener noreferrer" aria-label="Instagram" id="social-ig">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <a href="index.html">Accueil</a>
+                    <a href="boutique.html">Boutique</a>
+                    <a href="offre-speciale.html">Offre Spéciale</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="qui-sommes-nous.html">Qui sommes-nous</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="creation-compte.html">Mon Compte</a>
+                    <a href="panier.html">Panier</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Nos Gammes</h4>
+                    <a href="boutique.html#hygiene">Gamme Hygiène</a>
+                    <a href="boutique.html#rhume">Gamme Rhume</a>
+                    <a href="boutique.html#allergie">Gamme Allergie</a>
+                    <a href="boutique.html#bebe">Gamme Bébé</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Informations</h4>
+                    <a href="mentions-legales.html">Mentions légales</a>
+                    <a href="politique-confidentialite.html">Politique de confidentialité</a>
+                    <a href="conditions-generales.html">Conditions générales</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Stérimar™ — Tous droits réservés. Dispositif médical.</p>
+            </div>
         </div>
     </footer>
+    <script defer src="app.min.js?v=38"></script>
 
     <!-- Floating Mobile Bar -->
     <div class="floating-mobile-bar">
@@ -1107,18 +1118,14 @@
 
             const name = document.getElementById('cust-name').value.trim();
             const phone = document.getElementById('cust-phone').value.trim();
-            const gov = document.getElementById('cust-gov').value;
             const address = document.getElementById('cust-address').value.trim();
-            const notes = document.getElementById('cust-notes').value.trim();
             const packId = document.getElementById('selected-pack-id').value;
 
             const formData = new FormData();
             formData.append('sterimar_express_order', '1');
             formData.append('name', name);
             formData.append('phone', phone);
-            formData.append('governorate', gov);
             formData.append('address', address);
-            formData.append('notes', notes);
             formData.append('pack_id', packId);
             formData.append('pack_qty', '1');
 
