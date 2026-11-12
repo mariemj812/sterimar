@@ -542,15 +542,16 @@ $html = preg_replace_callback( '/url\(\s*[\'"]?([^\'")]+)[\'"]?\s*\)/i', functio
     return "url('" . $theme_uri . '/' . ltrim( $url, '/' ) . "')";
 }, $html );
 
-// 6. Rewrite relative HTML page links to clean URLs: href="boutique.html#rhume" -> href="SITE_URL/boutique.html#rhume"
+// 6. Rewrite relative HTML page links in <a> tags to clean URLs: <a href="boutique.html#rhume"> -> <a href="SITE_URL/boutique.html#rhume">
 $home_url = home_url();
-$html = preg_replace_callback( '/href=["\']([a-zA-Z0-9_\-]+\.html)(#[^"\']*)?["\']/i', function( $matches ) use ( $home_url ) {
-    $page = basename( $matches[1] );
-    $hash = isset( $matches[2] ) ? $matches[2] : '';
+$html = preg_replace_callback( '/(<a\s+[^>]*?)href=["\']([a-zA-Z0-9_\-]+\.html)(#[^"\']*)?["\']/i', function( $matches ) use ( $home_url ) {
+    $prefix = $matches[1];
+    $page = basename( $matches[2] );
+    $hash = isset( $matches[3] ) ? $matches[3] : '';
     if ( $page === 'index.html' ) {
-        return 'href="' . esc_url( trailingslashit( $home_url ) ) . $hash . '"';
+        return $prefix . 'href="' . esc_url( trailingslashit( $home_url ) ) . $hash . '"';
     }
-    return 'href="' . esc_url( trailingslashit( $home_url ) . $page ) . $hash . '"';
+    return $prefix . 'href="' . esc_url( trailingslashit( $home_url ) . $page ) . $hash . '"';
 }, $html );
 
 // 7. Output page with browser and edge cache headers

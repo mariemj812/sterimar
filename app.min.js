@@ -362,6 +362,12 @@ function addToCart(productId, qty = 1) {
     }
 }
 
+function goToCheckout() {
+    const isGithub = typeof window !== 'undefined' && window.location.hostname.includes('github.io');
+    const target = isGithub ? '/sterimar/validation-commande.html' : '/validation-commande.html';
+    window.location.href = target;
+}
+
 function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId);
     saveCart();
@@ -2086,6 +2092,7 @@ window.cart = cart;
 window.saveCart = saveCart;
 window.updateCartCount = updateCartCount;
 window.addToCart = addToCart;
+window.goToCheckout = goToCheckout;
 window.removeFromCart = removeFromCart;
 window.updateQuantity = updateQuantity;
 window.renderCart = renderCart;

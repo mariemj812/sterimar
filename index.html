@@ -125,41 +125,6 @@
                 aria-expanded="false"><span></span><span></span><span></span></button>
         </div>
     </nav>
-    <div class="nav-container">
-        <a href="index.html" class="nav-logo" id="nav-logo" aria-label="Stérimar Tunisie - Accueil">
-            <img src="logo.webp" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100" decoding="async">
-            <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
-
-        </a>
-        <div class="nav-links" id="nav-links">
-            <a href="index.html" class="nav-link active" id="nav-home">Accueil</a>
-            <a href="boutique.html" class="nav-link" id="nav-boutique">Boutique</a>
-            <a href="blog.html" class="nav-link" id="nav-blog">Blog</a>
-            <a href="qui-sommes-nous.html" class="nav-link" id="nav-about">Qui sommes-nous</a>
-            <a href="contact.html" class="nav-link" id="nav-contact">Contact</a>
-            <a href="creation-compte.html" class="nav-link nav-account" id="nav-account" aria-label="Mon compte">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                </svg>
-                <span id="nav-account-label">Compte</span>
-            </a>
-            <a href="panier.html" class="nav-link nav-cart" id="nav-panier" aria-label="Voir mon panier">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="9" cy="21" r="1" />
-                    <circle cx="20" cy="21" r="1" />
-                    <path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                </svg>
-                <span class="cart-count" id="cart-count">0</span>
-                Panier
-            </a>
-        </div>
-        <button class="nav-toggle" id="nav-toggle" aria-label="Menu de navigation" aria-expanded="false">
-            <span></span><span></span><span></span>
-        </button>
-    </div>
-    </nav>
 
     <main id="main-content">
 
@@ -381,7 +346,7 @@
                                     <span class="pack-savings-tag">Économisez 14,20 DT (-33%)</span>
                                 </div>
                                 <button class="btn btn-primary"
-                                    onclick="addToCart(7); window.location.href='validation-commande.html';"
+                                    onclick="addToCart(7); goToCheckout();"
                                     id="add-to-cart-home-famille">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2">
@@ -439,7 +404,7 @@
                                     <span class="pack-savings-tag">Économisez 21,30 DT (-33%)</span>
                                 </div>
                                 <button class="btn btn-primary"
-                                    onclick="addToCart(8); window.location.href='validation-commande.html';"
+                                    onclick="addToCart(8); goToCheckout();"
                                     id="add-to-cart-home-hiver">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2">
@@ -569,7 +534,7 @@
                                         DT</span><span class="product-price">16,00 DT</span><span
                                         class="promo-badge">-25%</span></div>
                                 <button class="btn btn-add"
-                                    onclick="addToCart(0); window.location.href='validation-commande.html';"
+                                    onclick="addToCart(0); goToCheckout();"
                                     id="add-hygiene">Ajouter</button>
                             </div>
                         </div>
@@ -589,7 +554,7 @@
                                         DT</span><span class="product-price">16,00 DT</span><span
                                         class="promo-badge">-25%</span></div>
                                 <button class="btn btn-add"
-                                    onclick="addToCart(2); window.location.href='validation-commande.html';"
+                                    onclick="addToCart(2); goToCheckout();"
                                     id="add-bouche">Ajouter</button>
                             </div>
                         </div>
@@ -610,7 +575,7 @@
                                         DT</span><span class="product-price">16,00 DT</span><span
                                         class="promo-badge">-25%</span></div>
                                 <button class="btn btn-add"
-                                    onclick="addToCart(3); window.location.href='validation-commande.html';"
+                                    onclick="addToCart(3); goToCheckout();"
                                     id="add-allergie">Ajouter</button>
                             </div>
                         </div>
