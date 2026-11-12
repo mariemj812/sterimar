@@ -6,6 +6,11 @@ __pycache__/
 # Scratch files
 scratch/
 
+# Scripts de déploiement locaux & tests
+deploy-*.bat
+test500.php
+preview_exclude.txt
+
 # OS files
 Thumbs.db
 .DS_Store

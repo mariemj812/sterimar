@@ -19,7 +19,7 @@ jobs:
           # Remove development files not needed in WordPress theme
           rm -rf scratch/ __pycache__/ .github/
           rm -f *.py *.pyc *.pyo
-          rm -f .gitignore
+          rm -f .gitignore .htaccess wp-config.php
           echo "Theme files to deploy:"
           ls -la
 
@@ -41,3 +41,5 @@ jobs:
             **/*.pyo
             **/*.mp4
             **/.github/**
+            **/.htaccess
+            **/wp-config.php
