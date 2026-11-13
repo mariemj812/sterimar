@@ -248,6 +248,39 @@ var products = window.products = [
         usage: "Quotidien : 1 à 2 pulvérisations/jour. Rhume : 2 à 3 pulvérisations/jour dès les premiers frimas. Nez bouché bébé : 1 pulvérisation 2 à 3 fois/jour en cas de nez encombré.",
         audience: "Famille & Bébé (Dès 3 mois)",
         volume: "3 x 100ml (300ml)"
+    },
+    {
+        id: 9,
+        wcId: 0,
+        name: "Pack Ultime 7 Sprays (Gamme Complète)",
+        shortName: "Pack Ultime",
+        category: "packs",
+        categoryLabel: "Pack Protection Totale",
+        categoryColor: "#059669",
+        type: "Gamme Complète 7 Sprays",
+        molecule: "Eau de Mer & Oligo-éléments",
+        price: 99.00,
+        originalPrice: 150.50,
+        discountPercent: 34,
+        savings: 51.50,
+        isPack: true,
+        bundleItems: [0, 0, 1, 2, 3, 4, 5],
+        bundleWcIds: [18, 18, 25, 36, 35, 32, 34],
+        image: "pack-hiver-serein.webp",
+        url: "offre-speciale.html",
+        description: "La protection intégrale pour toute la famille. 7 flacons incluant toute la gamme adulte et bébé avec livraison gratuite offerte.",
+        features: [
+            "2x Stérimar Hygiène du Nez Adulte (100ml)",
+            "1x Stérimar Nez Rhume au Soufre (100ml)",
+            "1x Stérimar Nez Bouché Adulte au Cuivre (100ml)",
+            "1x Stérimar Nez Allergique au Manganèse (100ml)",
+            "1x Stérimar Bébé Hygiène Embout Sécurité (100ml)",
+            "1x Stérimar Nez Bouché Bébé (100ml)",
+            "Livraison Gratuite partout en Tunisie"
+        ],
+        usage: "Gamme complète pour prévenir, nettoyer et décongestionner toute la famille.",
+        audience: "Toute la famille (Nourrisson, Enfant & Adulte)",
+        volume: "7 x 100ml (700ml)"
     }
 ];
 
