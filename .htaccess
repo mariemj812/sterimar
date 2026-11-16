@@ -103,3 +103,10 @@ ErrorDocument 500 /index.php
 # 9. WordPress core rewrite (must be after above rules)
 # -------------------------------------------------
 # WordPress rewrite block removed – not needed for static site
+
+# -------------------------------------------------
+# 10. Redirect .html URLs to clean URLs (canonical)
+# -------------------------------------------------
+# If a request contains .html, redirect to the same path without the extension
+RewriteCond %{THE_REQUEST} \s/([^\s]+)\.html[\s?] [NC]
+RewriteRule ^ %1/ [R=301,L]
