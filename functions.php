@@ -110,7 +110,7 @@ function sterimar_get_pixel_user_data( $order = null ) {
             'ln'      => $order->get_billing_last_name(),
             'ct'      => $order->get_billing_city(),
             'zp'      => $order->get_billing_postcode(),
-            'country' => $order->get_billing_country(),
+            'country' => $order->get_billing_country() ?: 'tn',
         );
         if ( $order->get_user_id() ) {
             $raw['external_id'] = (string) $order->get_user_id();
@@ -124,9 +124,23 @@ function sterimar_get_pixel_user_data( $order = null ) {
             'ph'          => get_user_meta( $user->ID, 'billing_phone', true ),
             'ct'          => get_user_meta( $user->ID, 'billing_city', true ),
             'zp'          => get_user_meta( $user->ID, 'billing_postcode', true ),
-            'country'     => get_user_meta( $user->ID, 'billing_country', true ),
+            'country'     => get_user_meta( $user->ID, 'billing_country', true ) ?: 'tn',
             'external_id' => (string) $user->ID,
         );
+    } elseif ( function_exists( 'WC' ) && WC()->customer ) {
+        $customer = WC()->customer;
+        $raw = array(
+            'em'      => $customer->get_billing_email(),
+            'ph'      => $customer->get_billing_phone(),
+            'fn'      => $customer->get_billing_first_name(),
+            'ln'      => $customer->get_billing_last_name(),
+            'ct'      => $customer->get_billing_city(),
+            'zp'      => $customer->get_billing_postcode(),
+            'country' => $customer->get_billing_country() ?: 'tn',
+        );
+        if ( $customer->get_id() ) {
+            $raw['external_id'] = (string) $customer->get_id();
+        }
     }
 
     $data = array();
@@ -140,7 +154,14 @@ function sterimar_get_pixel_user_data( $order = null ) {
                 $value = strtolower( $value );
                 break;
             case 'ph':
-                $value = preg_replace( '/\D+/', '', $value ); // digits only, with country code
+                $value = preg_replace( '/\D+/', '', $value ); // digits only
+                if ( strlen( $value ) === 8 ) {
+                    $value = '216' . $value;
+                } elseif ( strlen( $value ) === 9 && str_starts_with( $value, '0' ) ) {
+                    $value = '216' . substr( $value, 1 );
+                } elseif ( str_starts_with( $value, '00216' ) ) {
+                    $value = substr( $value, 2 );
+                }
                 break;
             case 'ct':
                 $value = preg_replace( '/[^\p{L}]+/u', '', mb_strtolower( $value, 'UTF-8' ) );
@@ -150,6 +171,9 @@ function sterimar_get_pixel_user_data( $order = null ) {
                 break;
             case 'country':
                 $value = strtolower( $value ); // ISO 3166-1 alpha-2
+                if ( empty( $value ) ) {
+                    $value = 'tn';
+                }
                 break;
             case 'external_id':
                 break;
@@ -160,13 +184,17 @@ function sterimar_get_pixel_user_data( $order = null ) {
             $data[ $key ] = $value;
         }
     }
+    if ( empty( $data['country'] ) ) {
+        $data['country'] = 'tn';
+    }
     return $data;
 }
 
 /**
- * Meta Pixel Tracking Code (Base + PageView) - High Performance Defer
+ * Meta Pixel Tracking Code (Base + PageView) - High Performance Defer with Manual Advanced Matching
  */
 function sterimar_add_meta_pixel() {
+    $sterimar_pixel_user = sterimar_get_pixel_user_data();
     ?>
 <!-- Meta Pixel Code -->
 <script>
@@ -174,27 +202,35 @@ function sterimar_add_meta_pixel() {
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
 if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];
-var loaded=false;
-function loadPixel(){
-    if(loaded)return;loaded=true;
-    t=b.createElement(e);t.async=true;t.src=v;
-    s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s);
-}
-if('requestIdleCallback' in window){
-    requestIdleCallback(function(){ setTimeout(loadPixel, 1000); }, {timeout: 4000});
-} else {
-    setTimeout(loadPixel, 1500);
-}
-// Scroll only: loading the pixel on click/touch would run fbevents.js during the interaction (hurts INP)
-window.addEventListener('scroll', function(){ setTimeout(loadPixel, 300); }, {once:true, passive:true});
-}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1060943890086095'<?php
-    $sterimar_pixel_user = sterimar_get_pixel_user_data();
-    if ( ! empty( $sterimar_pixel_user ) ) {
-        echo ', ' . wp_json_encode( $sterimar_pixel_user );
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+
+var _stUser = <?php echo wp_json_encode( (object) $sterimar_pixel_user ); ?>;
+try {
+    var _stCached = localStorage.getItem('sterimar_user_data');
+    if (_stCached) {
+        var _c = JSON.parse(_stCached);
+        if (_c && typeof _c === 'object') {
+            for (var _k in _c) {
+                if (_c[_k] && !_stUser[_k]) {
+                    _stUser[_k] = _c[_k];
+                }
+            }
+        }
     }
-?>);
+} catch(e) {}
+
+fbq('init', '1060943890086095', {
+    country: _stUser.country || 'tn',
+    ...(_stUser.em ? { em: _stUser.em } : {}),
+    ...(_stUser.ph ? { ph: _stUser.ph } : {}),
+    ...(_stUser.fn ? { fn: _stUser.fn } : {}),
+    ...(_stUser.ln ? { ln: _stUser.ln } : {}),
+    ...(_stUser.ct ? { ct: _stUser.ct } : {}),
+    ...(_stUser.zp ? { zp: _stUser.zp } : {})
+});
 fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
@@ -267,10 +303,24 @@ try {
     });
 } catch(e) {}
 
+<?php $sterimar_order_user = sterimar_get_pixel_user_data( $order ); ?>
+var _stOrderUser = <?php echo wp_json_encode( (object) $sterimar_order_user ); ?>;
+try {
+    if (_stOrderUser && Object.keys(_stOrderUser).length > 0) {
+        localStorage.setItem('sterimar_user_data', JSON.stringify(_stOrderUser));
+    }
+} catch(e) {}
+
 if (typeof fbq === 'function') {
-<?php $sterimar_order_user = sterimar_get_pixel_user_data( $order ); if ( ! empty( $sterimar_order_user ) ) : ?>
-    fbq('init', '1060943890086095', <?php echo wp_json_encode( $sterimar_order_user ); ?>);
-<?php endif; ?>
+    fbq('init', '1060943890086095', {
+        country: _stOrderUser.country || 'tn',
+        ...(_stOrderUser.em ? { em: _stOrderUser.em } : {}),
+        ...(_stOrderUser.ph ? { ph: _stOrderUser.ph } : {}),
+        ...(_stOrderUser.fn ? { fn: _stOrderUser.fn } : {}),
+        ...(_stOrderUser.ln ? { ln: _stOrderUser.ln } : {}),
+        ...(_stOrderUser.ct ? { ct: _stOrderUser.ct } : {}),
+        ...(_stOrderUser.zp ? { zp: _stOrderUser.zp } : {})
+    });
     fbq('track', 'Purchase', {
         content_type: 'product',
         content_ids: <?php echo wp_json_encode( array_values( array_unique( $content_ids ) ) ); ?>,
@@ -278,6 +328,8 @@ if (typeof fbq === 'function') {
         value: <?php echo esc_js( floatval( $order->get_total() ) ); ?>,
         currency: '<?php echo esc_js( $order->get_currency() ?: 'TND' ); ?>',
         num_items: <?php echo intval( $num_items ); ?>
+    }, {
+        eventID: 'order_<?php echo esc_js( $order->get_id() ); ?>'
     });
 }
 </script>

@@ -198,6 +198,14 @@ if (($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'OP
         @mail($to, $subject, $body, implode("\r\n", $headers));
     }
 
+    $parts = preg_split('/\s+/', trim($name), 2);
+    $fn = !empty($parts[0]) ? mb_strtolower($parts[0], 'UTF-8') : '';
+    $ln = !empty($parts[1]) ? mb_strtolower($parts[1], 'UTF-8') : $fn;
+    $clean_phone = preg_replace('/\D+/', '', $phone);
+    if (strlen($clean_phone) === 8) {
+        $clean_phone = '216' . $clean_phone;
+    }
+
     echo json_encode(array(
         'success'      => true,
         'order_id'     => $order_id ? $order_id : time(),
@@ -205,6 +213,12 @@ if (($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'OP
         'total'        => number_format($total_amount, 2) . ' DT',
         'customer'     => $name,
         'phone'        => $phone,
+        'user_data'    => array(
+            'fn'      => $fn,
+            'ln'      => $ln,
+            'ph'      => $clean_phone,
+            'country' => 'tn',
+        ),
     ));
     exit;
 }

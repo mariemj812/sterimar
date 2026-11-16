@@ -571,6 +571,13 @@ async function checkout() {
 
     // Meta Pixel InitiateCheckout
     if (typeof fbq === 'function') {
+        try {
+            const stored = localStorage.getItem('sterimar_user_data');
+            if (stored) {
+                const u = JSON.parse(stored);
+                if (u && typeof u === 'object') fbq('init', '1060943890086095', u);
+            }
+        } catch(e) {}
         const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const allContentIds = [];
         const allContents = [];
@@ -2121,15 +2128,40 @@ document.addEventListener('DOMContentLoaded', () => {
             // --- Contact: fires when the contact form is successfully submitted ---
             const contactForm = document.getElementById('contact-form');
             if (contactForm) {
+                const sendContactPixel = function() {
+                    try {
+                        const emailInput = contactForm.querySelector('input[type="email"], [name="email"]');
+                        const phoneInput = contactForm.querySelector('input[type="tel"], [name="phone"]');
+                        const nameInput = contactForm.querySelector('[name="name"]');
+                        const u = { country: 'tn' };
+                        if (emailInput && emailInput.value) u.em = emailInput.value.trim().toLowerCase();
+                        if (phoneInput && phoneInput.value) {
+                            const p = phoneInput.value.replace(/\D+/g, '');
+                            if (p.length === 8) u.ph = '216' + p;
+                            else if (p.length > 8) u.ph = p;
+                        }
+                        if (nameInput && nameInput.value) {
+                            const parts = nameInput.value.trim().split(/\s+/);
+                            u.fn = parts[0] ? parts[0].toLowerCase() : '';
+                            u.ln = parts.slice(1).join(' ') ? parts.slice(1).join(' ').toLowerCase() : u.fn;
+                        }
+                        if (Object.keys(u).length > 1) {
+                            localStorage.setItem('sterimar_user_data', JSON.stringify(u));
+                            fbq('init', '1060943890086095', u);
+                        }
+                    } catch(e) {}
+                    fbq('track', 'Contact');
+                };
+
                 const origSubmit = window.handleContactSubmit;
                 if (typeof origSubmit === 'function') {
                     window.handleContactSubmit = async function(e) {
                         await origSubmit(e);
-                        fbq('track', 'Contact');
+                        sendContactPixel();
                     };
                 } else {
                     contactForm.addEventListener('submit', function() {
-                        fbq('track', 'Contact');
+                        sendContactPixel();
                     });
                 }
             }
@@ -2138,6 +2170,25 @@ document.addEventListener('DOMContentLoaded', () => {
             const registerForm = document.getElementById('register-form');
             if (registerForm) {
                 registerForm.addEventListener('submit', function() {
+                    try {
+                        const emailInput = registerForm.querySelector('input[type="email"], [name="email"]');
+                        const phoneInput = registerForm.querySelector('input[type="tel"], [name="phone"]');
+                        const fnInput = registerForm.querySelector('[name="first_name"]');
+                        const lnInput = registerForm.querySelector('[name="last_name"]');
+                        const u = { country: 'tn' };
+                        if (emailInput && emailInput.value) u.em = emailInput.value.trim().toLowerCase();
+                        if (phoneInput && phoneInput.value) {
+                            const p = phoneInput.value.replace(/\D+/g, '');
+                            if (p.length === 8) u.ph = '216' + p;
+                            else if (p.length > 8) u.ph = p;
+                        }
+                        if (fnInput && fnInput.value) u.fn = fnInput.value.trim().toLowerCase();
+                        if (lnInput && lnInput.value) u.ln = lnInput.value.trim().toLowerCase();
+                        if (Object.keys(u).length > 1) {
+                            localStorage.setItem('sterimar_user_data', JSON.stringify(u));
+                            fbq('init', '1060943890086095', u);
+                        }
+                    } catch(e) {}
                     fbq('track', 'CompleteRegistration', {
                         content_name: 'Stérimar Tunisie',
                         status: true

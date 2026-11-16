@@ -1143,17 +1143,40 @@
 
                 const resData = await response.json();
                 if (resData.success) {
-                    // Meta Pixel Purchase Event
-                    if (typeof fbq === 'function') {
-                        try {
+                    // Meta Pixel Manual Advanced Matching & Purchase Event
+                    try {
+                        const nameVal = document.getElementById('cust-name').value.trim();
+                        const phoneVal = document.getElementById('cust-phone').value.trim();
+                        const nameParts = nameVal.split(/\s+/);
+                        const fnVal = nameParts[0] ? nameParts[0].toLowerCase() : '';
+                        const lnVal = nameParts.slice(1).join(' ') ? nameParts.slice(1).join(' ').toLowerCase() : fnVal;
+                        let phClean = phoneVal.replace(/\D+/g, '');
+                        if (phClean.length === 8) phClean = '216' + phClean;
+                        else if (phClean.length === 9 && phClean.startsWith('0')) phClean = '216' + phClean.slice(1);
+
+                        const expressUserData = {
+                            fn: fnVal,
+                            ln: lnVal,
+                            ph: phClean,
+                            country: 'tn'
+                        };
+                        localStorage.setItem('sterimar_user_data', JSON.stringify(expressUserData));
+
+                        if (typeof fbq === 'function') {
+                            fbq('init', '1060943890086095', expressUserData);
                             const val = parseFloat(document.getElementById('selected-pack-price').value) || 43.20;
                             fbq('track', 'Purchase', {
                                 content_name: resData.pack_name,
+                                content_type: 'product',
+                                content_ids: [String(packId)],
                                 value: val,
-                                currency: 'TND'
+                                currency: 'TND',
+                                num_items: 1
+                            }, {
+                                eventID: 'order_' + resData.order_id
                             });
-                        } catch (err) {}
-                    }
+                        }
+                    } catch (err) {}
 
                     // Display success screen
                     document.getElementById('form-inner-view').style.display = 'none';
