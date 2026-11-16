@@ -631,6 +631,11 @@ if (! file_exists($theme_dir . '/' . $page_file)) {
 
 $html = file_get_contents($theme_dir . '/' . $page_file);
 
+// Prevent duplicate Meta Pixel injection if HTML template already contains fbq('init')
+if (stripos($html, "fbq('init'") !== false) {
+    remove_action('wp_head', 'sterimar_add_meta_pixel', 1);
+}
+
 // 2. Rewrite relative CSS files: href="style.css..." -> href="THEME_URI/style.css..."
 $html = preg_replace('/href=["\'](style(?:\.min)?\.css[^"\']*)["\']/i', 'href="' . $theme_uri . '/$1"', $html);
 

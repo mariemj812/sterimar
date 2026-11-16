@@ -33,6 +33,44 @@
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet"></noscript>
     <link rel="stylesheet" href="style.min.css?v=38">
     <link rel="icon" href="favicon-32x32.png" sizes="32x32">
+
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+
+    var _stUserData = { country: 'tn' };
+    try {
+        var _cached = localStorage.getItem('sterimar_user_data');
+        if (_cached) {
+            var _parsed = JSON.parse(_cached);
+            if (_parsed && typeof _parsed === 'object') {
+                for (var _k in _parsed) { if (_parsed[_k]) _stUserData[_k] = _parsed[_k]; }
+            }
+        }
+    } catch(e) {}
+
+    fbq('init', '1060943890086095', {
+        country: _stUserData.country || 'tn',
+        ...(_stUserData.em ? { em: _stUserData.em } : {}),
+        ...(_stUserData.ph ? { ph: _stUserData.ph } : {}),
+        ...(_stUserData.fn ? { fn: _stUserData.fn } : {}),
+        ...(_stUserData.ln ? { ln: _stUserData.ln } : {}),
+        ...(_stUserData.ct ? { ct: _stUserData.ct } : {}),
+        ...(_stUserData.zp ? { zp: _stUserData.zp } : {})
+    });
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1060943890086095&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
 </head>
 <body>
     <a href="#main-content" class="skip-link">Aller au contenu principal</a>
