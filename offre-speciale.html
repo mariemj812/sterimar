@@ -937,7 +937,7 @@
                             <div class="form-group-ar">
                                 <label class="form-label-ar" for="cust-phone">رقم الهاتف (8 أرقام) *</label>
                                 <input type="tel" id="cust-phone" class="form-input-ar" placeholder="مثال : 98 123 456"
-                                    pattern="[0-9]{8}" maxlength="8" required autocomplete="tel">
+                                    maxlength="14" required autocomplete="tel">
                             </div>
 
                             <div class="form-group-ar full-width">
@@ -1128,13 +1128,32 @@
         async function submitExpressOrder(e) {
             e.preventDefault();
             var btn = document.getElementById('submit-order-btn');
-            btn.disabled = true;
-            btn.innerHTML = '<span>جاري تأكيد طلبك... ⏳</span>';
 
             var name = document.getElementById('cust-name').value.trim();
             var phone = document.getElementById('cust-phone').value.trim();
             var address = document.getElementById('cust-address').value.trim();
             var packId = document.getElementById('selected-pack-id').value;
+
+            // Client-side instant validation
+            if (!name) {
+                alert('الرجاء إدخال الاسم واللقب.');
+                document.getElementById('cust-name').focus();
+                return;
+            }
+            var cleanPhone = phone.replace(/\D/g, '');
+            if (!phone || cleanPhone.length < 8) {
+                alert('الرجاء إدخال رقم هاتف صالح يتكون من 8 أرقام على الأقل.');
+                document.getElementById('cust-phone').focus();
+                return;
+            }
+            if (!address) {
+                alert('الرجاء إدخال العنوان أو الولاية لتسليم الطلب.');
+                document.getElementById('cust-address').focus();
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span>جاري تأكيد طلبك... ⏳</span>';
 
             var formData = new FormData();
             formData.append('sterimar_express_order', '1');
@@ -1144,9 +1163,10 @@
             formData.append('pack_id', packId);
             formData.append('pack_qty', '1');
 
+            // Robust endpoint determination without 301 canonical redirects
             var endpoint = (window.location.hostname.includes('github.io') || window.location.protocol === 'file:')
-                ? 'https://www.sterimar.shop/index.php'
-                : '/index.php';
+                ? 'https://www.sterimar.shop/offre-speciale/'
+                : (window.location.pathname.endsWith('/') ? window.location.pathname : window.location.pathname + '/');
 
             try {
                 var response = await fetch(endpoint, {
@@ -1154,8 +1174,12 @@
                     body: formData
                 });
 
+                if (!response.ok) {
+                    throw new Error('HTTP Status ' + response.status);
+                }
+
                 var resData = await response.json();
-                if (resData.success) {
+                if (resData && resData.success) {
                     // Meta Pixel Manual Advanced Matching & Purchase Event
                     try {
                         var nameParts = name.split(/\s+/);
@@ -1177,7 +1201,7 @@
                             fbq('init', '1060943890086095', expressUserData);
                             var val = parseFloat(document.getElementById('selected-pack-price').value) || 43.20;
                             fbq('track', 'Purchase', {
-                                content_name: resData.pack_name,
+                                content_name: document.getElementById('selected-pack-name').value || resData.pack_name,
                                 content_type: 'product',
                                 content_ids: [String(packId)],
                                 value: val,
@@ -1193,19 +1217,19 @@
                     document.getElementById('form-inner-view').style.display = 'none';
                     document.getElementById('order-success-view').style.display = 'block';
                     document.getElementById('success-order-num').textContent = '#' + resData.order_id;
-                    document.getElementById('success-pack-name').textContent = resData.pack_name;
-                    document.getElementById('success-cust-name').textContent = resData.customer;
-                    document.getElementById('success-cust-phone').textContent = resData.phone;
-                    document.getElementById('success-total-val').textContent = resData.total;
+                    document.getElementById('success-pack-name').textContent = document.getElementById('selected-pack-name').value || resData.pack_name_ar || resData.pack_name;
+                    document.getElementById('success-cust-name').textContent = resData.customer || name;
+                    document.getElementById('success-cust-phone').textContent = resData.phone || phone;
+                    document.getElementById('success-total-val').textContent = resData.total || (document.getElementById('summary-total').textContent);
 
                     document.getElementById('commander').scrollIntoView({ behavior: 'smooth' });
                     return;
                 } else {
-                    alert(resData.message || 'حدث خطأ أثناء تأكيد الطلب. الرجاء إعادة المحاولة.');
+                    alert((resData && resData.message) ? resData.message : 'حدث خطأ أثناء تأكيد الطلب. الرجاء إعادة المحاولة.');
                 }
             } catch (err) {
                 console.error('Order submission error:', err);
-                alert('حدث خطأ في الاتصال بالخادم. الرجاء إعادة المحاولة.');
+                alert('حدث خطأ في الاتصال بالخادم. الرجاء إعادة المحاولة أو التواصل معنا مباشرة.');
             }
 
             btn.disabled = false;

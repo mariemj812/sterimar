@@ -22,6 +22,193 @@ add_filter( 'option_siteurl', function( $url ) {
 }, 1 );
 
 /**
+ * Express One-Page Order Submission (Landing Page COD)
+ * Hooks to 'init' with priority 1 so it executes before any WordPress canonical redirects.
+ */
+function sterimar_handle_express_order() {
+    if ( ( $_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'OPTIONS' ) && isset( $_REQUEST['sterimar_express_order'] ) ) {
+        header( 'Access-Control-Allow-Origin: *' );
+        header( 'Access-Control-Allow-Methods: POST, OPTIONS' );
+        header( 'Access-Control-Allow-Headers: Content-Type' );
+        if ( $_SERVER['REQUEST_METHOD'] === 'OPTIONS' ) {
+            status_header( 200 );
+            exit;
+        }
+
+        status_header( 200 );
+        header( 'Content-Type: application/json; charset=UTF-8' );
+
+        $name     = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+        $phone    = isset( $_POST['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '';
+        $address  = isset( $_POST['address'] ) ? sanitize_textarea_field( wp_unslash( $_POST['address'] ) ) : '';
+        $pack_id  = isset( $_POST['pack_id'] ) ? intval( $_POST['pack_id'] ) : 8;
+        $pack_qty = isset( $_POST['pack_qty'] ) ? max( 1, intval( $_POST['pack_qty'] ) ) : 1;
+
+        if ( empty( $name ) || empty( $phone ) || empty( $address ) ) {
+            echo json_encode( array(
+                'success' => false,
+                'message' => 'الرجاء إدخال الاسم ورقم الهاتف والعنوان لتأكيد الطلب.',
+            ) );
+            exit;
+        }
+
+        $packs_info = array(
+            7 => array(
+                'name'     => 'Pack Famille (Adulte + Bébé)',
+                'name_ar'  => 'باقة العائلة (كبار + رضع)',
+                'price'    => 28.80,
+                'shipping' => 7.00,
+                'wc_items' => array( array( 'id' => 18, 'qty' => 1 ), array( 'id' => 32, 'qty' => 1 ) ),
+            ),
+            8 => array(
+                'name'     => 'Pack Hiver Serein (Trio 3-en-1)',
+                'name_ar'  => 'باقة الشتاء الهادئ (3 في 1 - الأكثر طلباً)',
+                'price'    => 43.20,
+                'shipping' => 7.00,
+                'wc_items' => array( array( 'id' => 18, 'qty' => 1 ), array( 'id' => 25, 'qty' => 1 ), array( 'id' => 34, 'qty' => 1 ) ),
+            ),
+            9 => array(
+                'name'     => 'Pack Ultime 7 Sprays (Gamme Complète)',
+                'name_ar'  => 'المجموعة الكاملة 7 بخاخات (شاملة كل الحالات)',
+                'price'    => 99.00,
+                'shipping' => 0.00,
+                'wc_items' => array(
+                    array( 'id' => 18, 'qty' => 2 ),
+                    array( 'id' => 25, 'qty' => 1 ),
+                    array( 'id' => 36, 'qty' => 1 ),
+                    array( 'id' => 35, 'qty' => 1 ),
+                    array( 'id' => 32, 'qty' => 1 ),
+                    array( 'id' => 34, 'qty' => 1 ),
+                ),
+            ),
+        );
+
+        $selected_pack = isset( $packs_info[ $pack_id ] ) ? $packs_info[ $pack_id ] : $packs_info[8];
+        $unit_price    = $selected_pack['price'];
+        $shipping_fee  = ( ( $unit_price * $pack_qty ) >= 100 || $pack_id == 9 ) ? 0.00 : $selected_pack['shipping'];
+        $total_amount  = ( $unit_price * $pack_qty ) + $shipping_fee;
+
+        $order_id = 0;
+
+        if ( function_exists( 'wc_create_order' ) ) {
+            try {
+                $order = wc_create_order();
+
+                $total_sprays = 0;
+                foreach ( $selected_pack['wc_items'] as $item ) {
+                    $total_sprays += $item['qty'];
+                }
+                if ( $total_sprays <= 0 ) {
+                    $total_sprays = 1;
+                }
+
+                $target_products_total = round( $unit_price * $pack_qty, 2 );
+                $running_allocated     = 0.00;
+                $items_count           = count( $selected_pack['wc_items'] );
+                $current_idx           = 0;
+
+                foreach ( $selected_pack['wc_items'] as $item ) {
+                    $current_idx++;
+                    $product_obj = wc_get_product( $item['id'] );
+                    if ( $product_obj ) {
+                        $item_qty = $item['qty'] * $pack_qty;
+                        if ( $current_idx === $items_count ) {
+                            $line_total = round( $target_products_total - $running_allocated, 2 );
+                        } else {
+                            $line_total = round( $target_products_total * ( $item['qty'] / $total_sprays ), 2 );
+                            $running_allocated += $line_total;
+                        }
+
+                        $order->add_product( $product_obj, $item_qty, array(
+                            'subtotal' => $line_total,
+                            'total'    => $line_total,
+                        ) );
+                    }
+                }
+
+                if ( $shipping_fee > 0 ) {
+                    $shipping_item = new WC_Order_Item_Shipping();
+                    $shipping_item->set_method_title( 'Livraison Standard Tunisie (24-48h)' );
+                    $shipping_item->set_total( $shipping_fee );
+                    $order->add_item( $shipping_item );
+                }
+
+                $clean_phone = preg_replace( '/\D/', '', $phone );
+                $address_data = array(
+                    'first_name' => $name,
+                    'last_name'  => '',
+                    'phone'      => $phone,
+                    'email'      => 'client-' . $clean_phone . '@sterimar.shop',
+                    'address_1'  => $address,
+                    'city'       => 'Tunisie',
+                    'state'      => '',
+                    'postcode'   => '1000',
+                    'country'    => 'TN',
+                );
+
+                $order->set_address( $address_data, 'billing' );
+                $order->set_address( $address_data, 'shipping' );
+                $order->set_payment_method( 'cod' );
+                $order->set_payment_method_title( 'Paiement à la livraison (Espèces)' );
+
+                $order->add_order_note( 'Commande express générée depuis la Landing Page (' . $selected_pack['name'] . ')' );
+
+                $order->calculate_totals();
+                $order->update_status( 'processing', 'Commande express confirmée via Landing Page.' );
+                $order_id = $order->get_id();
+            } catch ( Exception $e ) {
+                error_log( 'Erreur création commande WC express : ' . $e->getMessage() );
+            }
+        }
+
+        // Notification Email
+        $to = 'commercial@sterimar.shop';
+        $subject = 'Nouvelle Commande Express #' . ( $order_id ? $order_id : 'WEB' ) . ' - ' . $name . ' (' . $selected_pack['name'] . ')';
+        $body = "Nouvelle commande express reçue depuis la Landing Page Stérimar™ :\n\n";
+        $body .= "Numéro Commande : #" . ( $order_id ? $order_id : 'N/A' ) . "\n";
+        $body .= "Nom et Prénom : " . $name . "\n";
+        $body .= "Téléphone : " . $phone . "\n";
+        $body .= "Adresse de livraison : " . $address . "\n";
+        $body .= "Produit commandé : " . $selected_pack['name'] . " (Qté: " . $pack_qty . ")\n";
+        $body .= "Frais de livraison : " . ( $shipping_fee == 0 ? "GRATUITE (0,00 DT)" : number_format( $shipping_fee, 2 ) . " DT" ) . "\n";
+        $body .= "Total à encaisser : " . number_format( $total_amount, 2 ) . " DT (Paiement à la livraison)\n";
+
+        $headers = array( 'Content-Type: text/plain; charset=UTF-8', 'From: Stérimar Express <commercial@sterimar.shop>' );
+        if ( function_exists( 'wp_mail' ) ) {
+            wp_mail( $to, $subject, $body, $headers );
+        } else {
+            @mail( $to, $subject, $body, implode( "\r\n", $headers ) );
+        }
+
+        $parts = preg_split( '/\s+/', trim( $name ), 2 );
+        $fn = ! empty( $parts[0] ) ? mb_strtolower( $parts[0], 'UTF-8' ) : '';
+        $ln = ! empty( $parts[1] ) ? mb_strtolower( $parts[1], 'UTF-8' ) : $fn;
+        $clean_phone = preg_replace( '/\D+/', '', $phone );
+        if ( strlen( $clean_phone ) === 8 ) {
+            $clean_phone = '216' . $clean_phone;
+        }
+
+        echo json_encode( array(
+            'success'      => true,
+            'order_id'     => $order_id ? $order_id : time(),
+            'pack_name'    => $selected_pack['name'],
+            'pack_name_ar' => isset( $selected_pack['name_ar'] ) ? $selected_pack['name_ar'] : $selected_pack['name'],
+            'total'        => number_format( $total_amount, 2 ) . ' DT',
+            'customer'     => $name,
+            'phone'        => $phone,
+            'user_data'    => array(
+                'fn'      => $fn,
+                'ln'      => $ln,
+                'ph'      => $clean_phone,
+                'country' => 'tn',
+            ),
+        ) );
+        exit;
+    }
+}
+add_action( 'init', 'sterimar_handle_express_order', 1 );
+
+/**
  * Setup Theme Support
  */
 function sterimar_setup_theme() {
