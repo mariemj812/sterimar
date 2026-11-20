@@ -203,7 +203,7 @@ var products = window.products = [
         bundleItems: [0, 4],
         bundleWcIds: [18, 32],
         image: "pack-famille.webp",
-        url: "produit-pack-famille.html",
+        url: "produit-pack-famille",
         description: "Le duo indispensable pour le nez de toute la famille. Composé de Stérimar Hygiène Adulte (100ml) et Stérimar Bébé Hygiène (100ml), ce pack offre un lavage et une hydratation nasale 100% naturelle de la naissance à l'âge adulte, avec 33% de remise immédiate.",
         features: [
             "1x Stérimar Hygiène du Nez Adulte (100ml)",
@@ -235,7 +235,7 @@ var products = window.products = [
         bundleItems: [0, 1, 5],
         bundleWcIds: [18, 25, 34],
         image: "pack-hiver-serein.webp",
-        url: "produit-pack-hiver-serein.html",
+        url: "produit-pack-hiver-serein",
         description: "La routine bouclier 3-en-1 face aux agressions de l'hiver. Ce pack complet réunit 1 spray hygiène quotidienne, 1 spray préventif anti-rhume au soufre et 1 spray hypertonique décongestionnant au cuivre spécial bébé, avec 33% de réduction immédiate.",
         features: [
             "1x Stérimar Hygiène du Nez Quotidien (100ml)",
@@ -267,7 +267,7 @@ var products = window.products = [
         bundleItems: [0, 0, 1, 2, 3, 4, 5],
         bundleWcIds: [18, 18, 25, 36, 35, 32, 34],
         image: "pack-hiver-serein.webp",
-        url: "offre-speciale.html",
+        url: "offre-speciale",
         description: "La protection intégrale pour toute la famille. 7 flacons incluant toute la gamme adulte et bébé avec livraison gratuite offerte.",
         features: [
             "2x Stérimar Hygiène du Nez Adulte (100ml)",
@@ -972,7 +972,7 @@ function initNavbar() {
     // Inject mobile direct account button if not present
     if (navToggle && !document.getElementById('mobile-header-account')) {
         const mobileAccount = document.createElement('a');
-        mobileAccount.href = 'creation-compte.html';
+        mobileAccount.href = '/creation-compte/';
         mobileAccount.id = 'mobile-header-account';
         mobileAccount.className = 'mobile-header-account';
         mobileAccount.setAttribute('aria-label', 'Mon compte');
@@ -988,7 +988,7 @@ function initNavbar() {
     // Inject mobile direct cart button if not present
     if (navToggle && navPanier && !document.getElementById('mobile-header-cart')) {
         const mobileCart = document.createElement('a');
-        mobileCart.href = navPanier.getAttribute('href') || 'panier.html';
+        mobileCart.href = navPanier.getAttribute('href') || '/panier/';
         mobileCart.id = 'mobile-header-cart';
         mobileCart.className = 'mobile-header-cart';
         mobileCart.setAttribute('aria-label', 'Panier');
@@ -1170,13 +1170,13 @@ const aiChatState = {
 };
 
 const productPageUrls = {
-    0: 'produit-hygiene-du-nez.html',
-    1: 'produit-nez-sujet-aux-rhumes.html',
-    2: 'produit-nez-bouche.html',
-    3: 'produit-nez-allergique.html',
-    4: 'produit-hygiene-du-nez-bebe.html',
-    5: 'produit-nez-bouche-bebe.html',
-    6: 'boutique.html#rhume'
+    0: 'produit-hygiene-du-nez',
+    1: 'produit-nez-sujet-aux-rhumes',
+    2: 'produit-nez-bouche',
+    3: 'produit-nez-allergique',
+    4: 'produit-hygiene-du-nez-bebe',
+    5: 'produit-nez-bouche-bebe',
+    6: 'boutique#rhume'
 };
 
 function setAIQuickPrompts(prompts) {
@@ -1210,7 +1210,7 @@ window.handleAICartAdd = function(productId) {
         const p = products[productId];
         const confirmMsg = document.createElement('div');
         confirmMsg.className = 'ai-msg bot';
-        confirmMsg.innerHTML = `✅ <strong>${p.name}</strong> a bien été ajouté à votre panier (16,00 DT) !<br><br><a href="panier.html" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">👉 Voir mon panier & Commander</a>`;
+        confirmMsg.innerHTML = `✅ <strong>${p.name}</strong> a bien été ajouté à votre panier (16,00 DT) !<br><br><a href="/panier/" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">👉 Voir mon panier & Commander</a>`;
         msgs.appendChild(confirmMsg);
         msgs.scrollTop = msgs.scrollHeight;
     }
@@ -1479,7 +1479,7 @@ function generateAIResponse(query) {
                 addToCart(p.id, 1);
             }
             const cartQty = (typeof cart !== 'undefined' && Array.isArray(cart)) ? cart.reduce((s, i) => s + i.quantity, 0) : 1;
-            responseText = `🛒 <strong>C'est fait !</strong> J'ai ajouté <strong>${p.name}</strong> à votre panier (<strong>16,00 DT</strong>).<br><br>Vous avez actuellement <strong>${cartQty} article(s)</strong> dans votre panier.<br>📦 Rappel : La livraison est <strong>GRATUITE dès 100 DT d'achat</strong> (ou pack 4 sprays).<br><br><a href="panier.html" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">👉 Voir mon panier & Finaliser ma commande</a>`;
+            responseText = `🛒 <strong>C'est fait !</strong> J'ai ajouté <strong>${p.name}</strong> à votre panier (<strong>16,00 DT</strong>).<br><br>Vous avez actuellement <strong>${cartQty} article(s)</strong> dans votre panier.<br>📦 Rappel : La livraison est <strong>GRATUITE dès 100 DT d'achat</strong> (ou pack 4 sprays).<br><br><a href="/panier/" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">👉 Voir mon panier & Finaliser ma commande</a>`;
             nextPrompts = [
                 { label: "🛍️ Voir mon panier", prompt: "Voir mon panier" },
                 { label: "🚚 Délais de livraison", prompt: "Quels sont les délais de livraison ?" },
@@ -1499,7 +1499,7 @@ function generateAIResponse(query) {
     // 2. Cart status & checkout link
     else if (hasAnyWord(q, ['panier', 'mon panier', 'finaliser ma commande', 'regarder mon panier'])) {
         const cartQty = (typeof cart !== 'undefined' && Array.isArray(cart)) ? cart.reduce((s, i) => s + i.quantity, 0) : 0;
-        responseText = `Vous avez actuellement <strong>${cartQty} article(s)</strong> dans votre panier.<br><br>Vous pouvez finaliser votre commande en toute sécurité avec paiement en espèces à la livraison :<br><br><a href="panier.html" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">🛒 Accéder à mon panier (${cartQty})</a>`;
+        responseText = `Vous avez actuellement <strong>${cartQty} article(s)</strong> dans votre panier.<br><br>Vous pouvez finaliser votre commande en toute sécurité avec paiement en espèces à la livraison :<br><br><a href="/panier/" class="ai-product-view-btn" style="display:inline-flex; margin-top:4px;">🛒 Accéder à mon panier (${cartQty})</a>`;
         nextPrompts = [
             { label: "🚚 Délais de livraison", prompt: "Quels sont les délais de livraison ?" },
             { label: "💳 Modes de paiement", prompt: "Quels sont les modes de paiement ?" },
@@ -1697,7 +1697,7 @@ function generateAIResponse(query) {
     if (recommendedProductId !== null && products[recommendedProductId]) {
         const p = products[recommendedProductId];
         aiChatState.lastProductId = p.id;
-        const pageUrl = productPageUrls[p.id] || 'boutique.html';
+        const pageUrl = productPageUrls[p.id] || 'boutique';
         const cardEl = document.createElement('div');
         cardEl.className = 'ai-product-card-msg';
         cardEl.innerHTML = `
@@ -2090,7 +2090,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (productId === null) {
                 const path = window.location.pathname.toLowerCase();
-                const matchedProd = products.find(p => p.url && path.includes(p.url.replace('.html', '')));
+                const matchedProd = products.find(p => p.url && path.includes(p.url));
                 if (matchedProd) productId = matchedProd.id;
             }
             const product = (productId !== null && products[productId]) ? products[productId] : null;
@@ -2233,6 +2233,81 @@ window.toggleAIAssistant = typeof toggleAIAssistant !== 'undefined' ? toggleAIAs
 window.togglePasswordVisibility = typeof togglePasswordVisibility !== 'undefined' ? togglePasswordVisibility : undefined;
 window.switchAuthTab = typeof switchAuthTab !== 'undefined' ? switchAuthTab : undefined;
 window.updateNavAccount = typeof updateNavAccount !== 'undefined' ? updateNavAccount : undefined;
+
+// ==========================================
+// WebMCP Agentic Navigation & Tool Registration
+// ==========================================
+(function() {
+    function initWebMCP() {
+        var mc = (typeof document !== 'undefined' && document.modelContext) 
+              || (typeof navigator !== 'undefined' && navigator.modelContext);
+        if (!mc || typeof mc.registerTool !== 'function') return;
+
+        try {
+            mc.registerTool({
+                name: "search_products",
+                title: "Rechercher des produits Stérimar",
+                description: "Recherche les sprays nasaux et solutions d'eau de mer Stérimar par catégorie ou mot-clé.",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        category: {
+                            type: "string",
+                            enum: ["all", "hygiene", "rhume", "allergie", "bebe", "packs"],
+                            description: "Catégorie de produit."
+                        },
+                        query: {
+                            type: "string",
+                            description: "Mot-clé de recherche."
+                        }
+                    },
+                    additionalProperties: false
+                },
+                annotations: { readOnlyHint: true, consequentialHint: false },
+                execute: async function(args) {
+                    var prods = window.products || [];
+                    var cat = args.category || 'all';
+                    var q = (args.query || '').toLowerCase();
+                    var results = prods.filter(function(p) {
+                        var matchCat = (cat === 'all' || p.category === cat);
+                        var matchQ = !q || p.name.toLowerCase().includes(q);
+                        return matchCat && matchQ;
+                    });
+                    return {
+                        count: results.length,
+                        products: results.map(function(p) {
+                            return { id: p.id, name: p.name, price: p.price, category: p.categoryLabel };
+                        })
+                    };
+                }
+            });
+
+            mc.registerTool({
+                name: "get_cart",
+                title: "Consulter le panier",
+                description: "Retourne les articles dans le panier et le total en Dinar Tunisien.",
+                inputSchema: {
+                    type: "object",
+                    properties: {},
+                    additionalProperties: false
+                },
+                annotations: { readOnlyHint: true, consequentialHint: false },
+                execute: async function() {
+                    var c = window.cart || [];
+                    return { items: c, count: c.length };
+                }
+            });
+        } catch(e) {}
+    }
+
+    if (typeof document !== 'undefined') {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initWebMCP);
+        } else {
+            initWebMCP();
+        }
+    }
+})();
 
 } // End of window.__STERIMAR_APP_INITIALIZED__ guard
 

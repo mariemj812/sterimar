@@ -1,0 +1,61 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Stérimar Tunisie",
+    "identifier": "did:web:sterimar.shop",
+    "documentationUrl": "https://www.sterimar.shop/llms.txt",
+    "logoUrl": "https://www.sterimar.shop/logo.webp"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:sterimar.shop:catalog:products",
+      "displayName": "Catalogue Produits Stérimar Tunisie",
+      "type": "application/json",
+      "url": "https://www.sterimar.shop/boutique/",
+      "description": "Catalogue officiel des sprays nasaux et packs d'eau de mer Stérimar disponibles à l'achat en Tunisie.",
+      "version": "1.0.0",
+      "updatedAt": "2026-11-19T09:00:00Z",
+      "tags": [
+        "santé",
+        "orl",
+        "hygiène-nasale",
+        "eau-de-mer",
+        "tunisie"
+      ],
+      "capabilities": [
+        "consulter-produits",
+        "prix-tnd",
+        "livraison-tunisie"
+      ],
+      "representativeQueries": [
+        "Acheter Stérimar spray nasal en Tunisie",
+        "Prix des produits Stérimar hygiène du nez et rhume",
+        "Commander Stérimar bébé livraison Tunisie"
+      ]
+    },
+    {
+      "identifier": "urn:air:sterimar.shop:service:express-order",
+      "displayName": "Commande Express et Livraison Stérimar",
+      "type": "application/json",
+      "url": "https://www.sterimar.shop/offre-speciale/",
+      "description": "Formulaire de commande express avec livraison rapide 24h-48h et paiement à la livraison (COD) partout en Tunisie.",
+      "version": "1.0.0",
+      "updatedAt": "2026-11-19T09:00:00Z",
+      "tags": [
+        "commande",
+        "livraison-rapide",
+        "tunisie",
+        "paiement-livraison"
+      ],
+      "capabilities": [
+        "commande-express",
+        "paiement-cod",
+        "livraison-rapide"
+      ],
+      "representativeQueries": [
+        "Commander pack Stérimar livraison à domicile",
+        "Offre spéciale Stérimar pack famille Tunisie"
+      ]
+    }
+  ]
+}

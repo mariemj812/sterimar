@@ -4,33 +4,35 @@ on:
   push:
     branches:
       - main
+      - production
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
-      - name: Prepare theme files
+      - name: Clean Non-Theme Files
         run: |
-          # Remove development files not needed in WordPress theme
           rm -rf scratch/ __pycache__/ .github/
-          rm -f *.py *.pyc *.pyo
-          rm -f .gitignore .htaccess wp-config.php
-          echo "Theme files to deploy:"
+          rm -f *.py *.pyc *.pyo *.log *.bat *.ps1
+          rm -f .gitignore .htaccess wp-config.php preview_exclude.txt
+          echo "Theme files ready for deployment:"
           ls -la
 
-      - name: Deploy to WordPress via FTP
+      - name: Deploy to OVH WordPress via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ${{ secrets.FTP_SERVER || 'ftp.cluster129.hosting.ovh.net' }}
+          username: ${{ secrets.FTP_USERNAME || 'sterimq' }}
+          password: ${{ secrets.FTP_PASSWORD || 'FTP123sterimar' }}
           local-dir: ./
-          server-dir: ${{ secrets.FTP_REMOTE_PATH }}
+          server-dir: ${{ secrets.FTP_REMOTE_PATH || '/www/wp-content/themes/sterimar/' }}
+          dangerous-clean-slate: false
           exclude: |
             **/.git*
             **/.git*/**
@@ -40,6 +42,14 @@ jobs:
             **/*.pyc
             **/*.pyo
             **/*.mp4
+            **/*.bat
+            **/*.ps1
             **/.github/**
             **/.htaccess
             **/wp-config.php
+
+      - name: Automatically Purge LiteSpeed Cache
+        run: |
+          sleep 2
+          curl -s "https://www.sterimar.shop/?sterimar_purge_cache=sterimar2026_purge_secret" || true
+          echo "LiteSpeed Cache successfully purged on WordPress!"

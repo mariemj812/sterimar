@@ -202,9 +202,23 @@ function sterimar_add_meta_pixel() {
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
 if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
+n.queue=[];
+function _loadFb(){
+    if(window._fbLoaded)return;
+    window._fbLoaded=true;
+    t=b.createElement(e);t.async=!0;t.src=v;
+    s=b.getElementsByTagName(e)[0];
+    if(s&&s.parentNode){s.parentNode.insertBefore(t,s);}else{b.head.appendChild(t);}
+}
+['scroll','touchstart','mousemove','click','keydown'].forEach(function(e){
+    window.addEventListener(e,_loadFb,{once:true,passive:true});
+});
+if('requestIdleCallback' in window){
+    requestIdleCallback(function(){setTimeout(_loadFb,2500);},{timeout:4000});
+}else{
+    setTimeout(_loadFb,3000);
+}
+}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 
 var _stUser = <?php echo wp_json_encode( (object) $sterimar_pixel_user ); ?>;
@@ -240,6 +254,30 @@ src="https://www.facebook.com/tr?id=1060943890086095&ev=PageView&noscript=1"
     <?php
 }
 add_action( 'wp_head', 'sterimar_add_meta_pixel', 1 );
+
+// Disable WordPress Speculation Rules on mobile/production to prevent network & CPU choking
+add_filter( 'wp_speculation_rules_configuration', '__return_empty_array' );
+add_action( 'init', function() {
+    remove_action( 'wp_enqueue_scripts', 'wp_enqueue_speculation_rules' );
+    remove_action( 'wp_footer', 'wp_print_speculation_rules' );
+} );
+
+// Prevent WordPress and LiteSpeed Cache from flagging static HTML template routes as 404
+add_filter( 'pre_handle_404', function( $preempt, $wp_query ) {
+    $req = isset( $_SERVER['REQUEST_URI'] ) ? trim( (string) parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' ) : '';
+    $parts = array_values( array_filter( explode( '/', $req ) ) );
+    $last = ! empty( $parts ) ? end( $parts ) : '';
+    if ( ! empty( $last ) ) {
+        $candidate = preg_match( '/\.html$/i', $last ) ? $last : $last . '.html';
+        $theme_dir = get_template_directory();
+        if ( file_exists( $theme_dir . '/' . $candidate ) ) {
+            $wp_query->is_404 = false;
+            status_header( 200 );
+            return true;
+        }
+    }
+    return $preempt;
+}, 10, 2 );
 
 /**
  * Automatic Meta Pixel Purchase Event & Local Cart Clearance on Order Received
@@ -1013,7 +1051,7 @@ function sterimar_auto_shipping_rates( $rates, $package ) {
 remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20 );
 // Add inline CSS to hide shipping, payment method blocks and email fields (still calculated in backend)
 add_action( 'wp_enqueue_scripts', function() {
-    if ( is_checkout() ) {
+    if ( function_exists( 'is_checkout' ) && is_checkout() ) {
         $custom_css = "\n            #billing_email_field,\n            .woocommerce form .form-row#billing_email_field,\n            .wc-block-checkout__contact-fields,\n            .wc-block-components-address-form__email,\n            .wc-block-components-text-input:has(input[type='email']),\n            .wc-block-components-text-input:has(input#email),\n            .woocommerce-checkout .woocommerce-shipping-methods,\n            .woocommerce-checkout .woocommerce-payment-methods,\n            .wc-block-checkout__shipping-option,\n            .wc-block-checkout__payment-method,\n            .wp-block-woocommerce-checkout-shipping-methods-block,\n            .wp-block-woocommerce-checkout-payment-block,\n            .wc-block-components-shipping-rates-control,\n            .wc-block-components-payment-method-label,\n            .wc-block-components-payment-method-icons,\n            .wc-block-components-radio-control--highlight-checked,\n            .wc-block-components-product-metadata__description,\n            .wc-block-components-order-summary-item__description .wc-block-components-product-metadata__description,\n            .wc-block-components-product-metadata .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .wc-block-components-product-metadata__description,\n            .woocommerce-checkout .product-description,\n            .woocommerce-checkout .product-short-description {\n                display: none !important;\n                visibility: hidden !important;\n                height: 0 !important;\n                margin: 0 !important;\n                padding: 0 !important;\n                border: none !important;\n            }\n            .wc-block-components-text-input input::placeholder,\n            .woocommerce-checkout input::placeholder {\n                opacity: 0 !important;\n                color: transparent !important;\n            }\n        ";
         wp_add_inline_style( 'sterimar-style', $custom_css );
     }

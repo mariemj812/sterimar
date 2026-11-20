@@ -8,6 +8,17 @@
  * @package Sterimar
  */
 
+// 0.001 Instant LiteSpeed Cache Purge via Secret Key (Automated Git Deploy Hook)
+if (isset($_GET['sterimar_purge_cache']) && $_GET['sterimar_purge_cache'] === 'sterimar2026_purge_secret') {
+    status_header(200);
+    header('Content-Type: text/plain; charset=UTF-8');
+    if (function_exists('do_action')) {
+        do_action('litespeed_purge_all');
+    }
+    echo 'PURGED_OK';
+    exit;
+}
+
 // 0. Handle Contact Form Submission (Server-side sending to commercial@sterimar.shop)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sterimar_contact'])) {
     status_header(200);
@@ -445,14 +456,30 @@ if (! ini_get('zlib.output_compression') && ! ob_get_level()) {
 // 301 Permanent Redirect for any old URLs with ?page_file=*.html
 if (isset($_GET['page_file'])) {
     $clean_page = basename(sanitize_file_name($_GET['page_file']));
-    if ($clean_page === 'index.html') {
+    $clean_slug = preg_replace('/\.html$/i', '', $clean_page);
+    if ($clean_slug === 'index' || empty($clean_slug)) {
         wp_safe_redirect(home_url('/'), 301);
         exit;
     }
-    if (file_exists($theme_dir . '/' . $clean_page) && preg_match('/\.html$/i', $clean_page)) {
-        wp_safe_redirect(trailingslashit(home_url()) . $clean_page, 301);
-        exit;
+    wp_safe_redirect(trailingslashit(home_url()) . $clean_slug . '/', 301);
+    exit;
+}
+
+// 301 Permanent Redirect for any direct URLs containing .html (e.g. /boutique.html or /boutique.html/)
+$raw_req_path = isset($_SERVER['REQUEST_URI']) ? (string) parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) : '';
+if (preg_match('/\.html(\/.*)?$/i', $raw_req_path)) {
+    $clean_path = preg_replace('/\.html(\/.*)?$/i', '', $raw_req_path);
+    $clean_path = trim($clean_path, '/');
+    if ($clean_path === 'index' || empty($clean_path)) {
+        $target = home_url('/');
+    } else {
+        $target = trailingslashit(home_url()) . $clean_path . '/';
     }
+    if (! empty($_SERVER['QUERY_STRING'])) {
+        $target .= '?' . $_SERVER['QUERY_STRING'];
+    }
+    wp_safe_redirect($target, 301);
+    exit;
 }
 
 // 1. Determine which page to display (Static HTML Template vs Native WooCommerce / WordPress Page)
@@ -499,8 +526,26 @@ if ($last_part === 'boutique' || $last_part === 'boutique.html' || (function_exi
         $wp_query->is_404 = false;
     }
 } else {
-    // Native WordPress route
-    $is_native_wp = true;
+    // Check if this is a known WordPress/WooCommerce native route that should NOT redirect
+    $native_slugs = array('panier', 'commander', 'mon-compte', 'wp-admin', 'wp-login.php', 'wp-json', 'wc-api');
+    $is_native_route = false;
+    foreach ($native_slugs as $ns) {
+        if (strpos($request_uri, $ns) === 0) {
+            $is_native_route = true;
+            break;
+        }
+    }
+    if (defined('REST_REQUEST') || defined('DOING_AJAX') || is_admin()) {
+        $is_native_route = true;
+    }
+
+    if ($is_native_route) {
+        $is_native_wp = true;
+    } else {
+        // Unknown route -> redirect to homepage
+        wp_safe_redirect(home_url('/'), 302);
+        exit;
+    }
 }
 
 // If it's a native WooCommerce or WordPress page, render the branded WordPress template
@@ -531,19 +576,19 @@ if ($is_native_wp) {
                 </a>
                 <div class="nav-links" id="nav-links">
                     <a href="<?php echo esc_url(home_url('/')); ?>" class="nav-link">Accueil</a>
-                    <a href="<?php echo esc_url(trailingslashit($home_url) . 'boutique.html'); ?>" class="nav-link">Boutique</a>
-                    <a href="<?php echo esc_url(trailingslashit($home_url) . 'offre-speciale.html'); ?>" class="nav-link">Offre Spéciale</a>
-                    <a href="<?php echo esc_url(trailingslashit($home_url) . 'blog.html'); ?>" class="nav-link">Blog</a>
-                    <a href="<?php echo esc_url(trailingslashit($home_url) . 'qui-sommes-nous.html'); ?>" class="nav-link">Qui sommes-nous</a>
-                    <a href="<?php echo esc_url(trailingslashit($home_url) . 'contact.html'); ?>" class="nav-link">Contact</a>
-                    <a href="<?php echo esc_url(trailingslashit($home_url) . 'creation-compte.html'); ?>" class="nav-link nav-account" id="nav-account" aria-label="Mon compte">
+                    <a href="<?php echo esc_url(trailingslashit($home_url) . 'boutique/'); ?>" class="nav-link">Boutique</a>
+                    <a href="<?php echo esc_url(trailingslashit($home_url) . 'offre-speciale/'); ?>" class="nav-link">Offre Spéciale</a>
+                    <a href="<?php echo esc_url(trailingslashit($home_url) . 'blog/'); ?>" class="nav-link">Blog</a>
+                    <a href="<?php echo esc_url(trailingslashit($home_url) . 'qui-sommes-nous/'); ?>" class="nav-link">Qui sommes-nous</a>
+                    <a href="<?php echo esc_url(trailingslashit($home_url) . 'contact/'); ?>" class="nav-link">Contact</a>
+                    <a href="<?php echo esc_url(trailingslashit($home_url) . 'creation-compte/'); ?>" class="nav-link nav-account" id="nav-account" aria-label="Mon compte">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                             <circle cx="12" cy="7" r="4" />
                         </svg>
                         <span id="nav-account-label">Compte</span>
                     </a>
-                    <a href="<?php echo esc_url(trailingslashit($home_url) . 'panier.html'); ?>" class="nav-link nav-cart" aria-label="Voir mon panier">
+                    <a href="<?php echo esc_url(trailingslashit($home_url) . 'panier/'); ?>" class="nav-link nav-cart" aria-label="Voir mon panier">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="9" cy="21" r="1" />
                             <circle cx="20" cy="21" r="1" />
@@ -595,19 +640,19 @@ if ($is_native_wp) {
                     <div class="footer-links">
                         <h4>Navigation</h4>
                         <a href="<?php echo esc_url(home_url('/')); ?>">Accueil</a>
-                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'boutique.html'); ?>">Boutique</a>
-                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'offre-speciale.html'); ?>">Offre Spéciale</a>
-                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'blog.html'); ?>">Blog</a>
-                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'qui-sommes-nous.html'); ?>">Qui sommes-nous</a>
-                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'contact.html'); ?>">Contact</a>
-                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'creation-compte.html'); ?>">Mon Compte</a>
-                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'panier.html'); ?>">Panier</a>
+                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'boutique/'); ?>">Boutique</a>
+                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'offre-speciale/'); ?>">Offre Spéciale</a>
+                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'blog/'); ?>">Blog</a>
+                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'qui-sommes-nous/'); ?>">Qui sommes-nous</a>
+                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'contact/'); ?>">Contact</a>
+                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'creation-compte/'); ?>">Mon Compte</a>
+                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'panier/'); ?>">Panier</a>
                     </div>
                     <div class="footer-links">
                         <h4>Informations</h4>
-                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'mentions-legales.html'); ?>">Mentions légales</a>
-                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'politique-confidentialite.html'); ?>">Politique de confidentialité</a>
-                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'conditions-generales.html'); ?>">Conditions générales</a>
+                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'mentions-legales/'); ?>">Mentions légales</a>
+                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'politique-confidentialite/'); ?>">Politique de confidentialité</a>
+                        <a href="<?php echo esc_url(trailingslashit($home_url) . 'conditions-generales/'); ?>">Conditions générales</a>
                     </div>
                 </div>
                 <div class="footer-bottom">
@@ -639,8 +684,14 @@ if (stripos($html, "fbq('init'") !== false) {
 // 2. Rewrite relative CSS files: href="style.css..." -> href="THEME_URI/style.css..."
 $html = preg_replace('/href=["\'](style(?:\.min)?\.css[^"\']*)["\']/i', 'href="' . $theme_uri . '/$1"', $html);
 
+// 2.1 Rewrite Swiper CSS to local theme copy with 1-year cache
+$html = preg_replace('/href=["\'](?:https?:\/\/cdn\.jsdelivr\.net\/npm\/swiper@[^\/]+\/swiper-bundle\.min\.css|swiper-bundle(?:\.min)?\.css[^"\']*)["\']/i', 'href="' . $theme_uri . '/swiper-bundle.min.css?v=11"', $html);
+
 // 3. Rewrite relative JS files: src="app.js..." -> src="THEME_URI/app.js..."
 $html = preg_replace('/src=["\'](app(?:\.min)?\.js[^"\']*)["\']/i', 'src="' . $theme_uri . '/$1"', $html);
+
+// 3.1 Rewrite Swiper JS to local theme copy with 1-year cache
+$html = preg_replace('/src=["\'](?:https?:\/\/cdn\.jsdelivr\.net\/npm\/swiper@[^\/]+\/swiper-bundle\.min\.js|swiper-bundle(?:\.min)?\.js[^"\']*)["\']/i', 'src="' . $theme_uri . '/swiper-bundle.min.js?v=11"', $html);
 
 // Inject WordPress standard hooks (required by Google Site Kit, Analytics, Tag Manager, SEO plugins)
 wp_dequeue_script('sterimar-app');
@@ -674,6 +725,11 @@ $wp_head_output = preg_replace('/<script[^>]*src=["\'][^"\']*(?:jquery|woocommer
 $wp_head_output = preg_replace('/<script[^>]*src=["\'][^"\']*(?:reddit|snapchat)[^"\']*["\'][^>]*>.*?<\/script>/is', '', $wp_head_output);
 $wp_footer_output = preg_replace('/<script[^>]*src=["\'][^"\']*(?:jquery|woocommerce|blockUI|sourcebuster)[^"\']*["\'][^>]*>.*?<\/script>/is', '', $wp_footer_output);
 $wp_footer_output = preg_replace('/<script[^>]*src=["\'][^"\']*(?:reddit|snapchat)[^"\']*["\'][^>]*>.*?<\/script>/is', '', $wp_footer_output);
+
+// Strip speculation rules to avoid bandwidth & CPU contention on mobile
+$wp_head_output = preg_replace('/<script[^>]*type=["\']speculationrules["\'][^>]*>.*?<\/script>/is', '', $wp_head_output);
+$wp_footer_output = preg_replace('/<script[^>]*type=["\']speculationrules["\'][^>]*>.*?<\/script>/is', '', $wp_footer_output);
+$html = preg_replace('/<script[^>]*type=["\']speculationrules["\'][^>]*>.*?<\/script>/is', '', $html);
 
 // Defer any remaining third-party scripts so they never block HTML parsing or initial render
 $wp_head_output = preg_replace('/<script(?![^>]*(?:defer|async))([^>]*src=[^>]+)>/i', '<script defer$1>', $wp_head_output);
@@ -752,16 +808,19 @@ $html = preg_replace_callback('/url\(\s*[\'"]?([^\'")]+)[\'"]?\s*\)/i', function
     return "url('" . $theme_uri . '/' . ltrim($url, '/') . "')";
 }, $html);
 
-// 6. Rewrite relative HTML page links in <a> tags to clean URLs: <a href="boutique.html#rhume"> -> <a href="SITE_URL/boutique.html#rhume">
+// 6. Rewrite relative HTML page links in <a> tags to clean URLs: <a href="boutique.html#rhume"> -> <a href="SITE_URL/boutique/#rhume">
 $home_url = home_url();
-$html = preg_replace_callback('/(<a\s+[^>]*?)href=["\']([a-zA-Z0-9_\-]+\.html)(#[^"\']*)?["\']/i', function ($matches) use ($home_url) {
+$html = preg_replace_callback('/(<a\s+[^>]*?)href=["\']([a-zA-Z0-9_\-]+)(?:\.html)?(#[^"\']*)?["\']/i', function ($matches) use ($home_url, $theme_dir) {
     $prefix = $matches[1];
-    $page = basename($matches[2]);
+    $slug = basename($matches[2]);
     $hash = isset($matches[3]) ? $matches[3] : '';
-    if ($page === 'index.html') {
+    if ($slug === 'index') {
         return $prefix . 'href="' . esc_url(trailingslashit($home_url)) . $hash . '"';
     }
-    return $prefix . 'href="' . esc_url(trailingslashit($home_url) . $page) . $hash . '"';
+    if (file_exists($theme_dir . '/' . $slug . '.html') || $slug === 'boutique') {
+        return $prefix . 'href="' . esc_url(trailingslashit($home_url) . $slug . '/') . $hash . '"';
+    }
+    return $matches[0];
 }, $html);
 
 // 7. Output page with browser and edge cache headers

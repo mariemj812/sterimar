@@ -83,50 +83,59 @@
             href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap"
             rel="stylesheet">
     </noscript>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print"
+    <link rel="stylesheet" href="swiper-bundle.min.css?v=11" media="print"
         onload="this.media='all'" />
     <noscript>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+        <link rel="stylesheet" href="swiper-bundle.min.css?v=11" />
     </noscript>
-    <link rel="stylesheet" href="style.min.css?v=38">
+    <!-- Agentic AI Discovery (llms.txt & ai-catalog.json) -->
+    <link rel="alternate" type="text/markdown" href="https://www.sterimar.shop/llms.txt" title="LLM Documentation">
+    <link rel="ai-catalog" type="application/json" href="https://www.sterimar.shop/.well-known/ai-catalog.json" title="AI Capability Manifest">
+
+    <link rel="preload" href="style.min.css?v=39" as="style">
+    <link rel="stylesheet" href="style.min.css?v=39">
     <link rel="icon" href="favicon-32x32.png" sizes="32x32">
 
     <!-- Meta Pixel Code -->
     <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
+        window.addEventListener('DOMContentLoaded', function () {
+            !function (f, b, e, v, n, t, s) {
+                if (f.fbq) return; n = f.fbq = function () {
+                    n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                };
+                if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+                n.queue = []; t = b.createElement(e); t.async = !0;
+                t.src = v; s = b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t, s)
+            }(window, document, 'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
 
-    var _stUserData = { country: 'tn' };
-    try {
-        var _cached = localStorage.getItem('sterimar_user_data');
-        if (_cached) {
-            var _parsed = JSON.parse(_cached);
-            if (_parsed && typeof _parsed === 'object') {
-                for (var _k in _parsed) { if (_parsed[_k]) _stUserData[_k] = _parsed[_k]; }
-            }
-        }
-    } catch(e) {}
+            var _stUserData = { country: 'tn' };
+            try {
+                var _cached = localStorage.getItem('sterimar_user_data');
+                if (_cached) {
+                    var _parsed = JSON.parse(_cached);
+                    if (_parsed && typeof _parsed === 'object') {
+                        for (var _k in _parsed) { if (_parsed[_k]) _stUserData[_k] = _parsed[_k]; }
+                    }
+                }
+            } catch (e) { }
 
-    fbq('init', '1060943890086095', {
-        country: _stUserData.country || 'tn',
-        ...(_stUserData.em ? { em: _stUserData.em } : {}),
-        ...(_stUserData.ph ? { ph: _stUserData.ph } : {}),
-        ...(_stUserData.fn ? { fn: _stUserData.fn } : {}),
-        ...(_stUserData.ln ? { ln: _stUserData.ln } : {}),
-        ...(_stUserData.ct ? { ct: _stUserData.ct } : {}),
-        ...(_stUserData.zp ? { zp: _stUserData.zp } : {})
-    });
-    fbq('track', 'PageView');
+            fbq('init', '1060943890086095', {
+                country: _stUserData.country || 'tn',
+                ...(_stUserData.em ? { em: _stUserData.em } : {}),
+                ...(_stUserData.ph ? { ph: _stUserData.ph } : {}),
+                ...(_stUserData.fn ? { fn: _stUserData.fn } : {}),
+                ...(_stUserData.ln ? { ln: _stUserData.ln } : {}),
+                ...(_stUserData.ct ? { ct: _stUserData.ct } : {}),
+                ...(_stUserData.zp ? { zp: _stUserData.zp } : {})
+            });
+            fbq('track', 'PageView');
+        });
     </script>
     <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1060943890086095&ev=PageView&noscript=1"
-    /></noscript>
+            src="https://www.facebook.com/tr?id=1060943890086095&ev=PageView&noscript=1" /></noscript>
     <!-- End Meta Pixel Code -->
 </head>
 
@@ -135,26 +144,26 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar" role="navigation" aria-label="Menu principal">
         <div class="nav-container">
-            <a href="index" class="nav-logo" id="nav-logo" aria-label="Stérimar Tunisie - Accueil">
+            <a href="/" class="nav-logo" id="nav-logo" aria-label="Stérimar Tunisie - Accueil">
                 <img src="logo.webp" alt="Stérimar Tunisie Logo" class="logo-img" width="168" height="100"
                     decoding="async" />
                 <span class="logo-slogan">Mieux respirer, c'est mieux vivre</span>
             </a>
             <div class="nav-links" id="nav-links" aria-labelledby="nav-toggle">
-                <a href="index" class="nav-link active" id="nav-home" aria-current="page">Accueil</a>
+                <a href="/" class="nav-link active" id="nav-home" aria-current="page">Accueil</a>
                 <a href="boutique" class="nav-link" id="nav-boutique">Boutique</a>
                 <a href="offre-speciale" class="nav-link" id="nav-offre">Offre Spéciale</a>
                 <a href="blog" class="nav-link" id="nav-blog">Blog</a>
                 <a href="qui-sommes-nous" class="nav-link" id="nav-about">Qui sommes-nous</a>
                 <a href="contact" class="nav-link" id="nav-contact">Contact</a>
-                <a href="creation-compte" class="nav-link nav-account" id="nav-account"
-                    aria-label="Mon compte"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <a href="creation-compte" class="nav-link nav-account" id="nav-account" aria-label="Mon compte"><svg
+                        width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                         <circle cx="12" cy="7" r="4" />
                     </svg><span id="nav-account-label">Compte</span></a>
-                <a href="panier" class="nav-link nav-cart" id="nav-panier" aria-label="Voir mon panier"><svg
-                        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <a href="panier" class="nav-link nav-cart" id="nav-panier" aria-label="Voir mon panier"><svg width="24"
+                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1" />
                         <circle cx="20" cy="21" r="1" />
                         <path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
@@ -178,43 +187,39 @@
                         <a href="boutique" style="display: block; width: 100%; height: 100%;">
                             <picture>
                                 <source media="(max-width: 768px)" srcset="banner-generale-mobile.webp"
-                                    type="image/webp" width="800" height="800">
-                                <source media="(max-width: 768px)" srcset="banner-generale-mobile.jpg" width="800"
-                                    height="800">
+                                    type="image/webp">
                                 <source media="(min-width: 769px)" srcset="banner-generale-desktop.webp"
-                                    type="image/webp" width="2560" height="784">
+                                    type="image/webp">
                                 <img src="banner-generale-desktop.webp"
-                                    alt="Stérimar Tunisie Bannière Générale Eau de Mer" width="2560" height="784"
-                                    fetchpriority="high" decoding="async" style="aspect-ratio: auto;">
+                                    alt="Stérimar Tunisie Bannière Générale Eau de Mer" width="1920" height="588"
+                                    fetchpriority="high" decoding="async">
                             </picture>
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="boutique.html#rhume" style="display: block; width: 100%; height: 100%;">
+                        <a href="/boutique/#rhume" style="display: block; width: 100%; height: 100%;">
                             <picture>
-                                <source media="(max-width: 768px)" srcset="banner-rhume-mobile.webp" width="800"
-                                    height="800">
-                                <img src="couv.webp" alt="Stérimar Nez Bouché - Débouche le nez jusqu'à 6h" width="2550"
-                                    height="788" loading="lazy" decoding="async" style="aspect-ratio: auto;">
+                                <source media="(max-width: 768px)" srcset="banner-rhume-mobile.webp" type="image/webp">
+                                <img src="couv.webp" alt="Stérimar Nez Bouché - Débouche le nez jusqu'à 6h" width="1920"
+                                    height="593" loading="lazy" decoding="async">
                             </picture>
                         </a>
                     </div>
                     <div class="swiper-slide">
-                        <a href="boutique.html#allergie" style="display: block; width: 100%; height: 100%;">
+                        <a href="/boutique/#allergie" style="display: block; width: 100%; height: 100%;">
                             <picture>
-                                <source media="(max-width: 768px)" srcset="banner-allergie-mobile.webp" width="800"
-                                    height="800">
-                                <img src="banner-allergie-desktop.webp" alt="Bannière Allergie Stérimar" width="2560"
-                                    height="784" loading="lazy" decoding="async" style="aspect-ratio: auto;">
+                                <source media="(max-width: 768px)" srcset="banner-allergie-mobile.webp"
+                                    type="image/webp">
+                                <img src="banner-allergie-desktop.webp" alt="Bannière Allergie Stérimar" width="1920"
+                                    height="588" loading="lazy" decoding="async">
                             </picture>
                         </a>
                     </div>
                     <div class="swiper-slide slide-bebe">
                         <picture class="slide-bebe-bg">
-                            <source media="(max-width: 768px)" srcset="banner-bebe-mobile.webp" width="800"
-                                height="800">
-                            <img src="banner-bebe-desktop.webp" alt="Fond mer Stérimar Bébé" loading="lazy"
-                                decoding="async">
+                            <source media="(max-width: 768px)" srcset="banner-bebe-mobile.webp" type="image/webp">
+                            <img src="banner-bebe-desktop.webp" alt="Fond mer Stérimar Bébé" width="1376" height="768"
+                                loading="lazy" decoding="async">
                         </picture>
                         <div class="slide-bebe-overlay">
                             <img src="hygiene-bébé.webp" alt="Stérimar Hygiène Bébé" class="slide-bebe-packshot"
@@ -223,7 +228,7 @@
                                 <h2>Hygiène<br>du nez bébé</h2>
                                 <hr class="separator-line">
                                 <p class="subtitle">Dès la naissance</p>
-                                <a href="boutique.html#bebe" class="btn btn-discover">Je découvre <svg width="20"
+                                <a href="/boutique/#bebe" class="btn btn-discover">Je découvre <svg width="20"
                                         height="24" viewBox="0 0 20 24" fill="none" stroke="white" stroke-width="1.2"
                                         stroke-linejoin="miter" stroke-linecap="butt"
                                         style="margin-left: 10px; margin-top: 2px;">
@@ -260,7 +265,7 @@
                                 </p>
                                 <span class="quote-mark right color-hygiene">”</span>
                             </div>
-                            <a href="boutique.html#hygiene" class="btn-gamme color-hygiene">Voir la gamme &gt;</a>
+                            <a href="/boutique/#hygiene" class="btn-gamme color-hygiene">Voir la gamme &gt;</a>
                         </div>
                         <div class="gamme-image">
                             <img src="hygiene-adulte.webp" alt="Gamme Hygiène" class="gamme-packshot" width="756"
@@ -277,7 +282,7 @@
                                 <p class="handwritten color-rhume">Cet hiver, j'évite le rhume et ses complications.</p>
                                 <span class="quote-mark right color-rhume">”</span>
                             </div>
-                            <a href="boutique.html#rhume" class="btn-gamme color-rhume">Voir la gamme &gt;</a>
+                            <a href="/boutique/#rhume" class="btn-gamme color-rhume">Voir la gamme &gt;</a>
                         </div>
                         <div class="gamme-image">
                             <img src="cold-adulte.webp" alt="Gamme Rhume" class="gamme-packshot" width="756"
@@ -296,7 +301,7 @@
                                 </p>
                                 <span class="quote-mark right color-allergie">”</span>
                             </div>
-                            <a href="boutique.html#allergie" class="btn-gamme color-allergie">Voir la gamme &gt;</a>
+                            <a href="/boutique/#allergie" class="btn-gamme color-allergie">Voir la gamme &gt;</a>
                         </div>
                         <div class="gamme-image">
                             <img src="allergie.webp" alt="Gamme Allergie" class="gamme-packshot" width="756"
@@ -314,7 +319,7 @@
                                 </p>
                                 <span class="quote-mark right color-bebe">”</span>
                             </div>
-                            <a href="boutique.html#bebe" class="btn-gamme color-bebe">Voir la gamme &gt;</a>
+                            <a href="/boutique/#bebe" class="btn-gamme color-bebe">Voir la gamme &gt;</a>
                         </div>
                         <div class="gamme-image">
                             <img src="hygiene-bébé.webp" alt="Gamme Bébé" class="gamme-packshot" width="756"
@@ -384,8 +389,7 @@
                                     </div>
                                     <span class="pack-savings-tag">Économisez 14,20 DT (-33%)</span>
                                 </div>
-                                <button class="btn btn-primary"
-                                    onclick="addToCart(7); goToCheckout();"
+                                <button class="btn btn-primary" onclick="addToCart(7); goToCheckout();"
                                     id="add-to-cart-home-famille">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2">
@@ -442,8 +446,7 @@
                                     </div>
                                     <span class="pack-savings-tag">Économisez 21,30 DT (-33%)</span>
                                 </div>
-                                <button class="btn btn-primary"
-                                    onclick="addToCart(8); goToCheckout();"
+                                <button class="btn btn-primary" onclick="addToCart(8); goToCheckout();"
                                     id="add-to-cart-home-hiver">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2">
@@ -488,7 +491,7 @@
                                     </svg></a>
                             </div>
                             <div class="conseil-image-wrapper">
-                                <img src="blog-soin-bebe.webp" alt="Bébé sourit" width="2752" height="1536"
+                                <img src="blog-soin-bebe-thumb.webp" alt="Bébé sourit" width="700" height="390"
                                     decoding="async" loading="lazy">
                             </div>
                         </div>
@@ -500,15 +503,15 @@
                                 <h3>Adopter les bons gestes d'hygiène nasale</h3>
                                 <p>Découvrez comment l'eau de mer microdiffusée peut vous aider à mieux respirer au
                                     quotidien et prévenir les infections de la sphère ORL.</p>
-                                <a href="blog-hygiene-nasale" class="btn btn-discover">Je lis l'article <svg
-                                        width="20" height="24" viewBox="0 0 20 24" fill="none" stroke="white"
-                                        stroke-width="1.2" stroke-linejoin="miter" stroke-linecap="butt"
+                                <a href="blog-hygiene-nasale" class="btn btn-discover">Je lis l'article <svg width="20"
+                                        height="24" viewBox="0 0 20 24" fill="none" stroke="white" stroke-width="1.2"
+                                        stroke-linejoin="miter" stroke-linecap="butt"
                                         style="margin-left: 10px; margin-top: 2px;">
                                         <path d="M5 20l8-8-8-8" />
                                     </svg></a>
                             </div>
                             <div class="conseil-image-wrapper">
-                                <img src="blog-hygiene-nasale.webp" alt="Hygiène nasale" width="2752" height="1536"
+                                <img src="blog-hygiene-nasale-thumb.webp" alt="Hygiène nasale" width="700" height="390"
                                     decoding="async" loading="lazy">
                             </div>
                         </div>
@@ -521,16 +524,16 @@
                                 <p>Le pollen est de retour ? Apprenez comment soulager rapidement votre nez et prévenir
                                     les
                                     crises grâce à nos solutions naturelles.</p>
-                                <a href="conseil-respiration" class="btn btn-discover">Je lis l'article <svg
-                                        width="20" height="24" viewBox="0 0 20 24" fill="none" stroke="white"
-                                        stroke-width="1.2" stroke-linejoin="miter" stroke-linecap="butt"
+                                <a href="conseil-respiration" class="btn btn-discover">Je lis l'article <svg width="20"
+                                        height="24" viewBox="0 0 20 24" fill="none" stroke="white" stroke-width="1.2"
+                                        stroke-linejoin="miter" stroke-linecap="butt"
                                         style="margin-left: 10px; margin-top: 2px;">
                                         <path d="M5 20l8-8-8-8" />
                                     </svg></a>
                             </div>
                             <div class="conseil-image-wrapper">
-                                <img src="conseil-respiration.webp" alt="Combattre les allergies printanières"
-                                    width="1264" height="848" decoding="async" loading="lazy">
+                                <img src="conseil-respiration-thumb.webp" alt="Combattre les allergies printanières"
+                                    width="700" height="469" decoding="async" loading="lazy">
                             </div>
                         </div>
 
@@ -558,8 +561,7 @@
                 <div class="products-scroll">
                     <div class="product-card" id="featured-1">
                         <div class="product-badge">Best-seller</div>
-                        <a href="produit-hygiene-du-nez" class="product-image"
-                            aria-label="Voir la fiche Hygiène du Nez"
+                        <a href="produit-hygiene-du-nez" class="product-image" aria-label="Voir la fiche Hygiène du Nez"
                             style="--product-color: #0284C7; display: flex; align-items: center; justify-content: center;">
                             <img src="hygiene-adulte.webp" alt="Stérimar Hygiène du Nez" width="756" height="945"
                                 decoding="async" loading="lazy">
@@ -572,8 +574,7 @@
                                 <div class="promo-price"><span class="promo-old-price" aria-label="Ancien prix">21,50
                                         DT</span><span class="product-price">16,00 DT</span><span
                                         class="promo-badge">-25%</span></div>
-                                <button class="btn btn-add"
-                                    onclick="addToCart(0); goToCheckout();"
+                                <button class="btn btn-add" onclick="addToCart(0); goToCheckout();"
                                     id="add-hygiene">Ajouter</button>
                             </div>
                         </div>
@@ -592,15 +593,13 @@
                                 <div class="promo-price"><span class="promo-old-price" aria-label="Ancien prix">21,50
                                         DT</span><span class="product-price">16,00 DT</span><span
                                         class="promo-badge">-25%</span></div>
-                                <button class="btn btn-add"
-                                    onclick="addToCart(2); goToCheckout();"
+                                <button class="btn btn-add" onclick="addToCart(2); goToCheckout();"
                                     id="add-bouche">Ajouter</button>
                             </div>
                         </div>
                     </div>
                     <div class="product-card" id="featured-3">
-                        <a href="produit-nez-allergique" class="product-image"
-                            aria-label="Voir la fiche Nez Allergique"
+                        <a href="produit-nez-allergique" class="product-image" aria-label="Voir la fiche Nez Allergique"
                             style="--product-color: #15803D; display: flex; align-items: center; justify-content: center;">
                             <img src="allergie.webp" alt="Stérimar Nez Allergique" width="756" height="945"
                                 decoding="async" loading="lazy">
@@ -613,8 +612,7 @@
                                 <div class="promo-price"><span class="promo-old-price" aria-label="Ancien prix">21,50
                                         DT</span><span class="product-price">16,00 DT</span><span
                                         class="promo-badge">-25%</span></div>
-                                <button class="btn btn-add"
-                                    onclick="addToCart(3); goToCheckout();"
+                                <button class="btn btn-add" onclick="addToCart(3); goToCheckout();"
                                     id="add-allergie">Ajouter</button>
                             </div>
                         </div>
@@ -716,7 +714,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="index" aria-label="Stérimar Accueil">
+                    <a href="/" aria-label="Stérimar Accueil">
                         <img src="logo.webp" alt="Stérimar Logo" class="footer-logo"
                             style="height: 144px; margin-bottom: 1rem; cursor: pointer;" width="672" height="400"
                             decoding="async" loading="lazy">
@@ -741,7 +739,7 @@
                 </div>
                 <div class="footer-links">
                     <h4>Navigation</h4>
-                    <a href="index">Accueil</a>
+                    <a href="/">Accueil</a>
                     <a href="boutique">Boutique</a>
                     <a href="offre-speciale">Offre Spéciale</a>
                     <a href="blog">Blog</a>
@@ -752,10 +750,10 @@
                 </div>
                 <div class="footer-links">
                     <h4>Nos Gammes</h4>
-                    <a href="boutique.html#hygiene">Gamme Hygiène</a>
-                    <a href="boutique.html#rhume">Gamme Rhume</a>
-                    <a href="boutique.html#allergie">Gamme Allergie</a>
-                    <a href="boutique.html#bebe">Gamme Bébé</a>
+                    <a href="/boutique/#hygiene">Gamme Hygiène</a>
+                    <a href="/boutique/#rhume">Gamme Rhume</a>
+                    <a href="/boutique/#allergie">Gamme Allergie</a>
+                    <a href="/boutique/#bebe">Gamme Bébé</a>
                 </div>
                 <div class="footer-links">
                     <h4>Informations</h4>
@@ -771,8 +769,8 @@
         </div>
     </footer>
 
-    <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script defer src="app.min.js?v=36"></script>
+    <script defer src="swiper-bundle.min.js?v=11"></script>
+    <script defer src="app.min.js?v=37"></script>
 </body>
 
 </html>
