@@ -10,11 +10,11 @@
     {
       "identifier": "urn:air:sterimar.shop:catalog:products",
       "displayName": "Catalogue Produits Stérimar Tunisie",
-      "type": "application/json",
+      "type": "application/ai-catalog+json",
       "url": "https://www.sterimar.shop/boutique/",
-      "description": "Catalogue officiel des sprays nasaux et packs d'eau de mer Stérimar disponibles à l'achat en Tunisie.",
+      "description": "Catalogue officiel des sprays nasaux et solutions d'eau de mer Stérimar disponibles à l'achat en Tunisie.",
       "version": "1.0.0",
-      "updatedAt": "2026-11-19T09:00:00Z",
+      "updatedAt": "2026-11-20T10:00:00Z",
       "tags": [
         "santé",
         "orl",
@@ -35,12 +35,12 @@
     },
     {
       "identifier": "urn:air:sterimar.shop:service:express-order",
-      "displayName": "Commande Express et Livraison Stérimar",
-      "type": "application/json",
+      "displayName": "Commande Express Stérimar Tunisie",
+      "type": "application/mcp-server-card+json",
       "url": "https://www.sterimar.shop/offre-speciale/",
       "description": "Formulaire de commande express avec livraison rapide 24h-48h et paiement à la livraison (COD) partout en Tunisie.",
       "version": "1.0.0",
-      "updatedAt": "2026-11-19T09:00:00Z",
+      "updatedAt": "2026-11-20T10:00:00Z",
       "tags": [
         "commande",
         "livraison-rapide",

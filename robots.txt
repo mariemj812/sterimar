@@ -9,5 +9,8 @@ Allow: /wp-admin/admin-ajax.php
 Allow: /llms.txt
 Allow: /.well-known/
 
+Agentmap: https://www.sterimar.shop/.well-known/ard.json
+Agentmap: https://www.sterimar.shop/.well-known/ai-catalog.json
+
 Sitemap: https://www.sterimar.shop/sitemap.xml
 Sitemap: https://www.sterimar.shop/sitemap.rss
