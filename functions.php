@@ -154,8 +154,13 @@ function sterimar_handle_express_order() {
                 $order->add_order_note( 'Commande express générée depuis la Landing Page (' . $selected_pack['name'] . ')' );
 
                 $order->calculate_totals();
-                $order->update_status( 'processing', 'Commande express confirmée via Landing Page.' );
+                $order->set_status( 'wc-processing', 'Commande express confirmée via Landing Page.' );
+                $order->save();
                 $order_id = $order->get_id();
+
+                // Fire WooCommerce hooks so Intigo Parcels, emails, and extensions process the order
+                do_action( 'woocommerce_new_order', $order_id, $order );
+                do_action( 'woocommerce_order_status_processing', $order_id, $order );
             } catch ( Exception $e ) {
                 error_log( 'Erreur création commande WC express : ' . $e->getMessage() );
             }
@@ -206,7 +211,7 @@ function sterimar_handle_express_order() {
         exit;
     }
 }
-add_action( 'init', 'sterimar_handle_express_order', 1 );
+add_action( 'init', 'sterimar_handle_express_order', 20 );
 
 /**
  * Setup Theme Support
